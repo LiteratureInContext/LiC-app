@@ -1,0 +1,92 @@
+@media print {
+    @page  
+    { 
+        size: auto;   /* auto is the initial value */ 
+    
+        /* this affects the margin in the printer settings */ 
+        margin: 15mm 15mm 15mm 15mm;  
+    } 
+    
+    body  
+    { 
+        /* this affects the margin on the content before sending to printer */ 
+        margin: 0px;  
+    } 
+
+  * {
+    text-shadow: none !important;
+    color: #000 !important; // Black prints faster: h5bp.com/s
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+/*
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+*/
+  a[href]:after {
+   /* content: " (" attr(href) ")"; */
+   content: "";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  /* Don't show links for images, or javascript/internal links*/
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group; 
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+  
+  /* LiC specific styles */
+  
+  .noprint, .navbar, .no-print,.tooltip, .pageImages {display:none !important;}
+  .show-print {display:block;}
+  .collapse {display:block !important;}
+  .footnote-refs {display:block; margin:.5em;line-height:1em;}
+
+  /* hide buttons */
+  #link-icons, #moreInfo,.btn, .helper {display:none;}
+  .footnote-refs {display:inline !important; text-decoration:none;}
+    
+   a:not(:local-link):after {
+   content:" <" attr(href) "> ";
+    }
+   
+    .ir a:after, a.no-print-link:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; text-decoration:none !important;}  /* Don't show links for images, or javascript/internal links */
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://expath.org/ns/pkg" name="http://exist-db.org/apps/LiC" abbrev="LiC" version="0.27" spec="1.0">
+    <title>Literature in Context POC</title>
+</package>

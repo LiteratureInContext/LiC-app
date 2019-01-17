@@ -1,0 +1,103 @@
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <!-- Home page also acts as simple browse page for all works -->
+    <!-- Search form -->
+    <form action="search.html" class="form form-horizontal page-content homepage">
+        <!-- Access xquery for all works -->
+        <div data-template="app:browse-works">
+            <h1>List of Works</h1>
+            <!-- Call paging and sort functions. Additional sort functions can be called via the data-template-sort-options. -->
+            <div data-template="app:pageination" data-template-sort-options="title,author,pubDate"/>
+            <div class="row">
+                <div class="col-md-4 col-md-push-8">
+                    <!-- Form for search and coursepack functions.  -->
+                    <div class="well well-sm fixed search-box" style="padding:2em;">
+                        <!-- Search query goes here -->
+                        <div class="form-group">
+                            <span class="input-group">
+                                <input name="query" type="search" class="form-control" placeholder="Search String"/>
+                                <span class="input-group-btn">
+                                    <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-search"/>
+                                    </button>
+                                </span>
+                            </span>
+
+                        </div>
+                        <!-- Search fields, defaults to keyword -->
+                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Field">
+                            <select name="field" class="form-control">
+                                <option value="keyword" selected="selected">Keyword anywhere</option>
+                                <option value="annotation">Keyword in annotations</option>
+                                <option value="title">Title</option>
+                                <option value="author">Author</option>
+                            </select>
+                        </div>
+                        <!-- Limit search to selected works -->
+                        <div class="checkboxes" >
+                            <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Selected">
+                                <input type="checkbox" name="narrow" value="true"/> Search Selected
+                            </label>
+                            <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
+                                <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
+                            </label>
+                        </div>
+                        <!-- Create/add to coursepacks -->
+                        <div class="form-group">
+                            <button id="f-btn-coursepack" class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">Create new Coursepack</button>
+                            <button id="f-btn-coursepack" class="btn btn-default addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">Add to Coursepack</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-md-pull-4">
+                    <div id="content">
+                        <!-- Show results from xquery -->
+                        <div data-template="app:show-hits" data-template-per-page="20" id="results" class="results"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Modal for creating coursepacks -->
+    <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="modalClose close" data-dismiss="modal">
+                        <span aria-hidden="true"> x </span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div id="saveCoursepackModal" style="display:none">
+                            <h4>Create new Coursepack</h4>
+                            <span class="input-group" id="coursepackTitleGroup">
+                                <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
+                                <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
+                            </span>
+                            <span class="input-group-btn">
+                                <button id="f-btn-search" type="submit" class="btn btn-primary addCoursepackTitle">
+                                    <span class="glyphicon glyphicon-save"/>Save </button>
+                            </span>
+                        </div>
+                        <div id="addToCoursepackModal" style="display:none">
+                            <h4>Add to Coursepack</h4>
+                            <label>Select Coursepack</label>
+                            <select id="addToCoursepackID">
+                                <option data-template="app:select-coursepack"/>
+                            </select>
+                            <span class="input-group-btn">
+                                <button id="f-btn-search" type="submit" class="btn btn-primary saveToCoursepack">
+                                    <span class="glyphicon glyphicon-save"/>Save </button>
+                            </span>
+                        </div>
+                        <div id="responseBody"> </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default modalClose" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

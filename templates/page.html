@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title data-template="config:app-title">App Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta data-template="config:app-meta"/>
+        <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
+        <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
+        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/style.css"/>
+        <link rel="stylesheet" type="text/css" media="print" href="$nav-base/resources/css/print.css"/>
+        <script type="text/javascript" src="$shared/resources/scripts/jquery/jquery-1.7.1.min.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>
+        <script>
+            $(document).ready(function() {
+                $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'});
+            });
+        </script>
+    </head>
+    <body id="body">
+        <nav class="navbar navbar-default" role="navigation" data-template="app:fix-links">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                </button>
+                <a data-template="config:app-title" class="navbar-brand" href="$nav-base/index.html">App Title</a>
+            </div>
+            <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li id="about">
+                        <a href="$nav-base/about.html">About</a>
+                    </li>
+                    <li id="works">
+                        <a href="$nav-base/index.html">Works</a>
+                    </li> 
+                    <li id="coursepacks">
+                        <a href="$nav-base/coursepack.html">Coursepacks</a>
+                    </li> 
+                </ul>     
+                <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/search.html" method="get">
+                    <span class="input-group">
+                        <input name="query" type="search" class="form-control" placeholder="Search"/>
+                        <input type="hidden" class="form-control keyboard" name="field" value="keyword"/>
+                       <!-- <span class="input-group-btn">
+                            <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-search"/>
+                            </button>
+                        </span>-->
+                    </span>
+                </form>
+            </div>
+        </nav>
+        <div id="content" class="mainContentArea"/>
+        <footer>
+            <a class="poweredby small" href="http://exist-db.org">
+                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
+            </a>
+        </footer>
+        <script type="text/javascript" src="$nav-base/resources/js/coursepack.js"/>
+    </body>
+</html>

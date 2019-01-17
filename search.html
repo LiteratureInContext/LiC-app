@@ -1,0 +1,101 @@
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <!-- Form for search and coursepack functions.  -->
+    <form method="get" action="search.html" id="search" class="form-horizontal" role="form">
+        <div class="row" id="showSearch" style="margin:0; width:100%; padding:2em; background-color:#eee; border-bottom:1px solid #666;">
+            <h2 class="search-header indent">Search Literature in Context </h2>
+            <div class="col-md-7 col-sm-offset-1">
+                <!-- Search query goes here -->
+                <div class="form-group">
+                    <span class="input-group">
+                        <input name="query" type="search" class="form-control" placeholder="Search String"/>
+                        <span class="input-group-btn">
+                            <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-search"/>
+                            </button>
+                        </span>
+                    </span>
+                </div>
+                <!-- Search fields, defaults to keyword -->
+                <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Field">
+                    <select name="field" class="form-control">
+                        <option value="keyword" selected="selected">Keyword anywhere</option>
+                        <option value="annotation">Keyword in annotations</option>
+                        <option value="title">Title</option>
+                        <option value="author">Author</option>
+                    </select>
+                </div>
+                <!-- Limit search to selected works -->
+                <div class="checkboxes" >
+                    <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Selected">
+                        <input type="checkbox" name="narrow" value="true"/> Search Selected
+                    </label>
+                    <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
+                        <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row indent-large">
+            <div class="col-md-12">
+                <div id="content">
+                    <!-- Run search  -->
+                    <div data-template="app:search-works">
+                        <!-- Page and sort functions -->
+                        <div data-template="app:pageination" data-template-sort-options="relevance,title,author,pubDate"/>
+                        <div>
+                            <button id="f-btn-coursepack" class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">Create new Coursepack</button>
+                            <button id="f-btn-coursepack" class="btn btn-default addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">Add to Coursepack</button>
+                        </div>
+                        <!-- Show search results -->
+                        <div data-template="app:show-hits" data-template-per-page="20" id="results" class="results"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Modal for interacting with coursepacks -->
+    <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="modalClose close" data-dismiss="modal">
+                        <span aria-hidden="true"> x </span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <!-- Add a new coursepack -->
+                        <div id="saveCoursepackModal" style="display:none">
+                            <h4>Create new Coursepack</h4>
+                            <span class="input-group" id="coursepackTitleGroup">
+                                <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
+                                <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
+                            </span>
+                            <span class="input-group-btn">
+                                <button id="f-btn-search" type="submit" class="btn btn-primary addCoursepackTitle">
+                                    <span class="glyphicon glyphicon-save"/>Save </button>
+                            </span>
+                        </div>
+                        <!-- Add works to existing coursepack -->
+                        <div id="addToCoursepackModal" style="display:none">
+                            <h4>Add to Coursepack</h4>
+                            <label>Select Coursepack</label>
+                            <select id="addToCoursepackID">
+                                <option data-template="app:select-coursepack"/>
+                            </select>
+                            <span class="input-group-btn">
+                                <button id="f-btn-search" type="submit" class="btn btn-primary saveToCoursepack">
+                                    <span class="glyphicon glyphicon-save"/>Save </button>
+                            </span>
+                        </div>
+                        <div id="responseBody"> </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default modalClose" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

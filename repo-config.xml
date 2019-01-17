@@ -1,0 +1,32 @@
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <config>
+        <!-- App title -->
+        <title>Literature in Context</title>
+        <!-- App description -->
+        <description>This is the working space for Literature in Context, an XML project that seeks to provide open-access, reliably-sourced, and collaboratively-constructed annotated editions of British and American literature of the long 18th century for classroom use. This project is funded by the National Endowment for the Humanities and developed by faculty at The University of Virginia and Marymount University.</description>
+        <!-- Contact email -->
+        <contact/>
+        <!-- Logo name (assumes path to logo is $app-root/resources/img/) -->
+        <logo/>
+        <!-- Web Site URL -->
+        <url/>
+        <!-- Root of app for building dynamic links. Default is eXist app root -->
+        <nav-base>/exist/apps/LiC</nav-base>
+        <!-- eXist app root for app deployment-->
+        <app-root>LiC</app-root>
+        <!-- eXist data app root for gazetteer data -->
+        <data-root>LiC-data</data-root>
+        <!-- Root path where page images stored -->
+        <!-- Example, swap in github repository: https://github.com/tonyahowe/LiC/raw/master/ -->
+        <page-images-root>https://raw.githubusercontent.com/tonyahowe/LiC/master/</page-images-root>
+        <!-- How HTML/PDF/EPUB will be generated. POC uses a simple TEI xquery for expediency. -->
+        <!-- Allow XSLT plugin: /resources/xslt/html/html.xsl -->
+        <work-html-transformation type="xquery"/>
+        <work-pdf-transformation type="xquery"/>
+        <work-epub-transformation type="xquery"/>
+        <!--NOTE: may not need this for LiC. Base URI for identifiers in app data -->
+        <base_uri/>
+        <!-- NOTE: may not need this for LiC. xpath to unique identifier for record, syriaca.org uses tei:idno[@type='URL'], this is the default value -->
+        <id-path/>
+    </config>
+</meta>

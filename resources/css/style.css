@@ -1,0 +1,94 @@
+/* Base font */
+html { font-size: calc(1em + 1vw) }
+/* Application styles could go here */
+footer .poweredby { float: right; margin: 33px 10px 0 0; clear:both;}
+footer .poweredby img { width: 120px; }
+
+/* General formatting */
+.indent {margin-left:1.5em;}
+.indent-large {margin-left:4em;}
+.page-content {margin: 1em 4em;}
+
+/* Search and browse results */
+form#search {margin-top:-1.5em; padding-top:0;}
+.result {display:block; border-bottom:1px solid #ccc; margin:1em; padding: 1em;}
+.results-list-desc {display:block;}
+.checkbox {margin:0;}
+.result-kwic {display:block; padding:1em 2em;}
+.param {font-weight:500;}
+.checkboxes {padding-bottom:1em;}
+.checkboxes input {margin-right:.5em;}
+.checkboxes .checkbox-inline{margin-right: 1.25em; margin-left:0;}
+.fixed.search-box  {
+    position:fixed; margin:1em;
+  }
+.match {background-color:yellow;}  
+
+/*.query-value {font-family: "Courier 10 Pitch", Courier, monospace;}*/
+.param {font-weight:600;}
+
+/* Coursepack page styles */
+.toolbar {margin-right:.15em; font-size:small; padding-left:.75em; padding-right:.75em;}
+
+/* Work styles */
+.pageImages {display:block; margin:1em; padding:1em;}
+.pageImage {display:block; margin:1em; padding:1em;}
+.caption {display:block; font-size:small; text-align:center;}
+.footnote {display:none;}
+.footnoteRef {    
+    font-size: .75em;
+    line-height: 0.5em;
+    vertical-align: baseline;
+    position: relative;
+    }
+#footnoteDisplay {
+    display:none; 
+    position: fixed;
+    padding: 1.25em;
+    min-height: 25px;
+    min-width: 25px;
+    max-width: 55%;
+    background-color:white;
+    border:1px solid #ccc;
+    top:125px;
+    box-shadow: 8px 8px 3px #999;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}    
+
+/* TEI styles */
+.tei-author {font-weight:500;}
+.tei-addrLine {display:block; margin-left:2em;}
+.tei-body {display:block; margin:1em;}
+.tei-body .tei-head {display:block; font-weight:500; font-size:1.25em;}
+.tei-distributor {display:block;}
+.tei-distributor .tei-email {display:block; margin-left:2em;}
+.tei-front {display:block; text-align:center; margin: 1em 0;}
+.tei-footnote-id {display:block; font-size:1.25em; font-weight:500;}
+.tei-indent {text-indent:2em;}
+.tei-imprint {display:block; margin:1em;}
+.tei-imprint .tei-note {display:block; font-size:small; margin-left:2em;}
+.tei-lg {display:block; margin:1em 0;}
+.tei-l {display:block;}
+.tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top;}
+.tei-pb {display:block; margin:1.5em 0; border-top:1px double #ccc; text-align:center;}
+.tei-teiHeader{display:block; margin:1em; text-align:center;}
+.tei-titleStmt .tei-title {display:block;font-size:large; font-weight:600; margin:1em; padding:1em;}
+.tei-titlePage { margin: 1em 0;}
+.tei-titlePart {font-weight:500; font-size:1.5em;}
+
+
+/* Styles for mobile */
+@media (max-width: 1000px) {
+  /* Turn off fixed search-box for smaller browsers*/
+  .fixed.search-box  {
+    position:relative;
+  }
+}
+/* Styles for mobile */
+@media screen and (max-width: 480px) {
+
+}
