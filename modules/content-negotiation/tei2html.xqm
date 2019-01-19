@@ -363,7 +363,7 @@ declare function tei2html:emit-responsible-persons($nodes as node()*, $num as xs
 :)
 declare function tei2html:person($nodes as node()*) {
     if($nodes/descendant::tei:forename) then 
-        concat($nodes/descendant::tei:forename,' ',$nodes/descendant::tei:surname)
+        concat(string-join(($nodes/descendant::tei:forename),' '),' ',string-join(($nodes/descendant::tei:surname),' '))
     else string-join($nodes/descendant::text(),' ')
 };
 
