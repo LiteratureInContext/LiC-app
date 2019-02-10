@@ -1,9 +1,114 @@
+/* LiC style guide
+    Color scheme
+    Dark blue: #122141
+    Light blue: #6386A5
+    Yellow/gold: #A18C6A
+    Neutral/grey: #777
+*/
 /* Base font */
-html { font-size: calc(1em + 1vw) }
-/* Application styles could go here */
+html {  font-size: calc(1em + 1vw) }
+
+body {
+  font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
+}
+/* Navbar styles */
+.navbar {margin-bottom:0;}
+.banner {height:25px; background-image: url(../images/banner.png);}
+.navbar {background-color:white; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A;}
+.navbar .logo img {vertical-align:text-bottom;}
+.navbar-brand {padding-left: 2em; margin-top:-.25em; margin-bottom:-.25em; font-size: 28px;}
+.navbar-brand a {color:#122141 !important;}
+.navbar-searchbox { max-width: 250px;}
+  
+/* Home page */
+.homepage {
+    height:450px; 
+    margin:-5em; 
+    padding:0 10%; 
+    background-image: url(../images/home-page.png); 
+    background-size:cover;
+    border-bottom: 2px solid #A18C6A;
+    }  
+.homepage h3 {
+    font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
+    color: white;
+    }
+.slide {
+    margin:0; 
+    padding:0;                                
+    background-position:top; 
+    min-height:450px;   
+    width:60%;
+    position:relative;
+}
+.overlay {
+    font-weight:200;
+   /* White
+    background: rgb(255,255,255); 
+    background: rgba(255,255,255,0.85);
+    */
+    border-right: 4px solid #A18C6A;
+    border-left: 4px solid #A18C6A;
+    background: rgb(34,34,34); /* for IE */
+    background: rgba(34,34,34,0.85);
+    color: white; 
+    display: inline;
+    padding: 1.5em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+.slide-content {margin:5% 10%;}
+.slide-content img {border:2px solid white;}
+.slide-content a {color: white;}
+.slider-control {font-size: 4em; color:white; text-shadow: 2px 2px #000000;}
+
+/* Coursepack styles */
+.lic-well {
+    min-height: 20px;
+    padding: 1em;
+    margin-bottom: 1em;
+    background-color: white;
+    border: 1px solid #A18C6A;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+}
+.coursepackToolbar {
+    display:block;
+    margin:1.25em .15em;
+    padding:1.25em .15em;
+    text-align:center;
+    border-bottom: 1px solid #A18C6A;
+}
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #6386A5 !important;
+    border-color: #6386A5 !important;
+}
+.coursepack .desc {margin:1em;}
+
+/* Browse Styles */
+.fixed.search-box  {
+    position:fixed; margin:0 7em 1em 2em;
+ }
+.left-col-border {border-right:2px solid #A18C6A;}  
+.right-col-border {border-left:2px solid #A18C6A}
+
+/* Footer */
 footer .poweredby { float: right; margin: 33px 10px 0 0; clear:both;}
 footer .poweredby img { width: 120px; }
+footer .banner {min-height:25px; border-top: 2px solid #A18C6A; background-image: url(../images/banner.png);}
+footer {text-align:center;}
 
+/* Typography */
+h1 {
+    font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
+    color: #A18C6A;
+    }
+h2, h3, h4 {
+    font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
+    color: #777;
+} 
+.glyphicon a {color: #122141}
 /* General formatting */
 .indent {margin-left:1.5em;}
 .indent-large {margin-left:4em;}
@@ -19,9 +124,6 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .checkboxes {padding-bottom:1em;}
 .checkboxes input {margin-right:.5em;}
 .checkboxes .checkbox-inline{margin-right: 1.25em; margin-left:0;}
-.fixed.search-box  {
-    position:fixed; margin:1em;
-  }
 .match {background-color:yellow;}  
 
 /*.query-value {font-family: "Courier 10 Pitch", Courier, monospace;}*/
@@ -32,7 +134,8 @@ form#search {margin-top:-1.5em; padding-top:0;}
 
 /* Work styles */
 .pageImages {display:block; margin:1em; padding:1em;}
-.pageImage {display:block; margin:1em; padding:1em;}
+.pageImage {display:block; margin:.75em; padding:.75em; border:1px solid #E5E0D1; border-radius: 4px; background-color:#F4F1E9;}
+/*.pageImage img {border:1px solid #F4F1E9; border-radius: 4px;}*/
 .caption {display:block; font-size:small; text-align:center;}
 .footnote {display:none;}
 .footnoteRef {    

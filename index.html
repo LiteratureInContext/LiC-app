@@ -1,103 +1,55 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <!-- Home page also acts as simple browse page for all works -->
-    <!-- Search form -->
-    <form action="search.html" class="form form-horizontal page-content homepage">
-        <!-- Access xquery for all works -->
-        <div data-template="app:browse-works">
-            <h1>List of Works</h1>
-            <!-- Call paging and sort functions. Additional sort functions can be called via the data-template-sort-options. -->
-            <div data-template="app:pageination" data-template-sort-options="title,author,pubDate"/>
-            <div class="row">
-                <div class="col-md-4 col-md-push-8">
-                    <!-- Form for search and coursepack functions.  -->
-                    <div class="well well-sm fixed search-box" style="padding:2em;">
-                        <!-- Search query goes here -->
-                        <div class="form-group">
-                            <span class="input-group">
-                                <input name="query" type="search" class="form-control" placeholder="Search String"/>
-                                <span class="input-group-btn">
-                                    <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                        <span class="glyphicon glyphicon-search"/>
-                                    </button>
-                                </span>
-                            </span>
-
-                        </div>
-                        <!-- Search fields, defaults to keyword -->
-                        <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Field">
-                            <select name="field" class="form-control">
-                                <option value="keyword" selected="selected">Keyword anywhere</option>
-                                <option value="annotation">Keyword in annotations</option>
-                                <option value="title">Title</option>
-                                <option value="author">Author</option>
-                            </select>
-                        </div>
-                        <!-- Limit search to selected works -->
-                        <div class="checkboxes" >
-                            <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Selected">
-                                <input type="checkbox" name="narrow" value="true"/> Search Selected
-                            </label>
-                            <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
-                                <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
-                            </label>
-                        </div>
-                        <!-- Create/add to coursepacks -->
-                        <div class="form-group">
-                            <button id="f-btn-coursepack" class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">Create new Coursepack</button>
-                            <button id="f-btn-coursepack" class="btn btn-default addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">Add to Coursepack</button>
+    <div class="homepage lightSlider">
+        <ul id="lightSlider">
+            <li class="slide overlay">
+                <div class="slide-content">
+                    <h3>About LiC</h3>
+                    <p>An XML project that seeks to provide open-access, reliably-sourced, and collaboratively-constructed annotated editions of British and American literature of the long 18th century for classroom use. This project is funded by the National Endowment for the Humanities and developed by faculty at The University of Virginia and Marymount University.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor metus eget mauris tristique rhoncus. Vestibulum mattis, felis sed rhoncus tincidunt, ante metus luctus augue, in facilisis massa leo sit amet dolor. Vivamus est lacus, posuere et enim id, elementum consectetur mauris. Cras egestas dolor a massa volutpat gravida. Nullam tristique condimentum efficitur. Curabitur sed nisl ullamcorper, elementum libero ut, tincidunt erat. Vivamus mollis maximus dolor, quis imperdiet eros. Nulla ac dui at dui dictum luctus porttitor at quam. Quisque nec dictum odio.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor metus eget mauris tristique rhoncus. Vestibulum mattis, felis sed rhoncus tincidunt, ante metus luctus augue, in facilisis massa leo sit amet dolor. Vivamus est lacus, posuere et enim id, elementum consectetur mauris. Cras egestas dolor a massa volutpat gravida. Nullam tristique condimentum efficitur. Curabitur sed nisl ullamcorper, elementum libero ut, tincidunt erat. Vivamus mollis maximus dolor, quis imperdiet eros. Nulla ac dui at dui dictum luctus porttitor at quam. Quisque nec dictum odio.</p>
+                    <p><a href="about.html">More info <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a></p>
+                </div>
+            </li>
+            <li class="slide overlay">
+                <div class="slide-content">
+                    <h3>About Coursepacks</h3>
+                    <div class="row">
+                        <div class="col-md-4"><img src="resources/images/rambler-001.png" class="coursepack-logo pull-left" width="50%"/></div>
+                        <div class="col-md-8">
+                            <br/>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor metus eget mauris tristique rhoncus. Vestibulum mattis, felis sed rhoncus tincidunt, ante metus luctus augue, in facilisis massa leo sit amet dolor. Vivamus est lacus, posuere et enim id, elementum consectetur mauris. Cras egestas dolor a massa volutpat gravida. Nullam tristique condimentum efficitur. Curabitur sed nisl ullamcorper, elementum libero ut, tincidunt erat. Vivamus mollis maximus dolor, quis imperdiet eros. Nulla ac dui at dui dictum luctus porttitor at quam. Quisque nec dictum odio.</p>
+                            <p><a href="coursepack">Explore Coursepacks <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 col-md-pull-4">
-                    <div id="content">
-                        <!-- Show results from xquery -->
-                        <div data-template="app:show-hits" data-template-per-page="20" id="results" class="results"/>
+            </li>
+            <li class="slide overlay">
+                <div class="slide-content">
+                    <h3>Works of Phillis Wheatley</h3>
+                    <div class="row">
+                        <div class="col-md-4"><img src="resources/images/Wheatley.jpg" class="coursepack-logo" width="75%"/></div>
+                        <div class="col-md-8">
+                            <br/>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor metus eget mauris tristique rhoncus. Vestibulum mattis, felis sed rhoncus tincidunt, ante metus luctus augue, in facilisis massa leo sit amet dolor. Vivamus est lacus, posuere et enim id, elementum consectetur mauris. Cras egestas dolor a massa volutpat gravida. Nullam tristique condimentum efficitur. Curabitur sed nisl ullamcorper, elementum libero ut, tincidunt erat. Vivamus mollis maximus dolor, quis imperdiet eros. Nulla ac dui at dui dictum luctus porttitor at quam. Quisque nec dictum odio.</p>
+                            <p><a href="coursepack/WorksofPhillisWheatley3">Go to Coursepack <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </form>
-    <!-- Modal for creating coursepacks -->
-    <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="modalClose close" data-dismiss="modal">
-                        <span aria-hidden="true"> x </span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        <div id="saveCoursepackModal" style="display:none">
-                            <h4>Create new Coursepack</h4>
-                            <span class="input-group" id="coursepackTitleGroup">
-                                <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
-                                <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
-                            </span>
-                            <span class="input-group-btn">
-                                <button id="f-btn-search" type="submit" class="btn btn-primary addCoursepackTitle">
-                                    <span class="glyphicon glyphicon-save"/>Save </button>
-                            </span>
+            </li>
+            <li class="slide overlay">
+                <div class="slide-content">
+                    <h3>Works of Johnathan Swift</h3>
+                    <div class="row">
+                        <div class="col-md-4"><img src="resources/images/Swift.jpg" class="coursepack-logo" width="75%"/></div>
+                        <div class="col-md-8">
+                            <br/>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor metus eget mauris tristique rhoncus. Vestibulum mattis, felis sed rhoncus tincidunt, ante metus luctus augue, in facilisis massa leo sit amet dolor. Vivamus est lacus, posuere et enim id, elementum consectetur mauris. Cras egestas dolor a massa volutpat gravida. Nullam tristique condimentum efficitur. Curabitur sed nisl ullamcorper, elementum libero ut, tincidunt erat. Vivamus mollis maximus dolor, quis imperdiet eros. Nulla ac dui at dui dictum luctus porttitor at quam. Quisque nec dictum odio.</p>
+                            <p><a href="coursepack/WorksofPhillisWheatley3">Go to Coursepack <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a></p>
                         </div>
-                        <div id="addToCoursepackModal" style="display:none">
-                            <h4>Add to Coursepack</h4>
-                            <label>Select Coursepack</label>
-                            <select id="addToCoursepackID">
-                                <option data-template="app:select-coursepack"/>
-                            </select>
-                            <span class="input-group-btn">
-                                <button id="f-btn-search" type="submit" class="btn btn-primary saveToCoursepack">
-                                    <span class="glyphicon glyphicon-save"/>Save </button>
-                            </span>
-                        </div>
-                        <div id="responseBody"> </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default modalClose" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
+            </li>
+        </ul>
     </div>
 </div>

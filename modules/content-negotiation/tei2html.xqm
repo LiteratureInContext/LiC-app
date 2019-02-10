@@ -113,8 +113,8 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
   (: link issue: works, but don't want it to display with @type=physical extent. need an or operator? or something else? :)
     return
         <div xmlns="http://www.w3.org/1999/xhtml" class="text-header">
-            <h1>{$titleStmt/tei:title/text()}</h1>
-            <h1><small>By 
+            <h1>{$titleStmt/tei:title/text()} <br/>
+            <small>By 
             {
                 let $author-full-names :=
                     for $author in $authors
@@ -134,13 +134,14 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
                             $author-full-names[last()]
                         )
             }
-            </small></h1><p></p>
-        
-            { 
+            </small></h1>
+            { if($resps != '') then 
+                <ul>{
                 for $n in $resps
                 return
                     <li class="list-unstyled">{concat($n/descendant::tei:resp, ' by ', string-join($n/descendant::tei:name,', '))}</li>
-               
+                }</ul>
+              else() 
             }
 
     </div>

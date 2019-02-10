@@ -51,7 +51,10 @@ else if($exist:resource = 'coursepack') then
         </error-handler>
     </dispatch>   
 else if(contains($exist:path, "/coursepack/") or $exist:resource = 'coursepack') then 
-    let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1")
+    let $document := substring-after($exist:path,'/coursepack/')
+    let $id := if(ends-with($document,('.html','/html'))) then
+                        replace($document,'/html|.html','')
+                   else $document
     let $document := substring-after($exist:path,'/coursepack/')
     let $format := fn:tokenize($document, '\.')[fn:last()]
     return 
@@ -65,7 +68,7 @@ else if(contains($exist:path, "/coursepack/") or $exist:resource = 'coursepack')
                 <set-header name="Cache-Control" value="no-cache"/>
             </forward>
         </dispatch>
-    else      
+    else 
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{$exist:controller}/coursepack.html"/>
         <view>

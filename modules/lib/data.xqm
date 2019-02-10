@@ -38,7 +38,7 @@ declare function data:get-document() {
 :)
 declare function data:get-coursepacks() {
     if(request:get-parameter('id', '') != '') then 
-        (collection($config:app-root || '/coursepacks')//*[@id = (request:get-parameter('id', ''))],
+        (collection($config:app-root || '/coursepacks')/coursepack[@id = request:get-parameter('id', '')],
         collection($config:data-root)/tei:TEI[descendant::tei:idno[@type='coursepack'][. = request:get-parameter('id', '')]])
     else 
         collection($config:app-root || '/coursepacks') 

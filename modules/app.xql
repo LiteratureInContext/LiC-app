@@ -80,13 +80,13 @@ declare %private function app:parse-href($href as xs:string) {
  : @param $node the HTML node with the attribute which triggered this call
  : @param $model a map containing arbitrary data - used to pass information between template calls
  :)
-declare function app:get-work($node as node(), $model as map(*)) {
+declare %templates:wrap function app:get-work($node as node(), $model as map(*)) {
      if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
         let $rec := data:get-document()
         return 
             if(empty($rec)) then 
-                (: Debugging ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml')):)
-                response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
+                if(not(empty(data:get-coursepacks()))) then map {"data" := 'Output plain HTML page'}
+                else response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
             else map {"data" := $rec }
     else map {"data" := 'Output plain HTML page'}
 };
@@ -153,7 +153,7 @@ declare function app:footnotes($node as node(), $model as map(*)){
 :)
 declare function app:page-images($node as node(), $model as map(*)){
     if($model("data")//tei:pb[@facs]) then
-       <div class="pageImages well">
+       <div class="pageImages lic-well">
        <h4>Page images</h4>
        {
             let $root := root($model("data"))
@@ -181,34 +181,34 @@ declare function app:page-images($node as node(), $model as map(*)){
  :)
 declare %templates:wrap function app:other-data-formats($node as node(), $model as map(*), $formats as xs:string?){
     if($formats) then
-        <div class="dataFormats pull-right">
+        <div class="dataFormats">
             {
                 for $f in tokenize($formats,',')
                 return 
                     if($f = 'tei') then
                         (
-                        <a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.tei" class="btn btn-default btn-xs" id="teiBtn" title="Click to view the TEI XML data for this work.">
+                        <a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.tei" class="btn btn-primary btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this work.">
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI/XML
                         </a>, '&#160;')
                     else if($f = 'pdf') then                        
-                        (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.pdf" class="btn btn-default btn-xs" id="pdfBtn" data-toggle="tooltip" title="Click to view the PDF for this work.">
+                        (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.pdf" class="btn btn-primary btn-xs" id="pdfBtn" data-toggle="tooltip" title="Click to view the PDF for this work.">
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
                         </a>, '&#160;')                         
                     else if($f = 'epub') then                        
                         (
-                        <a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.epub" class="btn btn-default btn-xs" id="epubBtn" data-toggle="tooltip" title="Click to view the EPUB for this work.">
+                        <a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.epub" class="btn btn-primary btn-xs" id="epubBtn" data-toggle="tooltip" title="Click to view the EPUB for this work.">
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> EPUB
                         </a>, '&#160;')  
                    else if($f = 'print') then                        
-                        (<a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer." >
+                        (<a href="javascript:window.print();" type="button" class="btn btn-primary btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer." >
                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
                         </a>, '&#160;')  
                    else if($f = 'rdf') then
-                        (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.rdf" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record.">
+                        (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.rdf" class="btn btn-primary btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record.">
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/XML
                         </a>, '&#160;')
                   else if($f = 'ttl') then
-                        (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.ttl" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
+                        (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.ttl" class="btn btn-primary btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/TTL
                         </a>, '&#160;')
                   else () 
@@ -255,47 +255,47 @@ declare function app:display-coursepacks($node as node(), $model as map(*)){
 let $coursepacks := $model("coursepack")
 let $hits := $model("hits")
 return 
-    if(empty($coursepacks)) then 
-        <div class="coursepack indent-large">
+    if(empty($coursepacks)) then
+        <div>
             <h1>No matching Coursepack. </h1>
-            <p>To create a new coursepack browse or search the list of <a href="index.html">works</a>.</p>
-            <p><a href="{$config:nav-base}/coursepack.html">Browse list</a></p>
+            <div class="lic-well coursepack">
+                <p>To create a new coursepack browse or search the list of <a href="{$config:nav-base}/browse.html">works</a>.</p>
+                <p><a href="{$config:nav-base}/coursepack.html">Browse list</a></p>
+            </div>
         </div>
      else if(request:get-parameter('id', '') != '') then 
-             <div class="coursepack">
+         <div class="lic-well coursepack">
             <form class="form-inline" method="get" action="{string($coursepacks/@id)}" id="search">
-                <div class="coursepack search-box no-print" style="padding:1em; background-color:#F8F8F8;">
-                    <label class="coursepackToolbar">Coursepack Toolbar: </label><br/>
-                        <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-info">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Coursepack </a> 
-                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=list" class="toolbar btn btn-info"><span class="glyphicon glyphicon-th-list"/> List </a>
-                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=expanded" class="toolbar btn btn-info"><span class="glyphicon glyphicon-plus-sign"/> Expand Works </a>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="query" name="query" placeholder="Search String"/>
-                        </div>
-                        <div class="form-group">
-                            <select name="field" class="form-control">
+                <div class="coursepackToolbar search-box no-print">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="query" name="query" placeholder="Search Coursepack"/>
+                    </div>
+                    <div class="form-group">
+                        <select name="field" class="form-control">
                                 <option value="keyword" selected="selected">Keyword anywhere</option>
                                 <option value="annotation">Keyword in annotations</option>
                                 <option value="title">Title</option>
                                 <option value="author">Author</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
+                        </select>
+                    </div>
+                    <div class="form-group">
                             <select name="annotation" class="form-control">
                                 <option value="true" selected="selected">Annotations</option>
                                 <option value="false">No Annotations</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"/></button> 
-                        <label class="coursepackToolbar">Output :&#160;</label> 
-                        <a href="javascript:window.print();" type="button" id="printBtn"  class="toolbar btn btn-info"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
-                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.pdf" class="toolbar btn btn-info" id="pdfBtn"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF</a>
-                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.epub" class="toolbar btn btn-info" id="epubBtn"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> EPUB</a>
-                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.tei" class="toolbar btn btn-info" id="teiBtn"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI</a>
-                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.txt" class="toolbar btn btn-info" id="textBtn"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Text</a>
+                    <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Search Coursepack"><span class="glyphicon glyphicon-search"/></button> 
+                    <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-primary" data-toggle="tooltip" title="Delete Coursepack">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
+                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=list" class="toolbar btn btn-primary" data-toggle="tooltip" title="List Coursepack Works"><span class="glyphicon glyphicon-th-list"/> </a>
+                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=expanded" class="toolbar btn btn-primary" data-toggle="tooltip" title="Expand Coursepack Works to see text"><span class="glyphicon glyphicon-plus-sign"/> Expand Works </a>
+                    <a href="javascript:window.print();" type="button" id="printBtn"  class="toolbar btn btn-primary" data-toggle="tooltip" title="Print Coursepack"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
+                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.pdf" class="toolbar btn btn-primary" id="pdfBtn" data-toggle="tooltip" title="Download Coursepack as PDF"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF</a>
+                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.epub" class="toolbar btn btn-primary" id="epubBtn" data-toggle="tooltip" title="Download Coursepack as EPUB"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> EPUB</a>
+                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.tei" class="toolbar btn btn-primary" id="teiBtn" data-toggle="tooltip" title="Download Coursepack as TEI"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI</a>
+                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.txt" class="toolbar btn btn-primary" id="textBtn" data-toggle="tooltip" title="Download Coursepack as plain text"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Text</a>
                 </div>
-                <p class="bg-info">{$coursepacks/*:desc}</p>
+                <p class="desc">{$coursepacks/*:desc}</p>
                  {
                  if($hits != '') then
                      (app:pageination($node, $model, 'title,author,pubDate'),app:show-hits($node, $model, 1, 10))
@@ -332,16 +332,18 @@ return
           </form>
         </div>
     else        
-        <div class="coursepack indent-large">
+        <div>
             <h1>Available Coursepacks</h1>
-            {
-            for $coursepack in $coursepacks
-            return 
-                <div class="indent" style="padding:.25em;">
-                    <a href="{$config:nav-base}/coursepack/{string($coursepack/child::*/@id)}">{string($coursepack/child::*/@title)}</a>
-                    <p>{$coursepack/child::*/desc/text()}</p>
-                </div>          
-            }
+            <div class="lic-well coursepack">
+                {
+                for $coursepack in $coursepacks
+                return 
+                    <div class="indent">
+                        <h4><a href="{$config:nav-base}/coursepack/{string($coursepack/child::*/@id)}">{string($coursepack/child::*/@title)}</a></h4>
+                        <p class="desc">{$coursepack/child::*/desc/text()}</p>
+                    </div>          
+                }
+            </div>
         </div>
 };
 
@@ -421,14 +423,6 @@ declare %templates:wrap function app:search-works($node as node(), $model as map
                     concat("$docs/tei:TEI",$queryExpr)                       
                 else concat("collection('",$config:data-root,"')/tei:TEI",$queryExpr)
     return 
-        if(empty($queryExpr) or $queryExpr = "") then
-            let $cached := session:get-attribute("search.LiC")
-            return
-                map {
-                    "hits" := $cached,
-                    "query" := session:get-attribute("search.LiC.query")
-                }
-        else
             let $hits := data:search()
             let $store := (
                 session:set-attribute("search.LiC", $hits),

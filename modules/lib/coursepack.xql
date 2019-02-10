@@ -105,16 +105,19 @@ declare function local:create-new-coursepack-response($data as item()*){
     let $coursepack := $json-data?coursepack
     let $coursepackTitle := $coursepack?1?('coursepackTitle')
     let $works := $coursepack?1?('works')
+    let $response := local:create-new-coursepack($json-data)
+    let $coursepackID := tokenize(substring-before(string-join($response,''),'.xml'),'/')[last()]
     return 
         <repsonse xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info">{local:create-new-coursepack($json-data)}</div>
+                <div class="bg-info hidden">{$response}</div>
                 <h4>Coursepack Title: {$coursepackTitle}</h4>
                 <ul>{
                     for $work in $works?*
                     return 
                         <li>{$work?title}</li>
                  }</ul>
+                 <a href="{$config:nav-base}/coursepack/{$coursepackID}">Go to Coursepack</a><br/>
                  <a href="{$config:nav-base}/coursepack.html">See all Coursepacks</a>
             </div>
         </repsonse>
@@ -129,16 +132,19 @@ declare function local:update-coursepack-response($data as item()*){
     let $json-data := parse-json($payload) 
     let $coursepack := $json-data?coursepack
     let $works := $coursepack?1?('works')
+    let $response := local:update-coursepack($json-data)
+    let $coursepackID := tokenize(substring-before(string-join($response,''),'.xml'),'/')[last()]
     return 
         <repsonse status="success" xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info">{local:update-coursepack($json-data)}</div>
+                <div class="bg-info hidden">{$response}</div>
                 <h4>Coursepack Updated</h4>
                 <ul>{
                     for $work in $works?*
                     return 
                         <li>{$work?title}</li>
                  }</ul>
+                 <a href="{$config:nav-base}/coursepack/{$coursepackID}">Go to Coursepack</a><br/>
                  <a href="{$config:nav-base}/coursepack.html">See all Coursepacks</a>
             </div>
         </repsonse>

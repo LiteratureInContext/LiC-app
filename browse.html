@@ -1,15 +1,17 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <!-- Form for search and coursepack functions.  -->
-    <div class="page-content">
-        <h1>Search Literature in Context </h1>   
-        <div class="lic-well">
-            <form action="search.html" class="form form-horizontal">
-            <div class="row">
-                <div class="col-md-4 col-md-push-8">
-                    <!-- Form for search and coursepack functions.  -->
-                    <div class="fixed search-box">
-                        <h3>Search Literature in Context</h3>
-                        <div class="indent">
+    <!-- Home page also acts as simple browse page for all works -->
+    <!-- Search form -->
+    <form action="search.html" class="form form-horizontal page-content browse">
+        <!-- Access xquery for all works -->
+        <div data-template="app:browse-works">
+            <h1>List of Works</h1>
+            <div class="lic-well">
+                <div class="row">
+                    <div class="col-md-4 col-md-push-8">
+                        <!-- Form for search and coursepack functions.  -->
+                        <div class="fixed search-box">
+                            <h3>Search Literature in Context</h3>
+                            <div class="indent">
                             <!-- Search query goes here -->
                             <div class="form-group">
                                 <span class="input-group">
@@ -20,7 +22,7 @@
                                         </button>
                                     </span>
                                 </span>
-                                
+    
                             </div>
                             <!-- Search fields, defaults to keyword -->
                             <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Field">
@@ -45,21 +47,21 @@
                                 <button id="f-btn-coursepack" class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">Create new Coursepack</button>
                                 <button id="f-btn-coursepack" class="btn btn-default addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">Add to Coursepack</button>
                             </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-md-pull-4 left-col-border">
+                        <div id="content">
+                            <!-- Call paging and sort functions. Additional sort functions can be called via the data-template-sort-options. -->
+                            <div data-template="app:pageination" data-template-sort-options="title,author,pubDate"/>
+                            <!-- Show results from xquery -->
+                            <div data-template="app:show-hits" data-template-per-page="20" id="results" class="results"/>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 col-md-pull-4 left-col-border">
-                    <div id="content" data-template="app:search-works">
-                        <!-- Call paging and sort functions. Additional sort functions can be called via the data-template-sort-options. -->
-                        <div data-template="app:pageination" data-template-sort-options="title,author,pubDate"/>
-                        <!-- Show results from xquery -->
-                        <div data-template="app:show-hits" data-template-per-page="20" id="results" class="results"/>
-                    </div>
-                </div>
             </div>
-            </form>
-        </div> 
-    </div>
+        </div>
+    </form>
     <!-- Modal for creating coursepacks -->
     <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -75,24 +77,24 @@
                         <div id="saveCoursepackModal" style="display:none" class="coursepack">
                             <h4>Create New Coursepack</h4>
                             <div class="indent desc">
-                                <span class="input-group" id="coursepackTitleGroup">
-                                    <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
-                                    <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
-                                </span>
+                            <span class="input-group" id="coursepackTitleGroup">
+                                <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
+                                <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
+                            </span>
                             </div>
                             <span class="input-group-btn">
                                 <button id="f-btn-search" type="submit" class="btn btn-primary addCoursepackTitle">
                                     <span class="glyphicon glyphicon-save"/>Save </button>
                             </span>
-                            
+                                
                         </div>
                         <div id="addToCoursepackModal" style="display:none" class="coursepack">
                             <h4>Add to Coursepack</h4>
                             <div class="indent desc">
-                                <label>Select Coursepack</label>
-                                <select id="addToCoursepackID">
-                                    <option data-template="app:select-coursepack"/>
-                                </select>
+                            <label>Select Coursepack</label>
+                            <select id="addToCoursepackID">
+                                <option data-template="app:select-coursepack"/>
+                            </select>
                             </div>
                             <span class="input-group-btn">
                                 <button id="f-btn-search" type="submit" class="btn btn-primary saveToCoursepack">
