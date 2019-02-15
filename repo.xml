@@ -9,6 +9,6 @@
     <type>application</type>
     <target>LiC</target>
     <prepare>pre-install.xql</prepare>
-<!--    <finish>post-install.xql</finish>-->
+    <finish>post-install.xql</finish>
     <deployed>2018-08-29T12:27:05.746-04:00</deployed>
 </meta>
