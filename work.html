@@ -7,22 +7,23 @@
                     <div data-template="app:teiHeader"/>
                     <div class="lic-well">
                         <div class="coursepackToolbar">        
-                            <div data-template="app:other-data-formats" data-template-formats="print,tei,pdf,epub"/>
+                            <div data-template="app:other-data-formats" data-template-formats="sources,notes,print,tei,pdf,epub"/>
+                            <div class="panel-collapse collapse left-align" id="teiViewSources">
+                                <hr/>
+                                <h3>Sources </h3>
+                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:sourceDesc/descendant::tei:imprint"/>
+                            </div>
+                            <div class="panel-collapse collapse left-align" id="teiViewNotes">
+                                <hr/>
+                                <h3>Editorial Statements</h3>
+                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:encodingDesc/tei:encodingDesc"/>
+                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:encodingDesc/tei:editorialDecl"/>
+                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:distributor"/>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-8">
                                 <div data-template="app:display-nodes" data-template-paths="/descendant::tei:text"/>
-                                <hr/>
-                                <h4>Sources</h4>
-                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:sourceDesc/descendant::tei:imprint"/>
-                                <hr/>
-                                <div>
-                                    <h4>Editorial Statements</h4>
-                                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:encodingDesc/tei:encodingDesc"/>
-                                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:encodingDesc/tei:editorialDecl"/>
-                                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:distributor"/>
-                                </div>
-                                <hr/>
                                 <div data-template="app:footnotes"/>
                             </div>
                             <div class="col-md-4">

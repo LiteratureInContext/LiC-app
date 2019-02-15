@@ -6,6 +6,7 @@ xquery version "3.1";
 
 module namespace data="http://LiC.org/data";
 import module namespace config="http://LiC.org/config" at "config.xqm";
+import module namespace facet="http://expath.org/ns/facet" at "facet.xqm";
 import module namespace functx="http://www.functx.com";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -69,6 +70,7 @@ declare function data:search-coursepacks() {
  : Add sort options. 
 :)
 declare function data:search() {
+    let $facet-config-file := 'facet-def.xml'
     let $queryExpr := data:create-query()
     let $docs := 
                 if(request:get-parameter('narrow', '') = 'true' and request:get-parameter('target-texts', '') != '') then
@@ -77,8 +79,8 @@ declare function data:search() {
                 else ()                        
     let $eval-string := 
                 if(request:get-parameter('narrow', '') = 'true' and request:get-parameter('target-texts', '') != '') then
-                    concat("$docs/tei:TEI",$queryExpr)                       
-                else concat("collection('",$config:data-root,"')/tei:TEI",$queryExpr)
+                    concat("$docs/tei:TEI",$queryExpr,facet:facet-filter(doc(concat($config:app-root,'/',$facet-config-file))))                       
+                else concat("collection('",$config:data-root,"')/tei:TEI",$queryExpr,facet:facet-filter(doc(concat($config:app-root,'/',$facet-config-file))))
     return 
         if(request:get-parameter('sort-element', '') != ('','relevance')) then 
             for $hit in util:eval($eval-string)
@@ -238,15 +240,14 @@ let $current-page := xs:integer(($start + $perpage) div $perpage)
 let $url-params := replace(replace(request:get-query-string(), '&amp;start=\d+', ''),'start=\d+','')
 let $param-string := if($url-params != '') then concat('?',$url-params,'&amp;start=') else '?start='        
 let $pagination-links := 
-    (<div class="row alpha-pages" xmlns="http://www.w3.org/1999/xhtml">
-            {
-            if($search-string != '') then             
-                <div class="col-sm-5 search-string">
-                    <h3 class="hit-count paging">Search results:</h3>
-                    <p class="col-md-offset-1 hit-count">{$total-result-count} matches for {$search-string}</p>        
-                 </div>
-             else ()
-             }
+    (<div class="row alpha-pages" xmlns="http://www.w3.org/1999/xhtml">  
+            <div class="col-sm-5 search-string">
+                    {if($search-string != '' and request:get-parameter('view', '') != 'author' and request:get-parameter('view', '') != 'title') then        
+                        (<h3 class="hit-count paging">Search results:</h3>,
+                        <p class="col-md-offset-1 hit-count">{$total-result-count} matches for {$search-string}</p>)
+                     else ()   
+                    }
+            </div>
             <div>
                 {if($search-string != '') then attribute class { "col-md-7" } else attribute class { "col-md-12" } }
                 {

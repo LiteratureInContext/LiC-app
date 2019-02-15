@@ -5,6 +5,8 @@ module namespace app="http://LiC.org/templates";
 (: Import eXist modules:)
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="http://LiC.org/config" at "config.xqm";
+import module namespace timeline="http://LiC.org/timeline" at "lib/timeline.xqm";
+import module namespace facet="http://expath.org/ns/facet" at "lib/facet.xqm";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace functx="http://www.functx.com";
 
@@ -211,6 +213,16 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                         (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.ttl" class="btn btn-primary btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/TTL
                         </a>, '&#160;')
+                  else if($f = 'notes') then
+                        (<button class="btn btn-primary btn-xs" id="notesBtn" data-toggle="collapse" data-target="#teiViewNotes">
+                            <span data-toggle="tooltip" title="View Notes">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> View Notes
+                            </span></button>, '&#160;')   
+                  else if($f = 'sources') then 
+                        (<button class="btn btn-primary btn-xs" id="sourcesBtn" data-toggle="collapse" data-target="#teiViewSources">
+                            <span data-toggle="tooltip" title="View Source Description">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> View sources
+                            </span></button>, '&#160;') 
                   else () 
             }            
         </div>
@@ -365,16 +377,25 @@ declare function app:hit-count($node as node()*, $model as map(*)) {
  : Simple browse works with sort options
  :)
 declare %templates:wrap function app:browse-works($node as node(), $model as map(*)) {
-    let $sort-element := 
-        if(request:get-parameter('sort-element', '') != '') then request:get-parameter('sort-element', '')
-        else ()
+    let $hits := data:search()       
     return          
-        map { "hits" :=
-                for $hit in collection($config:data-root)//tei:TEI
-                order by data:filter-sort-string(data:add-sort-options($hit, $sort-element))
-                return $hit
-        }  
+        map { "hits" := 
+                    if(request:get-parameter('view', '') = 'author') then
+                        for $hit in $hits
+                        let $author := $hit/descendant::tei:sourceDesc/descendant::tei:author
+                        group by $facet-grp-p := $author[1]
+                        order by normalize-space(string($facet-grp-p)) ascending
+                        return 
+                            <author xmlns="http://www.w3.org/1999/xhtml" name="{normalize-space(string($facet-grp-p))}">
+                                {
+                                    for $works in $hit
+                                    return $works
+                                }
+                            </author>
+                    else $hits
+            }  
 };
+
 
 (:~
  : Output the search result as a div, using the kwic module to summarize full text matches.            
@@ -384,21 +405,75 @@ declare
     %templates:default("start", 1)
     %templates:default("per-page", 10)
 function app:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
-    let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
-    for $hit at $p in subsequence($model("hits"), $start, $per-page)
-    let $id := document-uri(root($hit))
-    let $title := $hit/descendant::tei:title[1]/text()
-    let $expanded := kwic:expand($hit)
-    return
-        <div class="result row">
-            <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
-            <span class="col-md-11">
-            {(tei2html:summary-view($hit, (), $id[1])) }
-            {if($expanded//exist:match) then  
-                <span class="result-kwic">{tei2html:output-kwic($expanded, $id)}</span>
-             else ()}
-             </span>
-        </div>           
+    if(request:get-parameter('view', '') = 'author') then
+        let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
+        for $hit at $p in subsequence($model("hits"), $start, $per-page)
+        let $author := string($hit/@name)
+        return 
+            <div class="result row">
+                <span class="col-md-11">
+                   {$author} &#160;
+                   <button type="button" class="btn btn-link btn-xs" data-toggle="collapse" data-target="#viewAuthor{$p}">
+                        <span data-toggle="tooltip" title="View all works"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></span>
+                    </button>
+                    <div class="panel-collapse collapse left-align" id="viewAuthor{$p}">
+                            { 
+                              for $work at $p in $hit/descendant::tei:TEI
+                              let $id := document-uri(root($hit))
+                              let $title := $hit/descendant::tei:title[1]/text()
+                              let $expanded := kwic:expand($hit)
+                              return 
+                                <div class="result row">
+                                     <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
+                                     <span class="col-md-11">
+                                     {(tei2html:summary-view($work, (), $id[1]))}
+                                     {if($expanded//exist:match) then  
+                                         <span class="result-kwic">{tei2html:output-kwic($expanded, $id)}</span>
+                                      else ()}
+                                      </span>
+                                 </div> 
+                            }
+                    </div>
+                 </span>
+            </div>           
+    (:
+    else if(request:get-parameter('view', '') = 'timeline') then 
+        (app:timeline($model("hits"), 'Publication Timeline'),
+        let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
+        for $hit at $p in subsequence($model("hits"), $start, $per-page)
+        let $id := document-uri(root($hit))
+        let $title := $hit/descendant::tei:title[1]/text()
+        let $expanded := kwic:expand($hit)
+        return
+            <div class="result row">
+                <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
+                <span class="col-md-11">
+                {(tei2html:summary-view($hit, (), $id[1])) }
+                {if($expanded//exist:match) then  
+                    <span class="result-kwic">{tei2html:output-kwic($expanded, $id)}</span>
+                 else ()}
+                 </span>
+            </div>           
+        ):)
+    (:Standard display/title :)
+    else 
+        let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
+        for $hit at $p in subsequence($model("hits"), $start, $per-page)
+        let $id := document-uri(root($hit))
+        let $title := $hit/descendant::tei:title[1]/text()
+        let $expanded := kwic:expand($hit)
+        return
+            <div class="result row">
+                <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
+                <span class="col-md-11">
+                {(tei2html:summary-view($hit, (), $id[1])) }
+                {if($expanded//exist:match) then  
+                    <span class="result-kwic">{tei2html:output-kwic($expanded, $id)}</span>
+                 else ()}
+                 </span>
+            </div>           
+
+
 };
 
 (:~ 
@@ -452,4 +527,51 @@ declare function app:search-string(){
             else ())
             }
     </span>
+};
+
+(:
+ : Display Timeline. Uses http://timeline.knightlab.com/
+:)
+declare function app:timeline($data as node()*, $title as xs:string*){
+(: Test for valid dates json:xml-to-json() May want to change some css styles for font:)
+if($data/descendant-or-self::tei:imprint/descendant::tei:date[@when or @to or @from or @notBefore or @notAfter]) then 
+    <div class="timeline">
+        <script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"/>
+        <script type="text/javascript">
+        <![CDATA[
+            $(document).ready(function() {
+                var parentWidth = $(".timeline").width();
+                createStoryJS({
+                    start:      'start_at_end',
+                    type:       'timeline',
+                    width:      "'" +parentWidth+"'",
+                    height:     '325',
+                    source:     ]]>{timeline:get-dates($data, $title)}<![CDATA[,
+                    embed_id:   'my-timeline'
+                    });
+                });
+                ]]>
+        </script>
+    <div id="my-timeline"/>
+    <p>*Timeline generated with <a href="http://timeline.knightlab.com/">http://timeline.knightlab.com/</a></p>
+    </div>
+else ()
+};
+
+(:
+ : Display facets from HTML page 
+ : @param $collection passed from html 
+ : @param $facets relative (from collection root) path to facet-config file if different from facet-config.xml
+:)
+declare function app:display-facets($node as node(), $model as map(*), $facet-def-file as xs:string?){
+    let $hits := $model("hits")
+    let $facet-config-file := 'facet-def.xml'
+    let $facet-config := 
+             if(doc-available(concat($config:app-root,'/',$facet-config-file))) then
+                 doc(concat($config:app-root,'/',$facet-config-file))
+             else ()
+    return 
+        if(not(empty($facet-config))) then 
+            facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facet-definition))
+        else ()
 };

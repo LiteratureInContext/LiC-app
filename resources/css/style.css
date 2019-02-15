@@ -92,7 +92,13 @@ body {
  }
 .left-col-border {border-right:2px solid #A18C6A;}  
 .right-col-border {border-left:2px solid #A18C6A}
-
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #6386A5;
+    border-color: #6386A5;
+}
 /* Footer */
 footer .poweredby { float: right; margin: 33px 10px 0 0; clear:both;}
 footer .poweredby img { width: 120px; }
@@ -109,6 +115,8 @@ h2, h3, h4 {
     color: #777;
 } 
 .glyphicon a {color: #122141}
+.left-align {text-align:left !important;}
+
 /* General formatting */
 .indent {margin-left:1.5em;}
 .indent-large {margin-left:4em;}
@@ -162,6 +170,15 @@ form#search {margin-top:-1.5em; padding-top:0;}
     overflow-x:hidden;
 }    
 
+/* Facets */
+.facet-label {
+    margin-left:.5em; 
+    display:block; 
+    text-align:left; 
+    white-space: normal;
+    }
+.facet-label.remove {background-color:#eee; color:#666; font-weight:normal; margin:.25em; display:inline-block;}
+
 /* TEI styles */
 .tei-author {font-weight:500;}
 .tei-addrLine {display:block; margin-left:2em;}
@@ -182,7 +199,6 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .tei-titleStmt .tei-title {display:block;font-size:large; font-weight:600; margin:1em; padding:1em;}
 .tei-titlePage { margin: 1em 0;}
 .tei-titlePart {font-weight:500; font-size:1.5em;}
-
 
 /* Styles for mobile */
 @media (max-width: 1000px) {

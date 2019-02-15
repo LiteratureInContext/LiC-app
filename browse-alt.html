@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-md-4 col-md-push-8">
                         <!-- Form for search and coursepack functions.  -->
-                        <div class="fixed search-box">
+                        <div class="search-box">
                             <h3>Search Literature in Context</h3>
                             <div class="indent">
                             <!-- Search query goes here -->
@@ -48,24 +48,11 @@
                                 <button id="f-btn-coursepack" class="btn btn-default addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">Add to Coursepack</button>
                             </div>
                             </div>
+                            <div data-template="app:display-facets"/>
                         </div>
                     </div>
                     <div class="col-md-8 col-md-pull-4 left-col-border">
                         <div id="content">
-                            <!-- Browse Tabs -->
-                            <ul class="nav nav-tabs" id="nametabs">
-                                <li>
-                                    <a href="browse.html">by Title</a>
-                                </li>
-                                <li>
-                                    <a href="browse.html?view=author">by Author</a>
-                                </li>
-                                <!--
-                                <li>
-                                    <a href="browse.html?view=timeline">Timeline</a>
-                                </li>
-                                -->
-                            </ul>
                             <!-- Call paging and sort functions. Additional sort functions can be called via the data-template-sort-options. -->
                             <div data-template="app:pageination" data-template-sort-options="title,author,pubDate" class=""/>
                             <!-- Show results from xquery -->
