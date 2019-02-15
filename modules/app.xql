@@ -416,14 +416,14 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                    <button type="button" class="btn btn-link btn-xs" data-toggle="collapse" data-target="#viewAuthor{$p}">
                         <span data-toggle="tooltip" title="View all works"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></span>
                     </button>
-                    <div class="panel-collapse collapse left-align" id="viewAuthor{$p}">
+                    <div class="lic-well panel-collapse collapse left-align" id="viewAuthor{$p}">
                             { 
                               for $work at $p in $hit/descendant::tei:TEI
                               let $id := document-uri(root($hit))
                               let $title := $hit/descendant::tei:title[1]/text()
                               let $expanded := kwic:expand($hit)
                               return 
-                                <div class="result row">
+                                <div class="sub-result row">
                                      <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
                                      <span class="col-md-11">
                                      {(tei2html:summary-view($work, (), $id[1]))}

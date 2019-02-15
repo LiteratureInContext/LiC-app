@@ -125,6 +125,7 @@ h2, h3, h4 {
 /* Search and browse results */
 form#search {margin-top:-1.5em; padding-top:0;}
 .result {display:block; border-bottom:1px solid #ccc; margin:1em; padding: 1em;}
+.sub-result {display:block; padding: 1em;}
 .results-list-desc {display:block;}
 .checkbox {margin:0;}
 .result-kwic {display:block; padding:1em 2em;}

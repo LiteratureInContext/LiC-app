@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $("#lightSlider").lightSlider({
-        item: 5,
+        item: 1,
         autoWidth: false,
         slideMove: 1, // slidemove will be 1 if loop is true
         loop: false,
@@ -12,7 +12,7 @@ $(document).ready(function () {
         responsive:[ {
             breakpoint: 768,
             settings: {
-                item: 3,
+                item: 1,
                 slideMove: 1,
                 slideMargin: 5
             }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>Literature in Context</description>
     <author/>
@@ -10,4 +11,5 @@
     <prepare>pre-install.xql</prepare>
 <!--    <finish>post-install.xql</finish>-->
     
-<deployed>2018-10-10T12:55:55.335-04:00</deployed></meta>
+<deployed>2018-10-10T12:55:55.335-04:00</deployed>
+</meta>
