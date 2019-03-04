@@ -1,28 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title data-template="config:app-title">App Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
-        <link rel="shortcut icon" href="$nav-base/favicon.ico"/>
-        <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
+        <link rel="stylesheet" type="text/css" href="$nav-base/resources/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" media="print" href="$nav-base/resources/css/print.css"/>
-        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/lightslider.css"/>
-        <script type="text/javascript" src="$shared/resources/scripts/jquery/jquery-1.7.1.min.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>
-        <script type="text/javascript" src="$nav-base/resources/js/lightslider.min.js"/>
-        <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
+        <script type="text/javascript" src="$nav-base/resources/js/bootstrap.min.js"/>
+        <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.min.js"/>
         <script>
             $(document).ready(function() {
-                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
                 $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'});
             });
         </script>
     </head>
     <body id="body">
-        <div class="banner"/>
         <nav class="navbar navbar-default" role="navigation" data-template="app:fix-links">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -31,12 +23,7 @@
                     <span class="icon-bar"/>
                     <span class="icon-bar"/>
                 </button>
-                <span class="navbar-brand">
-                    <span class="logo">
-                        <img src="$nav-base/resources/images/logo.svg" alt="Literature in Context" height="35px"/>
-                    </span>
-                    <a data-template="config:app-title" class="navbar-title" href="$nav-base/index.html">App Title</a>
-                </span>
+                <a data-template="config:app-title" class="navbar-brand" href="$nav-base/index.html">App Title</a>
             </div>
             <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -44,38 +31,28 @@
                         <a href="$nav-base/about.html">About</a>
                     </li>
                     <li id="works">
-                        <a href="$nav-base/browse.html">Browse &amp; Search</a>
+                        <a href="$nav-base/index.html">Works</a>
                     </li> 
                     <li id="coursepacks">
                         <a href="$nav-base/coursepack.html">Coursepacks</a>
-                    </li>
-                    <li id="contributors">
-                        <a href="$nav-base/contributors.html">Contributors</a>
-                    </li>
-                    
+                    </li> 
                 </ul>     
                 <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/search.html" method="get">
-                    <div class="input-group navbar-searchbox">
-                        <input type="text" class="form-control keyboard" placeholder="Search" name="query"/>
+                    <span class="input-group">
+                        <input name="query" type="search" class="form-control" placeholder="Search"/>
                         <input type="hidden" class="form-control keyboard" name="field" value="keyword"/>
-                        <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
+                       <!-- <span class="input-group-btn">
+                            <button id="f-btn-search" type="submit" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-search"/>
                             </button>
-                        </div>
-                    </div>
+                        </span>-->
+                    </span>
                 </form>
             </div>
         </nav>
         <div id="content" class="mainContentArea"/>
         <footer>
-          <div class="banner"/>  
-          <p class="center">Copyright Information, website credits.</p>
-            <!--
-            <a class="poweredby small" href="http://exist-db.org">
-                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
-            </a>
-            -->
+            <!-- Place holder -->
         </footer>
         <script type="text/javascript" src="$nav-base/resources/js/coursepack.js"/>
     </body>
