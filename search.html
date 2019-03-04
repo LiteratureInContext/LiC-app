@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <!-- Form for search and coursepack functions.  -->
-    <div class="page-content">
+    <div class="page-content" data-template="app:search-works">
         <h1>Search Literature in Context </h1>   
         <div class="lic-well">
             <form action="search.html" class="form form-horizontal">
             <div class="row">
                 <div class="col-md-4 col-md-push-8">
                     <!-- Form for search and coursepack functions.  -->
-                    <div class="fixed search-box">
+                    <div class="search-box">
                         <h3>Search Literature in Context</h3>
                         <div class="indent">
                             <!-- Search query goes here -->
@@ -21,7 +21,6 @@
                                         </button>
                                     </span>
                                 </span>
-                                
                             </div>
                             <!-- Search fields, defaults to keyword -->
                             <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Field">
@@ -40,19 +39,24 @@
                                 <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
                                     <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
                                 </label>
+                                <button id="f-btn-search2" type="submit" class="btn btn-primary pull-right">
+                                    <span class="glyphicon glyphicon-search"/> Search
+                                </button>
                             </div>
-                            <!-- Create/add to coursepacks -->
-                            <div class="form-group">
-                                <button id="f-btn-coursepack" class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">Create new Coursepack</button>
-                                <button id="f-btn-coursepack" class="btn btn-default addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">Add to Coursepack</button>
-                            </div>
+                            <hr class="lic-line"/>
                         </div>
+                        <div data-template="app:display-facets"/>
                     </div>
                 </div>
                 <div class="col-md-8 col-md-pull-4 left-col-border">
-                    <div id="content" data-template="app:search-works">
+                    <div id="content">
                         <!-- Call paging and sort functions. Additional sort functions can be called via the data-template-sort-options. -->
                         <div data-template="app:pageination" data-template-sort-options="title,author,pubDate"/>
+                        <!-- Create/add to coursepacks -->
+                        <div class="form-group">
+                            <button id="f-btn-coursepack" class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">Create new Coursepack</button>
+                            <button id="f-btn-coursepack" class="btn btn-default addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">Add to Coursepack</button>
+                        </div>
                         <!-- Show results from xquery -->
                         <div data-template="app:show-hits" data-template-per-page="20" id="results" class="results"/>
                     </div>

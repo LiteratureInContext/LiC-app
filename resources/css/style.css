@@ -31,7 +31,7 @@ body {
     }  
 .homepage h3 {
     font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
-    color: white;
+    color: #122141;
     }
 .slide {
     margin:0; 
@@ -50,8 +50,9 @@ body {
     border-right: 4px solid #A18C6A;
     border-left: 4px solid #A18C6A;
     background: rgb(34,34,34); /* for IE */
-    background: rgba(34,34,34,0.85);
-    color: white; 
+    /*background: rgba(34,34,34,0.85);*/
+    background: rgba(255,255,255,.95);
+    color: #122141; 
     display: inline;
     padding: 1.5em;
     -webkit-box-decoration-break: clone;
@@ -59,8 +60,8 @@ body {
 }
 .slide-content {margin:5% 10%;}
 .slide-content img {border:2px solid white;}
-.slide-content a {color: white;}
-.slider-control {font-size: 4em; color:white; text-shadow: 2px 2px #000000;}
+.slide-content a {color: #122141;}
+.slider-control {font-size: 4em; color:#122141; text-shadow: 2px 2px #000000;}
 
 /* Coursepack styles */
 .lic-well {
@@ -90,6 +91,9 @@ body {
 .fixed.search-box  {
     position:fixed; margin:0 7em 1em 2em;
  }
+.search-box  {
+    margin:0 1em 1em 1em;
+ } 
 .left-col-border {border-right:2px solid #A18C6A;}  
 .right-col-border {border-left:2px solid #A18C6A}
 .pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
@@ -114,6 +118,9 @@ h2, h3, h4 {
     font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
     color: #777;
 } 
+hr.lic-line { border-top: 2px solid #A18C6A; }
+.search-options hr.lic-line { margin: .5em -1.5em;}
+
 .glyphicon a {color: #122141}
 .left-align {text-align:left !important;}
 

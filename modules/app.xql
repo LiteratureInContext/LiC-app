@@ -396,7 +396,51 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
             }  
 };
 
+(:~
+ : Simple browse works with sort options
+ :)
+declare %templates:wrap function app:list-contributors($node as node(), $model as map(*)) {
+    let $contributors := doc($config:data-root || '/editors.xml')//tei:person
+    let $hits := data:search()    
+    return          
+        map { "hits" := 
+                    if(request:get-parameter('contributor', '') != '') then 'Show contributor'
+                    else 
+                        for $n in $contributors
+                        order by $n/descendant::tei:surname[1]
+                        return <browse xmlns="http://www.w3.org/1999/xhtml" contributor="{string-join($n//text(),' ')}"/>
+                    (:if(request:get-parameter('contributor', '') != '') then
+                        for $hit in $hits[@xml:id = request:get-parameter('contributor', '')]
+                        let $author := $hit/descendant::tei:sourceDesc/descendant::tei:author
+                        group by $facet-grp-p := $author[1]
+                        order by normalize-space(string($facet-grp-p)) ascending
+                        return 
+                            <author xmlns="http://www.w3.org/1999/xhtml" name="{normalize-space(string($facet-grp-p))}">
+                                {
+                                    for $works in $hit
+                                    return $works
+                                }
+                            </author>
+                    else $hits:)
+            }  
+};
 
+(:~
+ : Output the search result as a div, using the kwic module to summarize full text matches.            
+:)
+declare 
+    %templates:wrap
+    %templates:default("start", 1)
+    %templates:default("per-page", 10)
+function app:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
+    let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
+    for $hit at $p in subsequence($model("hits"), $start, $per-page)
+    return
+        <div class="result row">
+            <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
+            <span class="col-md-11">{$hit/@contributor}</span>
+        </div>           
+};
 (:~
  : Output the search result as a div, using the kwic module to summarize full text matches.            
 :)
@@ -472,8 +516,6 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                  else ()}
                  </span>
             </div>           
-
-
 };
 
 (:~ 
