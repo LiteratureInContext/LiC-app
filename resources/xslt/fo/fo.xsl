@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/Format" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:fotex="http://www.tug.org/fotex" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="tei fotex m xs fo" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:fotex="http://www.tug.org/fotex" exclude-result-prefixes="tei fotex m xs fo" version="2.0">
   <xsl:import href="../common/common.xsl"/>
   <xsl:import href="../common/verbatim.xsl"/>
   <xsl:import href="fo_param.xsl"/>

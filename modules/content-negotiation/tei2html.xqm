@@ -70,7 +70,9 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     if($node/@xml:id) then 
                         (attribute id { $node/@xml:id }, <span class="tei-footnote-id">{string($node/@xml:id)}</span>)
                     else (),
-                    tei2html:tei2html($node/node()) )}</span>
+                    tei2html:tei2html($node/node()),
+                    <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?author-id=AF">{substring-after($node/@resp,'#')}</a>]</span>
+                    )}</span>
                 else <span class="tei-{local-name($node)}">{ tei2html:tei2html($node/node()) }</span>
             case element(tei:pb) return 
                 <span class="tei-pb">{string($node/@n)}</span>
@@ -119,7 +121,7 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
                 let $author-full-names :=
                     for $author in $authors
                     return
-                        concat($author//tei:forename, ' ', $author//tei:surname)
+                        concat($author//tei:forename[1], ' ', $author//tei:surname[1])
                 let $name-count := count($authors)
                 return
                     if ($name-count le 2) then
@@ -195,6 +197,13 @@ declare function tei2html:title($node as element (tei:title)) {
             tei2html:tei2html($node/node()))}</span>
 };
 
+declare function tei2html:annotations($node as node()*) { 
+    <span class="tei-annotation-show" xmlns="http://www.w3.org/1999/xhtml">{
+        (if($node/@xml:lang) then attribute lang { $node/@xml:lang } else (),
+        tei2html:tei2html($node/node()))}</span>
+};
+
+
 declare %private function tei2html:get-id($node as element()) {
     if($node/@xml:id) then
         $node/@xml:id
@@ -215,7 +224,22 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
             else ()}
             {if($nodes/descendant::tei:biblStruct) then 
                 <span class="results-list-desc desc" dir="ltr" lang="en">
-                    <label>Source: </label> {tei2html:citation($nodes/descendant::tei:teiHeader)}
+                    <label>Source: </label> 
+                    { let $monograph := $nodes/descendant::tei:sourceDesc[1]/descendant::tei:monogr[1]
+                      return 
+                        (tei2html:tei2html($monograph/tei:title),
+                        if($monograph/tei:imprint) then 
+                          concat(' (',
+                           normalize-space(string($monograph/tei:imprint[1]/tei:pubPlace[1])),
+                           if($monograph/tei:imprint/tei:publisher) then 
+                            concat(': ', normalize-space(string($monograph/tei:imprint[1]/tei:publisher[1])))
+                           else (),
+                           if($monograph/tei:imprint/tei:date) then 
+                            concat(', ', normalize-space(string($monograph/tei:imprint[1]/tei:date[1])))
+                           else ()
+                           ,') ')
+                        else ()
+                        )}
                 </span>
             else ()}
             {if($nodes/descendant-or-self::*[starts-with(@xml:id,'abstract')]) then 

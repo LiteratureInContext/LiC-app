@@ -3,18 +3,25 @@
         <title data-template="config:app-title">App Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
+        <link rel="shortcut icon" href="$nav-base/favicon.ico"/>
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" media="print" href="$nav-base/resources/css/print.css"/>
-        <script type="text/javascript" src="$nav-base/resources/js/bootstrap.min.js"/>
+        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/lightslider.css"/>
+        <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>
+<!--        <script type="text/javascript" src="$nav-base/resources/scripts/loadsource.js"/>-->
         <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.min.js"/>
+        <script type="text/javascript" src="$nav-base/resources/js/lightslider.min.js"/>
+        <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
         <script>
             $(document).ready(function() {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
                 $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'});
             });
         </script>
     </head>
     <body id="body">
+        <div class="banner"/>
         <nav class="navbar navbar-default" role="navigation" data-template="app:fix-links">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
@@ -23,7 +30,12 @@
                     <span class="icon-bar"/>
                     <span class="icon-bar"/>
                 </button>
-                <a data-template="config:app-title" class="navbar-brand" href="$nav-base/index.html">App Title</a>
+                <span class="navbar-brand">
+                    <span class="logo">
+                        <img src="$nav-base/resources/images/logo.svg" alt="Literature in Context" height="35px"/>
+                    </span>
+                    <a data-template="config:app-title" class="navbar-title" href="$nav-base/index.html">App Title</a>
+                </span>
             </div>
             <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -31,29 +43,51 @@
                         <a href="$nav-base/about.html">About</a>
                     </li>
                     <li id="works">
-                        <a href="$nav-base/index.html">Works</a>
+                        <a href="$nav-base/browse.html">Browse &amp; Search</a>
                     </li> 
                     <li id="coursepacks">
                         <a href="$nav-base/coursepack.html">Coursepacks</a>
-                    </li> 
+                    </li>
+                    <li id="contributors">
+                        <a href="$nav-base/contributors.html">Contributors</a>
+                    </li>
+                    
                 </ul>     
                 <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/search.html" method="get">
-                    <span class="input-group">
-                        <input name="query" type="search" class="form-control" placeholder="Search"/>
+                    <div class="input-group navbar-searchbox">
+                        <input type="text" class="form-control keyboard" placeholder="Search" name="query"/>
                         <input type="hidden" class="form-control keyboard" name="field" value="keyword"/>
-                       <!-- <span class="input-group-btn">
-                            <button id="f-btn-search" type="submit" class="btn btn-primary">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"/>
                             </button>
-                        </span>-->
-                    </span>
+                        </div>
+                    </div>
                 </form>
             </div>
         </nav>
         <div id="content" class="mainContentArea"/>
         <footer>
-            <!-- Place holder -->
+          <div class="banner"/>  
+          <p class="center">Copyright Information, website credits.</p>
+            <ul class="funders">
+                <li>
+                    <img src="$nav-base/resources/images/NEH_h-logo_01_fullcolor.jpg" width="200px" alt="National Endowment for the Humanities (NEH)" class="funder"/>    
+                </li>
+                <li>
+                    <img src="$nav-base/resources/images/marymount.logo.png" width="150px" alt="Marymount University" class="funder"/>    
+                </li>
+                <li>
+                    <img src="$nav-base/resources/images/uva_primary_logo.jpg" width="150px" alt="The University of Virginia" class="funder"/>
+                </li>
+            </ul>
+            <!--
+            <a class="poweredby small" href="http://exist-db.org">
+                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
+            </a>
+            -->
         </footer>
         <script type="text/javascript" src="$nav-base/resources/js/coursepack.js"/>
+        <script type="text/javascript" src="$nav-base/resources/js/annotations.js"/>
     </body>
 </html>

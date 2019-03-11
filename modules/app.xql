@@ -216,12 +216,12 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                   else if($f = 'notes') then
                         (<button class="btn btn-primary btn-xs" id="notesBtn" data-toggle="collapse" data-target="#teiViewNotes">
                             <span data-toggle="tooltip" title="View Notes">
-                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> View Notes
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Editorial Statements
                             </span></button>, '&#160;')   
                   else if($f = 'sources') then 
                         (<button class="btn btn-primary btn-xs" id="sourcesBtn" data-toggle="collapse" data-target="#teiViewSources">
                             <span data-toggle="tooltip" title="View Source Description">
-                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> View sources
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Source Texts
                             </span></button>, '&#160;') 
                   else () 
             }            
@@ -299,8 +299,12 @@ return
                     <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Search Coursepack"><span class="glyphicon glyphicon-search"/></button> 
                     <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-primary" data-toggle="tooltip" title="Delete Coursepack">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
-                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=list" class="toolbar btn btn-primary" data-toggle="tooltip" title="List Coursepack Works"><span class="glyphicon glyphicon-th-list"/> </a>
-                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=expanded" class="toolbar btn btn-primary" data-toggle="tooltip" title="Expand Coursepack Works to see text"><span class="glyphicon glyphicon-plus-sign"/> Expand Works </a>
+                    {
+                    if(request:get-parameter('view', '') = 'expanded') then 
+                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=list" class="toolbar btn btn-primary" data-toggle="tooltip" title="List Coursepack Works"><span class="glyphicon glyphicon-th-list"/> List Works </a>
+                    else 
+                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=expanded" class="toolbar btn btn-primary" data-toggle="tooltip" title="Expand Coursepack Works to see text"><span class="glyphicon glyphicon-plus-sign"/> Expand Works </a>
+                    }
                     <a href="javascript:window.print();" type="button" id="printBtn"  class="toolbar btn btn-primary" data-toggle="tooltip" title="Print Coursepack"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
                     <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.pdf" class="toolbar btn btn-primary" id="pdfBtn" data-toggle="tooltip" title="Download Coursepack as PDF"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF</a>
                     <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.epub" class="toolbar btn btn-primary" id="epubBtn" data-toggle="tooltip" title="Download Coursepack as EPUB"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> EPUB</a>
@@ -363,7 +367,85 @@ return
  : Display paging functions in html templates
 :)
 declare %templates:wrap function app:pageination($node as node()*, $model as map(*), $sort-options as xs:string*){
-   data:pages($model("hits"), $app:start, $app:perpage,app:search-string(), $sort-options)
+let $search-string := app:search-string()
+let $sort-options := $sort-options
+let $hits := $model("hits")
+let $perpage := if($app:perpage) then xs:integer($app:perpage) else 20
+let $start := if($app:start) then $app:start else 1
+let $total-result-count := count($hits)
+let $end := 
+    if ($total-result-count lt $perpage) then 
+        $total-result-count
+    else 
+        $start + $perpage
+let $number-of-pages :=  xs:integer(ceiling($total-result-count div $perpage))
+let $current-page := xs:integer(($start + $perpage) div $perpage)
+(: get all parameters to pass to paging function, strip start parameter :)
+let $url-params := replace(replace(request:get-query-string(), '&amp;start=\d+', ''),'start=\d+','')
+let $param-string := if($url-params != '') then concat('?',$url-params,'&amp;start=') else '?start='        
+let $pagination-links := 
+    (<div class="row alpha-pages" xmlns="http://www.w3.org/1999/xhtml">  
+            <div class="col-sm-5 search-string">
+                    {if($search-string != '' and request:get-parameter('view', '') != 'author' and request:get-parameter('view', '') != 'title') then        
+                        (<h3 class="hit-count paging">Search results:</h3>,
+                        <p class="col-md-offset-1 hit-count">{$total-result-count} matches for {$search-string}</p>)
+                     else ()   
+                    }
+            </div>
+            <div>
+                {if($search-string != '') then attribute class { "col-md-7" } else attribute class { "col-md-12" } }
+                {
+                if($total-result-count gt $perpage) then 
+                <ul class="pagination pull-right">
+                    {((: Show 'Previous' for all but the 1st page of results :)
+                        if ($current-page = 1) then ()
+                        else <li><a href="{concat($param-string, $perpage * ($current-page - 2)) }">Prev</a></li>,
+                        (: Show links to each page of results :)
+                        let $max-pages-to-show := 8
+                        let $padding := xs:integer(round($max-pages-to-show div 2))
+                        let $start-page := 
+                                      if ($current-page le ($padding + 1)) then
+                                          1
+                                      else $current-page - $padding
+                        let $end-page := 
+                                      if ($number-of-pages le ($current-page + $padding)) then
+                                          $number-of-pages
+                                      else $current-page + $padding - 1
+                        for $page in ($start-page to $end-page)
+                        let $newstart := 
+                                      if($page = 1) then 1 
+                                      else $perpage * ($page - 1)
+                        return 
+                            if ($newstart eq $start) then <li class="active"><a href="#" >{$page}</a></li>
+                             else <li><a href="{concat($param-string, $newstart)}">{$page}</a></li>,
+                        (: Shows 'Next' for all but the last page of results :)
+                        if ($start + $perpage ge $total-result-count) then ()
+                        else <li><a href="{concat($param-string, $start + $perpage)}">Next</a></li>,
+                        if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
+                        else(),
+                        <li><a href="{concat($param-string,'1&amp;perpage=',$total-result-count)}">All</a></li>,
+                        if($search-string != '') then
+                            <li class="pull-right search-new"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
+                        else ()    
+                        )}
+                </ul>
+                else 
+                <ul class="pagination pull-right">
+                {(
+                    if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
+                    else(),
+                    if($search-string != '') then   
+                        <li class="pull-right"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
+                    else() 
+                    )}
+                </ul>
+                }
+            </div>
+    </div>,
+    if($search-string != '' and $total-result-count = 0) then 'No results, please try refining your search or reading our search tips.' 
+    else ()
+    )    
+    return $pagination-links 
 };
 
 (:~
@@ -400,28 +482,20 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
  : Simple browse works with sort options
  :)
 declare %templates:wrap function app:list-contributors($node as node(), $model as map(*)) {
-    let $contributors := doc($config:data-root || '/editors.xml')//tei:person
+    let $contributors := doc($config:data-root || '/editors.xml')//tei:listPerson/tei:person
     let $hits := data:search()    
     return          
         map { "hits" := 
-                    if(request:get-parameter('contributor', '') != '') then 'Show contributor'
+                    if(request:get-parameter('contributorID', '') != '') then 
+                        for $n in $contributors[@xml:id = request:get-parameter('contributorID', '')]
+                        order by $n/descendant::tei:surname[1]
+                        return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}" name="{string-join($n//text(),' ')}"/>
                     else 
                         for $n in $contributors
                         order by $n/descendant::tei:surname[1]
-                        return <browse xmlns="http://www.w3.org/1999/xhtml" contributor="{string-join($n//text(),' ')}"/>
-                    (:if(request:get-parameter('contributor', '') != '') then
-                        for $hit in $hits[@xml:id = request:get-parameter('contributor', '')]
-                        let $author := $hit/descendant::tei:sourceDesc/descendant::tei:author
-                        group by $facet-grp-p := $author[1]
-                        order by normalize-space(string($facet-grp-p)) ascending
-                        return 
-                            <author xmlns="http://www.w3.org/1999/xhtml" name="{normalize-space(string($facet-grp-p))}">
-                                {
-                                    for $works in $hit
-                                    return $works
-                                }
-                            </author>
-                    else $hits:)
+                        return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}" name="{string-join($n//text(),' ')}"/>,
+               "records" := $hits                 
+                    
             }  
 };
 
@@ -432,15 +506,100 @@ declare
     %templates:wrap
     %templates:default("start", 1)
     %templates:default("per-page", 10)
-function app:show-hits($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
+function app:contributors($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
     let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
+    let $id := string($hit/@id)
+    let $annotations := $model("records")//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $id]
+    let $texts := $model("records")//tei:titleStmt//*[@ref= 'editors.xml#' || $id] | $model("records")//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $id]
+    let $count := count($annotations)
     return
         <div class="result row">
-            <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
-            <span class="col-md-11">{$hit/@contributor}</span>
-        </div>           
+            {
+            if(request:get-parameter('contributorID', '') != '') then
+                <div xmlns="http://www.w3.org/1999/xhtml"> 
+                    <span class="browse-author-name">{string($hit/@name)}</span> ({$count} annotations, {count($texts)} texts)
+                        <div class="indent">
+                         <h3>Annotations</h3>
+                         {
+                             for $r at $p in $annotations
+                             group by $work-id := document-uri(root($r))
+                             let $work := $r/ancestor-or-self::tei:TEI
+                             let $title := $work/descendant::tei:titleStmt/tei:title
+                             let $url := concat($config:nav-base,'/work',substring-before(replace($work-id,$config:data-root,''),'.xml'))
+                             order by normalize-space($title[1]) ascending
+                             return 
+                                <div class="annotations">
+                                    <span class="title">
+                                    <button class="getAnnotated btn btn-link" data-toggle="tooltip" title="View annotations" data-work-id="{$work-id}" data-contributor-id="{$id}">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                    </button> 
+                                    <a href="{$url}" class="link-to-work" data-toggle="tooltip" title="Go to work"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>&#160;
+                                    {tei2html:tei2html($title)} 
+                                    </span>
+                                    <div class="annotationsResults"></div>
+                               </div>
+                         }
+                        </div>
+                        <div class="indent">
+                         <h3>Texts</h3>
+                         {
+                             for $r in $texts
+                             group by $work-id := document-uri(root($r))
+                             let $work := $r/ancestor-or-self::tei:TEI
+                             let $title := $work/descendant::tei:titleStmt/tei:title
+                             let $url := concat($config:nav-base,'/work',substring-before(replace($work-id,$config:data-root,''),'.xml'))
+                             order by normalize-space($title[1]) ascending
+                             return 
+                             <div class="annotations">
+                                    <span class="title">
+                                    <button class="getTextAnnotated btn btn-link" data-toggle="tooltip" title="View editorial statements" data-work-id="{$work-id}" data-contributor-id="{$id}">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                    </button> 
+                                    <a href="{$url}" class="link-to-work" data-toggle="tooltip" title="Go to work"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>&#160;
+                                    {tei2html:tei2html($title)} 
+                                    </span>
+                                    <div class="textAnnotationsResults"></div>
+                               </div>
+                         }
+                        </div>
+                </div>
+            else 
+                <div xmlns="http://www.w3.org/1999/xhtml"> 
+                    <span class="browse-author-name">{string($hit/@name)}</span> ({$count} annotations)
+                        <div class="indent" id="show{$id}">{
+                            (
+                            <div class="indent">
+                                {
+                                    for $r at $p in $annotations
+                                    group by $work-id := document-uri(root($r))
+                                    let $work := $r/ancestor-or-self::tei:TEI
+                                    let $title := $work/descendant::tei:titleStmt/tei:title
+                                    let $url := concat($config:nav-base,'/work',substring-before(replace($work-id,$config:data-root,''),'.xml'))
+                                    for $group in subsequence($title,1,5)
+                                    order by normalize-space($title[1]) ascending
+                                    return 
+                                       <div class="annotations">
+                                           <span class="title">
+                                           <button class="getAnnotated btn btn-link" data-toggle="tooltip" title="View annotations" data-work-id="{$work-id}" data-contributor-id="{$id}">
+                                               <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                           </button> 
+                                           <a href="{$url}" class="link-to-work" data-toggle="tooltip" title="Go to work"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>&#160;
+                                           {tei2html:tei2html($title)} 
+                                           </span>
+                                           <div class="annotationsResults"></div>
+                                      </div>
+                                }
+                               </div>,
+                            if($count gt 5) then
+                                <div class="indent"><a href="?contributorID={$id}">All annotations <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a></div>
+                            else ())
+                        }</div>
+                </div>            
+            }
+        </div>  
 };
+
 (:~
  : Output the search result as a div, using the kwic module to summarize full text matches.            
 :)
