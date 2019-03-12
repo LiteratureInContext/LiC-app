@@ -468,12 +468,7 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
                         group by $facet-grp-p := $author[1]
                         order by normalize-space(string($facet-grp-p)) ascending
                         return 
-                            <author xmlns="http://www.w3.org/1999/xhtml" name="{normalize-space(string($facet-grp-p))}">
-                                {
-                                    for $works in $hit
-                                    return $works
-                                }
-                            </author>
+                            <author xmlns="http://www.w3.org/1999/xhtml" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}"/>
                     else $hits
             }  
 };
@@ -612,52 +607,16 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
         let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
         for $hit at $p in subsequence($model("hits"), $start, $per-page)
         let $author := string($hit/@name)
+        where $author != ''
         return 
             <div class="result row">
                 <span class="col-md-11">
-                   {$author} &#160;
-                   <button type="button" class="btn btn-link btn-xs" data-toggle="collapse" data-target="#viewAuthor{$p}">
-                        <span data-toggle="tooltip" title="View all works"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></span>
-                    </button>
-                    <div class="lic-well panel-collapse collapse left-align" id="viewAuthor{$p}">
-                            { 
-                              for $work at $p in $hit/descendant::tei:TEI
-                              let $id := document-uri(root($hit))
-                              let $title := $hit/descendant::tei:title[1]/text()
-                              let $expanded := kwic:expand($hit)
-                              return 
-                                <div class="sub-result row">
-                                     <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
-                                     <span class="col-md-11">
-                                     {(tei2html:summary-view($work, (), $id[1]))}
-                                     {if($expanded//exist:match) then  
-                                         <span class="result-kwic">{tei2html:output-kwic($expanded, $id)}</span>
-                                      else ()}
-                                      </span>
-                                 </div> 
-                            }
-                    </div>
+                    <button class="getNestedResults btn btn-link" data-toggle="tooltip" title="View Works" data-author-id="{$author}">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    </button>{$author}
+                    <div class="nestedResults"></div>
                  </span>
             </div>           
-    (:
-    else if(request:get-parameter('view', '') = 'timeline') then 
-        (app:timeline($model("hits"), 'Publication Timeline'),
-        let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
-        for $hit at $p in subsequence($model("hits"), $start, $per-page)
-        let $id := document-uri(root($hit))
-        let $title := $hit/descendant::tei:title[1]/text()
-        let $expanded := kwic:expand($hit)
-        return
-            <div class="result row">
-                <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
-                <span class="col-md-11">
-                {(tei2html:summary-view($hit, (), $id[1])) }
-                {if($expanded//exist:match) then  
-                    <span class="result-kwic">{tei2html:output-kwic($expanded, $id)}</span>
-                 else ()}
-                 </span>
-            </div>           
-        ):)
     (:Standard display/title :)
     else 
         let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
@@ -721,7 +680,7 @@ declare function app:search-string(){
         for  $parameter in $parameters
         return 
             if(request:get-parameter($parameter, '') != '') then
-                if($parameter = ('start','sort-element','field','target-texts','narrow')) then ()
+                if($parameter = ('start','sort-element','field','target-texts','narrow','fq')) then ()
                 else if($parameter = 'query') then 
                         (<span class="query-value">{request:get-parameter($parameter, '')}&#160;</span>, ' in ', <span class="param">{request:get-parameter('field', '')}</span>,'&#160;')
                 else (<span class="param">{replace(concat(upper-case(substring($parameter,1,1)),substring($parameter,2)),'-',' ')}: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)    

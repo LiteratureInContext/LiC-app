@@ -71,7 +71,10 @@ declare function data:search-coursepacks() {
 :)
 declare function data:search() {
     let $facet-config-file := 'facet-def.xml'
-    let $queryExpr := data:create-query()
+    let $filters := if(request:get-parameter('authorID', '')) then 
+                        concat("[descendant::tei:sourceDesc/descendant::tei:author[normalize-space(.) = '",request:get-parameter('authorID', ''),"']]")
+                    else()
+    let $queryExpr := concat(data:create-query(), $filters)                   
     let $docs := 
                 if(request:get-parameter('narrow', '') = 'true' and request:get-parameter('target-texts', '') != '') then
                         for $doc in request:get-parameter('target-texts', '')
@@ -242,4 +245,3 @@ declare function data:sort-options($param-string as xs:string?, $start as xs:int
     </div>
 </li>
 };
-

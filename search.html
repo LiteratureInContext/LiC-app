@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <!-- Form for search and coursepack functions.  -->
-    <div class="page-content" data-template="app:search-works">
+    <div class="page-content search" data-template="app:search-works">
         <h1>Search Literature in Context </h1>   
         <div class="lic-well">
             <form action="search.html" class="form form-horizontal">
@@ -39,13 +38,19 @@
                                 <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
                                     <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
                                 </label>
-                                <button id="f-btn-search2" type="submit" class="btn btn-primary pull-right">
+                                <!--
+                                <button id="f-btn-search2" type="submit" class="btn btn-primary pull-right btn-sm">
                                     <span class="glyphicon glyphicon-search"/> Search
                                 </button>
+                                -->
                             </div>
-                            <hr class="lic-line"/>
                         </div>
-                        <div data-template="app:display-facets"/>
+                        <div class="filter">
+                            <h3>Filter Results</h3>
+                            <div class="indent">
+                                <div data-template="app:display-facets"/>
+                            </div>    
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-8 col-md-pull-4 left-col-border">
@@ -53,9 +58,12 @@
                         <!-- Call paging and sort functions. Additional sort functions can be called via the data-template-sort-options. -->
                         <div data-template="app:pageination" data-template-sort-options="title,author,pubDate"/>
                         <!-- Create/add to coursepacks -->
-                        <div class="form-group">
-                            <button id="f-btn-coursepack" class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">Create new Coursepack</button>
-                            <button id="f-btn-coursepack" class="btn btn-default addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">Add to Coursepack</button>
+                        <div class="coursepackToolbar">
+                            <div class="form-group">
+                                <button class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack"><span class="glyphicon glyphicon-cog"/> Create new Coursepack</button>
+                                <button class="btn btn-primary addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack"><span class="glyphicon glyphicon-plus-sign"/> Add to Coursepack</button>
+                                <a href="$nav-base/coursepack.html" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="View all coursepacks"><span class="glyphicon glyphicon-th-list"/> View All Coursepacks</a>
+                            </div>
                         </div>
                         <!-- Show results from xquery -->
                         <div data-template="app:show-hits" data-template-per-page="20" id="results" class="results"/>

@@ -34,7 +34,7 @@ declare function local:create-new-coursepack($data as item()*){
             {( $desc,
                for $work in $works?*
                let $workID := $work?id
-               return (<work id="{$workID}">{$work?title}</work>,local:update-work($workID, $id, $coursepackTitle))
+               return (<work id="{$workID}">{$work?title}</work>,local:update-work($workID, $id, $coursepackTitle, $coursepack(1)('coursepackDesc')))
             )}
         </coursepack>
     return 
@@ -59,13 +59,18 @@ declare function local:update-coursepack($data as item()*){
     let $works := $coursepack(1)('works')
     let $coursepack := collection($config:app-root || '/coursepacks')//id($coursepackID)
     let $coursepackTitle := string($coursepack/@title)
+    let $desc := $coursepack//desc/text()
     let $insertWorks :=  
                for $work in $works?*
                let $workID := $work?id
-               return (<work id="{$workID}">{$work?title}</work>,local:update-work($workID, $coursepackID, $coursepackTitle))
+               return (<work id="{$workID}">{$work?title}</work>,local:update-work($workID, $coursepackID, $coursepackTitle, $desc))
     return 
         try { 
-            (update insert $insertWorks into $coursepack,'Saved!')
+            (update insert $insertWorks into $coursepack, 
+            <response>
+                <coursepack id="{$coursepackID}"/>
+                Saved!
+            </response>)
         } catch * {
             (response:set-status-code( 500 ),
             <response status="fail">
@@ -80,7 +85,7 @@ declare function local:update-coursepack($data as item()*){
  : @param $id coursepack id
  : @param $coursepackTitle coursepack title
  :)
-declare function local:update-work($workID, $id, $coursepackTitle){
+declare function local:update-work($workID, $id, $coursepackTitle, $coursepackDesc){
 if(doc($workID)) then 
     let $work := doc($workID)
     return
@@ -90,6 +95,9 @@ if(doc($workID)) then
                 <seriesStmt xmlns="http://www.tei-c.org/ns/1.0">
                      <title>{$coursepackTitle}</title>
                      <idno type="coursepack">{$id}</idno>
+                     <biblScope>
+                        <note>{$coursepackDesc}</note>
+                     </biblScope>
                  </seriesStmt>
             return update insert $seriesStmt into $work/descendant::tei:fileDesc                
 else ()
@@ -112,6 +120,7 @@ declare function local:create-new-coursepack-response($data as item()*){
             <div class="coursepack">
                 <div class="bg-info hidden">{$response}</div>
                 <h4>Coursepack Title: {$coursepackTitle}</h4>
+                {$response}
                 <ul>{
                     for $work in $works?*
                     return 
@@ -133,7 +142,7 @@ declare function local:update-coursepack-response($data as item()*){
     let $coursepack := $json-data?coursepack
     let $works := $coursepack?1?('works')
     let $response := local:update-coursepack($json-data)
-    let $coursepackID := tokenize(substring-before(string-join($response,''),'.xml'),'/')[last()]
+    let $coursepackID := string($response/coursepack/@id)
     return 
         <repsonse status="success" xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">

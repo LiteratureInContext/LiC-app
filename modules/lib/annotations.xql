@@ -1,5 +1,5 @@
 xquery version "3.1";
-(: For dynamicly loading functions.  :)
+(: For dynamically loading functions.  :)
 
 (: Import application modules. :)
 import module namespace config="http://LiC.org/config" at "../config.xqm";
