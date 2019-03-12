@@ -42,6 +42,9 @@ body {
     width:60%;
     position:relative;
 }
+/*.slide .featuredImage {float:left; max-width: 300px; padding:.5em; margin:.5em 2em;}*/
+.slide .featuredImage {max-width: 80%; padding:.5em; margin:.5em 2em .5em 1em;}
+.slide .coursepack, .slide .work summary {margin-top:2em;}
 .overlay {
     font-weight:200;
    /* White
@@ -160,6 +163,7 @@ hr.lic-line { border-top: 2px solid #A18C6A; }
 /* Search and browse results */
 form#search {margin-top:-1.5em; padding-top:0;}
 .result {display:block; border-bottom:1px solid #ccc; margin:1em; padding: 1em;}
+.result .get-more {margin:.5em;}
 .nestedResults .result {border-top:1px solid #ccc; border-bottom:none;}
 .sub-result {display:block; padding: 1em;}
 .results-list-desc {display:block;}

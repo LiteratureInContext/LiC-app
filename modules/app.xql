@@ -15,6 +15,7 @@ import module namespace tei2html="http://syriaca.org/tei2html" at "content-negot
 import module namespace data="http://LiC.org/data" at "lib/data.xqm";
 
 (: Namespaces :)
+declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace html="http://www.w3.org/1999/xhtml";
 
@@ -74,6 +75,69 @@ declare %private function app:parse-href($href as xs:string) {
         )
     else
         $href
+};
+
+(:~
+ : Dynamically build featured items on homepage carousel
+:)
+
+declare function app:create-featured-slides($node as node(), $model as map(*)) {
+    let $featured := $config:get-config//repo:featured
+    for $slide in $featured/repo:slide
+    let $order := if($slide/@order != '') then xs:integer($slide/@order) else 100
+    let $imageURL := 
+        if(starts-with($slide/@imageURL,'http')) then string($slide/@imageURL) 
+        else if(starts-with($slide/@imageURL,'/resources/')) then concat($config:nav-base,string($slide/@imageURL)) 
+        else ()
+    let $image := if($imageURL != '') then 
+                    <img src="{$imageURL}" alt="{if($slide/@imageDesc != '') then string($slide/@imageDesc) else 'Featured image'}"/>
+                  else ()
+    order by $order
+    return 
+        <li class="slide overlay">
+            <div class="slide-content">{
+                if($slide/@type = 'text') then
+                    $slide/child::*
+                else if($slide/@type = 'coursepack') then
+                    let $coursepackId := string($slide/@id)
+                    let $coursepack := doc($config:app-root || '/coursepacks/' || $coursepackId || '.xml' )
+                    return 
+                        <div class="row">
+                            {if($imageURL != '') then 
+                                 <div class="col-md-4">{$image}</div>
+                            else ()}
+                            <div class="coursepack {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
+                            <h3>Featured Coursepack</h3>
+                            <h4>{string($coursepack/coursepack/@title)} ({count($coursepack//work)} works)</h4>
+                            <p>{$coursepack/coursepack/desc/text()}</p>
+                            <ol>{(
+                                for $w in subsequence($coursepack//work,1,5)
+                                return 
+                                <li>{$w/text()}</li>,
+                                if(count($coursepack//work) gt 5) then
+                                 <li> <a href="coursepack?id={$coursepackId}" data-toggle="tooltip" title="See all works">...</a>  </li>   
+                                else ()                                
+                            )}</ol>
+                            <div class="get-more"><br/><a href="coursepack?id={$coursepackId}">Go to coursepack <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a></div>
+                           </div>
+                        </div>
+                else if($slide/@type = 'work') then
+                    let $workID := string($slide/@id)
+                    let $workPath := concat($config:data-root,'/', replace($workID,'/work/',''), '.xml')
+                    let $work := doc(xmldb:encode-uri($workPath))
+                    return 
+                        <div>
+                            {if($imageURL != '') then 
+                                 <div class="col-md-4">{$image}</div>
+                            else ()}
+                            <div class="work {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
+                            <h3>Featured Work</h3>
+                            {tei2html:summary-view($work, (), $workPath)}
+                            </div>
+                        </div>
+                else $slide/child::*
+            }</div>
+        </li>
 };
 
 (:~
@@ -464,11 +528,13 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
         map { "hits" := 
                     if(request:get-parameter('view', '') = 'author') then
                         for $hit in $hits
-                        let $author := $hit/descendant::tei:sourceDesc/descendant::tei:author
+                        let $author := normalize-space($hit/descendant::tei:sourceDesc/descendant::tei:author)
                         group by $facet-grp-p := $author[1]
                         order by normalize-space(string($facet-grp-p)) ascending
                         return 
-                            <author xmlns="http://www.w3.org/1999/xhtml" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}"/>
+                            <author xmlns="http://www.w3.org/1999/xhtml" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}">
+                                {$hit}
+                            </author>
                     else $hits
             }  
 };
@@ -517,9 +583,9 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
                         <div class="indent">
                          <h3>Annotations</h3>
                          {
-                             for $r at $p in $annotations
-                             group by $work-id := document-uri(root($r))
-                             let $work := $r/ancestor-or-self::tei:TEI
+                             for $annotation at $p in $annotations
+                             group by $work-id := document-uri(root($annotation))
+                             let $work := $annotation/ancestor-or-self::tei:TEI
                              let $title := $work/descendant::tei:titleStmt/tei:title
                              let $url := concat($config:nav-base,'/work',substring-before(replace($work-id,$config:data-root,''),'.xml'))
                              order by normalize-space($title[1]) ascending
@@ -530,7 +596,7 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
                                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                     </button> 
                                     <a href="{$url}" class="link-to-work" data-toggle="tooltip" title="Go to work"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>&#160;
-                                    {tei2html:tei2html($title)} 
+                                    {tei2html:tei2html($title)} ({count($annotation)} annotations) 
                                     </span>
                                     <div class="annotationsResults"></div>
                                </div>
@@ -539,9 +605,9 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
                         <div class="indent">
                          <h3>Texts</h3>
                          {
-                             for $r in $texts
-                             group by $work-id := document-uri(root($r))
-                             let $work := $r/ancestor-or-self::tei:TEI
+                             for $text in $texts
+                             group by $work-id := document-uri(root($text))
+                             let $work := $text/ancestor-or-self::tei:TEI
                              let $title := $work/descendant::tei:titleStmt/tei:title
                              let $url := concat($config:nav-base,'/work',substring-before(replace($work-id,$config:data-root,''),'.xml'))
                              order by normalize-space($title[1]) ascending
@@ -552,7 +618,7 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
                                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                     </button> 
                                     <a href="{$url}" class="link-to-work" data-toggle="tooltip" title="Go to work"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>&#160;
-                                    {tei2html:tei2html($title)} 
+                                    {tei2html:tei2html($title)} ({count($text)} texts)
                                     </span>
                                     <div class="textAnnotationsResults"></div>
                                </div>
@@ -560,36 +626,13 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
                         </div>
                 </div>
             else 
-                <div xmlns="http://www.w3.org/1999/xhtml"> 
+                <div xmlns="http://www.w3.org/1999/xhtml" class="contributor">
+                    <button class="getContributorAnnotations btn btn-link" data-toggle="tooltip" title="View annotations" data-contributor-id="{$id}">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    </button> 
                     <span class="browse-author-name">{string($hit/@name)}</span> ({$count} annotations)
-                        <div class="indent" id="show{$id}">{
-                            (
-                            <div class="indent">
-                                {
-                                    for $r at $p in $annotations
-                                    group by $work-id := document-uri(root($r))
-                                    let $work := $r/ancestor-or-self::tei:TEI
-                                    let $title := $work/descendant::tei:titleStmt/tei:title
-                                    let $url := concat($config:nav-base,'/work',substring-before(replace($work-id,$config:data-root,''),'.xml'))
-                                    for $group in subsequence($title,1,5)
-                                    order by normalize-space($title[1]) ascending
-                                    return 
-                                       <div class="annotations">
-                                           <span class="title">
-                                           <button class="getAnnotated btn btn-link" data-toggle="tooltip" title="View annotations" data-work-id="{$work-id}" data-contributor-id="{$id}">
-                                               <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                           </button> 
-                                           <a href="{$url}" class="link-to-work" data-toggle="tooltip" title="Go to work"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>&#160;
-                                           {tei2html:tei2html($title)} 
-                                           </span>
-                                           <div class="annotationsResults"></div>
-                                      </div>
-                                }
-                               </div>,
-                            if($count gt 5) then
-                                <div class="indent"><a href="?contributorID={$id}">All annotations <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a></div>
-                            else ())
-                        }</div>
+                    <span class="contributor-desc"></span>
+                    <div class="contributorAnnotationsResults"></div>
                 </div>            
             }
         </div>  
@@ -613,7 +656,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                 <span class="col-md-11">
                     <button class="getNestedResults btn btn-link" data-toggle="tooltip" title="View Works" data-author-id="{$author}">
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                    </button>{$author}
+                    </button>{$author} ({string($hit/@count)} {if(xs:integer($hit/@count) gt 1) then ' works' else ' work'})
                     <div class="nestedResults"></div>
                  </span>
             </div>           

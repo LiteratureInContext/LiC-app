@@ -23,14 +23,19 @@ let $id := document-uri(root($hit))
 let $title := $hit/descendant::tei:title[1]/text()
 let $expanded := kwic:expand($hit)
 return 
-    <div class="result row">
+    (<div class="result row">
         <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
         <span class="col-md-11">{(tei2html:summary-view($hit, (), $id[1])) }
             {if($expanded//exist:match) then  
                 <span class="result-kwic">{tei2html:output-kwic($expanded, $id)}</span>
              else ()}
         </span>
-    </div> 
+
+    </div>,
+    if($p = $perpage and count($hits) gt $perpage) then
+        <div class="get-more"><br/><a href="?authorID={$authorID}">All works <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a></div>
+    else ()
+    )
 (:
 authors
 let $author := $hit/descendant::tei:sourceDesc/descendant::tei:author

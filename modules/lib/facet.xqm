@@ -77,7 +77,7 @@ declare function facet:group-by($results as item()*, $facet-definitions as eleme
     return 
         if($sort/@direction = 'ascending') then 
             for $f in util:eval($path)
-            group by $facet-grp := $f
+            group by $facet-grp := normalize-space($f)
             order by 
                 if($sort/text() = 'value') then $f[1]
                 else count($f)
@@ -85,7 +85,7 @@ declare function facet:group-by($results as item()*, $facet-definitions as eleme
             return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
         else 
             for $f in util:eval($path)
-            group by $facet-grp := $f
+            group by $facet-grp := normalize-space($f)
             order by 
                 if($sort/text() = 'value') then $f[1]
                 else count($f)

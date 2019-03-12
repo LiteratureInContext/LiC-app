@@ -1,6 +1,24 @@
 /* Annotation functions.*/
 $(document).ready(function () {
            
+    //Get contributor contribution, 1st 5         getContributorAnnotations
+    $('.getContributorAnnotations').on('click', function(e){ // on change of state
+        e.preventDefault(e);
+        var contributorID = $(this).data('contributor-id');
+        var current = $(this) 
+        var $annotationsResults = $(current).closest('.contributor').find('.contributorAnnotationsResults');
+        //If annotation results are empty load via ajax, otherwise toggle to show or hide div
+         if($annotationsResults.is(':empty')){
+              $.get('modules/lib/annotations.xql', { contributorID: contributorID}, function(data) {
+                    $(current).closest('.contributor').find('.contributorAnnotationsResults').html(data);
+                }, "html"); 
+                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+            } else {
+              $annotationsResults.toggle();
+              $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+            }   
+    });
+    
     // Get annotated elements 
     $('.getAnnotated').on('click', function(e){ // on change of state
         e.preventDefault(e);
