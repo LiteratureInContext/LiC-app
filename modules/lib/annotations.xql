@@ -10,13 +10,45 @@ import module namespace data="http://LiC.org/data" at "data.xqm";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace html="http://www.w3.org/1999/xhtml";
 
-(: Get all the elements with annotations :)
-declare function local:get-annotated($tei as node()*, $contributor-id as xs:string?) {
+(: get first 5 annotations for specified contributor :)
+(:let $annotations := $model("records")//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $id]:)
+declare function local:get-annotations($contributorID as xs:string?) {
+<div xmlns="http://www.w3.org/1999/xhtml" class="indent">{
+    let $annotations := collection($config:data-root)//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $contributorID]
+    return 
+        (for $annotation at $p in $annotations
+        group by $workID := document-uri(root($annotation))
+        let $work := $annotation/ancestor-or-self::tei:TEI
+        let $title := $work/descendant::tei:titleStmt/tei:title
+        let $url := concat($config:nav-base,'/work',substring-before(replace($workID,$config:data-root,''),'.xml'))
+        for $group in subsequence($title,1,5)
+        order by normalize-space($title[1]) ascending
+        return 
+            <div class="annotations">
+                <span class="title">
+                    <button class="getAnnotated btn btn-link" data-toggle="tooltip" title="View annotations" data-work-id="{$workID}" data-contributor-id="{$contributorID}">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    </button> 
+                    <a href="{$url}" class="link-to-work" data-toggle="tooltip" title="Go to work"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>&#160;
+                    {tei2html:tei2html($title)} ({count($annotation)} annotations)</span>
+                    <div class="annotationsResults"></div>
+            </div>,
+        if(count($annotations) = 0) then
+            <p>No annotations at this time</p>
+        else if(count($annotations) gt 1) then
+            <div class="get-more"><br/><a href="contributors.html?contributorID={$contributorID}">See all annotations <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a></div>
+        else()    
+    )}
+</div>
+};
+
+(: Get all the elements with annotations for a specified work :)
+declare function local:get-annotated($tei as node()*, $contributorID as xs:string?) {
 <div xmlns="http://www.w3.org/1999/xhtml">{
-    let $annotations := $tei//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $contributor-id]
+    let $annotations := $tei//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $contributorID]
     for $annotation in $annotations
-    let $annotation-id := string($annotation/@xml:id)
-    let $snippet := $tei//*[@corresp= $annotation-id]
+    let $annotationID := string($annotation/@xml:id)
+    let $snippet := $tei//*[@corresp= $annotationID]
     return 
     <div>
         <span class="annotation-snippet">
@@ -31,9 +63,9 @@ declare function local:get-annotated($tei as node()*, $contributor-id as xs:stri
 };
 
 (: Get all the elements with annotations :)
-declare function local:get-text-annotations($tei as node()*, $contributor-id as xs:string?) {
+declare function local:get-text-annotations($tei as node()*, $contributorID as xs:string?) {
 <div xmlns="http://www.w3.org/1999/xhtml">{
-    let $annotations := $tei//tei:titleStmt//*[@ref= 'editors.xml#' || $contributor-id] | $tei//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $contributor-id]
+    let $annotations := $tei//tei:titleStmt//*[@ref= 'editors.xml#' || $contributorID] | $tei//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $contributorID]
     for $annotation in $annotations
     return 
     <div>
@@ -52,10 +84,10 @@ declare function local:get-text-annotations($tei as node()*, $contributor-id as 
 };
 
 (: Get annotations for selected element :)
-declare function local:get-annotation($tei as node()*, $contributor-id as xs:string?, $annotation-id as xs:string?) {
+declare function local:get-annotation($tei as node()*, $contributorID as xs:string?, $annotationID as xs:string?) {
 <div xmlns="http://www.w3.org/1999/xhtml">{
-    let $annotations := local:get-annotated($tei, $contributor-id)
-    let $annotation := $annotations//tei:text/descendant::tei:note[@xml:id = $annotation-id]
+    let $annotations := local:get-annotated($tei, $contributorID)
+    let $annotation := $annotations//tei:text/descendant::tei:note[@xml:id = $annotationID]
     return 
     <span class="annotation">{tei2html:annotations($annotation)} </span>
 }</div>    
@@ -88,6 +120,8 @@ return
                     <response status="fail">
                         <message>No TEI record found</message>
                     </response>)
+        else if($contributorID != '' and $doc = '') then 
+            local:get-annotations($contributorID)
         else 
             (response:set-status-code( 404 ),
                 <response status="fail">
