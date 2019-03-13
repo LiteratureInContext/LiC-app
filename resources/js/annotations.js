@@ -20,7 +20,7 @@ $(document).ready(function () {
     });
     
     // Get annotated elements 
-    $('.getAnnotated').on('click', function(e){ // on change of state
+    $('#content').on('click', '.getAnnotated', function(e){ // on change of state
         e.preventDefault(e);
         var workID = $(this).data('work-id');
         var contributorID = $(this).data('contributor-id');
