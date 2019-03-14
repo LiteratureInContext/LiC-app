@@ -232,9 +232,14 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .tei-addrLine {display:block; margin-left:2em;}
 .tei-body {display:block; margin:1em;}
 .tei-body .tei-head {display:block; font-weight:500; font-size:1.25em;}
+.tei-castList dl {display:block; margin-left:1em;}
+.tei-castList dt {font-weight:600; color:#444;}
+.tei-castList dd {margin-left:1em;}
+.tei-div {margin:1em 0;}
 .tei-distributor {display:block;}
 .tei-distributor .tei-email {display:block; margin-left:2em;}
-.tei-front {display:block; text-align:center; margin: 1em 0;}
+.tei-front {display:block; margin: 1em 0;}
+.tei-front .tei-titlePage {display:block; text-align:center;}
 .tei-footnote-id {display:block; font-size:1.25em; font-weight:500;}
 .tei-indent {text-indent:2em;}
 .results-list-desc .tei-imprint {display:inline; margin:inherit;}
@@ -244,9 +249,11 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .tei-l {display:block;}
 .tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top;}
 .tei-pb {display:block; margin:1.5em 0; border-top:1px double #ccc; text-align:center;}
+.tei-stage {display:block; padding:1em;}
+.tei-sp {padding-bottom:.5em;}
 .tei-teiHeader{display:block; margin:1em; text-align:center;}
 .title-sub {display:inline-block; margin-left:.5em;}
-.tei-titleStmt .tei-title {display:block;font-size:large; font-weight:600; margin:1em; padding:1em;}
+.tei-titleStmt .tei-title {display:block; font-size:large; font-weight:600; margin:1em; padding:1em;}
 .tei-titlePage { margin: 1em 0;}
 .tei-titlePart {font-weight:500; font-size:1.5em;}
 

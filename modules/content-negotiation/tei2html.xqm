@@ -34,6 +34,17 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             }
             case element(tei:category) return element ul {tei2html:tei2html($node/node())}
             case element(tei:catDesc) return element li {tei2html:tei2html($node/node())}
+            case element(tei:castList) return 
+                <div class="tei-castList">{(
+                    if($node/tei:head) then
+                        <h4 class="tei-head">{tei2html:tei2html($node/tei:head)}</h4>
+                    else (),
+                    element dl {tei2html:tei2html($node/tei:castItem)})}</div>
+            case element(tei:castItem) return
+                if($node/tei:role) then
+                  (<dt class="tei-castItem">{tei2html:tei2html($node/tei:role)}</dt>,
+                    <dd class="castItem">{tei2html:tei2html($node/tei:roleDesc)}</dd>)  
+                else <dt class="tei-castItem">{tei2html:tei2html($node/node())}</dt>
             case element(tei:foreign) return 
                 <span dir="{if($node/@xml:lang = ('syr','ar','^syr')) then 'rtl' else 'ltr'}">{
                     (if($node/@xml:lang) then attribute lang { $node/@xml:lang } else (),
@@ -71,7 +82,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                         (attribute id { $node/@xml:id }, <span class="tei-footnote-id">{string($node/@xml:id)}</span>)
                     else (),
                     tei2html:tei2html($node/node()),
-                    <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?author-id=AF">{substring-after($node/@resp,'#')}</a>]</span>
+                    <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($node/@resp,'#')}">{substring-after($node/@resp,'#')}</a>]</span>
                     )}</span>
                 else <span class="tei-{local-name($node)}">{ tei2html:tei2html($node/node()) }</span>
             case element(tei:pb) return 
@@ -92,6 +103,11 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                 <p xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
             case element(tei:rs) return (: create a new function for RSs to insert the content of specific variables; as is, content of the node is inserted as tooltip title. could use content of source attribute or link as the # ref :)
                <a href="#" data-toggle="tooltip" title="{tei2html:tei2html($node/node())}">{ tei2html:tei2html($node/node()) }</a>                
+            case element(tei:sp) return 
+                <div class="row tei-sp">
+                    <div class="col-md-3">{tei2html:tei2html($node/tei:speaker)}</div>
+                    <div class="col-md-9">{tei2html:tei2html($node/tei:l)}</div>
+                </div>
             case element(tei:seriesStmt) return 
                 if($node/tei:idno[@type="coursepack"]) then () 
                 else <span class="tei-{local-name($node)}">{ tei2html:tei2html($node/node()) }</span>

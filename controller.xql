@@ -53,8 +53,10 @@ else if($exist:resource = 'coursepack') then
 else if(contains($exist:path, "/coursepack/") or $exist:resource = 'coursepack') then 
     let $document := substring-after($exist:path,'/coursepack/')
     let $id := if(ends-with($document,('.html','/html'))) then
-                        replace($document,'/html|.html','')
-                   else $document
+                    replace($document,'/html|.html','')
+               else if(ends-with($document,('.xml','.tei','.pdf','.epub','.json','.atom','.rdf','.ttl','.txt'))) then
+                    replace($document,'.xml|.tei|.pdf|.epub|.json|.atom|.rdf|.ttl|.txt','')
+               else $document
     let $document := substring-after($exist:path,'/coursepack/')
     let $format := fn:tokenize($document, '\.')[fn:last()]
     return 
