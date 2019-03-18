@@ -144,9 +144,12 @@ body {
 /* contributors */
 .contributors .search-string {visibility: hidden;}
 .contributors .browse-author-name {font-size: 1.15em; font-weight:500; color:#555;}
-
+.contributor-desc{margin-left:3em;}
 /* Footer */
-footer .banner {min-height:50px; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A; background-image: url(../images/banner.png);}
+footer .banner {
+    min-height:50px; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A; 
+    background-image: url(../images/banner.png);
+    }
 footer .copyright{padding-top:1em;border-top:2px solid #A18C6A;}
 footer ul.funders {list-style-type: none;  margin-top:.5em; padding-top:0;}
 footer ul.funders li {display:inline;}

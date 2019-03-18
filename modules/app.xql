@@ -528,7 +528,10 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
         map { "hits" := 
                     if(request:get-parameter('view', '') = 'author') then
                         for $hit in $hits
-                        let $author := normalize-space($hit/descendant::tei:sourceDesc/descendant::tei:author)
+                        let $author := $hit/descendant::tei:titleStmt/descendant::tei:author
+                       (: let $name := normalize-space(string-join((if($author/tei:name/@reg) then string($author/tei:name/@reg) 
+                                     else if($author/tei:name/tei:surname) then concat(string-join($author/tei:name/tei:surname,' '),',',string-join($author/tei:name/tei:forename,' '))
+                                     else $author//text()),' ')):)
                         group by $facet-grp-p := $author[1]
                         order by normalize-space(string($facet-grp-p)) ascending
                         return 
@@ -550,11 +553,11 @@ declare %templates:wrap function app:list-contributors($node as node(), $model a
                     if(request:get-parameter('contributorID', '') != '') then 
                         for $n in $contributors[@xml:id = request:get-parameter('contributorID', '')]
                         order by $n/descendant::tei:surname[1]
-                        return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}" name="{string-join($n//text(),' ')}"/>
+                        return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>
                     else 
                         for $n in $contributors
                         order by $n/descendant::tei:surname[1]
-                        return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}" name="{string-join($n//text(),' ')}"/>,
+                        return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>,
                "records" := $hits                 
                     
             }  
@@ -579,7 +582,23 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
             {
             if(request:get-parameter('contributorID', '') != '') then
                 <div xmlns="http://www.w3.org/1999/xhtml"> 
-                    <span class="browse-author-name">{string($hit/@name)}</span> ({$count} annotations, {count($texts)} texts)
+                    <span class="browse-author-name">{concat(string-join($hit/tei:person/tei:persName/tei:surname,' '),', ',string-join($hit/tei:person/tei:persName/tei:forename,' '))}</span> 
+                        {if($count gt 0) then
+                            concat(' (',$count,' annotations)')
+                        else ()}
+                        <div class="contributor-desc">{(
+                            if($hit/tei:person/tei:occupation) then 
+                                (for $r at $p in $hit/tei:person/tei:occupation
+                                 return (tei2html:tei2html($r), if($p lt count($hit/tei:person/tei:occupation)) then ', ' else ()),
+                                 if($hit/tei:person/tei:affiliation[. != '']) then ', ' else ())
+                            else (),
+                            if($hit/tei:person/tei:affiliation) then 
+                                tei2html:tei2html($hit/tei:person/tei:affiliation)
+                            else (),
+                           if($hit/tei:person/tei:note) then 
+                               <p>{ tei2html:tei2html($hit/tei:person/tei:note)}</p>
+                            else ()
+                            )}</div>
                         <div class="indent">
                          <h3>Annotations</h3>
                          {
@@ -630,8 +649,23 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
                     <button class="getContributorAnnotations btn btn-link" data-toggle="tooltip" title="View annotations" data-contributor-id="{$id}">
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </button> 
-                    <span class="browse-author-name">{string($hit/@name)}</span> ({$count} annotations)
-                    <span class="contributor-desc"></span>
+                    <span class="browse-author-name">{concat(string-join($hit/tei:person/tei:persName/tei:surname,' '),', ',string-join($hit/tei:person/tei:persName/tei:forename,' '))}</span> 
+                    {if($count gt 0) then
+                        concat(' (',$count,' annotations)')
+                    else ()}
+                    <div class="contributor-desc">{(
+                        if($hit/tei:person/tei:occupation) then 
+                            (for $r at $p in $hit/tei:person/tei:occupation
+                             return (tei2html:tei2html($r), if($p lt count($hit/tei:person/tei:occupation)) then ', ' else ()),
+                             if($hit/tei:person/tei:affiliation[. != '']) then ', ' else ())
+                        else (),
+                        if($hit/tei:person/tei:affiliation) then 
+                            tei2html:tei2html($hit/tei:person/tei:affiliation)
+                        else (),
+                       if($hit/tei:person/tei:note) then 
+                           <p>{ tei2html:tei2html($hit/tei:person/tei:note)}</p>
+                        else ()
+                        )}</div>
                     <div class="contributorAnnotationsResults"></div>
                 </div>            
             }
