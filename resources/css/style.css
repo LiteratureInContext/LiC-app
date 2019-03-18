@@ -3,7 +3,7 @@
     Dark blue: #122141
     Light blue: #6386A5
     Yellow/gold: #A18C6A
-    light yello: #E8E3DD
+    light yellow: #E8E3DD
     Neutral/grey: #777
 */
 /* Base font */
@@ -13,12 +13,23 @@ body {
   font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
 }
 /* Navbar styles */
+.nav-container {
+    height:100px;
+    background-image:url(../images/banner.png);
+    background-size:cover;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom:4px solid #A18C6A;
+}
 .navbar {margin-bottom:0;}
 .banner {height:25px; background-image: url(../images/banner.png);}
-.navbar {background-color:white; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A;}
+.navbar {background-color:white; border-top: 2px solid #42566D; border-bottom: 2px solid #42566D;}
 .navbar .logo img {vertical-align:text-bottom;}
 .navbar-brand {padding-left: 2em; margin-top:-.25em; margin-bottom:-.25em; font-size: 28px;}
-.navbar-brand a {color:#122141 !important;}
+.navbar-brand a {color:#777 !important;}
+.navbar-brand a:hover{
+    text-decoration: none;
+}
 .navbar-searchbox { max-width: 250px;}
   
 /* Home page */
@@ -26,7 +37,8 @@ body {
     height:450px; 
     margin:-5em; 
     padding:0 10%; 
-    background-image: url(../images/home-page.png); 
+    /*background-image: url(../images/home-page.png);*/
+    background-color: #696E7A;
     background-size:cover;
     border-bottom: 2px solid #A18C6A;
     }  
@@ -134,10 +146,10 @@ body {
 .contributors .browse-author-name {font-size: 1.15em; font-weight:500; color:#555;}
 
 /* Footer */
-footer .banner {min-height:25px; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A; background-image: url(../images/banner.png);}
-footer ul.funders {display:inline; list-style-type: none;}
+footer .banner {min-height:50px; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A; background-image: url(../images/banner.png);}
+footer ul.funders {list-style-type: none;  margin-top:-1.5em; padding-top:0;}
 footer ul.funders li {display:inline;}
-footer ul.funders li img {margin:1em;}
+footer ul.funders li img {margin:0 1em;}
 footer {text-align:center;}
 
 /* Typography */
@@ -187,6 +199,11 @@ form#search {margin-top:-1.5em; padding-top:0;}
 /*.pageImage img {border:1px solid #F4F1E9; border-radius: 4px;}*/
 .caption {display:block; font-size:small; text-align:center;}
 .footnote {display:none;}
+.footnoteRef.text{
+    font-size:inherit;
+    text-decoration:underline;
+}
+sup.footnoteRef{display:none;}
 .footnoteRef {    
     font-size: .75em;
     line-height: 0.5em;

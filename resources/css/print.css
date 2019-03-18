@@ -82,7 +82,7 @@
   /* hide buttons */
   #link-icons, #moreInfo,.btn, .helper {display:none;}
   .footnote-refs {display:inline !important; text-decoration:none;}
-    
+  .footnoteRef.show-print{display:inline;}  
    a:not(:local-link):after {
    content:" <" attr(href) "> ";
     }

@@ -191,10 +191,13 @@ declare function tei2html:hi($node as element (tei:hi)) {
 };
 
 declare function tei2html:ref($node as element (tei:ref)) {
-    if($node/@corresp) then 
-      ($node, ' ', <sup class="tei-ref footnoteRef"><a href="#{string($node/@corresp)}" class="showFootnote">{string($node/@corresp)}</a></sup>)  
+    if($node/@corresp) then
+        (<span class="footnoteRef text">
+            <a href="#{string($node/@corresp)}" class="showFootnote">{tei2html:tei2html($node/node())}</a>
+            <sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup>
+        </span>,' ')  
     else if(starts-with($node/@target,'http')) then 
-        <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
+        (<a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>,' ')
     else tei2html:tei2html($node/node())
 };
 

@@ -155,15 +155,19 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
             (: R :)
             case element(tei:ref) return
                    if($node/@corresp) then 
-                        ($node, ' ', 
-                        <fo:inline baseline-shift="super" font-size="8pt">
-                            <fo:basic-link internal-destination="{
+                        (
+                        <fo:basic-link internal-destination="{
                             if($p gt 1) then 
                                 concat('work',$p,'-',string($node/@corresp)) 
                             else string($node/@corresp
                             )
-                            }">{$tei2fo:link-attributes}{string($node/@corresp)}</fo:basic-link>
-                        </fo:inline>)  
+                            }">
+                        <fo:inline text-decoration="underline">{tei2fo:tei2fo($node/node(),$p)}</fo:inline>, 
+                        <fo:inline baseline-shift="super" font-size="8pt">
+                            {$tei2fo:link-attributes}{string($node/@corresp)}
+                        </fo:inline>
+                        </fo:basic-link>
+                        )  
                    else if(starts-with($node/@target,'http')) then 
                       <fo:basic-link external-destination="url({$node/@target})">{$tei2fo:link-attributes}{tei2fo:tei2fo($node/node(),$p)}</fo:basic-link>
                    else tei2fo:tei2fo($node/node(),$p)            
@@ -227,6 +231,7 @@ declare %private function tei2fo:get-id($node as element(), $p) {
 
 (: Footnotes section :)
 declare function tei2fo:footnotes($nodes,$p) {
+if($nodes//tei:note[@target]) then 
 <fo:block>
     <fo:block>{$tei2fo:h2}Footnotes</fo:block> 
         <fo:table>{$tei2fo:basic-block-element-attributes}
@@ -253,6 +258,7 @@ declare function tei2fo:footnotes($nodes,$p) {
          </fo:table-body>
      </fo:table>
 </fo:block>
+else ()
 };
 
 (: Coursepacks section :)
@@ -349,7 +355,7 @@ declare function tei2fo:table-of-contents($data as element()) {
                 return
                     <fo:block space-after="3mm">
                         <fo:block text-align-last="justify">
-                            {$toc/tei:head/text()}
+                            {$toc/tei:head/descendant-or-self::*[not(self::tei:note)]/text()}
                             <fo:leader leader-pattern="dots"/>
                             <fo:page-number-citation ref-id="{generate-id($toc)}"/>
                         </fo:block>
