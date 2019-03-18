@@ -79,8 +79,8 @@ declare %private function app:parse-href($href as xs:string) {
 
 (:~
  : Dynamically build featured items on homepage carousel
+ : Takes options specified in repo-config and fetches appropriate content, or prints out HTML
 :)
-
 declare function app:create-featured-slides($node as node(), $model as map(*)) {
     let $featured := $config:get-config//repo:featured
     for $slide in $featured/repo:slide

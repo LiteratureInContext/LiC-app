@@ -39,8 +39,11 @@ declare function data:get-document() {
 :)
 declare function data:get-coursepacks() {
     if(request:get-parameter('id', '') != '') then 
-        (collection($config:app-root || '/coursepacks')/coursepack[@id = request:get-parameter('id', '')],
-        collection($config:data-root)/tei:TEI[descendant::tei:idno[@type='coursepack'][. = request:get-parameter('id', '')]])
+        let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = request:get-parameter('id', '')]
+        let $docs := for $rec in $coursepack//work
+                     return doc(string($rec/@id))
+        return 
+            ($coursepack, $docs)
     else 
         collection($config:app-root || '/coursepacks') 
 };
@@ -51,7 +54,8 @@ declare function data:get-coursepacks() {
 :)
 declare function data:search-coursepacks() {
     if(request:get-parameter('id', '') != '') then 
-        let $eval-string := concat("collection('",$config:data-root,"')/tei:TEI[descendant::tei:idno[@type='coursepack'][. = '",request:get-parameter('id', ''),"']]",data:create-query())
+        let $coursepack := data:get-coursepacks()
+        let $eval-string := concat("$coursepack/tei:TEI",data:create-query())
         return  
             if(request:get-parameter('sort-element', '') != ('','relevance')) then 
                 for $hit in util:eval($eval-string)
@@ -61,7 +65,7 @@ declare function data:search-coursepacks() {
                 for $hit in util:eval($eval-string)
                 order by ft:score($hit) descending
                 return $hit
-    else ()
+    else ()  
 };
 
 (:~

@@ -11,7 +11,7 @@ declare namespace html="http://purl.org/dc/elements/1.1/";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace util="http://exist-db.org/xquery/util";
-declare boundary-space preserve;
+(:declare boundary-space preserve;:)
 
 (:~
  : Simple TEI to HTML transformation
@@ -174,14 +174,14 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
 
 declare function tei2html:graphic($node as element (tei:graphic)) {
     <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">
-        {attribute src { $node/@url },
+        {(attribute src { $node/@url },
         if($node/@width) then 
             attribute width { $node/@width }
         else (),
         if($node/@style) then 
             attribute style { $node/@style }
         else ()
-        }
+        )}
     </img>
 };
 
