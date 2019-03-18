@@ -108,6 +108,7 @@ declare function app:create-featured-slides($node as node(), $model as map(*)) {
                             else ()}
                             <div class="coursepack {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
                             <h3>Featured Coursepack</h3>
+                            {if($slide/child::*) then $slide/child::* else ()}
                             <h4>{string($coursepack/coursepack/@title)} ({count($coursepack//work)} works)</h4>
                             <p>{$coursepack/coursepack/desc/text()}</p>
                             <ol>{(
@@ -132,6 +133,7 @@ declare function app:create-featured-slides($node as node(), $model as map(*)) {
                             else ()}
                             <div class="work {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
                             <h3>Featured Work</h3>
+                            {if($slide/child::*) then $slide/child::* else ()}
                             {tei2html:summary-view($work, (), $workPath)}
                             </div>
                         </div>

@@ -1,10 +1,10 @@
 <facets xmlns="http://expath.org/ns/facet">
     <facet-definition name="Author">
-        <group-by>
-            <sub-path>descendant::tei:sourceDesc/descendant::tei:author</sub-path>
+        <group-by function="facet:group-by-author">
+            <sub-path>descendant::tei:titleStmt/descendant::tei:author/tei:persName/tei:name</sub-path>
         </group-by>
         <max-values show="10">60</max-values>
-        <order-by direction="ascending">value</order-by>
+        <order-by direction="descending">value</order-by>
     </facet-definition>
     <facet-definition name="Place of Publication">
         <group-by>
@@ -42,7 +42,7 @@
     </facet-definition>
     <facet-definition name="Contributor">
         <group-by function="facet:group-by-contributor">
-            <sub-path></sub-path>
+            <sub-path/>
         </group-by>
         <max-values show="10">60</max-values>
         <order-by direction="descending">value</order-by>

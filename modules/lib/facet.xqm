@@ -321,4 +321,16 @@ declare function facet:group-by-contributor($results as item()*, $facet-definiti
             <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$contributorID}" label="{$label}"/>    
 };
 
+declare function facet:group-by-author($results as item()*, $facet-definitions as element(facet:facet-definition)?) {
+    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
+    let $sort := $facet-definitions/facet:order-by
+    for $f in util:eval($path)
+    let $label := if($f/tei:surname) then concat(string-join($f/tei:surname,' '),', ',string-join($f/tei:forename,' ')) else $f//text()
+    group by $facet-grp := $f
+    order by $label[1] ascending      
+    return 
+        <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$label[1]}"/>    
+};
+
+
 
