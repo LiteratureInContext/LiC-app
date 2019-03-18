@@ -91,9 +91,10 @@
                     e.preventDefault();
                     var link = $(this);
                     var href = $(this).attr('href');
-                    var content = $(href).html()
+                    var content = $(href).closest('.footnote').html()
                     $('#footnoteDisplay').css('display','block');
                     $('#footnoteDisplay').css({'top':e.pageY-95,'left':e.pageX+25, 'position':'absolute'});
-                    $('#footnoteDisplay div.content').html( content );    
+                    $('#footnoteDisplay div.content').html( content ); 
+                    console.log(href)
                 });
             });
