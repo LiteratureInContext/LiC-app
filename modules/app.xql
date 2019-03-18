@@ -528,14 +528,15 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
         map { "hits" := 
                     if(request:get-parameter('view', '') = 'author') then
                         for $hit in $hits
-                        let $author := $hit/descendant::tei:titleStmt/descendant::tei:author
-                       (: let $name := normalize-space(string-join((if($author/tei:name/@reg) then string($author/tei:name/@reg) 
-                                     else if($author/tei:name/tei:surname) then concat(string-join($author/tei:name/tei:surname,' '),',',string-join($author/tei:name/tei:forename,' '))
-                                     else $author//text()),' ')):)
-                        group by $facet-grp-p := $author[1]
+                        let $author := $hit/descendant::tei:titleStmt/descendant::tei:author/tei:persName/tei:name
+                        let $name := normalize-space(string-join((if($author/@reg) then string($author/@reg) 
+                                     else if($author/tei:surname) then 
+                                        concat(string-join($author/tei:surname,' '),', ',string-join($author/tei:forename,' '))
+                                     else $author//text()),' '))
+                        group by $facet-grp-p := $name[1]
                         order by normalize-space(string($facet-grp-p)) ascending
                         return 
-                            <author xmlns="http://www.w3.org/1999/xhtml" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}">
+                            <author xmlns="http://www.w3.org/1999/xhtml" key="{normalize-space(string-join(($author[1]),''))}" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}">
                                 {$hit}
                             </author>
                     else $hits
@@ -688,7 +689,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
         return 
             <div class="result row">
                 <span class="col-md-11">
-                    <button class="getNestedResults btn btn-link" data-toggle="tooltip" title="View Works" data-author-id="{$author}">
+                    <button class="getNestedResults btn btn-link" data-toggle="tooltip" title="View Works" data-author-id="{string($hit/@key)}">
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </button>{$author} ({string($hit/@count)} {if(xs:integer($hit/@count) gt 1) then ' works' else ' work'})
                     <div class="nestedResults"></div>

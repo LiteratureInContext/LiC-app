@@ -76,7 +76,7 @@ declare function data:search-coursepacks() {
 declare function data:search() {
     let $facet-config-file := 'facet-def.xml'
     let $filters := if(request:get-parameter('authorID', '')) then 
-                        concat("[descendant::tei:sourceDesc/descendant::tei:author[normalize-space(.) = '",request:get-parameter('authorID', ''),"']]")
+                        concat("[descendant::tei:titleStmt/descendant::tei:author/tei:persName/tei:name[normalize-space(.) = '",request:get-parameter('authorID', ''),"']]")
                     else()
     let $queryExpr := concat(data:create-query(), $filters)                   
     let $docs := 
