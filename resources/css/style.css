@@ -147,7 +147,8 @@ body {
 
 /* Footer */
 footer .banner {min-height:50px; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A; background-image: url(../images/banner.png);}
-footer ul.funders {list-style-type: none;  margin-top:-1.5em; padding-top:0;}
+footer .copyright{padding-top:1em;border-top:2px solid #A18C6A;}
+footer ul.funders {list-style-type: none;  margin-top:.5em; padding-top:0;}
 footer ul.funders li {display:inline;}
 footer ul.funders li img {margin:0 1em;}
 footer {text-align:center;}
