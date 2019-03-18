@@ -499,7 +499,7 @@ let $pagination-links :=
                     if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
                     else(),
                     if($search-string != '') then   
-                        <li class="pull-right"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
+                        <li class="pull-right"><a href="{request:get-url()}"><span class="glyphicon glyphicon-search"/> New</a></li>
                     else() 
                     )}
                 </ul>
