@@ -18,6 +18,7 @@ xquery version "3.0";
 
 module namespace facet = "http://expath.org/ns/facet";
 
+import module namespace config="http://LiC.org/config" at "config.xqm";
 import module namespace functx="http://www.functx.com";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
@@ -193,6 +194,8 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
                         else concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" ]]')
                     else if($facet/facet:group-by[@function="facet:group-by-array"]) then 
                         concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')                     
+                    else if($facet/facet:group-by[@function="facet:group-by-contributor"]) then 
+                         concat('[descendant::tei:titleStmt/descendant::*[@ref = "editors.xml#', $facet-value,'"] or descendant::tei:note[@resp = "editors.xml#',$facet-value,'"]]')
                     else concat('[',$path,'[normalize-space(.) = "',replace($facet-value,'"','""'),'"]',']')
                 else()
         ,'')
@@ -297,3 +300,25 @@ return
     else()
 )    
 };
+
+(: Facet on contributors :)
+(:~
+ : LiC specific group-by function for contributors.
+:)
+declare function facet:group-by-contributor($results as item()*, $facet-definitions as element(facet:facet-definition)?) {
+    let $sort := $facet-definitions/facet:order-by
+    for $f in $results/descendant::tei:titleStmt/descendant::*/@ref[starts-with(.,"editors.xml#")] | 
+              $results/descendant::tei:note/@resp[starts-with(.,"editors.xml#")]
+    group by $facet-grp := $f
+    order by $facet-grp      
+    return 
+        let $contributors := doc($config:data-root || '/editors.xml')//tei:listPerson/tei:person
+        let $contributorID := replace($facet-grp,'editors.xml#','')
+        let $contributor := $contributors[@xml:id = $contributorID]
+        let $label := if($contributor/tei:persName/tei:surname) then concat(string-join($contributor/tei:persName/tei:surname,' '),', ',string-join($contributor/tei:persName/tei:forename,' ')) else $contributor/tei:persName/text()  
+        where $contributorID != '' and not(empty($contributor)) 
+        return 
+            <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$contributorID}" label="{$label}"/>    
+};
+
+
