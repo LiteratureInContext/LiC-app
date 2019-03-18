@@ -11,6 +11,7 @@ declare namespace html="http://purl.org/dc/elements/1.1/";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace util="http://exist-db.org/xquery/util";
+declare boundary-space preserve;
 
 (:~
  : Simple TEI to HTML transformation
@@ -76,13 +77,19 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(tei:note) return 
                 if($node/@target) then 
                     <span class="tei-{local-name($node)} footnote 
-                        {(if($node/@type != '') then string($node/@type) else (), if($node/@place != '') then string($node/@place) else ())}">
+                        {(
+                            if($node/@type != '') then string($node/@type) 
+                            else (), 
+                            if($node/@place != '') then string($node/@place) 
+                            else ())}">
                     {(
                     if($node/@xml:id) then 
-                        (attribute id { $node/@xml:id }, <span class="tei-footnote-id">{string($node/@xml:id)}</span>)
+                       <span class="tei-footnote-id" id="{ string($node/@xml:id) }">{string($node/@xml:id)}</span>
                     else (),
                     tei2html:tei2html($node/node()),
-                    <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($node/@resp,'#')}">{substring-after($node/@resp,'#')}</a>]</span>
+                    if($node/@resp) then
+                        <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($node/@resp,'#')}">{substring-after($node/@resp,'#')}</a>]</span>
+                    else ()
                     )}</span>
                 else <span class="tei-{local-name($node)}">{ tei2html:tei2html($node/node()) }</span>
             case element(tei:pb) return 
@@ -192,12 +199,12 @@ declare function tei2html:hi($node as element (tei:hi)) {
 
 declare function tei2html:ref($node as element (tei:ref)) {
     if($node/@corresp) then
-        (<span class="footnoteRef text">
+        <span class="footnoteRef text">
             <a href="#{string($node/@corresp)}" class="showFootnote">{tei2html:tei2html($node/node())}</a>
             <sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup>
-        </span>,' ')  
+        </span>
     else if(starts-with($node/@target,'http')) then 
-        (<a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>,' ')
+        <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
     else tei2html:tei2html($node/node())
 };
 
@@ -225,9 +232,9 @@ declare function tei2html:annotations($node as node()*) {
 
 declare %private function tei2html:get-id($node as element()) {
     if($node/@xml:id) then
-        $node/@xml:id
+        string($node/@xml:id)
     else if($node/@exist:id) then
-        $node/@exist:id
+        string($node/@exist:id)
     else generate-id($node)
 };
 
