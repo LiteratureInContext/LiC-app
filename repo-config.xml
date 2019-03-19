@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </slide>
-            <slide type="image" imageURL="resources/images/LiC-splash.jpg" imageDesc="Image of Literature in Context application possibilities." order="4"/>
+            <slide imageURL="resources/images/LiC-splash.jpg" imageDesc="Image of Literature in Context application possibilities." order="4"/>
             <slide type="recentWork" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/>
             <slide type="work" id="/work/Behn/behn-rover" imageURL="/resources/images/Behn.jpg" imageDesc="" order="3"/>
             <!--<slide type="coursepack" id="Poems2" imageURL="/resources/images/Equiano.jpg" imageDesc="" order="4"/>-->
