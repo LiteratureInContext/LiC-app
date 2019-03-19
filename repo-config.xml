@@ -11,7 +11,7 @@
         <!-- Web Site URL -->
         <url/>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base>/exist/apps/LiC</nav-base>
+        <nav-base/>
         <!-- eXist app root for app deployment-->
         <app-root>LiC</app-root>
         <!-- eXist data app root for gazetteer data -->
@@ -28,13 +28,6 @@
         <base_uri/>
         <!-- NOTE: may not need this for LiC. xpath to unique identifier for record, syriaca.org uses tei:idno[@type='URL'], this is the default value -->
         <id-path/>
-        <!-- Easy way to set featured items on home page slider  -->
-        <!-- Options:
-            <slide type="text|coursepack|work" id="" imageURL="" order=""></coursepack>
-            Additions? 
-            The featured works or perhaps newest additions would be good.
-            featured works (or authors?) and recently added works would be grand
-        -->
         <featured>
             <slide type="text" imageURL="" imageDesc="" order="1">
                 <div class="row">
@@ -42,13 +35,14 @@
                         <img src="resources/images/LiC-splash.jpg" alt="Image of Literature in Context application possibilities." width="98%"/>
                     </div>
                     <div class="col-md-4">
-                        <p><em>Literature in Context: An Open Anthology of Literature</em>, 1660-1830, is a web-accessible and mobile-friendly digital anthology of curated, contextualized, machine-readable literature in English designed for use by students, teachers, and the general public.    </p>
+                        <p>
+                            <em>Literature in Context: An Open Anthology of Literature</em>, 1660-1830, is a web-accessible and mobile-friendly digital anthology of curated, contextualized, machine-readable literature in English designed for use by students, teachers, and the general public.    </p>
                         <p>Because we anticipate these pieces being used in the classroom, it is essential that the material be authoritative, citable, and printable. Therefore, one of the key innovations of <em>Literature in Context</em> is the ability for users to create coursepacks that live both online and in print.     </p>     
                     </div>
-                  </div>
+                </div>
             </slide>
             <slide type="recentWork" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/>
-            <slide type="work" id="/work/Behn/behn_rover" imageURL="/resources/images/Behn.jpg" imageDesc="" order="3"/>
+            <slide type="work" id="/work/Behn/behn-rover" imageURL="/resources/images/Behn.jpg" imageDesc="" order="3"/>
             <!--<slide type="coursepack" id="Poems2" imageURL="/resources/images/Equiano.jpg" imageDesc="" order="4"/>-->
         </featured>
     </config>
