@@ -31,10 +31,10 @@
         <featured>
             <slide type="text" imageURL="" imageDesc="" order="1">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <img src="resources/images/Wheatley.jpg" alt="Image of Philis Wheatley." width="98%"/>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <p><em>Literature in Context: An Open Anthology of Literature, 1660-1830</em>, is a web-accessible and mobile-friendly digital anthology of curated, contextualized, machine-readable literature in English designed for use by students, teachers, and the general public. Because we anticipate these pieces being used in the classroom, it is essential that the material be authoritative, citable, and printable--therefore, users can create custom coursepacks that live both online and in print.</p>
                         <p>At once an Open Educational Resource and a digital humanities project that seeks to bring to life the literature of the long eighteenth century, Literature in Context also provides resources to help instructors at the college level engage students in the task of editing and annotating literary texts that can be added to the collection. By including students in the production of the anthology, the project will foreground how the public construction of knowledge is essential to understanding the modern world.</p>
                         <p>Sponsored by funding from the National Endowment for the Humanities, and led by teams of scholars, students, and librarians at Marymount University and the University of Virginia, our goal is a platform for establishing authoritative, contextualized works that teachers and students can use with confidence. In this way, we hope to provide a tool for the thoughtful, collaborative editing and dissemination of our shared humanistic heritage.</p>
