@@ -1,9 +1,9 @@
 xquery version "3.1";
 
 (:~ 
- : Webhook endpoint for code repository, /master/ branch: 
- : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests from the master branch.¨ 
- : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret. ¨
+ : Webhook endpoint for Syrica.org data repository, /master/ branch: 
+ : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests from the master branch.  
+ : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret.  
  :
  : Secret can be stored as environmental variable.
  : Will need to be run with administrative privileges, suggest creating a git user with privileges only to relevant app.
@@ -31,7 +31,7 @@ declare namespace syriaca = "http://syriaca.org";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 (: Access git-api configuration file :) 
-declare variable $git-config := if(doc('../../access-config.xml')) then doc('../../access-config.xml') else <response status="fail"><message>Load access-config.xml file please.</message></response>;
+declare variable $git-config := if(doc('../access-config.xml')) then doc('../access-config.xml') else <response status="fail"><message>Load config.xml file please.</message></response>;
 
 (: Private key for authentication :)
 declare variable $private-key := if($git-config//private-key-variable != '') then 
@@ -47,8 +47,11 @@ declare variable $exist-collection := $git-config//exist-collection/text();
 (: Github repository :)
 declare variable $repo-name := $git-config//repo-name/text();
 
-(:~â¨ 
- : Recursively creates new collections if necessaryâ¨ 
+(: GitHub Branch :)
+declare variable $branch := $git-config//github-branch/text();
+
+(:~  
+ : Recursively creates new collections if necessary  
  : @param $uri url to resource being added to db 
  :)
 declare function local:create-collections($uri as xs:string){
@@ -61,20 +64,17 @@ return
     else xmldb:create-collection($parent-collection, $collections)
 };
 
-declare function local:get-file-data($file-name, $contents-url){       
-let $branch := if($git-config//github-branch/text() != '') then concat('?ref=',$git-config//github-branch/text())  else '?ref=master'
-let $url := concat($contents-url,$file-name,$branch)
-let $raw-url := concat(replace(replace($contents-url,'https://api.github.com/repos/','https://raw.githubusercontent.com/'),'/contents','/master'),$file-name)            
-let $response :=  
-        http:send-request(<http:request http-version="1.1" href="{xs:anyURI($url)}" method="get">
+declare function local:get-file-data($file-name, $contents-url){
+let $url := concat($contents-url,'/',$file-name)       
+let $branch := if($branch != '') then concat('/',$branch)  else '/master'
+let $raw-url := concat(replace(replace($contents-url,'https://api.github.com/repos/','https://raw.githubusercontent.com/'),'/contents',$branch),$file-name)            
+return 
+        http:send-request(<http:request http-version="1.1" href="{xs:anyURI($raw-url)}" method="get">
                             {if($gitToken != '') then
                                 <http:header name="Authorization" value="{concat('token ',$gitToken)}"/>
                             else() }
                             <http:header name="Connection" value="close"/>
                         </http:request>)[2]
-let $responseJSON := parse-json(util:base64-decode($response))
-let $content := $responseJSON?content
-return util:base64-decode($content)                      
 };
 
 (:~
@@ -88,7 +88,7 @@ declare function local:do-update($commits as xs:string*, $contents-url as xs:str
     let $file-data := 
         if(contains($file-name,'.xar')) then ()
         else local:get-file-data($file,$contents-url)
-    let $resource-path := if($repo-name != '') then substring-before(replace($file,$repo-name,''),$file-name) else substring-before($file,$file-name) 
+    let $resource-path := substring-before(replace($file,$repo-name,''),$file-name)
     let $exist-collection-url := xs:anyURI(replace(concat($exist-collection,'/',$resource-path),'/$',''))        
     return 
         try {
@@ -122,18 +122,18 @@ declare function local:do-add($commits as xs:string*, $contents-url as xs:string
     let $file-data := 
         if(contains($file-name,'.xar')) then ()
         else local:get-file-data($file,$contents-url)
-    let $resource-path := if($repo-name != '') then substring-before(replace($file,$repo-name,''),$file-name) else substring-before($file,$file-name)
+    let $resource-path := substring-before(replace($file,$repo-name,''),$file-name)
     let $exist-collection-url := xs:anyURI(replace(concat($exist-collection,'/',$resource-path),'/$',''))
     return
         try {
              if(contains($file-name,'.xar')) then ()
              else if(xmldb:collection-available($exist-collection-url)) then 
                 <response status="okay">
-                    <message>{xmldb:store($exist-collection-url, xmldb:encode-uri($file-name), xs:base64Binary($file-data))}</message>
+                    <message>{xmldb:store($exist-collection-url, xmldb:encode-uri($file-name), $file-data)}</message>
                 </response>
              else
                 <response status="okay">
-                 {(local:create-collections($exist-collection-url),xmldb:store($exist-collection-url, xmldb:encode-uri($file-name), xs:base64Binary($file-data)))}
+                 {(local:create-collections($exist-collection-url),xmldb:store($exist-collection-url, xmldb:encode-uri($file-name), $file-data))}
                </response>  
                } catch * {
                (response:set-status-code( 500 ),
@@ -152,7 +152,7 @@ declare function local:do-add($commits as xs:string*, $contents-url as xs:string
 declare function local:do-delete($commits as xs:string*, $contents-url as xs:string?){
     for $file in $commits
     let $file-name := tokenize($file,'/')[last()]
-    let $resource-path := if($repo-name != '') then substring-before(replace($file,$repo-name,''),$file-name) else substring-before($file,$file-name) 
+    let $resource-path := substring-before(replace($file,$repo-name,''),$file-name)
     let $exist-collection-url := xs:anyURI(replace(concat($exist-collection,'/',$resource-path),'/$',''))
     return
         if(contains($file-name,'.xar')) then ()
@@ -201,7 +201,7 @@ declare function local:execute-webhook($post-data){
 if(not(empty($post-data))) then 
     let $payload := util:base64-decode($post-data)
     let $json-data := parse-json($payload)
-    let $branch := if($git-config//github-branch/text() != '') then $git-config//github-branch/text() else 'refs/heads/master'
+    let $branch := if($branch != '') then concat('refs/heads/',$branch) else 'refs/heads/master'
     return
         if($json-data?ref[. = $branch]) then 
              try {
