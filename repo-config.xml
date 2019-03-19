@@ -32,22 +32,23 @@
             <slide type="text" imageURL="" imageDesc="" order="1">
                 <div class="row">
                     <div class="col-md-8">
-                        <img src="resources/images/LiC-splash.jpg" alt="Image of Literature in Context application possibilities." width="98%"/>
+                        <img src="resources/images/Wheatley.jpg" alt="Image of Philis Wheatley." width="98%"/>
                     </div>
                     <div class="col-md-4">
-                        <p>
-                            <em>Literature in Context: An Open Anthology of Literature, 1660-1830</em>, is a web-accessible and mobile-friendly digital anthology of curated, contextualized, machine-readable literature in English designed for use by students, teachers, and the general public.    </p>
-                        <p>Because we anticipate these pieces being used in the classroom, it is essential that the material be authoritative, citable, and printable. Therefore, one of the key innovations of <em>Literature in Context</em> is the ability for users to create coursepacks that live both online and in print.     </p>
+                        <p><em>Literature in Context: An Open Anthology of Literature, 1660-1830</em>, is a web-accessible and mobile-friendly digital anthology of curated, contextualized, machine-readable literature in English designed for use by students, teachers, and the general public. Because we anticipate these pieces being used in the classroom, it is essential that the material be authoritative, citable, and printable--therefore, users can create custom coursepacks that live both online and in print.</p>
+                        <p>At once an Open Educational Resource and a digital humanities project that seeks to bring to life the literature of the long eighteenth century, Literature in Context also provides resources to help instructors at the college level engage students in the task of editing and annotating literary texts that can be added to the collection. By including students in the production of the anthology, the project will foreground how the public construction of knowledge is essential to understanding the modern world.</p>
+                        <p>Sponsored by funding from the National Endowment for the Humanities, and led by teams of scholars, students, and librarians at Marymount University and the University of Virginia, our goal is a platform for establishing authoritative, contextualized works that teachers and students can use with confidence. In this way, we hope to provide a tool for the thoughtful, collaborative editing and dissemination of our shared humanistic heritage.</p>
                     </div>
                 </div>
             </slide>
+            <slide type="work" id="/work/Behn/behn-rover" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/>
             <slide type="text" imageURL="" imageDesc="" order="4">
                 <div class="row">
-                        <img src="resources/images/LiC-splash.jpg" alt="Image of Literature in Context application possibilities." height="400px"/>
+                      <h2>Coursepacks</h2>
+                      <p>As a born-digital platform crafted with the needs of the classroom in mind, <em>Literature in Context</em> offers teachers the ability to create custom mini-anthologies or coursepacks with ease. They can be housed online for persistent digital access, but also formatted for printing and simplicity of citation. In later build-outs, Literature in Context will enable multiple skins that enable a variety of reading experiences, and we also plan to incorporate annotation tools like hypothes.is to make collaborative reading possible. </p>
                 </div>
             </slide>
-            <slide type="recentWork" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/>
-            <slide type="work" id="/work/Behn/behn-rover" imageURL="/resources/images/Behn.jpg" imageDesc="" order="3"/>
+            <!-- <slide type="recentWork" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/> -->
             <!--<slide type="coursepack" id="Poems2" imageURL="/resources/images/Equiano.jpg" imageDesc="" order="4"/>-->
         </featured>
     </config>
