@@ -32,12 +32,12 @@
             <slide type="text" imageURL="" imageDesc="" order="1">
                 <div class="row">
                     <div class="col-md-8">
-                        <img src="resources/images/LiC-splash.jpg" alt="Image of Literature in Context application possibilities." width="98%"/>
+                        <img src="resources/images/LiC-splash.jpg" alt="Image of Literature in Context application possibilities." width="75%"/>
                     </div>
                     <div class="col-md-4">
                         <p>
-                            <em>Literature in Context: An Open Anthology of Literature</em>, 1660-1830, is a web-accessible and mobile-friendly digital anthology of curated, contextualized, machine-readable literature in English designed for use by students, teachers, and the general public.    </p>
-                        <p>Because we anticipate these pieces being used in the classroom, it is essential that the material be authoritative, citable, and printable. Therefore, one of the key innovations of <em>Literature in Context</em> is the ability for users to create coursepacks that live both online and in print.     </p>     
+                            <em>Literature in Context: An Open Anthology of Literature, 1660-1830</em>, is a web-accessible and mobile-friendly digital anthology of curated, contextualized, machine-readable literature in English designed for use by students, teachers, and the general public.    </p>
+                        <p>Because we anticipate these pieces being used in the classroom, it is essential that the material be authoritative, citable, and printable. Therefore, one of the key innovations of <em>Literature in Context</em> is the ability for users to create coursepacks that live both online and in print.     </p>
                     </div>
                 </div>
             </slide>
