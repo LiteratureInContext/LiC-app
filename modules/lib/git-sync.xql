@@ -31,7 +31,7 @@ declare namespace syriaca = "http://syriaca.org";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 (: Access git-api configuration file :) 
-declare variable $git-config := if(doc('../access-config.xml')) then doc('../access-config.xml') else <response status="fail"><message>Load config.xml file please.</message></response>;
+declare variable $git-config := if(doc('../../access-config.xml')) then doc('../../access-config.xml') else <response status="fail"><message>Load config.xml file please.</message></response>;
 
 (: Private key for authentication :)
 declare variable $private-key := if($git-config//private-key-variable != '') then 
@@ -201,9 +201,9 @@ declare function local:execute-webhook($post-data){
 if(not(empty($post-data))) then 
     let $payload := util:base64-decode($post-data)
     let $json-data := parse-json($payload)
-    let $branch := if($branch != '') then concat('refs/heads/',$branch) else 'refs/heads/master'
+    let $workingbranch := if($branch != '') then concat('refs/heads/',$branch) else 'refs/heads/master'
     return
-        if($json-data?ref[. = $branch]) then 
+        if($json-data?ref[. = $workingbranch]) then 
              try {
                 if(matches(request:get-header('User-Agent'), '^GitHub-Hookshot/')) then
                     if(request:get-header('X-GitHub-Event') = 'push') then 
@@ -227,7 +227,7 @@ if(not(empty($post-data))) then
                     <message>Unacceptable headers {concat($err:code, ": ", $err:description)}</message>
                 </response>)
             }
-        else (response:set-status-code( 401 ),<response status="fail"><message>Not from the master branch.</message></response>)
+        else (response:set-status-code( 401 ),<response status="fail"><message>Not from the {$branch} branch.</message></response>)
 else    
             (response:set-status-code( 401 ),
             <response status="fail">
