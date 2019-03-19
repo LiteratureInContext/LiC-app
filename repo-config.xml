@@ -31,48 +31,25 @@
         <!-- Easy way to set featured items on home page slider  -->
         <!-- Options:
             <slide type="text|coursepack|work" id="" imageURL="" order=""></coursepack>
+            Additions? 
+            The featured works or perhaps newest additions would be good.
+            featured works (or authors?) and recently added works would be grand
         -->
         <featured>
             <slide type="text" imageURL="" imageDesc="" order="1">
-                <h3>About LiC</h3>
-                <p>An XML project that seeks to provide open-access, reliably-sourced, and collaboratively-constructed annotated editions of British and American literature of the long 18th century for classroom use. This project is funded by the National Endowment for the Humanities and developed by faculty at The University of Virginia and Marymount University.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor metus eget mauris tristique rhoncus. Vestibulum mattis, felis sed rhoncus tincidunt, ante metus luctus augue, in facilisis massa leo sit amet dolor. Vivamus est lacus, posuere et enim id, elementum consectetur mauris. Cras egestas dolor a massa volutpat gravida. Nullam tristique condimentum efficitur. Curabitur sed nisl ullamcorper, elementum libero ut, tincidunt erat. Vivamus mollis maximus dolor, quis imperdiet eros. Nulla ac dui at dui dictum luctus porttitor at quam. Quisque nec dictum odio.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor metus eget mauris tristique rhoncus. Vestibulum mattis, felis sed rhoncus tincidunt, ante metus luctus augue, in facilisis massa leo sit amet dolor. Vivamus est lacus, posuere et enim id, elementum consectetur mauris. Cras egestas dolor a massa volutpat gravida. Nullam tristique condimentum efficitur. Curabitur sed nisl ullamcorper, elementum libero ut, tincidunt erat. Vivamus mollis maximus dolor, quis imperdiet eros. Nulla ac dui at dui dictum luctus porttitor at quam. Quisque nec dictum odio.</p>
-            </slide>
-            <slide type="text" order="2">
-                <h3>About Coursepacks</h3>
                 <div class="row">
-                    <div class="col-md-4">
-                        <img src="resources/images/rambler-001.png" class="coursepack-logo pull-left" width="50%"/>
-                    </div>
                     <div class="col-md-8">
-                        <br/>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor metus eget mauris tristique rhoncus. Vestibulum mattis, felis sed rhoncus tincidunt, ante metus luctus augue, in facilisis massa leo sit amet dolor. Vivamus est lacus, posuere et enim id, elementum consectetur mauris. Cras egestas dolor a massa volutpat gravida. Nullam tristique condimentum efficitur. Curabitur sed nisl ullamcorper, elementum libero ut, tincidunt erat. Vivamus mollis maximus dolor, quis imperdiet eros. Nulla ac dui at dui dictum luctus porttitor at quam. Quisque nec dictum odio.</p>
-                        <p>
-                            <a href="coursepack">Explore Coursepacks <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
-                            </a>
-                        </p>
+                        <img src="resources/images/LiC-splash.jpg" alt="Image of Literature in Context application possibilities." width="98%"/>
                     </div>
-                </div>
-            </slide>
-            <slide type="coursepack" id="Poems2" imageURL="/resources/images/Equiano.jpg" imageDesc="" order="3"></slide>
-            <slide type="work"  id="/work/Behn/Behn_Rover" imageURL="/resources/images/Behn.jpg" imageDesc="" order="4"></slide>
-            <slide type="text" order="5">
-                <h3>Works of Phillis Wheatley</h3>
-                <div class="row">
                     <div class="col-md-4">
-                        <img src="resources/images/Wheatley.jpg" class="coursepack-logo" width="75%"/>
+                        <p><em>Literature in Context: An Open Anthology of Literature</em>, 1660-1830, is a web-accessible and mobile-friendly digital anthology of curated, contextualized, machine-readable literature in English designed for use by students, teachers, and the general public.    </p>
+                        <p>Because we anticipate these pieces being used in the classroom, it is essential that the material be authoritative, citable, and printable. Therefore, one of the key innovations of <em>Literature in Context</em> is the ability for users to create coursepacks that live both online and in print.     </p>     
                     </div>
-                    <div class="col-md-8">
-                        <br/>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse porttitor metus eget mauris tristique rhoncus. Vestibulum mattis, felis sed rhoncus tincidunt, ante metus luctus augue, in facilisis massa leo sit amet dolor. Vivamus est lacus, posuere et enim id, elementum consectetur mauris. Cras egestas dolor a massa volutpat gravida. Nullam tristique condimentum efficitur. Curabitur sed nisl ullamcorper, elementum libero ut, tincidunt erat. Vivamus mollis maximus dolor, quis imperdiet eros. Nulla ac dui at dui dictum luctus porttitor at quam. Quisque nec dictum odio.</p>
-                        <p>
-                            <a href="coursepack/WorksofPhillisWheatley3">Go to Coursepack <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
-                            </a>
-                        </p>
-                    </div>
-                </div>
+                  </div>
             </slide>
+            <slide type="recentWork" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/>
+            <slide type="work" id="/work/Behn/behn_rover" imageURL="/resources/images/Behn.jpg" imageDesc="" order="3"/>
+            <!--<slide type="coursepack" id="Poems2" imageURL="/resources/images/Equiano.jpg" imageDesc="" order="4"/>-->
         </featured>
     </config>
 </meta>

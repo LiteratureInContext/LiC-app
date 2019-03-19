@@ -196,6 +196,8 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
                         concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')                     
                     else if($facet/facet:group-by[@function="facet:group-by-contributor"]) then 
                          concat('[descendant::tei:titleStmt/descendant::*[@ref = "editors.xml#', $facet-value,'"] or descendant::tei:note[@resp = "editors.xml#',$facet-value,'"]]')
+                    else if($facet/facet:group-by[@function="facet:group-by-author"]) then 
+                         concat('[descendant::tei:titleStmt/descendant::tei:author/tei:persName/@key[. = "',$facet-value,'"]]')
                     else concat('[',$path,'[normalize-space(.) = "',replace($facet-value,'"','""'),'"]',']')
                 else()
         ,'')
@@ -325,8 +327,8 @@ declare function facet:group-by-author($results as item()*, $facet-definitions a
     let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
     let $sort := $facet-definitions/facet:order-by
     for $f in util:eval($path)
-    let $label := if($f/tei:surname) then concat(string-join($f/tei:surname,' '),', ',string-join($f/tei:forename,' ')) else $f//text()
-    group by $facet-grp := $f
+    let $label := if($f/tei:name/tei:surname) then concat(string-join($f/tei:name/tei:surname,' '),', ',string-join($f/tei:name/tei:forename,' ')) else $f/tei:name//text()
+    group by $facet-grp := $f/@key
     order by $label[1] ascending      
     return 
         <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$label[1]}"/>    
