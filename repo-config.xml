@@ -51,11 +51,7 @@
             <slide type="text" imageURL="" imageDesc="" order="4">
                 <div class="row">
                       <h2>Want to collaborate?</h2>
-                      <p>We are interested in collaborators at colleges and universities across the globe. If you're interested, please get in touch:</p>
-                      <p><img alt="twitter" style="border-width:0" src="$nav-base/resources/images/twitter.png" class="social-media"/>On twitter: LIC_anthology</p>
-                      <p><img alt="github" style="border-width:0" src="$nav-base/resources/images/github.png" class="social-media"/>On Github: LiteratureInContext</p>
-                      <p><img alt="email" style="border-width:0" src="$nav-base/resources/images/email.png" class="social-media"/>Email: LIC.open.anthology@gmail.com</p>
-
+                      <p>We are interested in collaborators at colleges and universities across the globe. If you're interested, please get in touch! On twitter, we're LIC_anthology, and on github we're LiteratureInContext. Send us an email at LIC.open.anthology at gmail.com.</p>
                 </div>
             </slide>
             <!-- <slide type="recentWork" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/> -->
