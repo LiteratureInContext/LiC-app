@@ -108,7 +108,6 @@ declare function app:create-featured-slides($node as node(), $model as map(*)) {
                             else ()}
                             <div class="coursepack {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
                             <h3>Featured Coursepack</h3>
-                            {if($slide/child::*) then $slide/child::* else ()}
                             <h4>{string($coursepack/coursepack/@title)} ({count($coursepack//work)} works)</h4>
                             <p>{$coursepack/coursepack/desc/text()}</p>
                             <ol>{(
@@ -133,10 +132,24 @@ declare function app:create-featured-slides($node as node(), $model as map(*)) {
                             else ()}
                             <div class="work {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
                             <h3>Featured Work</h3>
-                            {if($slide/child::*) then $slide/child::* else ()}
                             {tei2html:summary-view($work, (), $workPath)}
                             </div>
                         </div>
+                 else if($slide/@type = 'recentWork') then  
+                    let $works := 
+                        for $r in collection($config:data-root) 
+                        order by $r/descendant::tei:revisionDesc/tei:change[1]/@when
+                        return $r
+                    return    
+                    <div>
+                        <h3>Recently Published Works</h3>
+                        {
+                        for $w in subsequence($works,1,3)
+                        let $workPath := document-uri($w)
+                        return
+                            <div class="result">{tei2html:summary-view($w, (), $workPath)}</div>
+                        }  
+                   </div>
                 else $slide/child::*
             }</div>
         </li>
@@ -231,9 +244,9 @@ declare function app:page-images($node as node(), $model as map(*)){
             let $page-images-root := 
                     if($config:image-root != '') then  
                         concat($config:image-root,replace($folder, $config:data-root,''))
-                    else replace($folder,'/db/','/exist/')
+                    else replace($folder,'/db/','/')
             for $image in $model("data")//tei:pb[@facs]
-            let $src := concat($page-images-root,'/',string($image/@facs))
+            let $src := if(starts-with($image/@facs,'https://')) then string($image/@facs) else concat($page-images-root,'/',string($image/@facs))
             return 
              <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage">
                   <a href="{$src}"><img src="{$src}" width="100%"/></a>
