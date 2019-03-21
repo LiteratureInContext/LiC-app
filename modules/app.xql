@@ -562,10 +562,10 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
  : Simple browse works with sort options
  :)
 declare %templates:wrap function app:list-contributors($node as node(), $model as map(*)) {
-    let $contributors := doc($config:data-root || '/editors.xml')//tei:listPerson/tei:person
+    let $contributors := doc($config:data-root || '/editors.xml')//tei:person
     let $hits := data:search()    
     return          
-        map { "hits" := 
+        map { "hits" :=
                     if(request:get-parameter('contributorID', '') != '') then 
                         for $n in $contributors[@xml:id = request:get-parameter('contributorID', '')]
                         order by $n/descendant::tei:surname[1]
@@ -580,7 +580,7 @@ declare %templates:wrap function app:list-contributors($node as node(), $model a
 };
 
 (:~
- : Output the search result as a div, using the kwic module to summarize full text matches.            
+ : Output the contributors list            
 :)
 declare 
     %templates:wrap
@@ -590,10 +590,11 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
     let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
     let $id := string($hit/@id)
-    let $annotations := $model("records")//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $id]
-    let $texts := $model("records")//tei:titleStmt//*[@ref= 'editors.xml#' || $id] | $model("records")//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $id]
+    let $annotations := count($model("records")//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $id])
+    (: This slows down the query, and we do not use it:)
+    let $texts := count($model("records")//tei:titleStmt/descendant::tei:name[@ref= 'editors.xml#' || $id] | $model("records")//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $id])
     let $count := count($annotations)
-    return
+    return 
         <div class="result row">
             {
             if(request:get-parameter('contributorID', '') != '') then
@@ -666,9 +667,18 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </button> 
                     <span class="browse-author-name">{concat(string-join($hit/tei:person/tei:persName/tei:surname,' '),', ',string-join($hit/tei:person/tei:persName/tei:forename,' '))}</span> 
-                    {if($count gt 0) then
-                        concat(' (',$count,' annotations)')
-                    else ()}
+                    {if($annotations gt 0 or $texts gt 0) then
+                            concat(' (',
+                                if($annotations gt 0) then 
+                                    concat($annotations,
+                                    if($annotations gt 1) then ' annotations' else ' annotation',
+                                    if($texts gt 0) then ', ' else ())
+                                else (),
+                                if($texts gt 0) then 
+                                    concat($texts, if($texts gt 1) then ' texts' else ' text')
+                                else (),
+                            ')')
+                        else ()}
                     <div class="contributor-desc">{(
                         if($hit/tei:person/tei:occupation) then 
                             (for $r at $p in $hit/tei:person/tei:occupation
