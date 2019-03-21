@@ -51,7 +51,17 @@
             <slide type="text" imageURL="" imageDesc="" order="4">
                 <div class="row">
                       <h2>Want to collaborate?</h2>
-                      <p>We are interested in collaborators at colleges and universities across the globe. If you're interested, please get in touch! On twitter, we're LIC_anthology, and on github we're LiteratureInContext. Send us an email at LIC.open.anthology at gmail.com.</p>
+                        <ul class="center social-media list-inline">
+                            <li><a href="http://twitter.com/LIC_anthology" data-toggle="tooltip" data-placement="top" title="LIC_anthology on Twitter"><img alt="twitter" src="$nav-base/resources/images/twitter.png" class="social-media"/></a></li>
+                            <li><a href="https://www.facebook.com/open.anthology.of.literature" data-toggle="tooltip" data-placement="top" title="Open Anthology on Facebook"><img alt="facebook" src="$nav-base/resources/images/fb.png" class="social-media"/></a></li>
+                            <li><a href="https://www.instagram.com/lic.open.anthology" data-toggle="tooltip" data-placement="top" title="lic.open.anthology on Instagram"><img alt="instagram" src="$nav-base/resources/images/insta.png" class="social-media"/></a></li>
+                            <li><a href="https://www.github.com/LiteratureInContext" data-toggle="tooltip" data-placement="top" title="LiteratureInContext on GitHub"><img alt="github" src="$nav-base/resources/images/github.png" class="social-media"/></a></li>
+                            <li><a href="mailto:LIC.open.anthology@gmail.com" data-toggle="tooltip" data-placement="top" title="contact us at LIC.open.anthology@gmail.com"><img alt="email" src="$nav-base/resources/images/email.png" class="social-media"/> </a></li>
+                        </ul>
+                      <p>We are interested in collaborators at colleges and universities across the globe. 
+                          If you're interested, please get in touch! 
+                          On twitter, we're LIC_anthology, and on github we're LiteratureInContext. 
+                          Send us an email at LIC.open.anthology at gmail.com.</p>
                 </div>
             </slide>
             <!-- <slide type="recentWork" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/> -->
