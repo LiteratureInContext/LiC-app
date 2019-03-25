@@ -1,36 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div class="col-md-12">
-        <div class="page-content indent">
-            <div data-template="app:get-work">
-                <div data-template="app:other-data-formats" data-template-formats="print,tei,pdf,epub"/>
-                <div data-template="app:teiHeader"/>
-                <div class="row">
-                    <div class="col-md-8">
-                        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:text"/>
-                        <hr/>
-                        <div class="well">
-                            <h4>Sources</h4>
-                            <div data-template="app:display-nodes" data-template-paths="/descendant::tei:sourceDesc/descendant::tei:imprint"/>
+    <div class="page-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-content indent">
+                <div data-template="app:get-work">
+                    <div data-template="app:teiHeader"/>
+                    <div class="lic-well">
+                        <div class="coursepackToolbar">        
+                            <div data-template="app:other-data-formats" data-template-formats="sources,notes,print,tei,pdf,epub"/>
+                            <div class="panel-collapse collapse left-align" id="teiViewSources">
+                                <hr/>
+                                <h3>Sources </h3>
+                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:sourceDesc/descendant::tei:imprint"/>
+                            </div>
+                            <div class="panel-collapse collapse left-align" id="teiViewNotes">
+                                <hr/>
+                                <h3>Editorial Statements</h3>
+                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:encodingDesc/tei:encodingDesc"/>
+                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:encodingDesc/tei:editorialDecl"/>
+                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:distributor"/>
+                            </div>
                         </div>
-                        <div class="well">
-                            <h4>Editorial Statements</h4>
-                            <div data-template="app:display-nodes" data-template-paths="/descendant::tei:encodingDesc/tei:encodingDesc"/>
-                            <div data-template="app:display-nodes" data-template-paths="/descendant::tei:encodingDesc/tei:editorialDecl"/>
-                            <div data-template="app:display-nodes" data-template-paths="/descendant::tei:distributor"/>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:text"/>
+                                <div data-template="app:footnotes"/>
+                            </div>
+                            <div class="col-md-4">
+                                <div data-template="app:page-images"/>
+                            </div>
                         </div>
-                        <hr/>
-                        <div data-template="app:footnotes"/>
-                    </div>
-                    <div class="col-md-4">
-                        <div data-template="app:page-images"/>
+                        <!--<div data-template="app:display-work"/>-->
                     </div>
                 </div>
-                <!--<div data-template="app:display-work"/>-->
+            </div>
+            <!-- Floating footnotes display -->
+            <div id="footnoteDisplay" class="footnote">
+                <div class="content"/>  
             </div>
         </div>
-        <!-- Floating footnotes display -->
-        <div id="footnoteDisplay" class="footnote">
-            <div class="content"/>  
-        </div>
+    </div>
     </div>
 </div>

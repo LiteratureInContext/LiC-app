@@ -6,6 +6,7 @@ xquery version "3.1";
 
 module namespace data="http://LiC.org/data";
 import module namespace config="http://LiC.org/config" at "config.xqm";
+import module namespace facet="http://expath.org/ns/facet" at "facet.xqm";
 import module namespace functx="http://www.functx.com";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -38,8 +39,11 @@ declare function data:get-document() {
 :)
 declare function data:get-coursepacks() {
     if(request:get-parameter('id', '') != '') then 
-        (collection($config:app-root || '/coursepacks')//*[@id = (request:get-parameter('id', ''))],
-        collection($config:data-root)/tei:TEI[descendant::tei:idno[@type='coursepack'][. = request:get-parameter('id', '')]])
+        let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = request:get-parameter('id', '')]
+        let $docs := for $rec in $coursepack//work
+                     return doc(string($rec/@id))
+        return 
+            ($coursepack, $docs)
     else 
         collection($config:app-root || '/coursepacks') 
 };
@@ -50,7 +54,8 @@ declare function data:get-coursepacks() {
 :)
 declare function data:search-coursepacks() {
     if(request:get-parameter('id', '') != '') then 
-        let $eval-string := concat("collection('",$config:data-root,"')/tei:TEI[descendant::tei:idno[@type='coursepack'][. = '",request:get-parameter('id', ''),"']]",data:create-query())
+        let $coursepack := data:get-coursepacks()
+        let $eval-string := concat("$coursepack/tei:TEI",data:create-query())
         return  
             if(request:get-parameter('sort-element', '') != ('','relevance')) then 
                 for $hit in util:eval($eval-string)
@@ -60,7 +65,7 @@ declare function data:search-coursepacks() {
                 for $hit in util:eval($eval-string)
                 order by ft:score($hit) descending
                 return $hit
-    else ()
+    else ()  
 };
 
 (:~
@@ -69,7 +74,11 @@ declare function data:search-coursepacks() {
  : Add sort options. 
 :)
 declare function data:search() {
-    let $queryExpr := data:create-query()
+    let $facet-config-file := 'facet-def.xml'
+    let $filters := if(request:get-parameter('authorID', '')) then 
+                        concat("[descendant::tei:titleStmt/descendant::tei:author/tei:persName/tei:name[normalize-space(.) = '",request:get-parameter('authorID', ''),"']]")
+                    else()
+    let $queryExpr := concat(data:create-query(), $filters)                   
     let $docs := 
                 if(request:get-parameter('narrow', '') = 'true' and request:get-parameter('target-texts', '') != '') then
                         for $doc in request:get-parameter('target-texts', '')
@@ -77,8 +86,8 @@ declare function data:search() {
                 else ()                        
     let $eval-string := 
                 if(request:get-parameter('narrow', '') = 'true' and request:get-parameter('target-texts', '') != '') then
-                    concat("$docs/tei:TEI",$queryExpr)                       
-                else concat("collection('",$config:data-root,"')/tei:TEI",$queryExpr)
+                    concat("$docs/tei:TEI",$queryExpr,facet:facet-filter(doc(concat($config:app-root,'/',$facet-config-file))))                       
+                else concat("collection('",$config:data-root,"')/tei:TEI",$queryExpr,facet:facet-filter(doc(concat($config:app-root,'/',$facet-config-file))))
     return 
         if(request:get-parameter('sort-element', '') != ('','relevance')) then 
             for $hit in util:eval($eval-string)
@@ -106,7 +115,7 @@ declare function data:create-query() as xs:string?{
                 concat("[descendant::tei:note[ft:query(.,'",$query,"',data:search-options())]]")
             else if(request:get-parameter('annotation', '') = 'true') then
                 concat("[descendant::tei:text[ft:query(.,'",$query,"',data:search-options())] or descendant::tei:note[ft:query(.,'",$query,"',data:search-options())]]")
-            else concat("[descendant::tei:text[ft:query(.,'",$query,"',data:search-options())]]")
+            else concat("[descendant::tei:text[ft:query(.,'",$query,"',data:search-options())] or descendant::tei:teiHeader[ft:query(.,'",$query,"',data:search-options())]]")
         else ()
       
 };
@@ -212,99 +221,6 @@ declare function data:filter-sort-string($string as node()*) as xs:string* {
 };
 
 (:~
- : Build paging menu for search results, includes search string
- : $param @hits hits as nodes
- : $param @start start number passed from url
- : $param @perpage number of hits to show 
- : $param @sort include search options 
-:)
-declare function data:pages(
-    $hits as node()*, 
-    $start as xs:integer?, 
-    $perpage as xs:integer?, 
-    $search-string as xs:string*,
-    $sort-options as xs:string*){
-let $perpage := if($perpage) then xs:integer($perpage) else 20
-let $start := if($start) then $start else 1
-let $total-result-count := count($hits)
-let $end := 
-    if ($total-result-count lt $perpage) then 
-        $total-result-count
-    else 
-        $start + $perpage
-let $number-of-pages :=  xs:integer(ceiling($total-result-count div $perpage))
-let $current-page := xs:integer(($start + $perpage) div $perpage)
-(: get all parameters to pass to paging function, strip start parameter :)
-let $url-params := replace(replace(request:get-query-string(), '&amp;start=\d+', ''),'start=\d+','')
-let $param-string := if($url-params != '') then concat('?',$url-params,'&amp;start=') else '?start='        
-let $pagination-links := 
-    (<div class="row alpha-pages" xmlns="http://www.w3.org/1999/xhtml">
-            {
-            if($search-string != '') then             
-                <div class="col-sm-5 search-string">
-                    <h3 class="hit-count paging">Search results:</h3>
-                    <p class="col-md-offset-1 hit-count">{$total-result-count} matches for {$search-string}</p>        
-                 </div>
-             else ()
-             }
-            <div>
-                {if($search-string != '') then attribute class { "col-md-7" } else attribute class { "col-md-12" } }
-                {
-                if($total-result-count gt $perpage) then 
-                <ul class="pagination pull-right">
-                    {((: Show 'Previous' for all but the 1st page of results :)
-                        if ($current-page = 1) then ()
-                        else <li><a href="{concat($param-string, $perpage * ($current-page - 2)) }">Prev</a></li>,
-                        (: Show links to each page of results :)
-                        let $max-pages-to-show := 8
-                        let $padding := xs:integer(round($max-pages-to-show div 2))
-                        let $start-page := 
-                                      if ($current-page le ($padding + 1)) then
-                                          1
-                                      else $current-page - $padding
-                        let $end-page := 
-                                      if ($number-of-pages le ($current-page + $padding)) then
-                                          $number-of-pages
-                                      else $current-page + $padding - 1
-                        for $page in ($start-page to $end-page)
-                        let $newstart := 
-                                      if($page = 1) then 1 
-                                      else $perpage * ($page - 1)
-                        return 
-                            if ($newstart eq $start) then <li class="active"><a href="#" >{$page}</a></li>
-                             else <li><a href="{concat($param-string, $newstart)}">{$page}</a></li>,
-                        (: Shows 'Next' for all but the last page of results :)
-                        if ($start + $perpage ge $total-result-count) then ()
-                        else <li><a href="{concat($param-string, $start + $perpage)}">Next</a></li>,
-                        if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
-                        else(),
-                        <li><a href="{concat($param-string,'1&amp;perpage=',$total-result-count)}">All</a></li>,
-                        if($search-string != '') then
-                            <li class="pull-right search-new"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
-                        else ()    
-                        )}
-                </ul>
-                else 
-                <ul class="pagination pull-right">
-                {(
-                    if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
-                    else(),
-                    if($search-string != '') then   
-                        <li class="pull-right"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
-                    else() 
-                    )}
-                </ul>
-                }
-            </div>
-    </div>,
-    if($search-string != '' and $total-result-count = 0) then 'No results, please try refining your search or reading our search tips.' 
-    else ()
-    )    
-return $pagination-links 
-};
-
-
-(:~
  : Build sort options menu for search/browse results
  : $param @param-string search parameters passed from URL, empty for browse
  : $param @start start number passed from url 
@@ -333,4 +249,3 @@ declare function data:sort-options($param-string as xs:string?, $start as xs:int
     </div>
 </li>
 };
-

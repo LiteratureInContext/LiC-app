@@ -11,6 +11,7 @@ declare namespace html="http://purl.org/dc/elements/1.1/";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace util="http://exist-db.org/xquery/util";
+(:declare boundary-space preserve;:)
 
 (:~
  : Simple TEI to HTML transformation
@@ -34,6 +35,17 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             }
             case element(tei:category) return element ul {tei2html:tei2html($node/node())}
             case element(tei:catDesc) return element li {tei2html:tei2html($node/node())}
+            case element(tei:castList) return 
+                <div class="tei-castList">{(
+                    if($node/tei:head) then
+                        <h4 class="tei-head">{tei2html:tei2html($node/tei:head)}</h4>
+                    else (),
+                    element dl {tei2html:tei2html($node/tei:castItem)})}</div>
+            case element(tei:castItem) return
+                if($node/tei:role) then
+                  (<dt class="tei-castItem">{tei2html:tei2html($node/tei:role)}</dt>,
+                    <dd class="castItem">{tei2html:tei2html($node/tei:roleDesc)}</dd>)  
+                else <dt class="tei-castItem">{tei2html:tei2html($node/node())}</dt>
             case element(tei:foreign) return 
                 <span dir="{if($node/@xml:lang = ('syr','ar','^syr')) then 'rtl' else 'ltr'}">{
                     (if($node/@xml:lang) then attribute lang { $node/@xml:lang } else (),
@@ -65,12 +77,20 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(tei:note) return 
                 if($node/@target) then 
                     <span class="tei-{local-name($node)} footnote 
-                        {(if($node/@type != '') then string($node/@type) else (), if($node/@place != '') then string($node/@place) else ())}">
+                        {(
+                            if($node/@type != '') then string($node/@type) 
+                            else (), 
+                            if($node/@place != '') then string($node/@place) 
+                            else ())}">
                     {(
                     if($node/@xml:id) then 
-                        (attribute id { $node/@xml:id }, <span class="tei-footnote-id">{string($node/@xml:id)}</span>)
+                       <span class="tei-footnote-id" id="{ string($node/@xml:id) }">{string($node/@xml:id)}</span>
                     else (),
-                    tei2html:tei2html($node/node()) )}</span>
+                    tei2html:tei2html($node/node()),
+                    if($node/@resp) then
+                        <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($node/@resp,'#')}">{substring-after($node/@resp,'#')}</a>]</span>
+                    else ()
+                    )}</span>
                 else <span class="tei-{local-name($node)}">{ tei2html:tei2html($node/node()) }</span>
             case element(tei:pb) return 
                 <span class="tei-pb">{string($node/@n)}</span>
@@ -90,6 +110,11 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                 <p xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
             case element(tei:rs) return (: create a new function for RSs to insert the content of specific variables; as is, content of the node is inserted as tooltip title. could use content of source attribute or link as the # ref :)
                <a href="#" data-toggle="tooltip" title="{tei2html:tei2html($node/node())}">{ tei2html:tei2html($node/node()) }</a>                
+            case element(tei:sp) return 
+                <div class="row tei-sp">
+                    <div class="col-md-3">{tei2html:tei2html($node/tei:speaker)}</div>
+                    <div class="col-md-9">{tei2html:tei2html($node/tei:l)}</div>
+                </div>
             case element(tei:seriesStmt) return 
                 if($node/tei:idno[@type="coursepack"]) then () 
                 else <span class="tei-{local-name($node)}">{ tei2html:tei2html($node/node()) }</span>
@@ -113,13 +138,13 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
   (: link issue: works, but don't want it to display with @type=physical extent. need an or operator? or something else? :)
     return
         <div xmlns="http://www.w3.org/1999/xhtml" class="text-header">
-            <h1>{$titleStmt/tei:title/text()}</h1>
-            <h1><small>By 
+            <h1>{$titleStmt/tei:title/text()} <br/>
+            <small>By 
             {
                 let $author-full-names :=
                     for $author in $authors
                     return
-                        concat($author//tei:forename, ' ', $author//tei:surname)
+                        concat($author//tei:forename[1], ' ', $author//tei:surname[1])
                 let $name-count := count($authors)
                 return
                     if ($name-count le 2) then
@@ -134,13 +159,14 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
                             $author-full-names[last()]
                         )
             }
-            </small></h1><p></p>
-        
-            { 
+            </small></h1>
+            { if($resps != '') then 
+                <ul>{
                 for $n in $resps
                 return
                     <li class="list-unstyled">{concat($n/descendant::tei:resp, ' by ', string-join($n/descendant::tei:name,', '))}</li>
-               
+                }</ul>
+              else() 
             }
 
     </div>
@@ -148,14 +174,14 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
 
 declare function tei2html:graphic($node as element (tei:graphic)) {
     <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">
-        {attribute src { $node/@url },
+        {(attribute src { $node/@url },
         if($node/@width) then 
             attribute width { $node/@width }
         else (),
         if($node/@style) then 
             attribute style { $node/@style }
         else ()
-        }
+        )}
     </img>
 };
 
@@ -172,8 +198,11 @@ declare function tei2html:hi($node as element (tei:hi)) {
 };
 
 declare function tei2html:ref($node as element (tei:ref)) {
-    if($node/@corresp) then 
-      ($node, ' ', <sup class="tei-ref footnoteRef"><a href="#{string($node/@corresp)}" class="showFootnote">{string($node/@corresp)}</a></sup>)  
+    if($node/@corresp) then
+        <span class="footnoteRef text">
+            <a href="#{string($node/@corresp)}" class="showFootnote">{tei2html:tei2html($node/node())}</a>
+            <sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup>
+        </span>
     else if(starts-with($node/@target,'http')) then 
         <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
     else tei2html:tei2html($node/node())
@@ -194,11 +223,18 @@ declare function tei2html:title($node as element (tei:title)) {
             tei2html:tei2html($node/node()))}</span>
 };
 
+declare function tei2html:annotations($node as node()*) { 
+    <span class="tei-annotation-show" xmlns="http://www.w3.org/1999/xhtml">{
+        (if($node/@xml:lang) then attribute lang { $node/@xml:lang } else (),
+        tei2html:tei2html($node/node()))}</span>
+};
+
+
 declare %private function tei2html:get-id($node as element()) {
     if($node/@xml:id) then
-        $node/@xml:id
+        string($node/@xml:id)
     else if($node/@exist:id) then
-        $node/@exist:id
+        string($node/@exist:id)
     else generate-id($node)
 };
 
@@ -214,7 +250,22 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
             else ()}
             {if($nodes/descendant::tei:biblStruct) then 
                 <span class="results-list-desc desc" dir="ltr" lang="en">
-                    <label>Source: </label> {tei2html:citation($nodes/descendant::tei:teiHeader)}
+                    <label>Source: </label> 
+                    { let $monograph := $nodes/descendant::tei:sourceDesc[1]/descendant::tei:monogr[1]
+                      return 
+                        (tei2html:tei2html($monograph/tei:title),
+                        if($monograph/tei:imprint) then 
+                          concat(' (',
+                           normalize-space(string($monograph/tei:imprint[1]/tei:pubPlace[1])),
+                           if($monograph/tei:imprint/tei:publisher) then 
+                            concat(': ', normalize-space(string($monograph/tei:imprint[1]/tei:publisher[1])))
+                           else (),
+                           if($monograph/tei:imprint/tei:date) then 
+                            concat(', ', normalize-space(string($monograph/tei:imprint[1]/tei:date[1])))
+                           else ()
+                           ,') ')
+                        else ()
+                        )}
                 </span>
             else ()}
             {if($nodes/descendant-or-self::*[starts-with(@xml:id,'abstract')]) then 

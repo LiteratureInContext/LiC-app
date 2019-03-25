@@ -1,0 +1,60 @@
+<facets xmlns="http://expath.org/ns/facet">
+    <facet-definition name="Author">
+        <group-by function="facet:group-by-author">
+            <sub-path>descendant::tei:titleStmt/descendant::tei:author/tei:persName</sub-path>
+        </group-by>
+        <max-values show="10">60</max-values>
+        <order-by direction="descending">value</order-by>
+    </facet-definition>
+    <facet-definition name="Place of Publication">
+        <group-by>
+            <sub-path>descendant::tei:sourceDesc/descendant::tei:imprint/tei:pubPlace/tei:placeName</sub-path>
+        </group-by>
+        <max-values show="10">60</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
+    <facet-definition name="Publication Date">
+        <range type="xs:year">
+            <bucket gt="1830-01-01" name="1830 &gt;" order="18"/>
+            <bucket gt="1810-01-01" lt="1820-01-01" name="1810-1820" order="17"/>
+            <bucket gt="1800-01-01" lt="1810-01-01" name="1800-1810" order="16"/>
+            <bucket gt="1790-01-01" lt="1800-01-01" name="1790-1800" order="15"/>
+            <bucket gt="1780-01-01" lt="1790-01-01" name="1780-1790" order="14"/>
+            <bucket gt="1770-01-01" lt="1780-01-01" name="1770-1780" order="13"/>
+            <bucket gt="1760-01-01" lt="1770-01-01" name="1760-1770" order="12"/>
+            <bucket gt="1750-01-01" lt="1760-01-01" name="1750-1760" order="11"/>
+            <bucket gt="1740-01-01" lt="1750-01-01" name="1740-1750" order="10"/>
+            <bucket gt="1730-01-01" lt="1740-01-01" name="1730-1740" order="9"/>
+            <bucket gt="1720-01-01" lt="1730-01-01" name="1720-1730" order="8"/>
+            <bucket gt="1710-01-01" lt="1720-01-01" name="1710-1720" order="7"/>
+            <bucket gt="1700-01-01" lt="1710-01-01" name="1700-1710" order="6"/>
+            <bucket gt="1690-01-01" lt="1700-01-01" name="1690-1700" order="5"/>
+            <bucket gt="1680-01-01" lt="1690-01-01" name="1680-1690" order="4"/>
+            <bucket gt="1670-01-01" lt="1680-01-01" name="1670-1680" order="3"/>
+            <bucket gt="1660-01-01" lt="1670-01-01" name="1660-1670" order="2"/>
+            <bucket gt="1650-01-01" lt="1660-01-01" name="1650-1660" order="1"/>
+        </range>
+        <group-by type="xs:date">
+            <sub-path>descendant::tei:biblStruct/descendant::tei:imprint/tei:date</sub-path>
+        </group-by>
+        <max-values show="10">40</max-values>
+        <order-by direction="descending">order</order-by>
+    </facet-definition>
+    <facet-definition name="Contributor">
+        <group-by function="facet:group-by-contributor">
+            <sub-path/>
+        </group-by>
+        <max-values show="10">60</max-values>
+        <order-by direction="descending">value</order-by>
+    </facet-definition>
+    <!-- Add 
+        $model("records")//tei:titleStmt//*[@ref= 'editors.xml#' || $id] | $model("records")//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $id]
+    <facet-definition name="Contributors">
+        <group-by>
+            <sub-path>descendant::tei:sourceDesc/descendant::tei:author</sub-path>
+        </group-by>
+        <max-values show="10">60</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
+    -->
+</facets>

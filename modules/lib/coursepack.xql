@@ -34,7 +34,10 @@ declare function local:create-new-coursepack($data as item()*){
             {( $desc,
                for $work in $works?*
                let $workID := $work?id
-               return (<work id="{$workID}">{$work?title}</work>,local:update-work($workID, $id, $coursepackTitle))
+               return 
+               (<work id="{$workID}">{$work?title}</work> (:,
+               local:update-work($workID, $id, $coursepackTitle, $coursepack(1)('coursepackDesc')):)
+               )
             )}
         </coursepack>
     return 
@@ -57,42 +60,29 @@ declare function local:update-coursepack($data as item()*){
     let $coursepack := $data?coursepack
     let $coursepackID := $coursepack(1)('coursepackID')
     let $works := $coursepack(1)('works')
-    let $coursepack := collection($config:app-root || '/coursepacks')//id($coursepackID)
+    let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
     let $coursepackTitle := string($coursepack/@title)
+    let $desc := $coursepack//desc/text()
     let $insertWorks :=  
                for $work in $works?*
                let $workID := $work?id
-               return (<work id="{$workID}">{$work?title}</work>,local:update-work($workID, $coursepackID, $coursepackTitle))
+               return (<work id="{$workID}">{$work?title}</work>
+               (:,local:update-work($workID, $coursepackID, $coursepackTitle, $desc):)
+               )
     return 
         try { 
-            (update insert $insertWorks into $coursepack,'Saved!')
+            (update insert $insertWorks into $coursepack, 
+            <response>
+                <coursepack id="{$coursepackID}"/>
+                <works>{$insertWorks}</works>
+                Updated!
+            </response>)
         } catch * {
             (response:set-status-code( 500 ),
             <response status="fail">
                 <message>Failed to add new coursepack {$coursepackID} : {concat($err:code, ": ", $err:description)}</message>
             </response>)
         }
-};
-
-(:~
- : Insert courspack seriesStmt into work record.
- : @param $workID work record id/document-uri
- : @param $id coursepack id
- : @param $coursepackTitle coursepack title
- :)
-declare function local:update-work($workID, $id, $coursepackTitle){
-if(doc($workID)) then 
-    let $work := doc($workID)
-    return
-        if($work/descendant::tei:fileDesc/tei:seriesStmt[tei:idno[@type='coursepack'] = $id]) then () 
-        else
-            let $seriesStmt := 
-                <seriesStmt xmlns="http://www.tei-c.org/ns/1.0">
-                     <title>{$coursepackTitle}</title>
-                     <idno type="coursepack">{$id}</idno>
-                 </seriesStmt>
-            return update insert $seriesStmt into $work/descendant::tei:fileDesc                
-else ()
 };
 
 (:~ 
@@ -105,16 +95,20 @@ declare function local:create-new-coursepack-response($data as item()*){
     let $coursepack := $json-data?coursepack
     let $coursepackTitle := $coursepack?1?('coursepackTitle')
     let $works := $coursepack?1?('works')
+    let $response := local:create-new-coursepack($json-data)
+    let $coursepackID := tokenize(substring-before(string-join($response,''),'.xml'),'/')[last()]
     return 
         <repsonse xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info">{local:create-new-coursepack($json-data)}</div>
+                <div class="bg-info hidden">{$response}</div>
                 <h4>Coursepack Title: {$coursepackTitle}</h4>
+                {$response}
                 <ul>{
                     for $work in $works?*
                     return 
                         <li>{$work?title}</li>
                  }</ul>
+                 <a href="{$config:nav-base}/coursepack/{$coursepackID}">Go to Coursepack</a><br/>
                  <a href="{$config:nav-base}/coursepack.html">See all Coursepacks</a>
             </div>
         </repsonse>
@@ -129,16 +123,19 @@ declare function local:update-coursepack-response($data as item()*){
     let $json-data := parse-json($payload) 
     let $coursepack := $json-data?coursepack
     let $works := $coursepack?1?('works')
+    let $response := local:update-coursepack($json-data)
+    let $coursepackID := string($response/coursepack/@id)
     return 
         <repsonse status="success" xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info">{local:update-coursepack($json-data)}</div>
+                <div class="bg-info hidden">{$response}</div>
                 <h4>Coursepack Updated</h4>
                 <ul>{
                     for $work in $works?*
                     return 
                         <li>{$work?title}</li>
                  }</ul>
+                 <a href="{$config:nav-base}/coursepack/{$coursepackID}">Go to Coursepack</a><br/>
                  <a href="{$config:nav-base}/coursepack.html">See all Coursepacks</a>
             </div>
         </repsonse>
@@ -150,7 +147,7 @@ declare function local:update-coursepack-response($data as item()*){
  :)
 declare function local:delete-coursepack-response(){
     let $coursepackID := request:get-parameter('coursepackid', '')
-    let $coursepack := collection($config:app-root || '/coursepacks')//id($coursepackID)
+    let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
     return 
         try { 
             (xmldb:remove(xmldb:encode-uri($config:app-root || '/coursepacks'), concat($coursepackID,'.xml')),
@@ -170,18 +167,14 @@ declare function local:delete-coursepack-response(){
 declare function local:delete-work-response(){
     let $coursepackID := request:get-parameter('coursepackid', '')
     let $workID := request:get-parameter('workid', '')
-    let $coursepack := collection($config:app-root || '/coursepacks')//id($coursepackID)
-    let $work := doc($workID)
+    let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
     return 
         try { 
             (for $work in $coursepack//work[@id = $workID]
              return update delete $work,
-             for $coursepack in $work//tei:seriesStmt[tei:idno[. = $coursepackID]]
-             return update delete $coursepack,
                 <response status="success">
                     <message>Work removed.</message>
-                </response>
-            )
+                </response>)
             } catch * {
                 (response:set-status-code( 500 ),
                 <response status="fail">

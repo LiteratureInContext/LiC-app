@@ -3,57 +3,107 @@
         <title data-template="config:app-title">App Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
+        <link rel="shortcut icon" href="$nav-base/favicon.ico"/>
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" media="print" href="$nav-base/resources/css/print.css"/>
-        <script type="text/javascript" src="$nav-base/resources/js/bootstrap.min.js"/>
+        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/lightslider.css"/>
+        <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>
+        <!--        <script type="text/javascript" src="$nav-base/resources/scripts/loadsource.js"/>-->
         <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.min.js"/>
+        <script type="text/javascript" src="$nav-base/resources/js/lightslider.min.js"/>
+        <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
         <script>
             $(document).ready(function() {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
                 $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'});
             });
         </script>
     </head>
     <body id="body">
-        <nav class="navbar navbar-default" role="navigation" data-template="app:fix-links">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"/>
-                    <span class="icon-bar"/>
-                    <span class="icon-bar"/>
-                </button>
-                <a data-template="config:app-title" class="navbar-brand" href="$nav-base/index.html">App Title</a>
-            </div>
-            <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li id="about">
-                        <a href="$nav-base/about.html">About</a>
-                    </li>
-                    <li id="works">
-                        <a href="$nav-base/index.html">Works</a>
-                    </li> 
-                    <li id="coursepacks">
-                        <a href="$nav-base/coursepack.html">Coursepacks</a>
-                    </li> 
-                </ul>     
-                <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/search.html" method="get">
-                    <span class="input-group">
-                        <input name="query" type="search" class="form-control" placeholder="Search"/>
-                        <input type="hidden" class="form-control keyboard" name="field" value="keyword"/>
-                       <!-- <span class="input-group-btn">
-                            <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-search"/>
-                            </button>
-                        </span>-->
+        <div class="nav-container">
+            <nav class="navbar navbar-default" role="navigation" data-template="app:fix-links">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                    </button>
+                    <span class="navbar-brand">
+                        <span class="logo">
+                            <img src="$nav-base/resources/images/logo.svg" alt="Literature in Context" height="35px"/>
+                        </span>
+                        <a data-template="config:app-title" class="navbar-title" href="$nav-base/index.html">App Title</a>
                     </span>
-                </form>
-            </div>
-        </nav>
+                </div>
+                <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li id="about">
+                            <a href="$nav-base/about.html">About</a>
+                        </li>
+                        <li id="works">
+                            <a href="$nav-base/browse.html">Browse &amp; Search</a>
+                        </li>
+                        <li id="coursepacks">
+                            <a href="$nav-base/coursepack.html">Coursepacks</a>
+                        </li>
+                        <li id="contributors">
+                            <a href="$nav-base/contributors.html">Contributors</a>
+                        </li>
+                        
+                    </ul>
+                    <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/search.html" method="get">
+                        <div class="input-group navbar-searchbox">
+                            <input type="text" class="form-control keyboard" placeholder="Search" name="query"/>
+                            <input type="hidden" class="form-control keyboard" name="field" value="keyword"/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search"/>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
         <div id="content" class="mainContentArea"/>
         <footer>
-            <!-- Place holder -->
+            <div class="banner"/>
+            <ul class="funders">
+                <li>
+                    <img src="$nav-base/resources/images/NEH_h-logo_01_fullcolor.jpg" width="200px" alt="National Endowment for the Humanities (NEH)" class="funder"/>
+                </li>
+                <li>
+                    <img src="$nav-base/resources/images/marymount.logo.png" width="150px" alt="Marymount University" class="funder"/>
+                </li>
+                <li>
+                    <img src="$nav-base/resources/images/uva_primary_logo.jpg" width="150px" alt="The University of Virginia" class="funder"/>
+                </li>
+            </ul>
+            
+            <div class="center copyright">
+                <ul class="center social-media list-inline">
+                    <li><a href="http://twitter.com/LIC_anthology" data-toggle="tooltip" data-placement="top" title="LIC_anthology on Twitter"><img alt="twitter" src="$nav-base/resources/images/twitter.png" class="social-media"/></a></li>
+                    <li><a href="https://www.facebook.com/open.anthology.of.literature" data-toggle="tooltip" data-placement="top" title="Open Anthology on Facebook"><img alt="facebook" src="$nav-base/resources/images/fb.png" class="social-media"/></a></li>
+                    <li><a href="https://www.instagram.com/lic.open.anthology" data-toggle="tooltip" data-placement="top" title="lic.open.anthology on Instagram"><img alt="instagram" src="$nav-base/resources/images/insta.png" class="social-media"/></a></li>
+                    <li><a href="https://www.github.com/LiteratureInContext" data-toggle="tooltip" data-placement="top" title="LiteratureInContext on GitHub"><img alt="github" src="$nav-base/resources/images/github.png" class="social-media"/></a></li>
+                    <li><a href="mailto:LIC.open.anthology@gmail.com" data-toggle="tooltip" data-placement="top" title="contact us at LIC.open.anthology@gmail.com"><img alt="email" src="$nav-base/resources/images/email.png" class="social-media"/> </a></li>
+                </ul>
+                <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+                    <br />Original content on this site created by its authors is licensed under a
+                    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY 4.0 International License</a>.
+                    That license does not apply to third-party material. <br/>
+                    Copyright information regarding third party material is noted in context wherever possible.</p></div>
+            <!--
+            <a class="poweredby small" href="http://exist-db.org">
+                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
+            </a>
+            -->
+            
         </footer>
         <script type="text/javascript" src="$nav-base/resources/js/coursepack.js"/>
+        <script type="text/javascript" src="$nav-base/resources/js/annotations.js"/>
     </body>
 </html>
