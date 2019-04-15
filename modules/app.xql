@@ -827,7 +827,7 @@ declare function app:display-facets($node as node(), $model as map(*), $facet-de
     let $facet-config-file := 'facet-def.xml'
     let $facet-config := 
              if(doc-available(concat($config:app-root,'/',$facet-config-file))) then
-                 doc(concat($config:app-root,'/',$facet-config-file))
+                 doc(concat($config:app-root,$facet-config-file))
              else ()
     return 
         if(not(empty($facet-config))) then 
