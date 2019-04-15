@@ -237,16 +237,11 @@ declare function app:page-images($node as node(), $model as map(*)){
        <div class="pageImages lic-well">
        <h4>Page images</h4>
        {
-            let $root := root($model("data"))
-            let $path := document-uri($root)
-            let $filename := util:document-name($root)
-            let $folder := substring-before($path, concat('/',$filename))
-            let $page-images-root := 
-                    if($config:image-root != '') then  
-                        concat($config:image-root,replace($folder, $config:data-root,''))
-                    else replace($folder,'/db/','/')
             for $image in $model("data")//tei:pb[@facs]
-            let $src := if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then string($image/@facs) else concat($page-images-root,'/',string($image/@facs))
+            let $src := 
+                if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
+                    string($image/@facs) 
+                else concat($config:image-root,'/',string($image/@facs))
             return 
              <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage">
                   <a href="{$src}"><img src="{$src}" width="100%"/></a>
