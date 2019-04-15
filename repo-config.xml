@@ -18,7 +18,7 @@
         <data-root>LiC-data</data-root>
         <!-- Root path where page images stored -->
         <!-- Example, swap in github repository: https://github.com/tonyahowe/LiC/raw/master/ -->
-        <page-images-root>https://raw.githubusercontent.com/tonyahowe/LiC/master/</page-images-root>
+        <page-images-root>https://anthologyassetsdev.lib.virginia.edu/</page-images-root>
         <!-- How HTML/PDF/EPUB will be generated. POC uses a simple TEI xquery for expediency. -->
         <!-- Allow XSLT plugin: /resources/xslt/html/html.xsl -->
         <work-html-transformation type="xquery"/>
