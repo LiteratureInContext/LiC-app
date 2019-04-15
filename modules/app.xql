@@ -246,7 +246,7 @@ declare function app:page-images($node as node(), $model as map(*)){
                         concat($config:image-root,replace($folder, $config:data-root,''))
                     else replace($folder,'/db/','/')
             for $image in $model("data")//tei:pb[@facs]
-            let $src := if(starts-with($image/@facs,'https://')) then string($image/@facs) else concat($page-images-root,'/',string($image/@facs))
+            let $src := if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then string($image/@facs) else concat($page-images-root,'/',string($image/@facs))
             return 
              <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage">
                   <a href="{$src}"><img src="{$src}" width="100%"/></a>
