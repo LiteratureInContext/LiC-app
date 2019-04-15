@@ -590,18 +590,19 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
     let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
     for $hit at $p in subsequence($model("hits"), $start, $per-page)
     let $id := string($hit/@id)
-    let $annotations := count($model("records")//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $id])
+    let $annotations := $model("records")//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $id]
     (: This slows down the query, and we do not use it:)
-    let $texts := count($model("records")//tei:titleStmt/descendant::tei:name[@ref= 'editors.xml#' || $id] | $model("records")//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $id])
-    let $count := count($annotations)
+    let $texts := $model("records")//tei:titleStmt/descendant::tei:name[@ref= 'editors.xml#' || $id] | $model("records")//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $id]
+    let $count-annotations := count($annotations)
+    let $count-texts := count($texts)
     return 
         <div class="result row">
             {
             if(request:get-parameter('contributorID', '') != '') then
                 <div xmlns="http://www.w3.org/1999/xhtml"> 
                     <span class="browse-author-name">{concat(string-join($hit/tei:person/tei:persName/tei:surname,' '),', ',string-join($hit/tei:person/tei:persName/tei:forename,' '))}</span> 
-                        {if($count gt 0) then
-                            concat(' (',$count,' annotations)')
+                        {if($count-annotations gt 0) then
+                            concat(' (',$count-annotations,' annotations)')
                         else ()}
                         <div class="contributor-desc">{(
                             if($hit/tei:person/tei:occupation) then 
@@ -667,15 +668,15 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </button> 
                     <span class="browse-author-name">{concat(string-join($hit/tei:person/tei:persName/tei:surname,' '),', ',string-join($hit/tei:person/tei:persName/tei:forename,' '))}</span> 
-                    {if($annotations gt 0 or $texts gt 0) then
+                    {if($count-annotations gt 0 or $count-texts gt 0) then
                             concat(' (',
-                                if($annotations gt 0) then 
-                                    concat($annotations,
-                                    if($annotations gt 1) then ' annotations' else ' annotation',
-                                    if($texts gt 0) then ', ' else ())
+                                if($count-annotations gt 0) then 
+                                    concat($count-annotations,
+                                    if($count-annotations gt 1) then ' annotations' else ' annotation',
+                                    if($count-texts gt 0) then ', ' else ())
                                 else (),
-                                if($texts gt 0) then 
-                                    concat($texts, if($texts gt 1) then ' texts' else ' text')
+                                if($count-texts gt 0) then 
+                                    concat($count-texts, if($count-texts gt 1) then ' texts' else ' text')
                                 else (),
                             ')')
                         else ()}
