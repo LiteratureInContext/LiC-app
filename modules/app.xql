@@ -241,7 +241,7 @@ declare function app:page-images($node as node(), $model as map(*)){
             let $src := 
                 if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
                     string($image/@facs) 
-                else concat($config:image-root,'/',string($image/@facs))
+                else concat($config:image-root,string($image/@facs))
             return 
              <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage">
                   <a href="{$src}"><img src="{$src}" width="100%"/></a>
@@ -827,7 +827,7 @@ declare function app:display-facets($node as node(), $model as map(*), $facet-de
     let $facet-config-file := 'facet-def.xml'
     let $facet-config := 
              if(doc-available(concat($config:app-root,'/',$facet-config-file))) then
-                 doc(concat($config:app-root,$facet-config-file))
+                 doc(concat($config:app-root,'/',$facet-config-file))
              else ()
     return 
         if(not(empty($facet-config))) then 
