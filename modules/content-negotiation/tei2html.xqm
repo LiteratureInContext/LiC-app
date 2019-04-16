@@ -43,8 +43,9 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     element dl {tei2html:tei2html($node/tei:castItem)})}</div>
             case element(tei:castItem) return
                 if($node/tei:role) then
-                  (<dt class="tei-castItem">{tei2html:tei2html($node/tei:role)}</dt>,
-                    <dd class="castItem">{tei2html:tei2html($node/tei:roleDesc)}</dd>)  
+                  (<dt class="tei-castItem">{tei2html:tei2html($node/tei:actor)}</dt>,
+                     <dd class="castItem">{tei2html:tei2html($node/tei:role)}</dd>,
+                     <dd class="castItem">{tei2html:tei2html($node/tei:roleDesc)}</dd>)  
                 else <dt class="tei-castItem">{tei2html:tei2html($node/node())}</dt>
             case element(tei:foreign) return 
                 <span dir="{if($node/@xml:lang = ('syr','ar','^syr')) then 'rtl' else 'ltr'}">{
