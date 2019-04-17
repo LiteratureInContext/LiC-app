@@ -212,7 +212,7 @@ form#search {margin-top:-1.5em; padding-top:0;}
     text-decoration:underline;
 }
 sup.footnoteRef{display:none;}
-.footnoteRef {
+sup..footnoteRef {
     font-size: .75em;
     line-height: 0.5em;
     vertical-align: baseline;
