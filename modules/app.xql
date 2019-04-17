@@ -237,8 +237,8 @@ declare function app:page-images($node as node(), $model as map(*)){
        <div class="pageImages lic-well">
        <h4>Page images</h4>
        {
+            let $id := string($model("data")//tei:TEI/@xml:id)
             for $image in $model("data")//tei:pb[@facs]
-            let $id := string($model("data")/@xml:id)
             let $src := 
                 if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
                     string($image/@facs) 
