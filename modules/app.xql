@@ -242,7 +242,7 @@ declare function app:page-images($node as node(), $model as map(*)){
             let $src := 
                 if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
                     string($image/@facs) 
-                else concat($config:image-root,$id,'/'string($image/@facs))   
+                else concat($config:image-root,$id,'/',string($image/@facs))   
             return 
              <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage">
                   <a href="{$src}"><img src="{$src}" width="100%"/></a>
