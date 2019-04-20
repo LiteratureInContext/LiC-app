@@ -558,7 +558,7 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
  : Simple browse works with sort options
  :)
 declare %templates:wrap function app:list-contributors($node as node(), $model as map(*)) {
-    let $contributors := doc($config:data-root || '/editors.xml')//tei:person
+    let $contributors := doc(replace($config:data-root,'/data','/contributors') || '/editors.xml')//tei:person
     let $hits := data:search()    
     return          
         map { "hits" :=
