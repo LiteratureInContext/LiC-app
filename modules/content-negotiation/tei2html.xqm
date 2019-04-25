@@ -174,16 +174,27 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
 };
 
 declare function tei2html:graphic($node as element (tei:graphic)) {
-    <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">
-        {(attribute src { $node/@url },
-        if($node/@width) then 
-            attribute width { $node/@width }
-        else (),
-        if($node/@style) then 
-            attribute style { $node/@style }
-        else ()
-        )}
-    </img>
+let $id := string(root($node)//tei:TEI/@xml:id)
+let $imgURL :=  if($node/@url) then 
+                    if(starts-with($node/@url,'https://') or starts-with($node/@url,'http://')) then
+                        string($node/@url)
+                   else if(starts-with($node/@url,'/')) then 
+                        concat($config:image-root,$id,string($node/@url))
+                   else concat($config:image-root,$id,'/',string($node/@url))
+                else ()                   
+return 
+    if($imgURL) then 
+        <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">
+            {(attribute src { $imgURL },
+            if($node/@width) then 
+                attribute width { $node/@width }
+            else (),
+            if($node/@style) then 
+                attribute style { $node/@style }
+            else ()
+            )}
+        </img>
+    else ()               
 };
 
 declare function tei2html:hi($node as element (tei:hi)) {
