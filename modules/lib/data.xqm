@@ -217,7 +217,7 @@ declare function data:add-sort-options($hit, $sort-element as xs:string?){
  : @param $string 
  :)
 declare function data:filter-sort-string($string as node()*) as xs:string* {
-    replace(normalize-space(string-join($string,'')),'^[^\p{L}]+|^[aA]\s+|^[aA]l-|^[aA]n\s|^[oO]n\s+[aA]\s+|^[oO]n\s+|^[tT]he\s+[^\p{L}]+|^[tT]he\s+|^A\s+|^''De|[0-9]*','')
+    replace(replace(normalize-space(string-join($string,'')),'^"',''),'^[aA]\s+|^[aA]l-|^[aA]n\s|^[oO]n\s+[aA]\s+|^[oO]n\s+|^[tT]he\s+[^\p{L}]+|^[tT]he\s+|^A\s+','')
 };
 
 (:~
