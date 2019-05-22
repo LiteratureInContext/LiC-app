@@ -23,7 +23,7 @@ declare function tei2txt:typeswitch($nodes) {
                 if($node/@n) then concat(' ', $node/@n,' ')
                 else ()
             case element(tei:l) return 
-                if($node/@n) then concat(' ', $node/@n,' ',tei2txt:typeswitch($node/node()))
+                if($node/@n) then concat(' ', $node/@n,' ',string-join(tei2txt:typeswitch($node/node()),''))
                 else tei2txt:typeswitch($node/node())
             case element(tei:teiHeader) return 
                 normalize-space(string-join((tei2html:citation($node)),''))
