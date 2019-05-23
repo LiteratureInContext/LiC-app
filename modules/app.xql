@@ -389,7 +389,11 @@ return
                 <p class="desc">{$coursepacks/*:desc}</p>
                  {
                  if($hits != '') then
-                     (app:pageination($node, $model, 'title,author,pubDate'),app:show-hits($node, $model, 1, 10))
+                     (app:pageination($node, $model, 'title,author,pubDate'),
+                     <hr/>,
+                      <span style="margin-left:3em;"><input type="checkbox" class="toggle-button" id="selectAll" /> Select All</span>,
+                     <hr/>,
+                     app:show-hits($node, $model, 1, 10))
                  else if(data:create-query() != '') then
                      <div>No results.</div>
                  else 
