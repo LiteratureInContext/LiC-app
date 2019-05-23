@@ -12,36 +12,36 @@
                         <div class="search-box">
                             <h3>Search Literature in Context</h3>
                             <div class="indent">
-                            <!-- Search query goes here -->
-                            <div class="form-group">
-                                <span class="input-group">
-                                    <input name="query" type="search" class="form-control" placeholder="Search full text"/>
-                                    <span class="input-group-btn">
-                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                            <span class="glyphicon glyphicon-search"/>
-                                        </button>
+                                <!-- Search query goes here -->
+                                <div class="form-group">
+                                    <span class="input-group">
+                                        <input name="query" type="search" class="form-control" placeholder="Search full text"/>
+                                        <span class="input-group-btn">
+                                            <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-search"/>
+                                            </button>
+                                        </span>
                                     </span>
-                                </span>
-    
-                            </div>
-                            <!-- Search fields, defaults to keyword -->
-                            <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Field">
-                                <select name="field" class="form-control">
-                                    <option value="keyword" selected="selected">Keyword anywhere</option>
-                                    <option value="annotation">Keyword in annotations</option>
-                                    <option value="title">Title</option>
-                                    <option value="author">Author</option>
-                                </select>
-                            </div>
-                            <!-- Limit search to selected works -->
-                            <div class="checkboxes">
-                                <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Selected">
-                                    <input type="checkbox" name="narrow" value="true"/> Search Selected
-                                </label>
-                                <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
-                                    <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
-                                </label>
-                            </div>
+                                    
+                                </div>
+                                <!-- Search fields, defaults to keyword -->
+                                <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Field">
+                                    <select name="field" class="form-control">
+                                        <option value="keyword" selected="selected">Keyword anywhere</option>
+                                        <option value="annotation">Keyword in annotations</option>
+                                        <option value="title">Title</option>
+                                        <option value="author">Author</option>
+                                    </select>
+                                </div>
+                                <!-- Limit search to selected works -->
+                                <div class="checkboxes">
+                                    <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Selected">
+                                        <input type="checkbox" name="narrow" value="true"/> Search Selected
+                                    </label>
+                                    <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
+                                        <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
+                                    </label>
+                                </div>
                                 <div class="filter">
                                     <h3>Filter Results</h3>
                                     <div class="indent">
@@ -72,6 +72,9 @@
                             <!-- Create/add to coursepacks -->
                             <div class="coursepackToolbar">
                                 <div class="form-group">
+                                    <span class="pull-left">
+                                        <input type="checkbox" class="toggle-button" id="selectAll"/> Select All                                        
+                                    </span>
                                     <button class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack"><span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
                                     <button class="btn btn-primary addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack"><span class="glyphicon glyphicon-plus-sign"/> Add Selected to Coursepack</button>
                                     <a href="coursepack.html" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="View all coursepacks"><span class="glyphicon glyphicon-th-list"/> View All Coursepacks</a>
@@ -100,24 +103,24 @@
                         <div id="saveCoursepackModal" style="display:none" class="coursepack">
                             <h4>Create New Coursepack</h4>
                             <div class="indent desc">
-                            <span class="input-group" id="coursepackTitleGroup">
-                                <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
-                                <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
-                            </span>
+                                <span class="input-group" id="coursepackTitleGroup">
+                                    <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
+                                    <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
+                                </span>
                             </div>
                             <span class="input-group-btn">
                                 <button id="f-btn-search" type="submit" class="btn btn-primary addCoursepackTitle">
                                     <span class="glyphicon glyphicon-save"/>Save </button>
                             </span>
-                                
+                            
                         </div>
                         <div id="addToCoursepackModal" style="display:none" class="coursepack">
                             <h4>Add to Coursepack</h4>
                             <div class="indent desc">
-                            <label>Select Coursepack</label>
-                            <select id="addToCoursepackID">
-                                <option data-template="app:select-coursepack"/>
-                            </select>
+                                <label>Select Coursepack</label>
+                                <select id="addToCoursepackID">
+                                    <option data-template="app:select-coursepack"/>
+                                </select>
                             </div>
                             <span class="input-group-btn">
                                 <button id="f-btn-search" type="submit" class="btn btn-primary saveToCoursepack">
@@ -133,4 +136,10 @@
             </div>
         </div>
     </div>
+    <script>
+        $( '#selectAll' ).click( function () {
+            $( '.result input[type="checkbox"]' ).prop('checked', this.checked)
+        console.log('checked');
+        })
+    </script>
 </div>

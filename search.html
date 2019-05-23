@@ -60,6 +60,9 @@
                         <!-- Create/add to coursepacks -->
                         <div class="coursepackToolbar">
                             <div class="form-group">
+                                <span class="pull-left">
+                                    <input type="checkbox" class="toggle-button" id="selectAll"/> Select All                                        
+                                </span>
                                 <button class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack"><span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
                                 <button class="btn btn-primary addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack"><span class="glyphicon glyphicon-plus-sign"/> Add Selected to Coursepack</button>
                                 <a href="$nav-base/coursepack.html" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="View all coursepacks"><span class="glyphicon glyphicon-th-list"/> View All Coursepacks</a>
@@ -121,4 +124,10 @@
             </div>
         </div>
     </div>
+    <script>
+        $( '#selectAll' ).click( function () {
+        $( '.result input[type="checkbox"]' ).prop('checked', this.checked)
+        console.log('checked');
+        })
+    </script>
 </div>
