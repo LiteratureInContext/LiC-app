@@ -94,7 +94,21 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     )}</span>
                 else <span class="tei-{local-name($node)}">{ tei2html:tei2html($node/node()) }</span>
             case element(tei:pb) return 
-                <span class="tei-pb">{string($node/@n)}</span>
+                <span class="page">
+                    <span class="tei-pb">{string($node/@n)}</span>{
+                      if($node[@facs != '']) then
+                        let $id := string($node/ancestor::tei:TEI/@xml:id)
+                        let $src := 
+                                    if(starts-with($node/@facs,'https://') or starts-with($node/@facs,'http://')) then 
+                                        string($node/@facs) 
+                                    else concat($config:image-root,$id,'/',string($node/@facs))
+                        return 
+                            <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" style="width:100%;">
+                                <a href="{$src}"><img src="{$src}" width="100%"/></a>
+                                <span class="caption">Page {string($node/@n)}</span>
+                            </span>
+                      else ()}
+                 </span>
             case element(tei:persName) return 
                 <span class="tei-persName">{
                     if($node/child::*) then 
@@ -107,6 +121,28 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                tei2html:ref($node)    
             case element(tei:title) return 
                 tei2html:title($node)
+            case element(tei:text) return 
+                if($node/descendant::tei:pb/@facs) then
+                    <div class="flex-row">
+                        <div class="flex-col">
+                            {tei2html:tei2html($node/node())}
+                        </div>
+                        <div class="flex-col pageImages" id="pageImages">
+                        {(:
+                            let $id := string($node/ancestor::tei:TEI/@xml:id)
+                            for $image in $node/descendant::tei:pb[@facs]
+                            let $src := 
+                                if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
+                                    string($image/@facs) 
+                                else concat($config:image-root,$id,'/',string($image/@facs))   
+                            return 
+                             <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage">
+                                  <a href="{$src}"><img src="{$src}" width="100%"/></a>
+                                  <span class="caption">Page {string($image/@n)}</span>
+                             </span>
+                        :)<h4>Page images</h4>}</div>
+                    </div>
+                else tei2html:tei2html($node) 
             case element(tei:p) return 
                 <p xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
             case element(tei:rs) return (: create a new function for RSs to insert the content of specific variables; as is, content of the node is inserted as tooltip title. could use content of source attribute or link as the # ref :)

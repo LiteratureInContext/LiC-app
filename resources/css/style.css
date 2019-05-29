@@ -203,7 +203,27 @@ form#search {margin-top:-1.5em; padding-top:0;}
 
 /* Work styles */
 .pageImages {display:block; margin:1em; padding:1em;}
-.pageImage {display:block; margin:.75em; padding:.75em; border:1px solid #E5E0D1; border-radius: 4px; background-color:#F4F1E9;}
+
+.pageImage {
+    transform: translateX(105%);
+    display:block; 
+    margin:.75em; 
+    padding:.75em; 
+    border:1px solid #E5E0D1; 
+    border-radius: 4px; 
+    background-color:#F4F1E9;
+    }
+
+.flex-row {
+    display: flex;
+}
+
+.flex-col {
+  flex: 1; /* additionally, equal width */
+  height: auto;
+  margin:1em;
+}
+
 /*.pageImage img {border:1px solid #F4F1E9; border-radius: 4px;}*/
 .caption {display:block; font-size:small; text-align:center;}
 .footnote {display:none;}
