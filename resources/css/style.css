@@ -205,9 +205,8 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .pageImages {display:block; margin:1em; padding:1em;}
 
 .pageImage {
-/*    transform: translateX(105%);*/
     display:block; 
-    margin:.75em; 
+    margin:1.5em .75em .75em .75em; 
     padding:.75em; 
     border:1px solid #E5E0D1; 
     border-radius: 4px; 
