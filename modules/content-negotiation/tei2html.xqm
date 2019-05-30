@@ -109,9 +109,9 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(tei:title) return 
                 tei2html:title($node)
             case element(tei:text) return 
-                if($node/descendant::tei:pb/@facs) then
+                if($node/descendant::tei:pb[@facs]) then
                     tei2html:page-chunk($node,string($node/ancestor::tei:TEI/@xml:id))
-                else tei2html:tei2html($node) 
+                else tei2html:tei2html($node/node()) 
             case element(tei:p) return 
                 <p xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
             case element(tei:rs) return (: create a new function for RSs to insert the content of specific variables; as is, content of the node is inserted as tooltip title. could use content of source attribute or link as the # ref :)
@@ -137,7 +137,6 @@ declare function tei2html:page-chunk($nodes as node()*, $id as xs:string?){
     let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ($nodes/descendant::*)[last()] 
     let $data := data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')
     return
-        if($nodes/descendant::tei:pb[@facs]) then
             <div class="tei-page-chunk row" n="{string($page/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
                 <div class="col-md-8">{
                     if($data != '') then
@@ -161,7 +160,6 @@ declare function tei2html:page-chunk($nodes as node()*, $id as xs:string?){
                      else ()
                  }</div>
              </div> 
-        else tei2html:tei2html($data/node())
                    
 };
 
