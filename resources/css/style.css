@@ -228,6 +228,12 @@ form#search {margin-top:-1.5em; padding-top:0;}
 /*.pageImage img {border:1px solid #F4F1E9; border-radius: 4px;}*/
 .caption {display:block; font-size:small; text-align:center;}
 .footnote {display:none;}
+.footnote .tei-footnote-id {margin-bottom:1em;}
+.footnote .tei-graphic {
+    width:300px;
+    float:right;
+    margin-left:1em;
+}
 .footnoteRef.text{
     font-size:inherit;
     text-decoration:underline;

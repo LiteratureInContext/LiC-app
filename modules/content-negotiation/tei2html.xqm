@@ -222,16 +222,19 @@ let $imgURL :=  if($node/@url) then
                 else ()                   
 return 
     if($imgURL) then 
-        <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">
-            {(attribute src { $imgURL },
+        <a href="{$imgURL}">
+            <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
+            attribute src { $imgURL },
             if($node/@width) then 
                 attribute width { $node/@width }
-            else (),
+            else ()
+            (:,
             if($node/@style) then 
                 attribute style { $node/@style }
             else ()
-            )}
-        </img>
+            :)
+            )}</img>
+        </a>
     else ()               
 };
 
