@@ -110,7 +110,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                 tei2html:title($node)
             case element(tei:text) return 
                 if($node/descendant::tei:pb[@facs]) then
-                    tei2html:page-chunk($node,string($node/ancestor::tei:TEI/@xml:id))
+                    tei2html:page-chunk($node)
                 else tei2html:tei2html($node/node()) 
             case element(tei:p) return 
                 <p xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
@@ -131,18 +131,27 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             default return tei2html:tei2html($node/node())
 };
 
-declare function tei2html:page-chunk($nodes as node()*, $id as xs:string?){        
+declare function tei2html:page-chunk($nodes as node()*){        
     for $page in $nodes/descendant::tei:pb
     let $ms1 := $page
     let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ($nodes/descendant::*)[last()] 
     let $data := data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')
-    return
+    let $root := root($nodes)/child::*[1]
+    let $id := string($root/@xml:id)
+    let $wrapped := 
+            element {node-name($root)}
+                    {(
+                        for $a in $root/@*
+                        return attribute {node-name($a)} {string($a)},
+                        $data
+                    )}
+    return 
             <div class="tei-page-chunk row" n="{string($page/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
                 <div class="col-md-8">{
                     if($data != '') then
                          if($data/self::tei:text) then
-                             tei2html:tei2html($data/node())
-                         else tei2html:tei2html($data)
+                             tei2html:tei2html($wrapped/child::*/node())
+                         else tei2html:tei2html($wrapped)
                      else ()
                  }</div>
                  <div class="col-md-4">{
