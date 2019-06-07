@@ -74,7 +74,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     if($node//tei:date) then $node//tei:date else <abbr title="no date of publication">n.d.</abbr>,
                     if($node/following-sibling::tei:biblScope[@unit='series']) then ', ' else (),
                     if($node//tei:extent/@type = "online") then (' ',<a href="{$node//tei:extent}" class="tei-extent-link"><span class="glyphicon glyphicon-book"></span> View </a>) else $node//tei:extent,
-                    if($node//tei:note) then <span class="tei-note">{$node//tei:note}</span> else ()
+                    if($node//tei:note) then <span class="tei-note">{tei2html:tei2html($node//tei:note)}</span> else ()
             }</span>
             case element(tei:note) return 
                 if($node/@target) then 
