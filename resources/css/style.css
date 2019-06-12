@@ -31,6 +31,8 @@ body {
     text-decoration: none;
 }
 .navbar-searchbox { max-width: 250px;}
+/*.loginbtn {margin-top:1em; color: #777;}*/
+/*.loginbtn a {color: #777; }*/
 
 /* Home page */
 .homepage {
@@ -225,11 +227,12 @@ form#search {margin-top:-1.5em; padding-top:0;}
 
 .tei-page-chunk {margin-left:1em;}
 
+
 /*.pageImage img {border:1px solid #F4F1E9; border-radius: 4px;}*/
 .caption {display:block; font-size:small; text-align:center;}
 .footnote {display:none;}
 .footnote .tei-footnote-id {margin-bottom:1em;}
-.footnote .tei-graphic {
+.annotations .tei-graphic, .footnote .tei-graphic {
     width:300px;
     float:right;
     margin-left:1em;
