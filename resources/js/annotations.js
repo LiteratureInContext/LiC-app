@@ -1,6 +1,10 @@
 /* Annotation functions.*/
 $(document).ready(function () {
-           
+    
+    $('.glyphicon').click(function () {
+        $(this).toggleClass("glyphicon-plus-sign").toggleClass("glyphicon-minus-sign");
+    });
+    
     //Get contributor contribution, 1st 5         getContributorAnnotations
     $('.getContributorAnnotations').on('click', function(e){ // on change of state
         e.preventDefault(e);
