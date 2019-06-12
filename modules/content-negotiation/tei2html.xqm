@@ -109,7 +109,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(tei:title) return 
                 tei2html:title($node)
             case element(tei:text) return 
-                if($node/descendant::tei:pb[@facs]) then
+                if($node/descendant::tei:pb[@facs] and request:get-parameter('view', '') = 'pageImages') then
                     tei2html:page-chunk($node)
                 else tei2html:tei2html($node/node()) 
             case element(tei:p) return 
