@@ -249,3 +249,92 @@ declare function data:sort-options($param-string as xs:string?, $start as xs:int
     </div>
 </li>
 };
+
+(: Functions to enable paging, for long text base documents :)
+(: Chunks milestones together to allow 'paging'. See: https://wiki.tei-c.org/index.php/Milestone-chunk.xquery:)
+declare function data:get-common-ancestor($element as element(), 
+    $start-node as node(), 
+    $end-node as node()?) as element()
+{
+    let $element :=    
+        ($element//*[. is $start-node]/ancestor::* intersect $element//*[. is $end-node]/ancestor::*)[last()]
+    return $element
+};
+
+declare function data:get-fragment(
+    $node as node()*,
+    $start-node as element(),
+    $end-node as element()?,
+    $include-start-and-end-nodes as xs:boolean,
+    $empty-ancestor-elements-to-include as xs:string+
+) as node()*
+{
+    typeswitch ($node)
+    case element() return
+        if ($node is $start-node) then
+            if ($include-start-and-end-nodes) then $node
+            else ()
+        (: Hide end node, to eleminate duplicate page display in HTML output :)
+        else if ($node is $end-node) then ()
+        else if (some $node in $node/descendant::* satisfies ($node is $start-node or $node is $end-node)) then
+            element {node-name($node)}
+                {
+                if ($node/@xml:base)
+                then attribute{'xml:base'}{$node/@xml:base}
+                else 
+                    if ($node/ancestor::*/@xml:base) then attribute{'xml:base'}{$node/ancestor::*/@xml:base[1]}
+                    else (),
+                if ($node/@xml:space)
+                then attribute{'xml:space'}{$node/@xml:space}
+                else
+                    if ($node/ancestor::*/@xml:space) then attribute{'xml:space'}{$node/ancestor::*/@xml:space[1]}
+                    else (),
+                if ($node/@xml:lang) then attribute{'xml:lang'}{$node/@xml:lang}
+                else if ($node/ancestor::*/@xml:lang) then 
+                    attribute{'xml:lang'}{$node/ancestor::*[@xml:lang][1]/@xml:lang}
+                else (),
+                if ($node/ancestor::*/@n) then 
+                    attribute{'n'}{string-join($node/ancestor-or-self::*[@n]/@n,'.')}
+                else (),
+                if ($node/@xml:id) then attribute{'xml:id'}{$node/@xml:id}
+                else ()
+                ,
+                (:carry over the nearest of preceding empty elements that have significance for the fragment; though amy element could be included here, the idea is to allow empty elements such as handShift to be carried over:)
+                for $empty-ancestor-element-to-include in $empty-ancestor-elements-to-include
+                return
+                    $node/preceding::*[local-name(.) = $empty-ancestor-element-to-include][1]
+                ,
+                (:recurse:)
+                for $node in $node/node()
+                return data:get-fragment($node, $start-node, $end-node, $include-start-and-end-nodes, $empty-ancestor-elements-to-include) }
+        else
+        (:if an element follows the start-node or precedes the end-note, carry it over:)
+        if ($node >> $start-node and $node << $end-node) then $node
+        else ()
+    default return
+        (:if a text, comment or PI node follows the start-node or precedes the end-node, carry it over:)
+        if ($node >> $start-node and $node << $end-node) then $node
+        else ()
+};
+
+declare function data:get-fragment-from-doc(
+    $node as node()*,
+    $start-node as element(),
+    $end-node as element()?,
+    $wrap-in-first-common-ancestor-only as xs:boolean,
+    $include-start-and-end-nodes as xs:boolean,
+    $empty-ancestor-elements-to-include as xs:string*
+) as node()*
+{
+    if ($node instance of element()) then
+        let $node :=
+            if ($wrap-in-first-common-ancestor-only) then 
+                data:get-common-ancestor($node, $start-node, $end-node)
+            else $node
+        return
+                data:get-fragment($node, $start-node, $end-node, $include-start-and-end-nodes, $empty-ancestor-elements-to-include)
+    else if ($node instance of document-node()) then 
+        data:get-fragment-from-doc($node/element(), $start-node, $end-node, $wrap-in-first-common-ancestor-only, $include-start-and-end-nodes, $empty-ancestor-elements-to-include)
+    else ()
+        
+};

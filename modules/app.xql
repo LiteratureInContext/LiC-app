@@ -298,7 +298,26 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             <span data-toggle="tooltip" title="View Source Description">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Source Texts
                             </span></button>, '&#160;') 
-                  else () 
+                else if($f = 'pageImages') then 
+                    if($model("data")/descendant::tei:pb[@facs]) then 
+                        if(request:get-parameter('view', '') = 'pageImages') then 
+                           (<a href="{request:get-uri()}" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to hide the page images.">
+                                <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> Page Images
+                             </a>, '&#160;') 
+                        else 
+                            (<a href="?view=pageImages" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Page Images
+                             </a>, '&#160;') 
+                    else ()
+                       (:
+                       if($model("hits")/descendant::tei:pb[@facs]) then 
+                            (<a href="?view=pageImages" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
+                                <span data-toggle="tooltip" title="View Source Description">
+                                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Source Texts
+                                </span></a>, '&#160;') 
+                        else()
+                        :)
+                else () 
             }            
         </div>
     else ()
@@ -838,4 +857,51 @@ declare function app:display-facets($node as node(), $model as map(*), $facet-de
         if(not(empty($facet-config))) then 
             facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facet-definition))
         else ()
+};
+
+
+(: Login functions :)
+(: request:set-attribute($name as xs:string, $value as item()*) :)
+(: Activate login module use userManager.xql to login and create new users. :)
+declare function app:username-login($node as node(), $model as map(*)) {
+    let $user:= if(request:get-attribute("org.exist.login.user")) then request:get-attribute("org.exist.login.user") else xmldb:get-current-user()
+    let $u1 := request:get-attribute("org.exist.login.user")
+    let $u2 := xmldb:get-current-user()
+    let $userName := 
+            if(sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson'))) then 
+                sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) 
+            else $user 
+    return 
+    (<div>exist {$u1}, current {$u2}</div>,
+        if ($user and not(matches($user,'[gG]uest'))) then
+            <span class=" nav navbar-nav">
+             <div class="dropdown">
+                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                 <span class="glyphicon glyphicon-user"/>{concat(' ',$user,' ')}
+                 <span class="caret"></span>
+                 </button>
+                 <ul class="dropdown-menu">
+                   <li><a href="user.html?user={$user}">Account Information</a></li>
+                   <li><a href="index.html?logout=true">Logout</a></li>
+                 </ul>
+               </div>
+            </span>
+        else 
+            <span class="loginbtn nav navbar-nav"> 
+               <a data-toggle="modal" href="#loginModal" class="btn btn-primary dropdown-toggle">
+                <span class="glyphicon glyphicon-user"/> Login
+               </a>
+            </span>
+            )
+};
+
+(: ? :)
+declare 
+    %templates:wrap
+function app:userinfo($node as node(), $model as map(*)) as map(*) {
+    let $user:= request:get-attribute("org.exist.login.user")
+    let $name := if ($user) then sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) else 'Guest'
+    let $group := if ($user) then sm:get-user-groups($user) else 'guest'
+    return
+        map { "user-id" := $user, "user-name" := $name, "user-groups" := $group}
 };

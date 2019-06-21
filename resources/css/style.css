@@ -31,6 +31,8 @@ body {
     text-decoration: none;
 }
 .navbar-searchbox { max-width: 250px;}
+/*.loginbtn {margin-top:1em; color: #777;}*/
+/*.loginbtn a {color: #777; }*/
 
 /* Home page */
 .homepage {
@@ -203,10 +205,38 @@ form#search {margin-top:-1.5em; padding-top:0;}
 
 /* Work styles */
 .pageImages {display:block; margin:1em; padding:1em;}
-.pageImage {display:block; margin:.75em; padding:.75em; border:1px solid #E5E0D1; border-radius: 4px; background-color:#F4F1E9;}
+
+.pageImage {
+    display:block; 
+    margin:1.5em .75em .75em .75em; 
+    padding:.75em; 
+    border:1px solid #E5E0D1; 
+    border-radius: 4px; 
+    background-color:#F4F1E9;
+    }
+
+.flex-row {
+    display: flex;
+}
+
+.flex-col {
+  flex: 1; /* additionally, equal width */
+  height: auto;
+  margin:1em;
+}
+
+.tei-page-chunk {margin-left:1em;}
+
+
 /*.pageImage img {border:1px solid #F4F1E9; border-radius: 4px;}*/
 .caption {display:block; font-size:small; text-align:center;}
 .footnote {display:none;}
+.footnote .tei-footnote-id {margin-bottom:1em;}
+.annotations .tei-graphic, .footnote .tei-graphic {
+    width:300px;
+    float:right;
+    margin-left:1em;
+}
 .footnoteRef.text{
     font-size:inherit;
     text-decoration:underline;
@@ -256,7 +286,7 @@ sup..footnoteRef {
 .tei-author {font-weight:500;}
 .tei-addrLine {display:block; margin-left:2em;}
 .tei-body {display:block; margin:1em;}
-.tei-body .tei-head {display:block; font-weight:500; font-size:1.25em;}
+.tei-head {display:block; font-weight:500; font-size:1.25em;}
 .tei-castList dl {display:block; margin-left:1em;}
 .tei-castList dt {font-weight:600; color:#444;}
 .tei-castList dd {margin-left:1em;}
