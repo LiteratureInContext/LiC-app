@@ -286,7 +286,7 @@ sup..footnoteRef {
 .tei-author {font-weight:500;}
 .tei-addrLine {display:block; margin-left:2em;}
 .tei-body {display:block; margin:1em;}
-.tei-body .tei-head {display:block; font-weight:500; font-size:1.25em;}
+.tei-head {display:block; font-weight:500; font-size:1.25em;}
 .tei-castList dl {display:block; margin-left:1em;}
 .tei-castList dt {font-weight:600; color:#444;}
 .tei-castList dd {margin-left:1em;}
