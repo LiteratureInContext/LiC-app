@@ -18,6 +18,8 @@ xquery version "3.0";
 
 module namespace facet = "http://expath.org/ns/facet";
 
+import module namespace tei2html="http://syriaca.org/tei2html" at "../content-negotiation/tei2html.xqm";
+
 import module namespace config="http://LiC.org/config" at "config.xqm";
 import module namespace functx="http://www.functx.com";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
@@ -317,7 +319,7 @@ declare function facet:group-by-contributor($results as item()*, $facet-definiti
         let $contributors := doc($config:data-root || '/editors.xml')//tei:listPerson/tei:person
         let $contributorID := replace($facet-grp,'editors.xml#','')
         let $contributor := $contributors[@xml:id = $contributorID]
-        let $label := if($contributor/tei:persName/tei:surname) then concat(string-join($contributor/tei:persName/tei:surname,' '),', ',string-join($contributor/tei:persName/tei:forename,' ')) else $contributor/tei:persName/text()  
+        let $label := tei2html:persName-last-first($contributor) 
         where $contributorID != '' and not(empty($contributor)) 
         return 
             <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$contributorID}" label="{$label}"/>    
@@ -327,7 +329,8 @@ declare function facet:group-by-author($results as item()*, $facet-definitions a
     let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
     let $sort := $facet-definitions/facet:order-by
     for $f in util:eval($path)
-    let $label := if($f/tei:name/tei:surname) then concat(string-join($f/tei:name/tei:surname,' '),', ',string-join($f/tei:name/tei:forename,' ')) else $f/tei:name//text()
+    let $label := tei2html:persName-last-first($f)
+    (:if($f/tei:name/tei:surname) then concat(string-join($f/tei:name/tei:surname,' '),', ',string-join($f/tei:name/tei:forename,' ')) else $f/tei:name//text():)
     group by $facet-grp := $f/@key
     order by $label[1] ascending      
     return 

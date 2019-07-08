@@ -97,13 +97,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(tei:pb) return 
                     <span class="tei-pb" data-num="{string($node/@n)}">{string($node/@n)}</span>
             case element(tei:persName) return 
-                <span class="tei-persName">{
-                    if($node/child::*) then 
-                        for $part in $node/child::*
-                        order by $part/@sort ascending, string-join($part/descendant-or-self::text(),' ') descending
-                        return tei2html:tei2html($part/node())
-                    else tei2html:tei2html($node/node())
-                }</span>
+                tei2html:persName($node)
             case element(tei:ref) return
                tei2html:ref($node)    
             case element(tei:title) return 
@@ -191,8 +185,7 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
             {
                 let $author-full-names :=
                     for $author in $authors
-                    return
-                        concat($author//tei:forename[1], ' ', $author//tei:surname[1])
+                    return tei2html:persName($author)
                 let $name-count := count($authors)
                 return
                     if ($name-count le 2) then
@@ -218,6 +211,37 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
             }
 
     </div>
+};
+
+(: tei persName display first name/last name/add name :)
+declare function tei2html:persName($nodes as node()*) {
+let $name := 
+    if($nodes/descendant-or-self::tei:name) then $nodes/descendant-or-self::tei:name
+    else if($nodes/descendant-or-self::tei:persName) then $nodes/descendant-or-self::tei:persName 
+    else $nodes
+return 
+    <span class="tei-persName">{
+      if($name/@reg) then string($name/@reg)
+      else if($name/child::*) then 
+        (for $part in $name/child::*[not(self::tei:addName)]
+         order by $part/@sort ascending, string-join($part/descendant-or-self::text(),' ') descending
+         return tei2html:tei2html($part/node()),
+         if($name/tei:addName) then (', ',tei2html:tei2html($name/tei:addName)) else ())
+      else tei2html:tei2html($name/node())
+    }</span> 
+};
+
+(: tei persName display last name/first name/add name:)
+declare function tei2html:persName-last-first($nodes as node()*) {
+let $name := 
+    if($nodes/descendant-or-self::tei:name) then $nodes/descendant-or-self::tei:name
+    else if($nodes/descendant-or-self::tei:persName) then $nodes/descendant-or-self::tei:persName 
+    else $nodes
+return 
+    <span class="tei-persName">{
+      if($name/child::*) then ($name/descendant-or-self::tei:surname[1], ', ', $name/descendant-or-self::tei:forename[1], if($name/descendant-or-self::tei:addName) then (', ',tei2html:tei2html($name/descendant-or-self::tei:addName)) else ())
+      else tei2html:tei2html($name/node())
+    }</span>
 };
 
 declare function tei2html:graphic($node as element (tei:graphic)) {
@@ -475,9 +499,7 @@ declare function tei2html:emit-responsible-persons($nodes as node()*, $num as xs
  : Output authors/editors child elements. 
 :)
 declare function tei2html:person($nodes as node()*) {
-    if($nodes/descendant::tei:forename) then 
-        concat(string-join(($nodes/descendant::tei:forename),' '),' ',string-join(($nodes/descendant::tei:surname),' '))
-    else string-join($nodes/descendant::text(),' ')
+    tei2html:persName-last-first($nodes)
 };
 
 (:~ 
