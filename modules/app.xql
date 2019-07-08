@@ -562,7 +562,7 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
         map { "hits" := 
                     if(request:get-parameter('view', '') = 'author') then
                         for $hit in $hits
-                        let $author := $hit/descendant::tei:titleStmt/descendant::tei:author/tei:persName/tei:name
+                        let $author := $hit/descendant::tei:titleStmt/descendant::tei:author
                         let $name :=  tei2html:persName-last-first($author)
                         group by $facet-grp-p := $name[1]
                         order by normalize-space(string($facet-grp-p)) ascending
