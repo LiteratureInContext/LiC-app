@@ -563,10 +563,7 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
                     if(request:get-parameter('view', '') = 'author') then
                         for $hit in $hits
                         let $author := $hit/descendant::tei:titleStmt/descendant::tei:author/tei:persName/tei:name
-                        let $name := normalize-space(string-join((if($author/@reg) then string($author/@reg) 
-                                     else if($author/tei:surname) then 
-                                        concat(string-join($author/tei:surname,' '),', ',string-join($author/tei:forename,' '))
-                                     else $author//text()),' '))
+                        let $name :=  tei2html:persName-last-first($author)
                         group by $facet-grp-p := $name[1]
                         order by normalize-space(string($facet-grp-p)) ascending
                         return 
@@ -867,32 +864,39 @@ declare function app:username-login($node as node(), $model as map(*)) {
     let $user:= if(request:get-attribute("org.exist.login.user")) then request:get-attribute("org.exist.login.user") else xmldb:get-current-user()
     let $u1 := request:get-attribute("org.exist.login.user")
     let $u2 := xmldb:get-current-user()
+    let $u3 := session:get-attribute("org.exist.login.user")
     let $userName := 
             if(sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson'))) then 
                 sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) 
             else $user 
     return 
-    (<div>exist {$u1}, current {$u2}</div>,
         if ($user and not(matches($user,'[gG]uest'))) then
-            <span class=" nav navbar-nav">
-             <div class="dropdown">
-                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                 <span class="glyphicon glyphicon-user"/>{concat(' ',$user,' ')}
-                 <span class="caret"></span>
-                 </button>
-                 <ul class="dropdown-menu">
-                   <li><a href="user.html?user={$user}">Account Information</a></li>
-                   <li><a href="index.html?logout=true">Logout</a></li>
-                 </ul>
-               </div>
-            </span>
+            <ul class="nav navbar-nav">
+                <li>
+                    <p class="navbar-btn">
+                       <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-user"/>{concat(' 1 ',$u1,' 2 ',$u2,' 3 ',$u3)}
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a href="{$config:nav-base}/user.html?user={$user}">Account Information</a></li>
+                          <li><a href="." id="logout">Logout</a></li>
+                        </ul>
+                      </div>
+                    </p>
+                </li>
+            </ul>
         else 
-            <span class="loginbtn nav navbar-nav"> 
-               <a data-toggle="modal" href="#loginModal" class="btn btn-primary dropdown-toggle">
-                <span class="glyphicon glyphicon-user"/> Login
-               </a>
-            </span>
-            )
+             <ul class="nav navbar-nav">
+                <li>
+                    <p class="navbar-btn">
+                       <a data-toggle="modal" href="#loginModal" class="btn btn-primary dropdown-toggle">
+                         <span class="glyphicon glyphicon-user"/> {concat(' 1 ',$u1,' 2 ',$u2,' 3 ',$u3)} Login
+                        </a>
+                    </p>
+                </li>
+            </ul>
 };
 
 (: ? :)
