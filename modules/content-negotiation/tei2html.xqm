@@ -234,12 +234,21 @@ return
 (: tei persName display last name/first name/add name:)
 declare function tei2html:persName-last-first($nodes as node()*) {
 let $name := 
-    if($nodes/descendant-or-self::tei:name) then $nodes/descendant-or-self::tei:name
-    else if($nodes/descendant-or-self::tei:persName) then $nodes/descendant-or-self::tei:persName 
+    if($nodes/descendant-or-self::tei:name) then $nodes/descendant-or-self::tei:name[1]
+    else if($nodes/descendant-or-self::tei:persName) then $nodes/descendant-or-self::tei:persName[1] 
     else $nodes
 return 
     <span class="tei-persName">{
-      if($name/child::*) then ($name/descendant-or-self::tei:surname[1], ', ', $name/descendant-or-self::tei:forename[1], if($name/descendant-or-self::tei:addName) then (', ',tei2html:tei2html($name/descendant-or-self::tei:addName)) else ())
+      if($name/child::*) then 
+        (
+            $name/descendant-or-self::tei:surname[1], 
+            ', ', 
+            $name/descendant-or-self::tei:forename[1], 
+            if($name/descendant-or-self::tei:addName) then 
+                for $addName in $name/descendant-or-self::tei:addName
+                return (', ',tei2html:tei2html($addName)) 
+            else ()
+            )
       else tei2html:tei2html($name/node())
     }</span>
 };
@@ -479,11 +488,6 @@ declare function tei2html:emit-responsible-persons($nodes as node()*, $num as xs
         return 
             if($count = 1) then 
                 tei2html:person($nodes)  
-            (:
-            else if($count gt $num) then
-                (for $n in subsequence($nodes, 1, $num)
-                return normalize-space(tei2html:person($nodes)), ' et al.')
-            :)                
             else if($count = 2) then
                 (tei2html:person($nodes[1]),' and ',tei2html:person($nodes[2]))            
             else 

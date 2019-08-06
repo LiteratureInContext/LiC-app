@@ -80,7 +80,7 @@ declare function cntneg:content-negotiation($data as item()*, $content-type as x
              (
                 response:set-header("Content-Disposition", concat("attachment; filename=", concat($file-name, '.epub'))),
                 response:stream-binary(
-                    compression:zip( epub:epub($file-name, $data/tei:TEI), true() ),
+                    compression:zip( epub:epub($file-name, $data), true() ),
                     'application/epub+zip',
                     concat($file-name, '.epub')
                 )

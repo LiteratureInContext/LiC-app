@@ -1,6 +1,7 @@
 xquery version "3.0";
 
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
+import module namespace sm = "http://exist-db.org/xquery/securitymanager";
 
 import module namespace xrest="http://exquery.org/ns/restxq/exist" at "java:org.exist.extensions.exquery.restxq.impl.xquery.exist.ExistRestXqModule";
 
@@ -15,6 +16,11 @@ declare variable $target external;
 
 (
 (: Set UID for git-sync. :)
-sm:chmod(xs:anyURI(xs:anyURI($target || '/modules/lib/git-sync.xql'), "rwsr-xr-x")),
-sm:chmod(xs:anyURI(xs:anyURI($target || '/modules/lib/coursepack.xql'), "rwsr-xr-x"))
+sm:chmod(xs:anyURI($target || '/modules/lib/git-sync.xql'), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || '/modules/lib/userManager.xql'), "rwsr-xr-x"),
+sm:chmod(xs:anyURI($target || '/modules/lib/coursepack.xql'), "rwxrwxr-x"),
+sm:chmod(xs:anyURI($target || '/coursepacks'), "rwxrwxr-x"),
+sm:chgrp(xs:anyURI($target || '/coursepacks'), "lic"),
+(: create lic group for coursepack users :)
+xdb:create-group('lic')
 )

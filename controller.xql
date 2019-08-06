@@ -1,11 +1,18 @@
 xquery version "3.0";
 
+import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
+import module namespace config="http://LiC.org/config" at "modules/config.xqm";
+
 declare variable $exist:path external;
 declare variable $exist:resource external;
 declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 
+(:Variables for login module. :)
+declare variable $userParam := request:get-parameter("user", ());
+declare variable $logout := request:get-parameter("logout", ());
+        
 if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{request:get-uri()}/"/>
@@ -17,6 +24,54 @@ else if ($exist:path eq "/") then
         <redirect url="index.html"/>
     </dispatch>
 
+(: Log users in or out :)
+else if ($exist:resource = "login") then 
+    (util:declare-option("exist:serialize", "method=json media-type=application/json"),
+    try {
+        let $loggedIn := login:set-user($config:login-domain, (), false())
+        let $user := request:get-attribute($config:login-domain || ".user")
+        return
+           if ($user and sm:list-users() = $userParam) then
+                <response>
+                    <user>{$user}</user>
+                    <logged>{$loggedIn}</logged>
+                </response>
+            else (
+                <response>
+                    <fail>Wrong user or password</fail>
+                </response>
+            )
+    } catch * {
+        <response>
+            <fail>{$err:description}</fail>
+        </response>
+    })
+    
+(: Check user credentials :)
+else if ($exist:resource = "userInfo") then 
+    ((:util:declare-option("exist:serialize", "method=json media-type=application/json"),:)
+     let $currentUser := 
+                if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
+                else xmldb:get-current-user()
+    let $group :=  
+                if($currentUser) then 
+                    sm:get-user-groups($currentUser) 
+                else () 
+    return
+    if($group = 'lic') then
+            (response:set-status-code( 200 ), 
+            response:set-header("Content-Type", "text/html"),
+            <response status="success" xmlns="http://www.w3.org/1999/xhtml">
+                <message>logged in.</message>
+            </response>)
+        else 
+            (response:set-status-code( 401 ),
+            response:set-header("Content-Type", "text/html"),
+            <response status="success" xmlns="http://www.w3.org/1999/xhtml">
+                <message>Please register or login</message>
+            </response>)
+   )
+    
 (: Resource paths starting with $app-root are resolved relative to app :)
 else if (contains($exist:path, "/$nav-base/")) then
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">

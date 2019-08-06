@@ -60,6 +60,7 @@ $(document).ready(function () {
               $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
             }
     }); 
+    
     // Get search/browse results, load dynamically 
     $('.getNestedResults').on('click', function(e){ // on change of state
         e.preventDefault(e);
