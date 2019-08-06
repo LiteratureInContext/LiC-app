@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:m="http://www.w3.org/1998/Math/MathML" exclude-result-prefixes="tei xs m" version="2.0" xpath-default-namespace="http://www.w3.org/1999/xhtml">
+<xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="tei xs m" version="2.0" xpath-default-namespace="http://www.w3.org/1999/xhtml">
   <xsl:import href="../common/common_makeTEIStructure.xsl"/>
   <xsl:import href="../common/functions.xsl"/>
   <xsl:output method="xml" indent="no"/>

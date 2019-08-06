@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title data-template="config:app-title">App Title</title>
@@ -54,11 +55,10 @@
                         <li id="contributors">
                             <a href="$nav-base/contributors.html">Contributors</a>
                         </li>
-                        
                     </ul>
                     <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/search.html" method="get">
                         <div class="input-group navbar-searchbox">
-                            <input type="text" class="form-control keyboard" placeholder="Search full text" name="query"/>
+                            <input type="text" class="form-control keyboard" placeholder="search full text" name="query"/>
                             <input type="hidden" class="form-control keyboard" name="field" value="keyword"/>
                             <div class="input-group-btn">
                                 <button class="btn btn-default" type="submit">
@@ -67,6 +67,16 @@
                             </div>
                         </div>
                     </form>
+                    <span data-template="app:userinfo">
+                        <div data-template="app:username-login"/>
+                    </span>
+                    <!--
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div data-template="app:username-login"></div>
+                        </li>
+                    </ul>
+                    -->
                 </div>
             </nav>
         </div>
@@ -87,18 +97,40 @@
             
             <div class="center copyright">
                 <ul class="center social-media list-inline">
-                    <li><a href="http://twitter.com/LIC_anthology" data-toggle="tooltip" data-placement="top" title="LIC_anthology on Twitter"><img alt="twitter" src="$nav-base/resources/images/twitter.png" class="social-media"/></a></li>
-                    <li><a href="https://www.facebook.com/open.anthology.of.literature" data-toggle="tooltip" data-placement="top" title="Open Anthology on Facebook"><img alt="facebook" src="$nav-base/resources/images/fb.png" class="social-media"/></a></li>
-                    <li><a href="https://www.instagram.com/lic.open.anthology" data-toggle="tooltip" data-placement="top" title="lic.open.anthology on Instagram"><img alt="instagram" src="$nav-base/resources/images/insta.png" class="social-media"/></a></li>
-                    <li><a href="https://www.github.com/LiteratureInContext" data-toggle="tooltip" data-placement="top" title="LiteratureInContext on GitHub"><img alt="github" src="$nav-base/resources/images/github.png" class="social-media"/></a></li>
-                    <li><a href="mailto:LIC.open.anthology@gmail.com" data-toggle="tooltip" data-placement="top" title="contact us at LIC.open.anthology@gmail.com"><img alt="email" src="$nav-base/resources/images/email.png" class="social-media"/> </a></li>
+                    <li>
+                        <a href="http://twitter.com/LIC_anthology" data-toggle="tooltip" data-placement="top" title="LIC_anthology on Twitter">
+                            <img alt="twitter" src="$nav-base/resources/images/twitter.png" class="social-media"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/open.anthology.of.literature" data-toggle="tooltip" data-placement="top" title="Open Anthology on Facebook">
+                            <img alt="facebook" src="$nav-base/resources/images/fb.png" class="social-media"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/lic.open.anthology" data-toggle="tooltip" data-placement="top" title="lic.open.anthology on Instagram">
+                            <img alt="instagram" src="$nav-base/resources/images/insta.png" class="social-media"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.github.com/LiteratureInContext" data-toggle="tooltip" data-placement="top" title="LiteratureInContext on GitHub">
+                            <img alt="github" src="$nav-base/resources/images/github.png" class="social-media"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:LIC.open.anthology@gmail.com" data-toggle="tooltip" data-placement="top" title="contact us at LIC.open.anthology@gmail.com">
+                            <img alt="email" src="$nav-base/resources/images/email.png" class="social-media"/> </a>
+                    </li>
                 </ul>
-                <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/></a>
+                <p>
+                    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
+                    </a>
                     <br/>Original content on this site created by its authors is licensed under a
                     <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY 4.0 International License</a>.
                     That license does not apply to third-party material. <br/>
-                    Copyright information regarding third party material is noted in context wherever possible.</p></div>
+                    Copyright information regarding third party material is noted in context wherever possible.</p>
+            </div>
             <!--
             <a class="poweredby small" href="http://exist-db.org">
                 <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
@@ -106,6 +138,11 @@
             -->
             
         </footer>
+        <div data-template="templates:if-parameter-unset" data-template-param="org.exist-db.mysec.user">
+            <div data-template="templates:include" data-template-path="templates/login-panel.html"/>
+        </div>
+        <script type="text/javascript" src="$nav-base/resources/js/jquery.validate.min.js"/>
+        <script type="text/javascript" src="$nav-base/resources/js/login.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/coursepack.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/annotations.js"/>
     </body>

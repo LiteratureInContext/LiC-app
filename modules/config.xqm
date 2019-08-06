@@ -58,6 +58,8 @@ declare variable $config:app-title := $config:get-config//repo:title/text();
 
 declare variable $config:app-url := $config:get-config//repo:url/text();
 
+declare variable $config:login-domain := "org.exist.lic";
+
 declare variable $config:image-root := if($config:get-config//repo:page-images-root/text() != '') then
                                            $config:get-config//repo:page-images-root/text()
                                        else (); 

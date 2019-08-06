@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:fotex="http://www.tug.org/fotex" exclude-result-prefixes="fotex a rng tei teix" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/Format" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:fotex="http://www.tug.org/fotex" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="fotex a rng tei teix" version="2.0">
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
          <p>
@@ -1013,90 +1013,90 @@ of this software, even if advised of the possibility of such damage.
   <xsl:template name="setupPagemasters">
       <layout-master-set>
 <!-- one sided, single column -->
-      <simple-page-master master-name="simple1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
+      <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="simple1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
             <region-before extent="{$regionBeforeExtent}"/>
             <region-after extent="{$regionAfterExtent}"/>
-         </simple-page-master>
+         </fo:simple-page-master>
          <!-- for left-hand/tei:even pages in twosided mode, single column -->
-      <simple-page-master master-name="left1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
+      <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="left1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
             <region-before region-name="xsl-region-before-left" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-left" extent="{$regionAfterExtent}"/>
-         </simple-page-master>
+         </fo:simple-page-master>
          <!-- for right-hand/tei:odd pages in twosided mode, single column -->
-      <simple-page-master master-name="right1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
+      <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="right1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
             <region-before region-name="xsl-region-before-right" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-right" extent="{$regionAfterExtent}"/>
-         </simple-page-master>
+         </fo:simple-page-master>
          <!-- special case of first page in either mode, single column -->
-      <simple-page-master master-name="first1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
+      <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="first1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
             <region-before region-name="xsl-region-before-first" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-first" extent="{$regionAfterExtent}"/>
-         </simple-page-master>
+         </fo:simple-page-master>
          <!-- for pages in one-side mode, 2 column -->
-      <simple-page-master master-name="simple2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
+      <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="simple2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body column-count="{$columnCount}" margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
             <region-before extent="{$regionBeforeExtent}"/>
             <region-after extent="{$regionAfterExtent}"/>
-         </simple-page-master>
+         </fo:simple-page-master>
          <!-- for left-hand/tei:even pages in twosided mode, 2 column -->
-      <simple-page-master master-name="left2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
+      <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="left2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body column-count="{$columnCount}" margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
             <region-before region-name="xsl-region-before-left" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-left" extent="{$regionAfterExtent}"/>
-         </simple-page-master>
+         </fo:simple-page-master>
          <!-- for right-hand/tei:odd pages in twosided mode, 2 column -->
-      <simple-page-master master-name="right2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
+      <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="right2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body column-count="{$columnCount}" margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
             <region-before region-name="xsl-region-before-right" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-right" extent="{$regionAfterExtent}"/>
-         </simple-page-master>
+         </fo:simple-page-master>
          <!-- special case of first page in either mode -->
-      <simple-page-master master-name="first2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
+      <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="first2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body column-count="{$columnCount}" margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
             <region-before region-name="xsl-region-before-first" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-first" extent="{$regionAfterExtent}"/>
-         </simple-page-master>
+         </fo:simple-page-master>
          <!-- setup for double-sided, 1 column, no first page -->
-      <page-sequence-master master-name="twoside1nofirst">
+      <fo:page-sequence-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="twoside1nofirst">
             <repeatable-page-master-alternatives>
-               <conditional-page-master-reference master-reference="right1" odd-or-even="odd"/>
-               <conditional-page-master-reference master-reference="left1" odd-or-even="even"/>
+               <fo:conditional-page-master-reference master-reference="right1" odd-or-even="odd"/>
+               <fo:conditional-page-master-reference master-reference="left1" odd-or-even="even"/>
             </repeatable-page-master-alternatives>
-         </page-sequence-master>
+         </fo:page-sequence-master>
          <!-- setup for double-sided, 1 column -->
-      <page-sequence-master master-name="twoside1">
+      <fo:page-sequence-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="twoside1">
             <repeatable-page-master-alternatives>
-               <conditional-page-master-reference master-reference="first1" page-position="first"/>
-               <conditional-page-master-reference master-reference="right1" odd-or-even="odd"/>
-               <conditional-page-master-reference master-reference="left1" odd-or-even="even"/>
+               <fo:conditional-page-master-reference master-reference="first1" page-position="first"/>
+               <fo:conditional-page-master-reference master-reference="right1" odd-or-even="odd"/>
+               <fo:conditional-page-master-reference master-reference="left1" odd-or-even="even"/>
             </repeatable-page-master-alternatives>
-         </page-sequence-master>
+         </fo:page-sequence-master>
          <!-- setup for single-sided, 1 column -->
-      <page-sequence-master master-name="oneside1">
+      <fo:page-sequence-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="oneside1">
             <repeatable-page-master-alternatives>
-               <conditional-page-master-reference master-reference="first1" page-position="first"/>
-               <conditional-page-master-reference master-reference="simple1"/>
+               <fo:conditional-page-master-reference master-reference="first1" page-position="first"/>
+               <fo:conditional-page-master-reference master-reference="simple1"/>
             </repeatable-page-master-alternatives>
-         </page-sequence-master>
+         </fo:page-sequence-master>
          <!-- setup for double-sided, 2 column -->
-      <page-sequence-master master-name="twoside2">
+      <fo:page-sequence-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="twoside2">
             <repeatable-page-master-alternatives>
-               <conditional-page-master-reference master-reference="first2" page-position="first"/>
-               <conditional-page-master-reference master-reference="right2" odd-or-even="odd"/>
-               <conditional-page-master-reference master-reference="left2" odd-or-even="even"/>
+               <fo:conditional-page-master-reference master-reference="first2" page-position="first"/>
+               <fo:conditional-page-master-reference master-reference="right2" odd-or-even="odd"/>
+               <fo:conditional-page-master-reference master-reference="left2" odd-or-even="even"/>
             </repeatable-page-master-alternatives>
-         </page-sequence-master>
+         </fo:page-sequence-master>
          <!-- setup for single-sided, 2 column -->
-      <page-sequence-master master-name="oneside2">
+      <fo:page-sequence-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="oneside2">
             <repeatable-page-master-alternatives>
-               <conditional-page-master-reference master-reference="first2" page-position="first"/>
-               <conditional-page-master-reference master-reference="simple2"/>
+               <fo:conditional-page-master-reference master-reference="first2" page-position="first"/>
+               <fo:conditional-page-master-reference master-reference="simple2"/>
             </repeatable-page-master-alternatives>
-         </page-sequence-master>
+         </fo:page-sequence-master>
          <xsl:call-template name="pageMasterHook"/>
       </layout-master-set>
       <xsl:if test="$foEngine='xep'">
