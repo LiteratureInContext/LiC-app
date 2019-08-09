@@ -68,8 +68,8 @@ let $password := $json-data?password
 return 
    if(sm:list-users() = $userName) then 
         (response:set-status-code( 200 ), 
-        response:set-header("Content-Type", "text/html"),
-        <response status="success" xmlns="http://www.w3.org/1999/xhtml">
+        util:declare-option("exist:serialize", "method=json media-type=application/json"),
+        <response status="success" xmlns="http://www.w3.org/1999/xhtml" message="username already exists">
             <message><div>Username already exists, please select a different username {$userName}.</div></message>
         </response>)
     else if($user != '') then 
@@ -80,32 +80,20 @@ return
         return 
             (
             response:set-status-code( 200 ),
-            response:set-header("Content-Type", "text/html"),
-            <output:serialization-parameters>
-                <output:method value='html5'/>
-                <output:media-type value='text/html'/>
-            </output:serialization-parameters>,
-            <response status="success" xmlns="http://www.w3.org/1999/xhtml">
+            util:declare-option("exist:serialize", "method=json media-type=application/json"),
+            <response status="success" xmlns="http://www.w3.org/1999/xhtml" message="success">
                 <message><div>New user {$userName} has been created. userParam: {request:get-parameter('user', '')}</div></message>
             </response>)
         } catch * {
             (response:set-status-code( 500 ),
-            response:set-header("Content-Type", "text/html"),
-            <output:serialization-parameters>
-                <output:method value='html5'/>
-                <output:media-type value='text/html'/>
-            </output:serialization-parameters>,
-            <response status="fail" xmlns="http://www.w3.org/1999/xhtml">
+            util:declare-option("exist:serialize", "method=json media-type=application/json"),
+            <response status="fail" xmlns="http://www.w3.org/1999/xhtml" message="failed to create user">
                 <message>Failed to create user: <error>Caught error {$err:code}: {$err:description}</error></message>
             </response>)
         }
     else  
         (response:set-status-code( 500 ),
-            response:set-header("Content-Type", "text/html"),
-            <output:serialization-parameters>
-                <output:method value='html5'/>
-                <output:media-type value='text/html'/>
-            </output:serialization-parameters>,
-            <response status="fail" xmlns="http://www.w3.org/1999/xhtml">
+            util:declare-option("exist:serialize", "method=json media-type=application/json"),
+            <response status="fail" xmlns="http://www.w3.org/1999/xhtml" message="No user data available">
                 <message>No user data available</message>
             </response>)

@@ -66,9 +66,16 @@ $("#newUserForm").submit(function( event ) {
     contentType: "application/json; charset=utf-8"
   });
   $.post(url, JSON.stringify(data), function(data) {
+   var message = $(data).attr('message')
    // Return success 
-    $('#responseBody').html(data);
-       window.location.reload();
+   if(message == 'success') {
+     // $('#responseBody').html(message);
+      window.location.reload();
+   } else {
+        alert('This username already exists.');
+      //$('#responseBody').html('Username already exists.');
+      $(form)[0].reset();
+    }
   }).fail( function(jqXHR, textStatus, errorThrown) {
     // do fail notice
     console.log(textStatus);
@@ -86,7 +93,7 @@ $("#loginForm").submit(function( event ) {
     console.log(data);
     if (data.fail) {
         $('#loginResponseBody').html('Wrong user or password');
-        $('#myform')[0].reset();
+        $(form)[0].reset();
     } else {
        $('#loginResponseBody').html('Success.');
        window.location.reload();
