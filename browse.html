@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <!-- Home page also acts as simple browse page for all works -->
     <!-- Search form -->
@@ -75,9 +76,12 @@
                                     <span class="pull-left">
                                         <input type="checkbox" class="toggle-button" id="selectAll"/> Select All                                        
                                     </span>
-                                    <button class="btn btn-primary createCoursepack" data-toggle="tooltip" data-placement="left" title="Create a new coursepack"><span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
-                                    <button class="btn btn-primary addToCoursepack" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack"><span class="glyphicon glyphicon-plus-sign"/> Add Selected to Coursepack</button>
-                                    <a href="coursepack.html" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="View all coursepacks"><span class="glyphicon glyphicon-th-list"/> View All Coursepacks</a>
+                                    <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">
+                                        <span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
+                                    <button class="btn btn-primary addToCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">
+                                        <span class="glyphicon glyphicon-plus-sign"/> Add Selected to Coursepack</button>
+                                    <a href="coursepack.html" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="View all coursepacks">
+                                        <span class="glyphicon glyphicon-th-list"/> View All Coursepacks</a>
                                 </div>
                             </div>
                             <!-- Show results from xquery -->
@@ -91,6 +95,7 @@
     <!-- Modal for creating coursepacks -->
     <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
         <div class="modal-dialog">
+            <form id="coursepackCreation">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="modalClose close" data-dismiss="modal">
@@ -134,6 +139,7 @@
                     <button type="button" class="btn btn-default modalClose" data-dismiss="modal">Close</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
     <script>

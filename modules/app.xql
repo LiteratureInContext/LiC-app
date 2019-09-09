@@ -166,10 +166,10 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
         let $rec := data:get-document()
         return 
             if(empty($rec)) then 
-                if(not(empty(data:get-coursepacks()))) then map {"data" := 'Output plain HTML page'}
+                if(not(empty(data:get-coursepacks()))) then <blockquote>No record found</blockquote>
                 else response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
             else map {"data" := $rec }
-    else map {"data" := 'Output plain HTML page'}
+    else <blockquote>No record found</blockquote>
 };
 
 (:~
@@ -179,7 +179,8 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
  :)
 (: Cludge for TEI stylesheets to only return child of html body, better handling will need to be developed.:)
 declare function app:display-work($node as node(), $model as map(*)) {
-     tei2html:tei2html($model("data")/tei:TEI)
+     if(tei2html:tei2html($model("data")/tei:TEI)) then tei2html:tei2html($model("data")/tei:TEI) 
+     else <div>'No record found'</div>
 };
 
 (:~  
@@ -202,7 +203,8 @@ declare function app:display-nodes($node as node(), $model as map(*), $paths as 
 :)
 declare function app:teiHeader($node as node(), $model as map(*)){
     let $data := $model("data")/descendant::tei:teiHeader
-    return tei2html:header($data)
+    return 
+        if(tei2html:tei2html($model("data")/tei:TEI)) then tei2html:header($data) else ()
 }; 
 
 (:~  
@@ -391,7 +393,7 @@ return
                             </select>
                         </div>
                     <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Search Coursepack"><span class="glyphicon glyphicon-search"/></button> 
-                    <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-primary" data-toggle="tooltip" title="Delete Coursepack">
+                    <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-primary deleteCoursepack" data-toggle="tooltip" title="Delete Coursepack">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
                     {
                     if(request:get-parameter('view', '') = 'expanded') then 
@@ -856,15 +858,12 @@ declare function app:display-facets($node as node(), $model as map(*), $facet-de
         else ()
 };
 
-
 (: Login functions :)
-(: request:set-attribute($name as xs:string, $value as item()*) :)
 (: Activate login module use userManager.xql to login and create new users. :)
 declare function app:username-login($node as node(), $model as map(*)) {
-    let $user:= if(request:get-attribute("org.exist.login.user")) then request:get-attribute("org.exist.login.user") else xmldb:get-current-user()
-    let $u1 := request:get-attribute("org.exist.login.user")
-    let $u2 := xmldb:get-current-user()
-    let $u3 := session:get-attribute("org.exist.login.user")
+    let $user:= 
+        if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
+        else xmldb:get-current-user()    
     let $userName := 
             if(sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson'))) then 
                 sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) 
@@ -876,12 +875,11 @@ declare function app:username-login($node as node(), $model as map(*)) {
                     <p class="navbar-btn">
                        <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-user"/>{concat(' 1 ',$u1,' 2 ',$u2,' 3 ',$u3)}
-                        <span class="caret"></span>
+                        <span class="glyphicon glyphicon-user"/> {$userName} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a href="{$config:nav-base}/user.html?user={$user}">Account Information</a></li>
-                          <li><a href="." id="logout">Logout</a></li>
+                          <li><a href="{$config:nav-base}/user.html?user={$user}">Account</a></li>
+                          <li><a href="{$config:nav-base}/login?logout=true" id="logout">Logout</a></li>
                         </ul>
                       </div>
                     </p>
@@ -892,7 +890,7 @@ declare function app:username-login($node as node(), $model as map(*)) {
                 <li>
                     <p class="navbar-btn">
                        <a data-toggle="modal" href="#loginModal" class="btn btn-primary dropdown-toggle">
-                         <span class="glyphicon glyphicon-user"/> {concat(' 1 ',$u1,' 2 ',$u2,' 3 ',$u3)} Login
+                         <span class="glyphicon glyphicon-user"/> Login
                         </a>
                     </p>
                 </li>
@@ -903,9 +901,37 @@ declare function app:username-login($node as node(), $model as map(*)) {
 declare 
     %templates:wrap
 function app:userinfo($node as node(), $model as map(*)) as map(*) {
-    let $user:= request:get-attribute("org.exist.login.user")
+    let $user:=         
+        if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
+        else xmldb:get-current-user()
     let $name := if ($user) then sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) else 'Guest'
     let $group := if ($user) then sm:get-user-groups($user) else 'guest'
     return
         map { "user-id" := $user, "user-name" := $name, "user-groups" := $group}
+};
+
+
+declare 
+    %templates:wrap
+function app:display-userinfo($node as node(), $model as map(*)) {
+    let $user:= 
+        if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
+        else xmldb:get-current-user()
+    let $userName := 
+            if(sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson'))) then 
+                sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) 
+            else $user 
+    let $coursepacks := collection($config:app-root || '/coursepacks')/coursepack[@user = $user]            
+    return
+        <div>
+            <h1>{$user} : {$userName}</h1>
+            <h3>Your coursepacks:</h3>
+            {for $coursepack in $coursepacks
+             return 
+                    <div class="indent">
+                        <h4><a href="{$config:nav-base}/coursepack/{string($coursepack/@id)}">{string($coursepack/@title)}</a></h4>
+                        <p class="desc">{$coursepack/desc/text()}</p>
+                    </div> 
+            }
+        </div>
 };
