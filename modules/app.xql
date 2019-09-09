@@ -166,10 +166,10 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
         let $rec := data:get-document()
         return 
             if(empty($rec)) then 
-                if(not(empty(data:get-coursepacks()))) then map {"data" := ''}
+                if(not(empty(data:get-coursepacks()))) then <blockquote>No record found</blockquote>
                 else response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
             else map {"data" := $rec }
-    else map {"data" := ''}
+    else <blockquote>No record found</blockquote>
 };
 
 (:~
@@ -179,7 +179,8 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
  :)
 (: Cludge for TEI stylesheets to only return child of html body, better handling will need to be developed.:)
 declare function app:display-work($node as node(), $model as map(*)) {
-     if($model("data")/tei:TEI) then tei2html:tei2html($model("data")/tei:TEI) else ()
+     if(tei2html:tei2html($model("data")/tei:TEI)) then tei2html:tei2html($model("data")/tei:TEI) 
+     else <div>'No record found'</div>
 };
 
 (:~  
@@ -202,7 +203,8 @@ declare function app:display-nodes($node as node(), $model as map(*), $paths as 
 :)
 declare function app:teiHeader($node as node(), $model as map(*)){
     let $data := $model("data")/descendant::tei:teiHeader
-    return tei2html:header($data)
+    return 
+        if(tei2html:tei2html($model("data")/tei:TEI)) then tei2html:header($data) else ()
 }; 
 
 (:~  
