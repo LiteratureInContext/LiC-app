@@ -166,10 +166,10 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
         let $rec := data:get-document()
         return 
             if(empty($rec)) then 
-                if(not(empty(data:get-coursepacks()))) then map {"data" := <div></div>}
+                if(not(empty(data:get-coursepacks()))) then map {"data" := ''}
                 else response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
             else map {"data" := $rec }
-    else map {"data" := <div></div>}
+    else map {"data" := ''}
 };
 
 (:~
@@ -179,7 +179,7 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
  :)
 (: Cludge for TEI stylesheets to only return child of html body, better handling will need to be developed.:)
 declare function app:display-work($node as node(), $model as map(*)) {
-     tei2html:tei2html($model("data")/tei:TEI)
+     if($model("data")/tei:TEI) then tei2html:tei2html($model("data")/tei:TEI) else ()
 };
 
 (:~  
