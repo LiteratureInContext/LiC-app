@@ -166,10 +166,10 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
         let $rec := data:get-document()
         return 
             if(empty($rec)) then 
-                if(not(empty(data:get-coursepacks()))) then map {"data" := 'Output plain HTML page'}
+                if(not(empty(data:get-coursepacks()))) then map {"data" := <div></div>}
                 else response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
             else map {"data" := $rec }
-    else map {"data" := 'Output plain HTML page'}
+    else map {"data" := <div></div>}
 };
 
 (:~
