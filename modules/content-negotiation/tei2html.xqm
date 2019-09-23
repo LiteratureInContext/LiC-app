@@ -341,7 +341,7 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
     return 
         <div class="summary">
             <a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}" dir="ltr">{tei2html:tei2html($title)}</a> 
-            {if($nodes/descendant::tei:titleStmt/tei:author) then (' by ', tei2html:emit-responsible-persons($nodes/descendant::tei:titleStmt/tei:author,10))
+            {if($nodes/descendant::tei:titleStmt/tei:author) then (' by ', tei2html:emit-responsible-persons($nodes/descendant::tei:titleStmt//tei:author//tei:name,10))
             else ()}
             {if($nodes/descendant::tei:biblStruct) then 
                 <span class="results-list-desc desc" dir="ltr" lang="en">
