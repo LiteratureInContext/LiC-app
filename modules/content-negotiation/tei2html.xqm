@@ -128,7 +128,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
 declare function tei2html:page-chunk($nodes as node()*){        
     for $page in $nodes/descendant::tei:pb
     let $ms1 := $page
-    let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ($nodes/descendant::*)[last()] 
+    let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ($nodes//element())[last()] 
     let $data := data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')
     let $root := root($nodes)/child::*[1]
     let $id := string($root/@xml:id)
@@ -184,10 +184,10 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
             <small>By 
             {
                 let $author-full-names :=
-                    for $author in $authors
+                    for $author in $authors//tei:name
                     return tei2html:persName($author)
-                let $name-count := count($authors)
-                return
+                let $name-count := count($author-full-names)
+                return 
                     if ($name-count le 2) then
                         string-join($author-full-names, ' and ')
                     else
@@ -221,13 +221,13 @@ let $name :=
     else $nodes
 return 
     <span class="tei-persName">{
-      if($name/@reg) then string($name/@reg)
-      else if($name/child::*) then 
-        (for $part in $name/child::*[not(self::tei:addName)]
-         order by $part/@sort ascending, string-join($part/descendant-or-self::text(),' ') descending
-         return tei2html:tei2html($part/node()),
-         if($name/tei:addName) then (', ',tei2html:tei2html($name/tei:addName)) else ())
-      else tei2html:tei2html($name/node())
+        if($name/@reg) then string($name/@reg)
+        else if($name/child::*) then 
+            (for $part in $name/child::*[not(self::tei:addName)]
+             order by $part/@sort ascending, string-join($part/descendant-or-self::text(),' ') descending
+             return (tei2html:tei2html($part/node()),' '),
+             if($name/tei:addName) then (', ',tei2html:tei2html($name/tei:addName)) else ())
+        else tei2html:tei2html($name/node())
     }</span> 
 };
 
