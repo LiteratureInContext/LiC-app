@@ -258,13 +258,13 @@ declare function data:get-common-ancestor($element as element(),
 {
     let $element :=    
         ($element//*[. is $start-node]/ancestor::* intersect $element//*[. is $end-node]/ancestor::*)[last()]
-    return $element
+    return if(not($element)) then <div>test</div> else $element//*[. is $start-node]/ancestor::*[last()]
 };
 
 declare function data:get-fragment(
     $node as node()*,
     $start-node as element(),
-    $end-node as element()?,
+    $end-node as node()?,
     $include-start-and-end-nodes as xs:boolean,
     $empty-ancestor-elements-to-include as xs:string+
 ) as node()*
@@ -313,14 +313,17 @@ declare function data:get-fragment(
         else ()
     default return
         (:if a text, comment or PI node follows the start-node or precedes the end-node, carry it over:)
-        if ($node >> $start-node and $node << $end-node) then $node
+        if(empty($end-node)) then 
+            if ($node >> $start-node) then $node
+            else ()
+        else if ($node >> $start-node and $node << $end-node) then $node
         else ()
 };
 
 declare function data:get-fragment-from-doc(
     $node as node()*,
     $start-node as element(),
-    $end-node as element()?,
+    $end-node as node()?,
     $wrap-in-first-common-ancestor-only as xs:boolean,
     $include-start-and-end-nodes as xs:boolean,
     $empty-ancestor-elements-to-include as xs:string*
