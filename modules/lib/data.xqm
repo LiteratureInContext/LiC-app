@@ -276,7 +276,8 @@ declare function data:get-fragment(
             else ()
         (: Hide end node, to eleminate duplicate page display in HTML output :)
         else if ($node is $end-node) then ()
-        else if (some $node in $node/descendant::* satisfies ($node is $start-node or $node is $end-node)) then
+        else if ((some $node in $node/descendant::* satisfies ($node is $start-node or $node is $end-node)) 
+                or (some $node in $node/descendant::* satisfies ($node is $start-node) and empty($end-node)) ) then
             element {node-name($node)}
                 {
                 if ($node/@xml:base)
@@ -309,11 +310,13 @@ declare function data:get-fragment(
                 return data:get-fragment($node, $start-node, $end-node, $include-start-and-end-nodes, $empty-ancestor-elements-to-include) }
         else
         (:if an element follows the start-node or precedes the end-note, carry it over:)
-        if ($node >> $start-node and $node << $end-node) then $node
+        if (empty($end-node) and $node >> $start-node) then $node 
+        else if ($node >> $start-node and $node << $end-node) then $node
         else ()
     default return
         (:if a text, comment or PI node follows the start-node or precedes the end-node, carry it over:)
-        if ($node >> $start-node and $node << $end-node) then $node
+        if (empty($end-node) and $node >> $start-node) then $node
+        else if ($node >> $start-node and $node << $end-node) then $node
         else ()
 };
 
@@ -328,13 +331,12 @@ declare function data:get-fragment-from-doc(
 {
     if ($node instance of element()) then
         let $node :=
-            if ($wrap-in-first-common-ancestor-only) then 
+         (:   if ($wrap-in-first-common-ancestor-only) then 
                 data:get-common-ancestor($node, $start-node, $end-node)
-            else $node
+            else :) $node
         return
                 data:get-fragment($node, $start-node, $end-node, $include-start-and-end-nodes, $empty-ancestor-elements-to-include)
     else if ($node instance of document-node()) then 
         data:get-fragment-from-doc($node/element(), $start-node, $end-node, $wrap-in-first-common-ancestor-only, $include-start-and-end-nodes, $empty-ancestor-elements-to-include)
     else ()
-        
 };

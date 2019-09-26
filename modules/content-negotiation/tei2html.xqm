@@ -128,8 +128,9 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
 declare function tei2html:page-chunk($nodes as node()*){        
     for $page in $nodes/descendant::tei:pb
     let $ms1 := $page
-    let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ($nodes//element())[last()] 
+    let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ()(:($nodes//element())[last()]:) 
     let $data := data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')
+    return 
     let $root := root($nodes)/child::*[1]
     let $id := string($root/@xml:id)
     let $wrapped := 
@@ -162,8 +163,7 @@ declare function tei2html:page-chunk($nodes as node()*){
                                   </span>
                      else ()
                  }</div>
-             </div> 
-                   
+             </div>             
 };
 
 (: end chunk functions :)
