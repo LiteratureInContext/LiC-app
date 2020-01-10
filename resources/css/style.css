@@ -286,7 +286,6 @@ sup..footnoteRef {
 .tei-author {font-weight:500;}
 .tei-addrLine {display:block; margin-left:2em;}
 .tei-body {display:block; margin:1em;}
-.tei-head {display:block; font-weight:500; font-size:1.25em;}
 .tei-castList dl {display:block; margin-left:1em;}
 .tei-castList dt {font-weight:600; color:#444;}
 .tei-castList dd {margin-left:1em;}
@@ -300,6 +299,9 @@ sup..footnoteRef {
 .results-list-desc .tei-imprint {display:inline; margin:inherit;}
 .tei-imprint {display:block; margin:1em;}
 .tei-imprint .tei-note {display:block; font-size:small; margin-left:2em;}
+.tei-head {display:block; text-align:center; font-size:1.5em; font-weight:500; color: #777;}
+/*.tei-head-title {display:block; text-align:center; font-size:1.35em; font-weight:500;}*/
+.tei-head-subtitle {display:block; text-align:center; font-size:1.25em; font-weight:500; color: #777;}
 .tei-lg {display:block; margin:1em 0;}
 .tei-l {display:block;}
 .tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top;}
