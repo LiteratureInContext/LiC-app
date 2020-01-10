@@ -39,7 +39,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(tei:castList) return 
                 <div class="tei-castList">{(
                     if($node/tei:head) then
-                        <h4 class="tei-head">{tei2html:tei2html($node/tei:head)}</h4>
+                       tei2html:tei2html($node/tei:head)
                     else (),
                     element dl {tei2html:tei2html($node/tei:castItem)})}</div>
             case element(tei:castItem) return
@@ -63,6 +63,8 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                 <span class="tei-l {if($node/@rend) then concat('tei-',$node/@rend) else ()}" id="{tei2html:get-id($node)}">{if($node/@n) then <span class="tei-line-number">{string($node/@n)}</span> else ()}{tei2html:tei2html($node/node())}</span>
             case element(tei:lb) return
                 <br/>
+            case element(tei:head) return
+                <span class="tei-head {(if($node/@title) then ' tei-head-title' else (),if($node/@subtitle) then ' tei-head-subtitle' else ())}">{tei2html:tei2html($node/node())}</span>    
             case element(tei:imprint) return 
             <span class="tei-{local-name($node)}" id="{tei2html:get-id($node)}">
             {
@@ -121,7 +123,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(exist:match) return
                 <span class="match" style="background-color:yellow;">{$node/text()}</span>
             case element() return
-                <span class="tei-{local-name($node)}" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</span>                
+                <span class="tei-{local-name($node)} {if($node/@n) then ' tei-n' else ()}" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</span>                
             default return tei2html:tei2html($node/node())
 };
 
