@@ -13,6 +13,7 @@ body {
   font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
 }
 /* Navbar styles */
+.vco-container .nav-container {background-image:none; border:none; color:#666;}
 .nav-container {
     height:100px;
     background-image:url(../images/banner.png);
