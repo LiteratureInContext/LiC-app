@@ -1019,7 +1019,9 @@ function app:lod($node as node(), $model as map(*)) {
             if(request:get-parameter('view', '') = 'map') then
                 app:map(())
             else if(request:get-parameter('view', '') = 'persName') then
-                app:persons(())                
+                app:persons(())
+            else if(request:get-parameter('view', '') = 'timeline') then
+                app:timeline(())                 
             else ()
         
         }
@@ -1071,15 +1073,8 @@ declare function app:persons($nodes as node()*) {
 declare function app:timeline($nodes as node()*) {
     <div>
         <div>
-        <h3>Timeline</h3>
-        {
-        let $persons := collection($config:data-root)//tei:persName
-        for $person in collection($config:data-root)//tei:persName
-        group by $facet-grp := $person/@key
-        return 
-        <div>{string($facet-grp)}</div>
-        
-        }    
+        <h3>Publication Dates</h3>
+        {timeline:timeline()}    
         </div>
     </div>
 };
