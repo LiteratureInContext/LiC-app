@@ -15,6 +15,36 @@ declare namespace json = "http://www.json.org";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
 (:
+<<<<<<< Updated upstream
+=======
+ : Display Timeline. Uses http://timeline.knightlab.com/
+:)
+declare function timeline:timeline(){ 
+    <div class="timeline">
+        <script type="text/javascript" src="https://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"/>
+        <script type="text/javascript">
+        <![CDATA[
+            $(document).ready(function() {
+                var parentWidth = $(".timeline").width();
+                createStoryJS({
+                    start:      'start_at_end',
+                    type:       'timeline',
+                    width:      "'" +parentWidth+"'",
+                    height:     '450',
+                    autolink:  'true',
+                    source:     ]]>{timeline:get-publication-dates()}<![CDATA[,
+                    embed_id:   'my-timeline'
+                    });
+                });
+                ]]>
+        </script>
+    <div id="my-timeline"/>
+    <p>*Timeline generated with <a href="http://timeline.knightlab.com/">http://timeline.knightlab.com/</a></p>
+    </div>
+};
+
+(:
+>>>>>>> Stashed changes
  : Format dates as JSON to be passed to timeline widget.
 :)
 declare function timeline:get-dates($data as node()*, $title as xs:string*){
