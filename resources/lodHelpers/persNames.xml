@@ -1,0 +1,2877 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <text>
+        <body>
+            <listPerson>
+                <person>
+                    <idno>n79004229</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79004229" cert="medium">Seneca</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>0000-0002-3544-2891</idno>
+                    <persName>
+                        <persName type="orcid" key="0000-0002-3544-2891">
+                    <name>
+                        <forename>Sara</forename>
+                        <surname>Brunstetter</surname>
+                    </name>
+                    </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Swift/Swift-Gulliver.xml</id>
+                            <title type="main">Travels into Several Remote Nations of the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n85115759</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n85115759" cert="low">Gower</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n50037924</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n50037924"> Darwin
+                  </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n78096912</idno>
+                    <persName>
+                        <persName type="lccn" key="n78096912">Swift</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Johnson/johnson-rambler-4.xml</id>
+                            <title type="main">The Rambler No. 4</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>0000-0002-5987-8542</idno>
+                    <persName>
+                        <persName type="orcid" key="0000-0002-5987-8542">
+                  <!-- This is the ORCID and key for the general editor of this text, usually the faculty member overseeing its production. -->
+                  <name ref="editors.xml#LR">
+                     <!-- Here, we reference basic identification information in the editors.xml page. This information is also aggregated and visible in the project contributors.  -->
+                     <surname>Runge</surname>
+                     <forename>Laura</forename>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/LMWMontagu/montagu-saturday.xml</id>
+                            <title type="main">"Saturday. The Small-Pox."</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79084387</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79084387">
+                  <name>
+                     <forename>Alexander</forename>
+                     <surname>Pope</surname>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Pope/pope-rape-lock.xml</id>
+                            <title type="main"> The Rape of the Lock </title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79061063</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79061063">
+                  <name>
+                     <forename>Mary</forename>
+                     <surname>Shelley</surname>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>no2014083772</idno>
+                    <persName>
+                        <persName type="lcnaf" key="no2014083772">Theseus</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n97925119</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n97925119">
+                        <name>
+                            <forename>Jonathan</forename>
+                            <surname>Swift</surname>
+                        </name>
+                    </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Swift/Swift-Gulliver.xml</id>
+                            <title type="main">Travels into Several Remote Nations of the World</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Swift/swift-modest-proposal.xml</id>
+                            <title type="main">A Modest Proposal</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n78095825</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n78095825">                      
+                                  <name>                               
+                                      <forename>Samuel</forename>
+                                      <surname>Johnson</surname>
+                                  </name>
+                              </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Johnson/johnson-rambler-4.xml</id>
+                            <title type="main">The Rambler No. 4</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79081354</idno>
+                    <persName>
+                        <persName type="lccn" key="n79081354">HOR[ace]</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Johnson/johnson-rambler-4.xml</id>
+                            <title type="main">The Rambler No. 4</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n50006616</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n50006616">
+                                   <name>
+                                   <forename>Aphra</forename>
+                                   <surname>Behn</surname>
+                                   </name>
+                                </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Behn/behn-rover.xml</id>
+                            <title>The Rover, or, The Banished Cavaliers</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Behn/behn-oroonoko.xml</id>
+                            <title type="main">Oroonoko, or, The royal slave: A True History</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79130881</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79130881">Mahomet</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79008228</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79008228">
+                                     <name ref="haywood.xml">
+                                       <forename>Eliza</forename>
+                                       <surname>Haywood</surname>
+                                     </name>
+                                 </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Haywood/haywood-fantomina.xml</id>
+                            <title type="main">Fantomina; or, Love in a Maze</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79021400</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79021400">Caesar</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno/>
+                    <persName>
+                        <persName type="orcid" key="">
+                        <name ref="editors.xml#">
+                            <surname/>
+                            <forename/>
+                        </name>
+                    </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Defoe/defoe-crusoe.xml</id>
+                            <title type="main">Robinson Crusoe</title>
+                            <title type="sub">The life and strange surprizing adventures of Robinson Crusoe: of York, mariner: who lived eight and twenty years, all alone in an un-inhabited island on the coast of America, near the mouth of the great river of Oroonoque; ... Written by himself.</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-prologue.xml</id>
+                            <title>The Prologue</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-davids.xml</id>
+                            <title>Davids Lamentation for Saul, and Jonathan, 2 Sam. 1.19</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-davids-lamentation.xml</id>
+                            <title>Davids Lamentation for Saul, and Jonathan, 2 Sam. 1.19</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-sidney.xml</id>
+                            <title>An Elegie upon that honourable and renowned Knight, Sir Philip Sidney, who was untimely slaine at the Seige of Zutphon Anno 1586</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-old-age.xml</id>
+                            <title>Old Age</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-childhood.xml</id>
+                            <title>Childhood</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-earth.xml</id>
+                            <title>Earth</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-roman.xml</id>
+                            <title>The Roman Monarcy, being the fourth and last, beginning, Anno Mandi</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Behn/behn-oroonoko.xml</id>
+                            <title type="main">Oroonoko, or, The royal slave: A True History</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n50027909</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n50027909">
+                  <name>
+                     <forename>Olaudah </forename>
+                     <surname>Equiano</surname>
+                     
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Equiano/equiano-interesting-narrative.xml</id>
+                            <title>The interesting narrative of the life of Olaudah Equiano: or Gustavus Vassa, the African.</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Equiano/equiano-interesting-narrative-test.xml</id>
+                            <title>The interesting narrative of the life of Olaudah Equiano: or Gustavus Vassa, the
+               African.</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>0000-0001-6453-8721</idno>
+                    <persName>
+                        <persName type="orcid" key="0000-0001-6453-8721">
+                     <name ref="editors.xml#JOB">
+                        <surname>O'Brien</surname>
+                        <forename>John</forename>
+                     </name>
+                  </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Swift/Swift-Gulliver.xml</id>
+                            <title type="main">Travels into Several Remote Nations of the World</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Behn/behn-rover.xml</id>
+                            <title>The Rover, or, The Banished Cavaliers</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Equiano/equiano-interesting-narrative.xml</id>
+                            <title>The interesting narrative of the life of Olaudah Equiano: or Gustavus Vassa, the African.</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Franklin/franklin-autobiography.xml</id>
+                            <title type="main">The Autobiography of Benjamin Franklin</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Pope/pope-rape-lock.xml</id>
+                            <title type="main"> The Rape of the Lock </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Equiano/equiano-interesting-narrative-test.xml</id>
+                            <title>The interesting narrative of the life of Olaudah Equiano: or Gustavus Vassa, the
+               African.</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n85202845</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n85202845">Numa</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79145303</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79145303">
+                         <name>
+                             <forename>Anne</forename>
+                             <surname>Bradstreet</surname>
+                         </name>
+                     </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-prologue.xml</id>
+                            <title>The Prologue</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-davids.xml</id>
+                            <title>Davids Lamentation for Saul, and Jonathan, 2 Sam. 1.19</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-davids-lamentation.xml</id>
+                            <title>Davids Lamentation for Saul, and Jonathan, 2 Sam. 1.19</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-vanity.xml</id>
+                            <title type="main">Of the Vanity of All Wordly Creatures</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-sidney.xml</id>
+                            <title>An Elegie upon that honourable and renowned Knight, Sir Philip Sidney, who was untimely slaine at the Seige of Zutphon Anno 1586</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-old-age.xml</id>
+                            <title>Old Age</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-childhood.xml</id>
+                            <title>Childhood</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-earth.xml</id>
+                            <title>Earth</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-youth.xml</id>
+                            <title type="main">Youth</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Bradstreet/bradstreet-roman.xml</id>
+                            <title>The Roman Monarcy, being the fourth and last, beginning, Anno Mandi</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n50016854</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n50016854">Motteux</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/LMWMontagu/montagu-saturday.xml</id>
+                            <title type="main">"Saturday. The Small-Pox."</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n78095639</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n78095639"> Homer</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79132433</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79132433">Charles I</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79069719</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79069719"> Robin Hood </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79053974</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79053974">
+                   <name>
+                    <forename>Daniel</forename>
+                    <surname>Defoe</surname>
+                    </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Defoe/defoe-crusoe.xml</id>
+                            <title type="main">Robinson Crusoe</title>
+                            <title type="sub">The life and strange surprizing adventures of Robinson Crusoe: of York, mariner: who lived eight and twenty years, all alone in an un-inhabited island on the coast of America, near the mouth of the great river of Oroonoque; ... Written by himself.</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n50041361</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n50041361">Buffon</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n83180215</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n83180215">Falkland</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79110932</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79110932">Solon</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n80126297</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n80126297">
+                  <!-- The name authority and key here are important; they allow the application to pull information directly from that record. The key should be the unique identifier for the element currently being described. -->
+                  <name ref="xxx.xml">
+                     <!-- If we use a separate file for author information, we reference it here, using the editors.xml model. -->
+                     <forename>Horace</forename>
+                     <surname>Walpole</surname>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n80056864</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n80056864">
+                            <name> 
+                               <forename>Anne</forename> 
+                               <surname type="birthname">Finch</surname>
+                            </name>
+                         </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Finch/out/temp-dir-for-ant/tmp2.xml</id>
+                            <title type="main">"To the Nightingale"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Finch/finch-nightingale.xml</id>
+                            <title type="main">"To the Nightingale"</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n50016726</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n50016726">
+                      <name>
+                         <forename>Phillis</forename>
+                         <surname>Wheatley</surname>
+                      </name>
+                   </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lieutenant.xml</id>
+                            <title type="main">
+                   "To His Honour the Lieutenant-Governor, on the Death of his Lady"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-whitefield.xml</id>
+                            <title type="main">"On the Death of the Rev. MR. GEORGE WHITEFIELD" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lady-death-relations.xml</id>
+                            <title type="main">"To a Lady on the Death of Three Relations"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-maecenas.xml</id>
+                            <title type="main">"To Maecenas" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-son-brother.xml</id>
+                            <title type="main">"To a LADY and her Children, on the Death of her Son and their Brother"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-rebus.xml</id>
+                            <title type="main">
+                   "A REBUS, by I. B."</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-gentleman-voyage.xml</id>
+                            <title type="main">"To a GENTLEMAN on his Voyage to Great-Britain for the
+                   Recovery of his Health"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-sewell.xml</id>
+                            <title type="main">"On the Death of the Rev. DR. SEWELL"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-avis.xml</id>
+                            <title type="main">"To a GENTLEMAN and LADY on the Death of the Lady's Brother and Sister, and a Child
+                   of the Name Avis, aged one Year" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-young-gentleman.xml</id>
+                            <title type="main">"On the Death of a young Gentleman"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-rebus-answer.xml</id>
+                            <title type="main">
+                   "AN ANSWER to the Rebus, by the Author of these
+                   POEMS" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-cambridge.xml</id>
+                            <title type="main">"To the University of Cambridge, in New-England" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-goliath.xml</id>
+                            <title type="main">"Goliath of Gath"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-honorable-william.xml</id>
+                            <title type="main">"To the Right Honourable WILLLAM, Earl of DARTMOUTH, His Majesty's Principal
+                   Secretary of State for North America, &amp;c." </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-distress.xml</id>
+                            <title type="main">
+                   "NIOBE in Distress for her Children slain by APOLLO, from Ovid's Metamorphoses, Book VI. and from a view of the Painting of Mr. Richard Wilson" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-neptune.xml</id>
+                            <title type="main">"ODE TO NEPTUNE"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-brought.xml</id>
+                            <title type="main">"Upon Being Brought from Africa to America"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-hymn-humanity.xml</id>
+                            <title type="main">"An HYMN to HUMANITY" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-recollection.xml</id>
+                            <title type="main">"On RECOLLECTION" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-morning-hymn.xml</id>
+                            <title type="main">"An HYMN to the MORNING"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-clergyman-death-lady.xml</id>
+                            <title type="main">"To a Clergyman on the Death of his Lady" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-providence.xml</id>
+                            <title type="main">"Thoughts on the WORKS of PROVIDENCE" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-painter.xml</id>
+                            <title type="main"> "To S. M. a young African Painter, on seeing his Works"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-isaiah.xml</id>
+                            <title type="main">"ISAIAH lxiii. I-8" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-infant.xml</id>
+                            <title type="main">"On the Death of J. C. an Infant"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lady-death-husband.xml</id>
+                            <title type="main">"To a Lady on the Death of her Husband"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-majesty.xml</id>
+                            <title type="main">"To the KING's Most Excellent Majesty"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-hurricane.xml</id>
+                            <title type="main">"To a LADY on her remarkable Preservation in an Hurricane in North-Carolina"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-funeral.xml</id>
+                            <title type="main">"A Funeral POEM on the Death of C. E. an Infant of Twelve Months"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-farewel.xml</id>
+                            <title type="main">
+                   "A Farewel to AMERICA"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-captain.xml</id>
+                            <title type="main">"To Captain H----D, of the 65th Regiment"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lady-health.xml</id>
+                            <title type="main">"To a LADY on her coming to North-America with her Son, for the Recovery of her
+                   Health"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-virtue.xml</id>
+                            <title type="main">"On Virtue" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-evening-hymn.xml</id>
+                            <title type="main">"An HYMN to the EVENING"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-daily-devotion.xml</id>
+                            <title type="main">"To the Rev. DR. THOMAS AMORY on reading his Sermons on DAILY DEVOTION, in which
+                   that Duty is recommended and assisted"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-young-lady.xml</id>
+                            <title type="main">"On the Death of a young Lady of Five Years of Age" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-imagination.xml</id>
+                            <title type="main">"On IMAGINATION" </title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-marshall.xml</id>
+                            <title type="main">"On the Death of Dr. SAMUEL MARSHALL"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-his-daughter.xml</id>
+                            <title type="main">"To the Honourable T. H. Esq; on the Death of his Daughter"</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n80075853</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n80075853">
+                  <!-- The name authority and key here are important; they allow the application to pull information directly from that record. The key should be the unique identifier for the element currently being described. -->
+                 
+                     <!-- If we use a separate file for author information, we reference it here, using the editors.xml model. -->
+                     <forename>Frances</forename>
+                     <surname>Burney</surname>
+                  
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79041715</idno>
+                    <persName>
+                        <persName type="n79041715" key="n79041715"> Ariosto </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n83206561</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n83206561">
+                        <name>
+                             <forename>Katherine</forename>
+                             <surname>Philips</surname>
+                        </name>
+                    </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-3-september.xml</id>
+                            <title>"On the 3. of September, 1651"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-to-the-duchess-of-york.xml</id>
+                            <title>"To Her Royal Highness the Duchess of York"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-religion.xml</id>
+                            <title>"On Controversies in Religion"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-double-murder.xml</id>
+                            <title>"Upon the Double Murder of King Charles I"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-dearest-lucasia.xml</id>
+                            <title>"Content, to my dearest Lucasia"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-death.xml</id>
+                            <title>"Death"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-god-reconciling-world.xml</id>
+                            <title>"2.Cor.5.19. God was in Christ Reconciling the World to Himself"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-death-walter-lloid-knight.xml</id>
+                            <title>On the Death of the Truly Honorable Sir Walter Lloid Knight.</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-rosania.xml</id>
+                            <title>"Rosania to Lucasia on her Letters"</title>
+                        </relation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Philips/philips-against-pleasure.xml</id>
+                            <title>"Against Pleasure"</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n80120959</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n80120959">Paracelsus</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n80024468</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n80024468">
+                  <!-- ref target="a006a" corresp="n006a">WILLIAM GODWIN</ref -->
+                  <!--note xml:id="n006a" target="a006a" type="editorial" resp="editors.xml#AR"-->
+                  <!-- -->
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79026763</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79026763" cert="medium">Plutarch</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79027135</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79027135">
+                  <!-- The name authority and key here are important; they allow the application to pull information directly from that record. The key should be the unique identifier for the element currently being described. -->
+                  <name>
+                     <!-- If we use a separate file for author information, we reference it here, using the editors.xml model. -->
+                     <forename>John</forename>
+                     <surname>Wilmot</surname>
+                     <addName>Earl of Rochester</addName>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Rochester/rochester-satyr-mankind.xml</id>
+                            <title type="main">"Satyr [Against Reason and Mankind]"</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n81007973</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n81007973">Albertus Magnus</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n84185908</idno>
+                    <persName>
+                        <persName type="lccn" key="n84185908">Potanus</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Johnson/johnson-rambler-4.xml</id>
+                            <title type="main">The Rambler No. 4</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79042075</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79042075">Pliny</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>nr96035470</idno>
+                    <persName>
+                        <persName type="lcnaf" key="nr96035470" cert="medium">Lycurgus</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n78095613</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n78095613">
+                  <name ref="wollstonecraft.xml">
+                     <forename>Mary</forename>
+                     <surname>Wollstonecraft</surname>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wollstonecraft/wollstonecraft-vindication-excerpted.xml</id>
+                            <title type="main">A Vindication of the Rights of Woman</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n83206699</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n83206699">Romulus</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n81106985</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n81106985">
+                      <name>
+                         <forename>J[ames]</forename>
+                         <surname>B[owdoin]</surname>
+                      </name>
+                   </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-rebus.xml</id>
+                            <title type="main">
+                   "A REBUS, by I. B."</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>0000-0002-7400-4093</idno>
+                    <persName>
+                        <persName type="orcid" key="0000-0002-7400-4093">
+                            <name ref="editors.xml#TH">
+                               <forename> Tonya</forename>
+                               <surname> Howe </surname>
+                            </name>
+                         </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-whitefield.xml</id>
+                            <title type="main">"On the Death of the Rev. MR. GEORGE WHITEFIELD" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lady-death-relations.xml</id>
+                            <title type="main">"To a Lady on the Death of Three Relations"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-maecenas.xml</id>
+                            <title type="main">"To Maecenas" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-son-brother.xml</id>
+                            <title type="main">"To a LADY and her Children, on the Death of her Son and their Brother"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-rebus.xml</id>
+                            <title type="main">
+                   "A REBUS, by I. B."</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-sewell.xml</id>
+                            <title type="main">"On the Death of the Rev. DR. SEWELL"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Rochester/rochester-satyr-mankind.xml</id>
+                            <title type="main">"Satyr [Against Reason and Mankind]"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-cambridge.xml</id>
+                            <title type="main">"To the University of Cambridge, in New-England" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-honorable-william.xml</id>
+                            <title type="main">"To the Right Honourable WILLLAM, Earl of DARTMOUTH, His Majesty's Principal
+                   Secretary of State for North America, &amp;c." </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-neptune.xml</id>
+                            <title type="main">"ODE TO NEPTUNE"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-hymn-humanity.xml</id>
+                            <title type="main">"An HYMN to HUMANITY" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-recollection.xml</id>
+                            <title type="main">"On RECOLLECTION" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-morning-hymn.xml</id>
+                            <title type="main">"An HYMN to the MORNING"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-clergyman-death-lady.xml</id>
+                            <title type="main">"To a Clergyman on the Death of his Lady" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lady-death-husband.xml</id>
+                            <title type="main">"To a Lady on the Death of her Husband"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-majesty.xml</id>
+                            <title type="main">"To the KING's Most Excellent Majesty"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-hurricane.xml</id>
+                            <title type="main">"To a LADY on her remarkable Preservation in an Hurricane in North-Carolina"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-funeral.xml</id>
+                            <title type="main">"A Funeral POEM on the Death of C. E. an Infant of Twelve Months"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-farewel.xml</id>
+                            <title type="main">
+                   "A Farewel to AMERICA"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-captain.xml</id>
+                            <title type="main">"To Captain H----D, of the 65th Regiment"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Johnson/johnson-rambler-4.xml</id>
+                            <title type="main">The Rambler No. 4</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Chudleigh/chudleigh-ladies.xml</id>
+                            <title type="main">"To the Ladies"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lady-health.xml</id>
+                            <title type="main">"To a LADY on her coming to North-America with her Son, for the Recovery of her
+                   Health"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-virtue.xml</id>
+                            <title type="main">"On Virtue" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-evening-hymn.xml</id>
+                            <title type="main">"An HYMN to the EVENING"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-daily-devotion.xml</id>
+                            <title type="main">"To the Rev. DR. THOMAS AMORY on reading his Sermons on DAILY DEVOTION, in which
+                   that Duty is recommended and assisted"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Haywood/haywood-fantomina.xml</id>
+                            <title type="main">Fantomina; or, Love in a Maze</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-imagination.xml</id>
+                            <title type="main">"On IMAGINATION" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-marshall.xml</id>
+                            <title type="main">"On the Death of Dr. SAMUEL MARSHALL"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-his-daughter.xml</id>
+                            <title type="main">"To the Honourable T. H. Esq; on the Death of his Daughter"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lieutenant.xml</id>
+                            <title type="main">
+                   "To His Honour the Lieutenant-Governor, on the Death of his Lady"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Finch/finch-nightingale.xml</id>
+                            <title type="main">"To the Nightingale"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-gentleman-voyage.xml</id>
+                            <title type="main">"To a GENTLEMAN on his Voyage to Great-Britain for the
+                   Recovery of his Health"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-avis.xml</id>
+                            <title type="main">"To a GENTLEMAN and LADY on the Death of the Lady's Brother and Sister, and a Child
+                   of the Name Avis, aged one Year" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-young-gentleman.xml</id>
+                            <title type="main">"On the Death of a young Gentleman"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-rebus-answer.xml</id>
+                            <title type="main">
+                   "AN ANSWER to the Rebus, by the Author of these
+                   POEMS" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Finch/out/temp-dir-for-ant/tmp2.xml</id>
+                            <title type="main">"To the Nightingale"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-goliath.xml</id>
+                            <title type="main">"Goliath of Gath"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-distress.xml</id>
+                            <title type="main">
+                   "NIOBE in Distress for her Children slain by APOLLO, from Ovid's Metamorphoses, Book VI. and from a view of the Painting of Mr. Richard Wilson" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-brought.xml</id>
+                            <title type="main">"Upon Being Brought from Africa to America"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-providence.xml</id>
+                            <title type="main">"Thoughts on the WORKS of PROVIDENCE" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-painter.xml</id>
+                            <title type="main"> "To S. M. a young African Painter, on seeing his Works"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-isaiah.xml</id>
+                            <title type="main">"ISAIAH lxiii. I-8" </title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-infant.xml</id>
+                            <title type="main">"On the Death of J. C. an Infant"</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Austen/austen-sanditon-ms.xml</id>
+                            <title type="main">TITLE HERE</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wollstonecraft/wollstonecraft-vindication-excerpted.xml</id>
+                            <title type="main">A Vindication of the Rights of Woman</title>
+                        </relation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-young-lady.xml</id>
+                            <title type="main">"On the Death of a young Lady of Five Years of Age" </title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>XXX</idno>
+                    <persName>
+                        <persName type="lcnaf" key="XXX">
+                  <!-- The name authority and key here are important; they allow the application to pull information directly from that record. The key should be the unique identifier for the element currently being described. -->
+                  <name>
+                     <!-- If we use a separate file for author information, we reference it here, using the editors.xml model. -->
+                     <forename>Jane</forename>
+                     <surname>Austen</surname>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Austen/austen-sanditon-ms.xml</id>
+                            <title type="main">TITLE HERE</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n50004183</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n50004183">
+                  <!-- The name authority and key here are important; they allow the application to pull information directly from that record. The key should be the unique identifier for the element currently being described. -->
+                  <name>
+                     <!-- If we use a separate file for author information, we reference it here, using the editors.xml model; ignore if irrelevant. -->
+                     <forename>Mary Wortley</forename>
+                     <surname>Montagu</surname>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/LMWMontagu/montagu-saturday.xml</id>
+                            <title type="main">"Saturday. The Small-Pox."</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n80043375</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n80043375"> Cornelius Agrippa</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n78095495</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n78095495">Dante</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n88631189</idno>
+                    <persName>
+                        <persName type="lccn" key="n88631189">
+                    Scaliger</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Johnson/johnson-rambler-4.xml</id>
+                            <title type="main">The Rambler No. 4</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n83027904</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n83027904">
+                  <name ref="chudleigh.xml">
+                     <forename>Mary</forename>
+                     <surname>Chudleigh</surname>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Chudleigh/chudleigh-ladies.xml</id>
+                            <title type="main">"To the Ladies"</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n78095532</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n78095532">Milton</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n78095332</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n78095332">Shakespeare</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>n79043402</idno>
+                    <persName>
+                        <persName type="lcnaf" key="n79043402">
+                    <name>
+                    <surname>Franklin</surname>
+                    <forename>Benjamin</forename>
+                     </name>
+                </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="author">
+                            <id>/db/apps/LiC-data/data/Franklin/franklin-autobiography.xml</id>
+                            <title type="main">The Autobiography of Benjamin Franklin</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Caroline Beaufort</idno>
+                    <persName>
+                        <persName>Caroline Beaufort</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Alfonso</idno>
+                    <persName>
+                        <persName>Alfonso</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>(Felix)
+                        </idno>
+                    <persName>
+                        <persName>
+                            <hi rend="italic">(Felix)</hi>
+                        </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Tavernier</idno>
+                    <persName>
+                        <persName>Tavernier</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>M. Krempe</idno>
+                    <persName>
+                        <persName>M. Krempe</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Thomas</idno>
+                    <persName>
+                        <persName>Thomas</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Unknown person or persons</idno>
+                    <persName>
+                        <persName>Unknown person or persons</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>M. Cooper</idno>
+                    <persName>
+                        <persName>M. Cooper</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/LMWMontagu/montagu-saturday.xml</id>
+                            <title type="main">"Saturday. The Small-Pox."</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>FITZSIMONS</idno>
+                    <persName>
+                        <persName>FITZSIMONS</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>ROBERT WALTON.</idno>
+                    <persName>
+                        <persName>ROBERT WALTON.</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Agatha</idno>
+                    <persName>
+                        <persName>Agatha</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Louisa Biron</idno>
+                    <persName>
+                        <persName>Louisa Biron</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Magistrate</idno>
+                    <persName>
+                        <persName>Magistrate</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>De Lacey</idno>
+                    <persName>
+                        <persName>De Lacey</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person p p p p p p">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Ship master</idno>
+                    <persName>
+                        <persName>Ship master</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Old woman</idno>
+                    <persName>
+                        <persName>Old woman</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>EXSHAW</idno>
+                    <persName>
+                        <persName>EXSHAW</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Ship lieutenant</idno>
+                    <persName>
+                        <persName>Ship lieutenant</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Louis Manoir</idno>
+                    <persName>
+                        <persName>Louis Manoir</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>St. George</idno>
+                    <persName>
+                        <persName>St. George</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Elizabeth</idno>
+                    <persName>
+                        <persName>Elizabeth</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person p p p p p p p said p p p p p said p said p p p said said said p said p p p p p p p p p said p p p said p p p p p p p p said p p p p p said p p p p p p said p p said p p p p p p p p p p p p p p p p said">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Satan</idno>
+                    <persName>
+                        <persName>Satan</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>WHITESTONES</idno>
+                    <persName>
+                        <persName>WHITESTONES</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Mr.Kirwin’s</idno>
+                    <persName>
+                        <persName>Mr.Kirwin’s</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>De
+                           Lacey</idno>
+                    <persName>
+                        <persName>De
+                           Lacey</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Henry</idno>
+                    <persName>
+                        <persName>Henry</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Victor</idno>
+                    <persName>
+                        <persName>Victor</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>CORCORAN</idno>
+                    <persName>
+                        <persName>CORCORAN</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Conrad</idno>
+                    <persName>
+                        <persName>Conrad</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person p hi persName hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Lilly</idno>
+                    <persName>
+                        <persName>Lilly</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/LMWMontagu/montagu-saturday.xml</id>
+                            <title type="main">"Saturday. The Small-Pox."</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Victor Frankenstein</idno>
+                    <persName>
+                        <persName>Victor Frankenstein</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>M.
+                              Frankenstein</idno>
+                    <persName>
+                        <persName>M.
+                              Frankenstein</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>M.
+                        Krempe</idno>
+                    <persName>
+                        <persName>M.
+                        Krempe</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Werter</idno>
+                    <persName>
+                        <persName>Werter</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Victoria</idno>
+                    <persName>
+                        <persName>Victoria</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Diego, a domestic</idno>
+                    <persName>
+                        <persName>Diego, a domestic</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Beaufort</idno>
+                    <persName>
+                        <persName>Beaufort</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Daniel</idno>
+                    <persName>
+                        <persName>Daniel</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>JENKIN</idno>
+                    <persName>
+                        <persName>JENKIN</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Safie</idno>
+                    <persName>
+                        <persName>Safie</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>WALLER.</idno>
+                    <persName>
+                        <persName>
+                            <ref target="a003" corresp="n003">WALLER.</ref>
+                        </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Haywood/haywood-fantomina.xml</id>
+                            <title type="main">Fantomina; or, Love in a Maze</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>R. WALTON.</idno>
+                    <persName>
+                        <persName>R. WALTON.</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>BEATTY</idno>
+                    <persName>
+                        <persName>BEATTY</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Theodore</idno>
+                    <persName>
+                        <persName>Theodore</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Orlando</idno>
+                    <persName>
+                        <persName>Orlando</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>(Agatha)</idno>
+                    <persName>
+                        <persName>
+                            <hi rend="italic">(Agatha)</hi>
+                        </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Isabella</idno>
+                    <persName>
+                        <persName>Isabella</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person hi persName hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Henry
+                        Clerval</idno>
+                    <persName>
+                        <persName>Henry
+                        Clerval</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Justine Moritz</idno>
+                    <persName>
+                        <persName>Justine Moritz</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person p said said said">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Robert Walton</idno>
+                    <persName>
+                        <persName>Robert Walton</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Matilda</idno>
+                    <persName>
+                        <persName>Matilda</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person hi persName hi persName hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>J. HOEY</idno>
+                    <persName>
+                        <persName>J. HOEY</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Moritz</idno>
+                    <persName>
+                        <persName>Moritz</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>COLLES</idno>
+                    <persName>
+                        <persName>COLLES</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Victor Frankenstein's father</idno>
+                    <persName>
+                        <persName>Victor Frankenstein's father</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>E. CROSS</idno>
+                    <persName>
+                        <persName>E. CROSS</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>M.
+                        Waldman</idno>
+                    <persName>
+                        <persName>M.
+                        Waldman</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>CLERVAL</idno>
+                    <persName>
+                        <persName>CLERVAL</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Margaret</idno>
+                    <persName>
+                        <persName>Margaret</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Felix</idno>
+                    <persName>
+                        <persName>Felix</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person p p p p p p p p p p p p p p p p p p p p p p p p p p p p p p p p p p p p said">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Jaquez, a domestic</idno>
+                    <persName>
+                        <persName>Jaquez, a domestic</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Frankenstein</idno>
+                    <persName>
+                        <persName>Frankenstein</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Victor Frankenstein's mother</idno>
+                    <persName>
+                        <persName>Victor Frankenstein's mother</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Mr. Kirwin</idno>
+                    <persName>
+                        <persName>Mr. Kirwin</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person said said p p p p p p p p">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>WALKER</idno>
+                    <persName>
+                        <persName>WALKER</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>God</idno>
+                    <persName>
+                        <persName>God</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>The Creature</idno>
+                    <persName>
+                        <persName>The Creature</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Arabian</idno>
+                    <persName>
+                        <persName>Arabian</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Professor Kempe</idno>
+                    <persName>
+                        <persName>Professor Kempe</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>
+                  
+                     Ally
+                     Freeland
+                  
+               </idno>
+                    <persName>
+                        <persName>
+                  <name xml:id="AF">
+                     <forename>Ally</forename>
+                     <surname>Freeland</surname>
+                  </name>
+               </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="editor">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>WILLIAMS</idno>
+                    <persName>
+                        <persName>WILLIAMS</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>S.
+                     CHAPMAN</idno>
+                    <persName>
+                        <persName>S.
+                     CHAPMAN</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Haywood/haywood-fantomina.xml</id>
+                            <title type="main">Fantomina; or, Love in a Maze</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Portrait</idno>
+                    <persName>
+                        <persName>Portrait</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>The Creature's voice as imagined by Victor</idno>
+                    <persName>
+                        <persName>The Creature's voice as imagined by Victor</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>V. FRANKENSTEIN.</idno>
+                    <persName>
+                        <persName>V. FRANKENSTEIN.</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Walton</idno>
+                    <persName>
+                        <persName>Walton</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>PERRIN</idno>
+                    <persName>
+                        <persName>PERRIN</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>V. FRANKENSTEIN </idno>
+                    <persName>
+                        <persName>V. FRANKENSTEIN </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Manoir</idno>
+                    <persName>
+                        <persName>Manoir</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Frederic</idno>
+                    <persName>
+                        <persName>Frederic</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Elizabeth Lavenza</idno>
+                    <persName>
+                        <persName>Elizabeth Lavenza</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Marquis of Vicenza</idno>
+                    <persName>
+                        <persName>Marquis of <hi rend="italic">Vicenza</hi>
+                        </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Turk</idno>
+                    <persName>
+                        <persName>Turk</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Mansfield</idno>
+                    <persName>
+                        <persName>Mansfield</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Victor's father's brother-in-law</idno>
+                    <persName>
+                        <persName>Victor's father's brother-in-law</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Adam's</idno>
+                    <persName>
+                        <persName>Adam's</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>ALPHONSE FRANKENSTEIN</idno>
+                    <persName>
+                        <persName>ALPHONSE FRANKENSTEIN</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Professor Waldman</idno>
+                    <persName>
+                        <persName>Professor Waldman</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>BURNET</idno>
+                    <persName>
+                        <persName>BURNET</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Waldman</idno>
+                    <persName>
+                        <persName>Waldman</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Krempe</idno>
+                    <persName>
+                        <persName>Krempe</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Hippolita</idno>
+                    <persName>
+                        <persName>Hippolita</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Alfonso the
+                     Good</idno>
+                    <persName>
+                        <persName>
+                            <hi rend="italic">Alfonso</hi> the
+                     Good</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Angelica</idno>
+                    <persName>
+                        <persName>Angelica</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>D. BROWNE jun</idno>
+                    <persName>
+                        <persName>D. BROWNE jun</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Haywood/haywood-fantomina.xml</id>
+                            <title type="main">Fantomina; or, Love in a Maze</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>One or more 'domestics'</idno>
+                    <persName>
+                        <persName>One or more 'domestics'</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno> Daniel
+                        Nugent</idno>
+                    <persName>
+                        <persName> Daniel
+                        Nugent</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Manfred</idno>
+                    <persName>
+                        <persName>Manfred</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person hi persName hi persName hi persName hi persName hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>WHITE</idno>
+                    <persName>
+                        <persName>WHITE</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>ELIZABETH LAVENZA</idno>
+                    <persName>
+                        <persName>ELIZABETH LAVENZA</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>PRICE</idno>
+                    <persName>
+                        <persName>PRICE</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>BERNARD LINTOT</idno>
+                    <persName>
+                        <persName>BERNARD LINTOT</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Chudleigh/chudleigh-ladies.xml</id>
+                            <title type="main">"To the Ladies"</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Duvillard</idno>
+                    <persName>
+                        <persName>Duvillard</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>R. CROSS</idno>
+                    <persName>
+                        <persName>R. CROSS</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Justine</idno>
+                    <persName>
+                        <persName>Justine</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Caroline</idno>
+                    <persName>
+                        <persName>Caroline</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>William</idno>
+                    <persName>
+                        <persName>William</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>VICTOR FRANKENSTEIN.</idno>
+                    <persName>
+                        <persName>VICTOR FRANKENSTEIN.</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Adam</idno>
+                    <persName>
+                        <persName>Adam</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Eve</idno>
+                    <persName>
+                        <persName>Eve</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Manon</idno>
+                    <persName>
+                        <persName>Manon</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>M. Waldman</idno>
+                    <persName>
+                        <persName>M. Waldman</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>R.W.</idno>
+                    <persName>
+                        <persName>R.W.</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Clerval</idno>
+                    <persName>
+                        <persName>Clerval</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Henry Clerval</idno>
+                    <persName>
+                        <persName>Henry Clerval</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person p p">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Amadis</idno>
+                    <persName>
+                        <persName>Amadis</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Unknown or as yet unknown</idno>
+                    <persName>
+                        <persName>Unknown or as yet unknown</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Daniel Nugent </idno>
+                    <persName>
+                        <persName>Daniel Nugent </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Margaret's voice as imagined by Walton</idno>
+                    <persName>
+                        <persName>Margaret's voice as imagined by Walton</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>CHAMBERLAINE</idno>
+                    <persName>
+                        <persName>CHAMBERLAINE</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno> Mrs. SAVILLE, </idno>
+                    <persName>
+                        <persName> Mrs. SAVILLE, </persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Ernest</idno>
+                    <persName>
+                        <persName>Ernest</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="person p p p p p said p p p said p p p p">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>Mr.
+                        Kirwin</idno>
+                    <persName>
+                        <persName>Mr.
+                        Kirwin</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+                <person>
+                    <idno>John
+                              Melbourne</idno>
+                    <persName>
+                        <persName>John
+                              Melbourne</persName>
+                    </persName>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </person>
+            </listPerson>
+        </body>
+    </text>
+</TEI>
