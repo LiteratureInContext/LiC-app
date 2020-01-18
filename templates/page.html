@@ -14,7 +14,6 @@
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.Default.css"/>
         <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>
-        <!--        <script type="text/javascript" src="$nav-base/resources/scripts/loadsource.js"/>-->
         <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/lightslider.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
@@ -25,7 +24,7 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.plugins.min.js"></script>
         -->
-        <script type="text/javascript" src="$nav-base/resources/js/lazyload.js"/>
+        <!--<script type="text/javascript" src="$nav-base/resources/js/lazyload.js"/>-->
         <script>
             $(document).ready(function() {
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
@@ -79,16 +78,13 @@
                             </div>
                         </div>
                     </form>
-                    <span data-template="app:userinfo">
-                        <div data-template="app:username-login"/>
-                    </span>
-                    <!--
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav">
                         <li>
-                            <div data-template="app:username-login"></div>
+                            <span data-template="app:userinfo">
+                                <div data-template="app:username-login"/>
+                            </span>                            
                         </li>
                     </ul>
-                    -->
                 </div>
             </nav>
         </div>
