@@ -13,6 +13,7 @@ body {
   font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
 }
 /* Navbar styles */
+.vco-container .nav-container {background-image:none; border:none; color:#666;}
 .nav-container {
     height:100px;
     background-image:url(../images/banner.png);
@@ -204,6 +205,8 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .toolbar {margin-right:.15em; font-size:small; padding-left:.75em; padding-right:.75em; line-height: 1.25em;}
 
 /* Work styles */
+.lazyContent {width:100%; height: 25px; border: 1px solid #eee;}
+
 .pageImages {display:block; margin:1em; padding:1em;}
 
 .pageImage {
@@ -266,6 +269,11 @@ sup..footnoteRef {
     overflow-x:hidden;
 }
 
+/* LOD */
+/* Maps */
+#map {height:500px !important;}
+.map-pop-desc {display:block;margin-left:.5em;}
+.map-related-title, .map-pop-relation {display:block; margin-left:1em; border-bottom:1px solid #eee;}
 /* Facets */
 .facet-label {
     margin-left:.5em;
@@ -286,7 +294,6 @@ sup..footnoteRef {
 .tei-author {font-weight:500;}
 .tei-addrLine {display:block; margin-left:2em;}
 .tei-body {display:block; margin:1em;}
-.tei-head {display:block; font-weight:500; font-size:1.25em;}
 .tei-castList dl {display:block; margin-left:1em;}
 .tei-castList dt {font-weight:600; color:#444;}
 .tei-castList dd {margin-left:1em;}
@@ -300,6 +307,9 @@ sup..footnoteRef {
 .results-list-desc .tei-imprint {display:inline; margin:inherit;}
 .tei-imprint {display:block; margin:1em;}
 .tei-imprint .tei-note {display:block; font-size:small; margin-left:2em;}
+.tei-head {display:block; text-align:center; font-size:1.5em; font-weight:500; color: #777;}
+/*.tei-head-title {display:block; text-align:center; font-size:1.35em; font-weight:500;}*/
+.tei-head-subtitle {display:block; text-align:center; font-size:1.25em; font-weight:500; color: #777;}
 .tei-lg {display:block; margin:1em 0;}
 .tei-l {display:block;}
 .tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top;}
