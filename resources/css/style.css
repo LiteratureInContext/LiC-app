@@ -83,6 +83,10 @@ body {
 }
 /* .slide-content {padding:5% 5%;} */
 .slide-content img {border:2px solid white;}
+.slide-content .featuredImage img {
+    float: left;
+    margin-right: 1em;
+    }
 .slide-content a {color: #122141;}
 .slider-control {font-size: 4em; color:#122141; text-shadow: 2px 2px #000000;}
 
@@ -161,7 +165,7 @@ footer .copyright{padding-top:1em;border-top:2px solid #A18C6A;}
 footer ul.funders {list-style-type: none;  margin-top:.5em; padding-top:0;}
 footer ul.funders li {display:inline;}
 footer ul.funders li img {margin:0 1em;}
-.social-media {margin-bottom:1em;}
+.social-media {margin-bottom:1em; font-size:1.25em;}
 footer ul.social-media li {display:inline;}
 footer ul.social-media li img {margin:1em .25em; border-width:0; height:24px;}
 
@@ -340,4 +344,7 @@ sup..footnoteRef {
 .navbar-brand {padding-left: 1em; margin-top:-.24em; margin-bottom:-.24em; font-size: 24px;}
 .btn {font-size:small;}
 .coursepackToolbar .btn {margin:2px;}
+/* .slide-content img {border:2px solid white; width:40%;} */
+.slide-content .featuredImage img {width:60%;}
+.slide-content {font-size:.75em;}
 }

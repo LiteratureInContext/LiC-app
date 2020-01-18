@@ -5,15 +5,17 @@ module namespace app="http://LiC.org/templates";
 (: Import eXist modules:)
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="http://LiC.org/config" at "config.xqm";
-import module namespace timeline="http://LiC.org/timeline" at "lib/timeline.xqm";
-import module namespace facet="http://expath.org/ns/facet" at "lib/facet.xqm";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace functx="http://www.functx.com";
 
 (: Import application modules. :)
+import module namespace timeline="http://LiC.org/timeline" at "lib/timeline.xqm";
+import module namespace facet="http://expath.org/ns/facet" at "lib/facet.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "content-negotiation/tei2html.xqm";
 import module namespace data="http://LiC.org/data" at "lib/data.xqm";
 import module namespace maps="http://LiC.org/maps" at "lib/maps.xqm";
+
+import module namespace d3xquery="http://syriaca.org/d3xquery" at "../d3xquery/d3xquery.xqm";
 
 (: Namespaces :)
 declare namespace repo="http://exist-db.org/xquery/repo";
@@ -104,10 +106,8 @@ declare function app:create-featured-slides($node as node(), $model as map(*)) {
                     let $coursepack := doc($config:app-root || '/coursepacks/' || $coursepackId || '.xml' )
                     return 
                         <div class="row">
-                            {if($imageURL != '') then 
-                                 <div class="col-md-4">{$image}</div>
-                            else ()}
                             <div class="coursepack {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
+                            <div class="featuredImage">{$image}</div>
                             <h3>Featured Coursepack</h3>
                             <h4>{string($coursepack/coursepack/@title)} ({count($coursepack//work)} works)</h4>
                             <p>{$coursepack/coursepack/desc/text()}</p>
@@ -128,10 +128,8 @@ declare function app:create-featured-slides($node as node(), $model as map(*)) {
                     let $work := doc(xmldb:encode-uri($workPath))
                     return 
                         <div>
-                            {if($imageURL != '') then 
-                                 <div class="col-md-4">{$image}</div>
-                            else ()}
                             <div class="work {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
+                            <div class="featuredImage">{$image}</div>
                             <h3>Featured Work</h3>
                             {tei2html:summary-view($work, (), $workPath)}
                             </div>
@@ -1022,6 +1020,8 @@ function app:lod($node as node(), $model as map(*)) {
                 app:persons(())
             else if(request:get-parameter('view', '') = 'timeline') then
                 app:timeline(())                 
+            else if(request:get-parameter('view', '') = 'network') then
+                app:network(()) 
             else ()
         
         }
@@ -1048,20 +1048,46 @@ declare function app:persons($nodes as node()*) {
         <div>
         <h3>Persons</h3>
         {
-          for $person in collection($config:data-root)//tei:persName
-          group by $facet-grp := $person/@key 
-          return 
-            <div>
-                {$person//text()} [{string($facet-grp)}] ({count($person)})
-            </div>
-        (:
-        let $persons := collection($config:data-root)//tei:persName
-        for $person in collection($config:data-root)//tei:persName
-        group by $facet-grp := $person/@key, 0
-        return 
-            <div>{string($facet-grp)} ({count($person)})</div>
-        :)}    
-        </div>
+          let $persNames := doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
+          return
+            if(request:get-parameter('graph', '') = 'true') then
+              (:  d3xquery:build-graph-type($persNames, (), (), 'Bubble'):)
+              <div>TEST visualization here</div>
+            else 
+                for $person at $i in $persNames
+                let $name := if($person/descendant::tei:persName/descendant::tei:name/tei:surname) then 
+                                  concat(normalize-space($person/descendant::tei:persName/descendant::tei:name/tei:surname),', ', normalize-space($person/descendant::tei:persName/descendant::tei:name/tei:forename))
+                              else string-join($person/descendant::tei:persName//text(),' ')
+                let $related := $person/descendant::tei:relation
+                order by $name
+                return 
+                  <div style="border:1px solid #eee;">
+                    <button class="btn btn-link" 
+                    data-toggle="collapse" data-target="{concat('#name',$i,'Show')}">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    </button> 
+                    {$name} ({count($person/descendant::tei:relation)} associated work{if(count($related) gt 1) then 's' else()})
+                    {
+                    if($person/tei:persName/@type = ('lcnaf','lccn')) then 
+                        <a href="http://id.loc.gov/authorities/names/{$person/tei:idno}" alt="External Link"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
+                    else if($person/tei:persName/@type = 'orcid') then 
+                        <a href="https://orcid.org/{$person/tei:idno}" target="_blank" alt="External Link"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
+                    else ()}
+                    <div class="panel-collapse collapse left-align" id="{concat('name',$i,'Show')}">{
+                        for $r in $related
+                        group by $type := $r/@type
+                        return 
+                            <div style="margin-left:2em;">
+                                <p style="font-weight:strong;">{string($type)}</p>
+                                <ul>{
+                                for $work in $r
+                                let $id := $work/tei:id
+                                return <li><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
+                                }</ul>
+                            </div>
+                    }</div>
+                </div>
+        }</div>
     </div>
 };
 
@@ -1075,6 +1101,17 @@ declare function app:timeline($nodes as node()*) {
         <div>
         <h3>Publication Dates</h3>
         {timeline:timeline()}    
+        </div>
+    </div>
+};
+
+(: 
+ : d3js visualization of works/persons/places
+:)
+declare function app:network($nodes as node()*) {
+    <div>
+        <div>
+            'Place holder'    
         </div>
     </div>
 };
