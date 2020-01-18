@@ -31,7 +31,7 @@ body {
 .navbar-brand a:hover{
     text-decoration: none;
 }
-.navbar-searchbox { max-width: 250px;}
+.navbar-searchbox { max-width: 150px;}
 .nav>li>a {
     padding: 15px 10px;
 }
