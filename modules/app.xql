@@ -13,6 +13,7 @@ import module namespace functx="http://www.functx.com";
 (: Import application modules. :)
 import module namespace tei2html="http://syriaca.org/tei2html" at "content-negotiation/tei2html.xqm";
 import module namespace data="http://LiC.org/data" at "lib/data.xqm";
+import module namespace maps="http://LiC.org/maps" at "lib/maps.xqm";
 
 (: Namespaces :)
 declare namespace repo="http://exist-db.org/xquery/repo";
@@ -196,6 +197,65 @@ declare function app:display-nodes($node as node(), $model as map(*), $paths as 
                     for $p in tokenize($paths,',')
                     return util:eval(concat('$data',$p)))
         else tei2html:tei2html($data/descendant::tei:text)
+}; 
+
+(:~  
+ : Add HTML divs for lazyLoad feature to fill in
+ : Uses tei:pb for creating anchor divs.
+ : example: <pb n="ii" facs="pageImages/ii.jpg"></pb> 
+ : Use with data.xql and lazyLoad.js  
+ : NOTE: could make a milestone paramter to let users select which milestone to use.
+:)
+declare function app:lazy-load($node as node(), $model as map(*), $paths as xs:string*){
+    let $data := $model("data")
+    let $nodes := $data/descendant::tei:text
+    let $pages := $nodes/descendant::tei:pb
+    let $count := count($pages)
+    let $firstPage := 
+        for $page in $pages[1]
+        let $ms1 := $page
+        let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ()(:($nodes//element())[last()]:) 
+        let $data := data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')
+        return 
+            let $root := root($nodes)/child::*[1]
+            let $id := string($root/@xml:id)
+            let $wrapped := 
+                    element {node-name($root)}
+                            {(
+                                for $a in $root/@*
+                                return attribute {node-name($a)} {string($a)},
+                                $data
+                            )}
+            return 
+                <div class="tei-page-chunk row" n="{string($page/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
+                    <div class="col-md-8">{
+                        if($data != '') then
+                             if($data/self::tei:text) then
+                                 tei2html:tei2html($wrapped/child::*/node())
+                             else tei2html:tei2html($wrapped)
+                         else ()
+                     }</div>
+                     <div class="col-md-4">{
+                         if($data/descendant::tei:pb[@facs]) then 
+                             for $image in $data/descendant::tei:pb[@facs]
+                             let $src := 
+                                         if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
+                                             string($image/@facs) 
+                                         else concat($config:image-root,$id,'/',string($image/@facs))   
+                             return 
+                                      <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
+                                           <a href="{$src}"><img src="{$src}" width="100%"/></a>
+                                           <span class="caption">Page {string($image/@n)}</span>
+                                      </span>
+                         else ()
+                     }</div>
+                 </div>             
+    return 
+    ($firstPage,
+    for $pb in subsequence($pages, 2, $count)
+    return
+        <div class="lazyLoad" data-page="{string($pb/@n)}" data-page-fac="{string($pb/@fac)}" style="display:block; padding:1px; border:1px solid #eee;"> </div>)
+        
 }; 
 
 (:~  
@@ -934,4 +994,87 @@ function app:display-userinfo($node as node(), $model as map(*)) {
                     </div> 
             }
         </div>
+};
+
+(: LOD functions :)
+declare 
+    %templates:wrap
+function app:lod($node as node(), $model as map(*)) { 
+    <div>
+    <!-- 
+    A general “Linked Data” page (in the main nav at the top of the page?) that allows users to see some of the data we're generating, like:
+
+    1.Map all the placeName@keys, with links back to the placeName in text?
+    2.List all the persNames (linked back to the text) and those with @Keys (linked to their LCNAF profile)? Question: Can other directories be accessed from this LCNAF info?
+    3.Timeline of dates in the teiHeader/imprint (first imprint reference) linked to the texts a network visualization where people and places listed in each text are visible, with larger nodes for higher mentions
+
+    Could we add some beta testing search features?
+
+    4.search text by speaker or said@who? not sure about this. we don't have a lot of data here yet, though walpole-castle.xml has some!
+    5.search text by profileDesc/textDesc (for genre)
+    -->
+    
+        <h2>Playing with Linked Open Data</h2>
+        {
+            if(request:get-parameter('view', '') = 'map') then
+                app:map(())
+            else if(request:get-parameter('view', '') = 'persName') then
+                app:persons(())
+            else if(request:get-parameter('view', '') = 'timeline') then
+                app:timeline(())                 
+            else ()
+        
+        }
+    </div>
+};
+
+(: Places, build json for map with a script that is run periodically (Probably to slow to do dynamically) :)
+declare function app:map($nodes as node()*) {
+    let $geojson := doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
+    return 
+    <div>{maps:build-map($geojson)}</div>
+};
+
+(:2.
+List all the persNames (linked back to the text) and those with @Keys  (linked to their LCNAF profile)? 
+Question: Can other directories be accessed from this LCNAF info?
+
+for $f in util:eval($path)
+group by $facet-grp := normalize-space($f)
+order by if($sort/text() = 'value') then $f[1] else count($f) ascending
+:)
+declare function app:persons($nodes as node()*) {
+    <div>
+        <div>
+        <h3>Persons</h3>
+        {
+          for $person in collection($config:data-root)//tei:persName
+          group by $facet-grp := $person/@key 
+          return 
+            <div>
+                {$person//text()} [{string($facet-grp)}] ({count($person)})
+            </div>
+        (:
+        let $persons := collection($config:data-root)//tei:persName
+        for $person in collection($config:data-root)//tei:persName
+        group by $facet-grp := $person/@key, 0
+        return 
+            <div>{string($facet-grp)} ({count($person)})</div>
+        :)}    
+        </div>
+    </div>
+};
+
+(: 
+   Timeline of dates in the teiHeader/imprint (first imprint reference) linked to the texts a
+   network visualization where people and places listed in each text are visible, 
+   with larger nodes for higher mentions 
+:)
+declare function app:timeline($nodes as node()*) {
+    <div>
+        <div>
+        <h3>Publication Dates</h3>
+        {timeline:timeline()}    
+        </div>
+    </div>
 };
