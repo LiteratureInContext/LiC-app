@@ -15,8 +15,6 @@ import module namespace tei2html="http://syriaca.org/tei2html" at "content-negot
 import module namespace data="http://LiC.org/data" at "lib/data.xqm";
 import module namespace maps="http://LiC.org/maps" at "lib/maps.xqm";
 
-import module namespace d3xquery="http://syriaca.org/d3xquery" at "../d3xquery/d3xquery.xqm";
-
 (: Namespaces :)
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
