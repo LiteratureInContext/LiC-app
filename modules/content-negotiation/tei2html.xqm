@@ -131,57 +131,46 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
  : Testing Lazy load here: 
  : 
 :)
+
 declare function tei2html:page-chunk($nodes as node()*){        
-    let $pages := $nodes/descendant::tei:pb
-    let $count := count($pages)
-    let $firstPage := 
-        for $page in $pages[1]
-        let $ms1 := $page
-        let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ()(:($nodes//element())[last()]:) 
-        let $data := data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')
-        return 
-            let $root := root($nodes)/child::*[1]
-            let $id := string($root/@xml:id)
-            let $wrapped := 
-                    element {node-name($root)}
-                            {(
-                                for $a in $root/@*
-                                return attribute {node-name($a)} {string($a)},
-                                $data
-                            )}
-            return 
-                <div class="tei-page-chunk row" n="{string($page/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
-                    <div class="col-md-8">{
-                        if($data != '') then
-                             if($data/self::tei:text) then
-                                 tei2html:tei2html($wrapped/child::*/node())
-                             else tei2html:tei2html($wrapped)
-                         else ()
-                     }</div>
-                     <div class="col-md-4">{
-                         if($data/descendant::tei:pb[@facs]) then 
-                             for $image in $data/descendant::tei:pb[@facs]
-                             let $src := 
-                                         if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
-                                             string($image/@facs) 
-                                         else concat($config:image-root,$id,'/',string($image/@facs))   
-                             return 
-                                      <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
-                                           <a href="{$src}"><img src="{$src}" width="100%"/></a>
-                                           <span class="caption">Page {string($image/@n)}</span>
-                                      </span>
-                         else ()
-                     }</div>
-                 </div>             
+    for $page in $nodes/descendant::tei:pb
+    let $ms1 := $page
+    let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ()(:($nodes//element())[last()]:) 
+    let $data := data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')
     return 
-    ($firstPage,
-    for $pb at $i in subsequence($pages, 2, $count)
-    return
-        <div class="lazyLoad lazyContent" data-src="{$config:nav-base}/modules/data.xql" data-page-index="{$i}"></div>
-     )
-     (: 
-     <div class="lazyLoad" data-page="{string($pb/@n)}" data-page-fac="{string($pb/@fac)}" style="display:block; padding:1px; border:1px solid #eee;"> </div>)
-     :)
+    let $root := root($nodes)/child::*[1]
+    let $id := string($root/@xml:id)
+    let $wrapped := 
+            element {node-name($root)}
+                    {(
+                        for $a in $root/@*
+                        return attribute {node-name($a)} {string($a)},
+                        $data
+                    )}
+    return 
+            <div class="tei-page-chunk row" n="{string($page/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
+                <div class="col-md-8">{
+                    if($data != '') then
+                         if($data/self::tei:text) then
+                             tei2html:tei2html($wrapped/child::*/node())
+                         else tei2html:tei2html($wrapped)
+                     else ()
+                 }</div>
+                 <div class="col-md-4">{
+                     if($data/descendant::tei:pb[@facs]) then 
+                         for $image in $data/descendant::tei:pb[@facs]
+                         let $src := 
+                                     if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
+                                         string($image/@facs) 
+                                     else concat($config:image-root,$id,'/',string($image/@facs))   
+                         return 
+                                  <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
+                                       <a href="{$src}"><img src="{$src}" width="100%"/></a>
+                                       <span class="caption">Page {string($image/@n)}</span>
+                                  </span>
+                     else ()
+                 }</div>
+             </div>             
 };
 
 (: end chunk functions :)
