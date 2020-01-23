@@ -213,7 +213,7 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .toolbar {margin-right:.15em; font-size:small; padding-left:.75em; padding-right:.75em; line-height: 1.25em;}
 
 /* Work styles */
-.lazyContent {width:100%; height: 50px;}
+.lazyContent {width:100%; min-height: 50px;}
 
 .pageImages {display:block; margin:1em; padding:1em;}
 
@@ -340,7 +340,7 @@ sup..footnoteRef {
 }
 /* Styles for mobile */
 @media screen and (max-width: 992px) {
-.page-content {margin:.5em;}
+.page-content {margin:.5em .25em;}
 .navbar-brand {padding-left: 1em; margin-top:-.24em; margin-bottom:-.24em; font-size: 24px;}
 .btn {font-size:small;}
 .coursepackToolbar .btn {margin:2px;}
