@@ -213,7 +213,7 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .toolbar {margin-right:.15em; font-size:small; padding-left:.75em; padding-right:.75em; line-height: 1.25em;}
 
 /* Work styles */
-.lazyContent {width:100%; height: 25px; border: 1px solid #eee;}
+.lazyContent {width:100%; height: 50px;}
 
 .pageImages {display:block; margin:1em; padding:1em;}
 
