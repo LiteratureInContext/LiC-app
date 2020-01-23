@@ -203,14 +203,14 @@ declare function tei2html:get-page($nodes as node()*, $page as item()*){
                             )}
             return 
                 <div class="tei-page-chunk row" n="{string($current/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
-                    <div class="col-md-6">{
+                    <div class="col-md-8">{
                         if($data != '') then
                              if($data/self::tei:text) then
                                  tei2html:tei2html($wrapped/child::*/node())
                              else tei2html:tei2html($wrapped)
                          else ()
                      }</div>
-                     <div class="col-md-6">{
+                     <div class="col-md-4">{
                          if($data/descendant::tei:pb[@facs]) then 
                              for $image in $data/descendant::tei:pb[@facs]
                              let $src := 
