@@ -34,6 +34,19 @@ declare function data:get-document() {
 };
 
 (:~
+ : Return document by id/tei:idno or document path
+ : Return by ID if @param $id
+ : Return by document path if @param $doc
+ : @param $id return document by id or tei:idno
+ : @param $doc return document path relative to data-root
+:)
+declare function data:get-document($id) { 
+    if(starts-with($id,$config:data-root)) then 
+        doc(xmldb:encode-uri($id || '.xml'))
+    else doc(xmldb:encode-uri($config:data-root || "/" || $id || '.xml'))
+};
+
+(:~
  : Return Coursepack and Coursepack content
  : @param $id Coursepack id
 :)
