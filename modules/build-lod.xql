@@ -11,7 +11,7 @@ import module namespace http="http://expath.org/ns/http-client";
 
 import module namespace functx="http://www.functx.com";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
-
+declare namespace mads = "http://www.loc.gov/mads/v2";
 declare namespace json = "http://www.json.org";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -33,7 +33,7 @@ declare function local:get-all-coords(){
     let $url := xs:anyURI(concat('http://vocab.getty.edu/sparql?query=',encode-for-uri($query)))        	
     let $request := 
             hc:send-request(
-                 <http:request http-version="1.1"  href="{$url}" method="get">
+             <http:request http-version="1.1"  href="{$url}" method="get">
                  <http:header name="User-Agent" value="Opera"/>
                  <http:header name="Accept" value="application/sparql-results+xml"/>
             </http:request>)
@@ -59,10 +59,23 @@ declare function local:specific-coords($rec as node()*){
     let $request := 
             hc:send-request(
                  <http:request http-version="1.1"  href="{$url}" method="get">
-                 <http:header name="User-Agent" value="Opera"/>
+                 <http:header name="User-Agent" value="LiC"/>
                  <http:header name="Accept" value="application/sparql-results+xml"/>
             </http:request>)
     return $request[2] 
+};
+
+(: Get external data if available :)
+declare function local:get-external-person-data($type, $id){
+    let $base-url := if($type = 'lcnaf') then 'http://id.loc.gov/authorities/names/' else () 
+    let $url := xs:anyURI(concat($base-url,$id,'.madsxml.xml'))        	
+    let $request := 
+            hc:send-request(
+                <http:request http-version="1.1"  href="{$url}" method="get">
+                    <http:header name="User-Agent" value="LiC"/>
+                    <http:header name="Accept" value="application/rdf+xml"/>
+                </http:request>)
+    return $request[2]//mads:authority[1]/mads:name[1]           
 };
 
 (:lat long:)
@@ -85,9 +98,8 @@ declare function local:make-place($nodes as node()*){
             if($recs/ancestor-or-self::tei:pubPlace) then 'pubPlace'
             else 'mention'
           return 
-              <relation type="{$relationType}">
-                  <id>{$facet-grp}</id>
-                  {root($recs[1])//tei:titleStmt/tei:title}
+              <relation type="{$relationType}" ana="{$relationType}" active="{$facet-grp}" passive="{normalize-space(string-join($nodes/*:binding[@name='key']//text()))}">
+                <desc>{root($recs[1])//tei:titleStmt/tei:title}</desc>
               </relation>
     }</listRelation>
   </place>
@@ -100,10 +112,15 @@ declare function local:make-person($nodes as node()*){
   return
   (for $p1 in $personsCntl
   group by $facet-grp := $p1/@key
+  let $type := $p1[1]/@type
   return 
+    if(string($facet-grp) = ('',' ')) then () else
     <person xmlns="http://www.tei-c.org/ns/1.0">
         <idno>{string($facet-grp)}</idno>
-        <persName>{$p1[1]}</persName>
+        {if($type = 'lcnaf') then 
+            (let $name := local:get-external-person-data($type, $facet-grp)
+            return $name,$p1[1])
+         else $p1[1]}
         <listRelation>{
         for $recs in $p1
         let $id := document-uri(root($recs))
@@ -112,21 +129,21 @@ declare function local:make-person($nodes as node()*){
             if($p1/ancestor::tei:teiHeader) then 
                 if($p1/parent::tei:editor) then 'editor'
                 else if($p1/parent::tei:author) then 'author'
-                else $p1/parent::*[1]/name()
+                else 'mention'
             else 'mention' 
         return 
-            <relation type="{$relationType}">
-                <id>{$facet-grp}</id>
-                {root($recs[1])//tei:titleStmt/tei:title}
+            <relation type="{$relationType}" count="{count($recs)}" ana="{$relationType}" active="{$facet-grp}" passive="{string($p1[1]/@key)}">
+                <desc>{root($recs[1])//tei:titleStmt/tei:title}</desc>
             </relation>
         }</listRelation>
     </person>,
     for $p1 in $persons
-    group by $facet-grp := $p1
-    return 
+    group by $facet-grp := replace(lower-case($p1),"^\s+|^[mM]rs.\s|^[mM]r.\s|^\(|(['][s]+)|\)","")
+    return
+      if(string($facet-grp) = ('',' ')) then () else
       <person xmlns="http://www.tei-c.org/ns/1.0">
           <idno>{string($facet-grp)}</idno>
-          <persName>{$p1[1]}</persName>
+          {$p1[1]}
           <listRelation>{
           for $recs in $p1
           let $id := document-uri(root($recs))
@@ -135,13 +152,12 @@ declare function local:make-person($nodes as node()*){
             if($p1/ancestor::tei:teiHeader) then 
                 if($p1/parent::tei:editor) then 'editor'
                 else if($p1/parent::tei:author) then 'author'
-                else $p1/parent::*[1]/name()
+                else 'mention'
             else 'mention' 
           return 
-              <relation type="{$relationType}">
-                  <id>{$facet-grp}</id>
-                  {root($recs[1])//tei:titleStmt/tei:title}
-              </relation>
+                <relation type="{$relationType}" count="{count($recs)}" ana="{$relationType}" active="{$facet-grp}" passive="{normalize-space(string-join($p1[1]//text(),''))}">
+                    <desc>{root($recs[1])//tei:titleStmt/tei:title}</desc>
+                </relation>
           }</listRelation>
       </person>)
 };
@@ -172,7 +188,7 @@ if(request:get-parameter('action', '') = 'create') then
     try {
         if(request:get-parameter('content', '') = 'geojson') then 
             let $f := local:make-record(local:get-all-coords())
-            return xmldb:store(concat($config:app-root,'/resources/lodHelpers'), xmldb:encode-uri('geojson.xml'), $f)
+            return xmldb:store(concat($config:app-root,'/resources/lodHelpers'), xmldb:encode-uri('placeNames.xml'), $f)
         else if(request:get-parameter('content', '') = 'person') then
             let $f := local:make-record(())
             return xmldb:store(concat($config:app-root,'/resources/lodHelpers'), xmldb:encode-uri('persNames.xml'), $f)

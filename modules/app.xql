@@ -15,12 +15,13 @@ import module namespace tei2html="http://syriaca.org/tei2html" at "content-negot
 import module namespace data="http://LiC.org/data" at "lib/data.xqm";
 import module namespace maps="http://LiC.org/maps" at "lib/maps.xqm";
 
-
+(:import module namespace d3xquery="http://syriaca.org/d3xquery" at "../d3xquery/d3xquery.xqm";:)
 
 (: Namespaces :)
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace html="http://www.w3.org/1999/xhtml";
+declare namespace mads = "http://www.loc.gov/mads/v2";
 
 (: Global Variables :)
 declare variable $app:start {request:get-parameter('start', 1) cast as xs:integer};
@@ -1055,18 +1056,22 @@ declare function app:persons($nodes as node()*) {
               <div>TEST visualization here</div>
             else 
                 for $person at $i in $persNames
-                let $name := if($person/descendant::tei:persName/descendant::tei:name/tei:surname) then 
-                                  concat(normalize-space($person/descendant::tei:persName/descendant::tei:name/tei:surname),', ', normalize-space($person/descendant::tei:persName/descendant::tei:name/tei:forename))
+                let $name :=  if($person/descendant::mads:name) then 
+                                string-join($person/descendant::mads:name/mads:namePart,', ')
+                              else if($person/descendant::tei:persName/descendant::tei:surname) then 
+                                  concat(normalize-space($person/descendant::tei:persName/descendant::tei:surname),', ', normalize-space($person/descendant::tei:persName/descendant::tei:forename))
                               else string-join($person/descendant::tei:persName//text(),' ')
+                let $name-string := normalize-space($name)
+                let $sort-name := replace($name-string,"^\s+|^[mM]rs.\s|^[mM]r.\s|^\(|(['][s]+)|\)",'')
                 let $related := $person/descendant::tei:relation
-                order by $name
+                order by $sort-name
                 return 
-                  <div style="border:1px solid #eee;">
+                  <div style="border-bottom:1px solid #eee;">
                     <button class="btn btn-link" 
                     data-toggle="collapse" data-target="{concat('#name',$i,'Show')}">
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </button> 
-                    {$name} ({count($person/descendant::tei:relation)} associated work{if(count($related) gt 1) then 's' else()})
+                    {normalize-space($name)} ({count($person/descendant::tei:relation)} associated work{if(count($related) gt 1) then 's' else()})
                     {
                     if($person/tei:persName/@type = ('lcnaf','lccn')) then 
                         <a href="http://id.loc.gov/authorities/names/{$person/tei:idno}" alt="External Link"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
@@ -1078,7 +1083,7 @@ declare function app:persons($nodes as node()*) {
                         group by $type := $r/@type
                         return 
                             <div style="margin-left:2em;">
-                                <p style="font-weight:strong;">{string($type)}</p>
+                                <p style="font-weight:strong;">{functx:capitalize-first($type)} ({string($r[1]/@count)})</p>
                                 <ul>{
                                 for $work in $r
                                 let $id := $work/tei:id
