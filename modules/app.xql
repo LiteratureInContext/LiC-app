@@ -1083,7 +1083,8 @@ declare function app:persons($nodes as node()*) {
                         group by $type := $r/@type
                         return 
                             <div style="margin-left:2em;">
-                                <p style="font-weight:strong;">{functx:capitalize-first($type)} ({string($r[1]/@count)})</p>
+                                <p style="font-weight:strong;">{functx:capitalize-first($type)} 
+                                {if($type = 'mention') then concat(' (',string($r[1]/@count),')') else () }</p>
                                 <ul>{
                                 for $work in $r
                                 let $id := $work/tei:id
