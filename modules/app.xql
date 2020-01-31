@@ -1087,7 +1087,7 @@ declare function app:persons($nodes as node()*) {
                                 {if($type = 'mention') then concat(' (',string($r[1]/@count),')') else () }</p>
                                 <ul>{
                                 for $work in $r
-                                let $id := $work/tei:id
+                                let $id := $work/@active
                                 return <li><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
                                 }</ul>
                             </div>
