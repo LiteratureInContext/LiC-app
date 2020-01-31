@@ -1074,9 +1074,9 @@ declare function app:persons($nodes as node()*) {
                     {normalize-space($name)} ({count($person/descendant::tei:relation)} associated work{if(count($related) gt 1) then 's' else()})
                     {
                     if($person/tei:persName/@type = ('lcnaf','lccn')) then 
-                        <a href="http://id.loc.gov/authorities/names/{$person/tei:idno}" alt="External Link"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
+                        <a href="http://id.loc.gov/authorities/names/{$person/tei:idno}" alt="Go to Library of Congress authority record"><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-toggle="tooltip" title="Go to Library of Congress authority record"></span></a>
                     else if($person/tei:persName/@type = 'orcid') then 
-                        <a href="https://orcid.org/{$person/tei:idno}" target="_blank" alt="External Link"><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
+                        <a href="https://orcid.org/{$person/tei:idno}" alt="Go to authority record"><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-toggle="tooltip" title="Go to authority record"></span></a>
                     else ()}
                     <div class="panel-collapse collapse left-align" id="{concat('name',$i,'Show')}">{
                         for $r in $related
