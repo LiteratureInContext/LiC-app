@@ -87,7 +87,11 @@ function forcegraph() {
                     return tooltip.style("visibility", "hidden");
                 }).on("mousemove", function () {
                     return tooltip.style("top", (event.pageY -10) + "px").style("left",(event.pageX + 10) + "px");
-                })  
+                }).on('dblclick', function(d,i){
+                     var view = (d.type === 'place') ? 'map':'persName';
+                     var url = (d.type === 'work') ? '../work/' + d.uri : "../lod.html?view=" + view +"&id=" + d.id;
+                     window.location = url;
+                 });  
                 
           node.append("title")
               .text(function(d) { return d.id; });
@@ -153,10 +157,11 @@ function bubble() {
         var i = d.type,
             l = d.name,
             s = d.size,
+            id = d.id,
             r =  (d.size < 3) ? Math.floor(d.size * 6):Math.floor(d.size * 2);
             //Math.floor(d.size * 3); 
             //Math.sqrt((d.size + 1) / m * -Math.log(Math.random())) * maxRadius,
-            d = {cluster: i, radius: r, name: l, size: s};
+            d = {cluster: i, radius: r, name: l, size: s, id: id};
         if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
         return d;
       });
@@ -195,6 +200,10 @@ function bubble() {
             return tooltip.style("visibility", "hidden");
         }).on("mousemove", function () {
             return tooltip.style("top", (event.pageY -10) + "px").style("left",(event.pageX + 10) + "px");
+        }).on('dblclick', function(d,i){
+            var view = (d.cluster === 'place') ? 'map':'persName';
+            var url = "../lod.html?view=" + view +"&id=" + d.id;
+            window.location = url;
         });  
     
     function tick() {

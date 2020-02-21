@@ -1,6 +1,7 @@
 xquery version "3.1";
 
 module namespace d3xquery="http://syriaca.org/d3xquery";
+import module namespace config="http://LiC.org/config" at "../modules/config.xqm";
 import module namespace functx="http://www.functx.com";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace json="http://www.json.org";
@@ -45,13 +46,14 @@ declare function d3xquery:format-tree-types($relationships as item()*){
                         where $title != ''
                         return 
                             <json:value>
+                                <id>{string($key)}</id>
                                 <name>{$title[1]}</name>
                                 <size>{count($r)}</size>
                              </json:value>
                     else 
                         for $r in $relationships
                         let $name := if($r/descendant::tei:persName/descendant::tei:name/tei:surname) then 
-                                        concat(normalize-space($r/descendant::tei:persName/descendant::tei:name/tei:surname),', ', normalize-space($r/descendant::tei:persName/descendant::tei:name/tei:forename))
+                                        normalize-space(concat($r/descendant::tei:persName/descendant::tei:name[1]/tei:surname[1],', ', $r/descendant::tei:persName/descendant::tei:name[1]/tei:forename[1]))
                                      else if($r/descendant::tei:persName) then 
                                         normalize-space(string-join($r/descendant::tei:persName//text(),' '))
                                      else if($r/descendant::tei:placeName) then
@@ -62,6 +64,7 @@ declare function d3xquery:format-tree-types($relationships as item()*){
                         where $name[. != '']
                         return 
                             <json:value>
+                                <id>{$r/tei:idno[1]/text()}</id>
                                 <name>{$name}</name>
                                 <size>{count($related)}</size>
                                 <type>{if($r/descendant::tei:persName) then 'person' else if($r/descendant::tei:placeName) then 'place' else 'other'}</type>
@@ -89,6 +92,7 @@ declare function d3xquery:format-relationship-graph($relationships as item()*){
                 return
                     <json:value>
                         <id>{string($group)}</id>
+                        <uri>{substring-before(replace($group,$config:data-root,''),'.xml')}</uri>
                         <label>{normalize-space(string-join($r[1]/tei:desc//text(),''))}</label>
                         <size>{count($r)}</size>
                         <type>work</type>

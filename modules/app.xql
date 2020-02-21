@@ -15,8 +15,6 @@ import module namespace tei2html="http://syriaca.org/tei2html" at "content-negot
 import module namespace data="http://LiC.org/data" at "lib/data.xqm";
 import module namespace maps="http://LiC.org/maps" at "lib/maps.xqm";
 
-(:import module namespace d3xquery="http://syriaca.org/d3xquery" at "../d3xquery/d3xquery.xqm";:)
-
 (: Namespaces :)
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -1000,20 +998,6 @@ declare
     %templates:wrap
 function app:lod($node as node(), $model as map(*)) { 
     <div>
-    <!-- 
-    A general “Linked Data” page (in the main nav at the top of the page?) that allows users to see some of the data we're generating, like:
-
-    1.Map all the placeName@keys, with links back to the placeName in text?
-    2.List all the persNames (linked back to the text) and those with @Keys (linked to their LCNAF profile)? Question: Can other directories be accessed from this LCNAF info?
-    3.Timeline of dates in the teiHeader/imprint (first imprint reference) linked to the texts a network visualization where people and places listed in each text are visible, with larger nodes for higher mentions
-
-    Could we add some beta testing search features?
-
-    4.search text by speaker or said@who? not sure about this. we don't have a lot of data here yet, though walpole-castle.xml has some!
-    5.search text by profileDesc/textDesc (for genre)
-    -->
-    
-        <h2>Playing with Linked Open Data</h2>
         {
             if(request:get-parameter('view', '') = 'map') then
                 app:map(())
@@ -1021,9 +1005,9 @@ function app:lod($node as node(), $model as map(*)) {
                 app:persons(())
             else if(request:get-parameter('view', '') = 'timeline') then
                 app:timeline(())                 
-            else if(request:get-parameter('view', '') = 'network') then
+            else if(request:get-parameter('view', '') = ('network','graph')) then
                 app:network(()) 
-            else ()
+            else app:map(())
         
         }
     </div>
@@ -1031,41 +1015,49 @@ function app:lod($node as node(), $model as map(*)) {
 
 (: Places, build json for map with a script that is run periodically (Probably to slow to do dynamically) :)
 declare function app:map($nodes as node()*) {
-    let $geojson := doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
+    let $geojson := if(request:get-parameter('id', '') != '') then
+                        doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
+                    else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
     return 
-    <div>{maps:build-map($geojson)}</div>
+        (<div>{maps:build-map($geojson)}</div>,
+        if(request:get-parameter('id', '') != '' and count($geojson) = 1) then 
+            let $related := $geojson/descendant::tei:relation
+            for $r in $related
+            group by $type := $r/@type
+            return 
+                <div style="margin-left:2em;">
+                    <h3>{$geojson/tei:placeName}</h3>
+                    <p style="font-weight:strong;">{functx:capitalize-first($type)} 
+                        {if($type = 'mention') then concat(' (',string($r[1]/@count),')') else () }</p>
+                        <ul>{
+                            for $work in $r
+                            let $id := $work/@active
+                            return <li><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
+                        }</ul>
+                </div>
+        else () )
 };
 
-(:2.
-List all the persNames (linked back to the text) and those with @Keys  (linked to their LCNAF profile)? 
-Question: Can other directories be accessed from this LCNAF info?
-
-for $f in util:eval($path)
-group by $facet-grp := normalize-space($f)
-order by if($sort/text() = 'value') then $f[1] else count($f) ascending
-:)
+(: List all the persNames (linked back to the text) and those with @Keys  (linked to their LCNAF profile)? :)
 declare function app:persons($nodes as node()*) {
     <div>
         <div>
         <h3>Persons</h3>
-        {
-          let $persNames := doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
-          return
-            if(request:get-parameter('graph', '') = 'true') then
-              (:  d3xquery:build-graph-type($persNames, (), (), 'Bubble'):)
-              <div>TEST visualization here</div>
-            else 
-                for $person at $i in $persNames
-                let $name :=  if($person/descendant::mads:name) then 
+        {   let $persNames := if(request:get-parameter('id', '') != '') then 
+                                doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person[tei:idno = request:get-parameter('id', '')]
+                              else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
+            for $person at $i in $persNames
+            let $name :=  if($person/descendant::mads:name) then 
                                 string-join($person/descendant::mads:name/mads:namePart,', ')
                               else if($person/descendant::tei:persName/descendant::tei:surname) then 
                                   concat(normalize-space($person/descendant::tei:persName/descendant::tei:surname),', ', normalize-space($person/descendant::tei:persName/descendant::tei:forename))
                               else string-join($person/descendant::tei:persName//text(),' ')
-                let $name-string := normalize-space($name)
-                let $sort-name := replace($name-string,"^\s+|^[mM]rs.\s|^[mM]r.\s|^\(|(['][s]+)|\)",'')
-                let $related := $person/descendant::tei:relation
-                order by $sort-name
-                return 
+            let $name-string := normalize-space($name)
+            let $sort-name := replace($name-string,"^\s+|^[mM]rs.\s|^[mM]r.\s|^\(|(['][s]+)|\)",'')
+            let $idno := replace($person/tei:idno,'\s|.|,|;', ' ')
+            let $related := $person/descendant::tei:relation
+            order by $sort-name
+            return 
                   <div style="border-bottom:1px solid #eee;">
                     <button class="btn btn-link" 
                     data-toggle="collapse" data-target="{concat('#name',$i,'Show')}">
@@ -1078,7 +1070,7 @@ declare function app:persons($nodes as node()*) {
                     else if($person/tei:persName/@type = 'orcid') then 
                         <a href="https://orcid.org/{$person/tei:idno}" alt="Go to authority record"><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-toggle="tooltip" title="Go to authority record"></span></a>
                     else ()}
-                    <div class="panel-collapse collapse left-align" id="{concat('name',$i,'Show')}">{
+                    <div class="panel-collapse collapse {if(count($persNames) = 1) then 'in' else()} left-align" id="{concat('name',$i,'Show')}">{
                         for $r in $related
                         group by $type := $r/@type
                         return 
@@ -1116,8 +1108,6 @@ declare function app:timeline($nodes as node()*) {
 :)
 declare function app:network($nodes as node()*) {
     <div>
-        <div>
-            'Place holder'    
-        </div>
+       'place holder'
     </div>
 };
