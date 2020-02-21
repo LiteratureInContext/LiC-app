@@ -91,7 +91,7 @@ declare function d3xquery:format-relationship-graph($relationships as item()*){
                 group by $group := $r/@active
                 return
                     <json:value>
-                        <id>{string($group)}</id>
+                        <id>{normalize-space(string($group))}</id>
                         <uri>{substring-before(replace($group,$config:data-root,''),'.xml')}</uri>
                         <label>{normalize-space(string-join($r[1]/tei:desc//text(),''))}</label>
                         <size>{count($r)}</size>
@@ -101,7 +101,7 @@ declare function d3xquery:format-relationship-graph($relationships as item()*){
                 group by $group := $r/@passive
                 return
                     <json:value>
-                        <id>{string($group)}</id>
+                        <id>{normalize-space(string($group))}</id>
                         <label>{if($r[1]/ancestor::tei:place) then $r[1]/ancestor::tei:place/tei:placeName//text() else $r[1]/ancestor::tei:person/tei:persName[1]//text()}</label>
                         <size>{count($r)}</size>
                         <type>{if($r[1]/ancestor::tei:place) then 'place' else 'person'}</type>
@@ -111,8 +111,8 @@ declare function d3xquery:format-relationship-graph($relationships as item()*){
                 for $r in $relationships//tei:relation
                 return 
                     <json:value>
-                        <source>{string($r/@passive)}</source>
-                        <target>{string($r/@active)}</target>
+                        <source>{normalize-space(string($r/@passive))}</source>
+                        <target>{normalize-space(string($r/@active))}</target>
                         <relationship>{string($r[1]/@ana)}</relationship>
                         <value>0</value>
                     </json:value>

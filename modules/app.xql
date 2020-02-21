@@ -1019,7 +1019,9 @@ declare function app:map($nodes as node()*) {
                         doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
                     else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
     return 
-        (<div>{maps:build-map($geojson)}</div>,
+        (
+        <h1>Places</h1>,
+        <div>{maps:build-map($geojson)}</div>,
         if(request:get-parameter('id', '') != '' and count($geojson) = 1) then 
             let $related := $geojson/descendant::tei:relation
             for $r in $related
@@ -1042,7 +1044,7 @@ declare function app:map($nodes as node()*) {
 declare function app:persons($nodes as node()*) {
     <div>
         <div>
-        <h3>Persons</h3>
+        <h1>Persons</h1>
         {   let $persNames := if(request:get-parameter('id', '') != '') then 
                                 doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person[tei:idno = request:get-parameter('id', '')]
                               else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
@@ -1097,7 +1099,7 @@ declare function app:persons($nodes as node()*) {
 declare function app:timeline($nodes as node()*) {
     <div>
         <div>
-        <h3>Publication Dates</h3>
+        <h1>Publication Dates</h1>
         {timeline:timeline()}    
         </div>
     </div>
