@@ -22,8 +22,11 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
         $(document).ready(function () {
             //Start bubble chart here
             //Get JSON data
+            var url = ']]>{$config:nav-base}/d3xquery/<![CDATA[';
+            var id = ']]>{request:get-parameter('id', '')}<![CDATA[';
             var type = ']]>{request:get-parameter('type', '')}<![CDATA[';
-            selectGraphType(type)
+            var data = ']]>{request:get-parameter('data', '')}<![CDATA[';
+            selectGraphType(url,type,data,id)
             //console.log(data[0].children)
             });
     ]]></script>

@@ -998,6 +998,15 @@ declare
     %templates:wrap
 function app:lod($node as node(), $model as map(*)) { 
     <div>
+        <h1>Linked Data</h1>
+        <p>Explore the collection using linked open data.</p>
+        <ul class="nav nav-tabs">
+            <li class="{if(request:get-parameter('view', '') = 'map') then 'active' else if(request:get-parameter('view', '') = '') then 'active' else ()}"><a href="?view=map">Places</a></li>
+            <li class="{if(request:get-parameter('view', '') = 'persName') then 'active' else ()}"><a href="?view=persName">Persons</a></li>
+            <li class="{if(request:get-parameter('view', '') = 'timeline') then 'active' else ()}"><a href="?view=timeline">Timeline</a></li>
+            <li class="{if(request:get-parameter('view', '') = 'graph' and request:get-parameter('type', '') = 'force') then 'active' else ()}"><a href="?view=graph&amp;type=force&amp;data=all">Collection Graph</a></li>
+            <li class="{if(request:get-parameter('view', '') = 'graph' and request:get-parameter('type', '') = 'bubble') then 'active' else ()}"><a href="?view=graph&amp;type=bubble&amp;data=all">Persons and Places Graph</a></li>
+        </ul>
         {
             if(request:get-parameter('view', '') = 'map') then
                 app:map(())
@@ -1020,7 +1029,7 @@ declare function app:map($nodes as node()*) {
                     else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
     return 
         (
-        <h1>Places</h1>,
+        <h2>Places</h2>,
         <div>{maps:build-map($geojson)}</div>,
         if(request:get-parameter('id', '') != '' and count($geojson) = 1) then 
             let $related := $geojson/descendant::tei:relation
@@ -1044,7 +1053,7 @@ declare function app:map($nodes as node()*) {
 declare function app:persons($nodes as node()*) {
     <div>
         <div>
-        <h1>Persons</h1>
+        <h2>Persons</h2>
         {   let $persNames := if(request:get-parameter('id', '') != '') then 
                                 doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person[tei:idno = request:get-parameter('id', '')]
                               else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
@@ -1099,7 +1108,7 @@ declare function app:persons($nodes as node()*) {
 declare function app:timeline($nodes as node()*) {
     <div>
         <div>
-        <h1>Publication Dates</h1>
+        <h2>Publication Dates</h2>
         {timeline:timeline()}    
         </div>
     </div>
@@ -1110,6 +1119,38 @@ declare function app:timeline($nodes as node()*) {
 :)
 declare function app:network($nodes as node()*) {
     <div>
-       'place holder'
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        {
+        if(request:get-parameter('type', '') = 'force') then 
+            (<h2>Collection Graph</h2>,<p>A linked data graph visualizing the connection between works, people and places in the collection.</p>) 
+        else if(request:get-parameter('type', '') = 'bubble') then 
+            (<h2>Persons and Places Graph</h2>,<p>A linked data graph visualizing the people and places referenced in the collection.</p>) 
+        else <h2>Graph visualization</h2>
+        }
+    <div id="tooltip"/>
+    <div id="result"/>
+    <script><![CDATA[
+        $(document).ready(function () {
+            //Start bubble chart here
+            //Get JSON data
+            var url = ']]>{$config:nav-base}/d3xquery/<![CDATA[';
+            var id = ']]>{request:get-parameter('id', '')}<![CDATA[';
+            var type = ']]>{request:get-parameter('type', '')}<![CDATA[';
+            var data = ']]>{request:get-parameter('data', '')}<![CDATA[';
+            selectGraphType(url,type,data,id)
+            //console.log(data[0].children)
+            });
+    ]]></script>
+      <style><![CDATA[
+        .d3jstooltip {
+          background-color:white;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          padding:.5em;
+          }
+        }
+        ]]>
+        </style>
+    <script src="{$config:nav-base}/d3xquery/visualizations.js"/>
     </div>
 };

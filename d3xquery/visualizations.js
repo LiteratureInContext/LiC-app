@@ -17,32 +17,33 @@ var tooltip = d3.selectAll("#tooltip")
 	.style("opacity", 0);
 	
 /* Select graph type */
-function selectGraphType(type) {
-    if (type === "Table") {
+function selectGraphType(url, type, data, id) {
+    console.log('url: ' + url + ' type: ' +type+ ' id: ' + id + ' data: ' + data)
+    if (type.toLowerCase() === "table") {
         console.log(type + ' cant do that one yet');
         //  htmltable()
-    } else if (type === 'Force') {
+    } else if (type.toLowerCase() === 'force') {
         //console.log(type + ' cant do that one yet');
-        forcegraph()
-    } else if (type === 'Sankey') {
+        forcegraph(url, id, data)
+    } else if (type.toLowerCase() === 'sankey') {
         console.log(type + ' cant do that one yet');
         //  sankey()
-    } else if (type === 'Bubble') {
+    } else if (type.toLowerCase() === 'bubble') {
         //console.log(type + ' cant do that one yet');
-        bubble()
-    } else if (type === 'Raw XML') {
+        bubble(url, id, data)
+    } else if (type.toLowerCase() === 'raw xml') {
         console.log(type + ' cant do that one yet');
         //  rawXML()
-    } else if (type === 'Raw JSON') {
+    } else if (type.toLowerCase() === 'Raw json') {
         console.log(type + ' cant do that one yet');
         //  rawJSON()
     } else {
-        console.log(type + ' cant do that one yet');
+        console.log(type.toLowerCase() + ' cant do that one yet');
     }
 };
 
 /* Force Graph */
-function forcegraph() {
+function forcegraph(url, id, data) {
     //var color = d3.scaleOrdinal(d3.schemeCategory20);
     var radius = 6;
 
@@ -51,7 +52,7 @@ function forcegraph() {
         .force("charge", d3.forceManyBody().strength(-15))
         .force("center", d3.forceCenter(width / 2, height / 2));
     
-    d3.json("d3xquery.xql?type=Force", function(error, graph) {
+    d3.json(url + "d3xquery.xql?type=Force&data=" + data + "&id=" + id, function(error, graph) {
         if (error) throw error;
 
         console.log(graph);
@@ -89,8 +90,10 @@ function forcegraph() {
                     return tooltip.style("top", (event.pageY -10) + "px").style("left",(event.pageX + 10) + "px");
                 }).on('dblclick', function(d,i){
                      var view = (d.type === 'place') ? 'map':'persName';
-                     var url = (d.type === 'work') ? '../work/' + d.uri : "../lod.html?view=" + view +"&id=" + d.id;
-                     window.location = url;
+                     var navBase = url.replace('/d3xquery/', '')
+                     var link = (d.type === 'work') ? navBase + '/work/' + d.uri : navBase + '/lod.html?view=' + view +'&id=' + d.id;
+                     
+                     window.location = link;
                  });  
                 
           node.append("title")
@@ -135,9 +138,9 @@ function forcegraph() {
   
 };
 
-function bubble() {
-    
-    d3.json("d3xquery.xql?type=Bubble", function(error, graph) {
+function bubble(url, id, data) {
+
+    d3.json(url + "d3xquery.xql?type=Bubble&data=" + data + "&id=" + id, function(error, graph) {
      console.log('data')
      
      //Data
