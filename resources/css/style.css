@@ -321,6 +321,9 @@ sup..footnoteRef {
 .tei-lg {display:block; margin:1em 0;}
 .tei-l {display:block;}
 .tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top;}
+.tei-div .tei-opener {display:block; margin:1em 0;}
+.tei-div .tei-closer {display:block; margin:1em 0; text-align:right;}
+.tei-div .tei-opener .tei-dateline {display:block; text-align:right;}
 .tei-pb {display:block; margin:1.5em 0; border-top:1px double #ccc; text-align:center;}
 .tei-stage {display:block; padding:1em;}
 .tei-sp {padding-bottom:.5em;}
