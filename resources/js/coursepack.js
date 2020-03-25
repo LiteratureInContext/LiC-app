@@ -129,7 +129,7 @@
                   });
                  
                  //Footnotes 
-                 $('.footnoteRef a').click(function(e) {
+                 $( '.lic-well' ).on( 'click', '.footnoteRef a', function (e) {
                     e.stopPropagation();
                     e.preventDefault();
                     var link = $(this);
