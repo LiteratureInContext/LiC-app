@@ -151,6 +151,7 @@ declare function tei2html:page-chunk($nodes as node()*){
                                 $data
                             )}
             return 
+                (<div class="hidden">{tei2html:tei2html($nodes//tei:note)}</div>
                 <div class="tei-page-chunk row" n="{string($page/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
                     <div class="col-md-8">{
                         if($data != '') then
@@ -173,7 +174,7 @@ declare function tei2html:page-chunk($nodes as node()*){
                                       </span>
                          else ()
                      }</div>
-                 </div>             
+                 </div>)
     return 
     (<script type="text/javascript" src="{$config:nav-base}/resources/js/lazyload.js"/>,$firstPage,
     for $pb at $i in subsequence($pages, 2, $count)
