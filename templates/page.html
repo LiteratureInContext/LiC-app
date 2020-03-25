@@ -29,6 +29,31 @@
             $(document).ready(function() {
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
                 $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'});
+                <![CDATA[
+                /*
+                function getSelectionHtml() {
+                    var htmlContent = ''
+                
+                        var range = window.getSelection().getRangeAt(0);
+                        var content = range.cloneContents();
+                
+                        $('body').append('<span id="selection_html_placeholder"></span>');
+                        var placeholder = document.getElementById('selection_html_placeholder');
+                
+                        placeholder.appendChild(content);
+                
+                        htmlContent = placeholder.innerHTML;
+                        $('#selection_html_placeholder').remove();
+                
+                
+                
+                
+                    return htmlContent;
+                }
+                console.log('select ' + getSelectionHtml());
+                */
+                ]]>
+                
             });
         </script>
     </head>
@@ -153,5 +178,19 @@
         <script type="text/javascript" src="$nav-base/resources/js/login.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/coursepack.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/annotations.js"/>
+        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-159152992-2"></script>
+        
+        <script>
+              window.dataLayer = window.dataLayer || [];
+            
+              function gtag(){dataLayer.push(arguments);}
+            
+              gtag('js', new Date());
+            
+             
+            
+              gtag('config', 'UA-159152992-2');
+            
+            </script>
     </body>
 </html>
