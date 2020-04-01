@@ -408,7 +408,7 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
             else ()}
             {if($nodes/descendant::tei:biblStruct) then 
                 <span class="results-list-desc desc" dir="ltr" lang="en">
-                    <label>Source: </label> 
+                    <strong>Source: </strong> 
                     { let $monograph := $nodes/descendant::tei:sourceDesc[1]/descendant::tei:monogr[1]
                       return 
                         (tei2html:tei2html($monograph/tei:title),
@@ -422,8 +422,8 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
                             concat(', ', normalize-space(string($monograph/tei:imprint[1]/tei:date[1])))
                            else ()
                            ,') ')
-                        else ()
-                        )}
+                        else ())
+                        }
                 </span>
             else ()}
             {if($nodes/descendant-or-self::*[starts-with(@xml:id,'abstract')]) then 
@@ -495,10 +495,49 @@ declare function tei2html:COinS($nodes as node()*){
  : Select citation type based on child elements
 :)
 declare function tei2html:citation($nodes as node()*) {
+(:
     if($nodes/descendant::tei:monogr and not($nodes/descendant::tei:analytic)) then 
         tei2html:monograph($nodes/descendant::tei:monogr)
     else if($nodes/descendant::tei:analytic) then tei2html:analytic($nodes/descendant::tei:analytic)
     else tei2html:record($nodes/descendant-or-self::tei:teiHeader)
+:)
+    let $persons :=     if($nodes/descendant::tei:author) then 
+                            tei2html:emit-responsible-persons($nodes/descendant::tei:author,20)
+                        else if($nodes/descendant::tei:editor[not(@role) or @role!='translator']) then 
+                            (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],20), 
+                            if(count($nodes/descendant::tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
+                        else ()
+    let $analytic := if($nodes/descendant::tei:analytic/tei:title) then
+                        if(starts-with($nodes/descendant::tei:analytic/tei:title,'"')) then
+                           $nodes/descendant::tei:analytic/tei:title
+                        else concat('"',$nodes/descendant::tei:analytic/tei:title,'." ')
+                     else()
+    let $monograph := if($nodes/descendant::tei:monogr/tei:title) then
+                        if($nodes/descendant::tei:monogr/tei:title[@type="sub"]) then 
+                            concat($nodes/descendant::tei:monogr/tei:title[@type='main'],'; ',$nodes/descendant::tei:monogr/tei:title[@type="sub"])
+                        else ()
+                     else() 
+    let $imprint := if($nodes/descendant::tei:monogr/descendant::tei:imprint) then
+                        (if($nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:publisher[1]) then 
+                            $nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:publisher[1]/text()
+                        else (),
+                        if($nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:date[1]) then
+                            concat(', ',$nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:date[1]/text())
+                        else ()
+                        )
+                    else ()
+    let $biblScope :=  if($nodes/descendant::tei:biblScope) then 
+                            $nodes/descendant::tei:biblScope/text() 
+                       else()                   
+    return 
+    <span class="citation">{
+        concat(if($persons != '') then concat(string-join($persons,''),'. ') else (),
+        if($analytic != '') then string-join($analytic,'') else (),
+        if($monograph != '') then string-join($monograph,'') else (),
+        if($imprint != '') then concat(', ',string-join($imprint,'')) else (),
+        if($biblScope != '') then concat(', ',string-join($biblScope,'')) else (),
+        '. Literature in Context: An Open Anthology. ', request:get-url(),'. ', 'Accessed: ', current-dateTime())
+    }</span>
 };
 
 (:~
@@ -569,18 +608,16 @@ declare function tei2html:series($nodes as node()*) {(
 :)
 declare function tei2html:analytic($nodes as node()*) {
     let $persons := if($nodes/tei:author) then 
-                        concat(tei2html:emit-responsible-persons($nodes/tei:author,3),', ')
+                        concat(tei2html:emit-responsible-persons($nodes/tei:author,20),', ')
                     else if($nodes/tei:editor[not(@role) or @role!='translator']) then 
-                        (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],3), 
+                        (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],20), 
                         if(count($nodes/tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
-                    else 'No authors or Editors'
+                    else ()
     return (
-            $persons, 
-            concat('"',tei2html:tei2html($nodes/tei:title[1]),if(not(ends-with($nodes/tei:title[1][starts-with(@xml:lang,'en')][1],'.|:|,'))) then '.' else (),'"'),            
+            $persons, concat('"',tei2html:tei2html($nodes/tei:title[1]),if(not(ends-with($nodes/tei:title[1][starts-with(@xml:lang,'en')][1],'.|:|,'))) then '.' else (),'"'),            
             if(count($nodes/tei:editor[@role='translator']) gt 0) then (tei2html:emit-responsible-persons($nodes/tei:editor[@role!='translator'],3),', trans. ') else (),
             if($nodes/following-sibling::tei:monogr/tei:title[1][@level='m']) then 'in' else(),
-            if($nodes/following-sibling::tei:monogr) then tei2html:monograph($nodes/following-sibling::tei:monogr) else()
-        )
+            if($nodes/following-sibling::tei:monogr) then tei2html:monograph($nodes/following-sibling::tei:monogr) else())
 };
 
 (:~

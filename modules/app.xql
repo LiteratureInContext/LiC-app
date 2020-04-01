@@ -267,6 +267,14 @@ declare function app:teiHeader($node as node(), $model as map(*)){
 }; 
 
 (:~  
+ : Display Citation  
+:)
+declare function app:citation($node as node(), $model as map(*)){
+    let $data := $model("data")/descendant::tei:sourceDesc
+    return tei2html:citation($data)
+}; 
+
+(:~  
  : Display footnotes at the bottom of the page.  
 :)
 declare function app:footnotes($node as node(), $model as map(*)){
@@ -317,6 +325,11 @@ declare function app:page-images($node as node(), $model as map(*)){
  : Menu for different Data formats and sharing options
  : Available options are: TEI/XML, PDF, EPUB, Text, Print. 
  :)
+
+(:~ 
+ : Menu for different Data formats and sharing options
+ : Available options are: TEI/XML, PDF, EPUB, Text, Print. 
+ :)
 declare %templates:wrap function app:other-data-formats($node as node(), $model as map(*), $formats as xs:string?){
     if($formats) then
         <div class="dataFormats">
@@ -354,6 +367,11 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             <span data-toggle="tooltip" title="View Notes">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Editorial Statements
                             </span></button>, '&#160;')   
+                  else if($f = 'citation') then
+                        (<button class="btn btn-primary btn-xs" id="citationBtn" data-toggle="collapse" data-target="#teiViewCitation">
+                            <span data-toggle="tooltip" title="View Citation">
+                                <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Citation
+                            </span></button>, '&#160;')
                   else if($f = 'sources') then 
                         (<button class="btn btn-primary btn-xs" id="sourcesBtn" data-toggle="collapse" data-target="#teiViewSources">
                             <span data-toggle="tooltip" title="View Source Description">
@@ -369,15 +387,14 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             (<a href="?view=pageImages" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Page Images
                              </a>, '&#160;') 
-                    else ()
-                       (:
-                       if($model("hits")/descendant::tei:pb[@facs]) then 
-                            (<a href="?view=pageImages" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
-                                <span data-toggle="tooltip" title="View Source Description">
-                                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Source Texts
-                                </span></a>, '&#160;') 
-                        else()
-                        :)
+                    else()         
+                else if($f = 'lod') then  
+                    if($model("data")//@key) then 
+                         (<button class="btn btn-primary btn-xs" id="sourcesBtn" data-toggle="collapse" data-target="#teiViewLOD">
+                            <span data-toggle="tooltip" title="View Linked Data">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
+                            </span></button>, '&#160;')
+                    else ()        
                 else () 
             }            
         </div>
