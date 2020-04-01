@@ -261,7 +261,9 @@ declare function app:lazy-load($node as node(), $model as map(*), $paths as xs:s
 declare function app:teiHeader($node as node(), $model as map(*)){
     let $data := $model("data")/descendant::tei:teiHeader
     return 
-        if(tei2html:tei2html($model("data")/tei:TEI)) then tei2html:header($data) else ()
+        if(tei2html:tei2html($model("data")/tei:TEI)) then 
+            (tei2html:header($data),tei2html:COinS($data)) 
+        else ()
 }; 
 
 (:~  
