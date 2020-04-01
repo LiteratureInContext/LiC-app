@@ -388,6 +388,7 @@ declare function tei2html:annotations($node as node()*) {
         tei2html:tei2html($node/node()))}</span>
 };
 
+
 declare %private function tei2html:get-id($node as element()) {
     if($node/@xml:id) then
         string($node/@xml:id)
@@ -447,48 +448,6 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
             }
         </div>    
    
-};
-
-
-(: Embed COinS into HTML :)
-declare function tei2html:COinS($nodes as node()*){
-    let $source := $nodes/descendant-or-self::tei:sourceDesc
-    let $constants := concat('url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=',
-                    encode-for-uri('info:sid/anthology.lib.virginia.edu:work'),
-                    '&amp;rft_val_fmt=', encode-for-uri('info:ofi/fmt:kev:mtx:book'))
-    let $root := root($source)
-    let $id := if($root/@xml:id) then
-                    string($root/@xml:id)
-                else if($root/@exist:id) then
-                    string($root/@exist:id)
-                else generate-id($root)
-    let $idURI := concat('&amp;rft_id=',$id)                
-    let $genre := '&amp;rft.genre=book'
-    let $title :=  for $t in $source/descendant::tei:analytic/tei:title | $source/tei:monogr/tei:title
-                   return concat('&amp;rft.title=',encode-for-uri(normalize-space(string-join($t,''))))
-    let $author := for $a at $i in $source/descendant::tei:monogr/tei:author
-                   return 
-                        if($i = 1 and $a/tei:forename) then
-                            concat('&amp;rft.aulast=', encode-for-uri(normalize-space(string-join($a/tei:surname,' '))),
-                            '&amp;rft.aufirst=', encode-for-uri(normalize-space(string-join($a/tei:forename,' '))))
-                        else concat('&amp;rft.au=', encode-for-uri(normalize-space(string-join($a,' '))))
-    let $publisher := for $p in $source/descendant::tei:imprint[1]/tei:publisher[1]
-                      return concat('&amp;rft.publisher=', encode-for-uri(normalize-space(string-join($p,''))))                      
-    let $place := for $p in $source/descendant::tei:imprint[1]/tei:pubPlace[1]   
-                  return concat('&amp;rft.publisher=', encode-for-uri(normalize-space(string-join($p))))
-    let $date :=  for $d in $source/descendant::tei:imprint[1]/tei:date[1]   
-                  return concat('&amp;rft.date=', encode-for-uri(normalize-space(string-join($d,' '))))
-    let $pages := for $page in $source/descendant::tei:biblScope
-                  return concat('&amp;rft.tpages=',encode-for-uri(normalize-space(string-join($page,' '))))                  
-    let $citation := 
-        concat($constants,$idURI,$genre,
-            string-join($title,''),
-            string-join($author,''),
-            string-join($publisher,''),
-            string-join($place,''),
-            string-join($date,''),
-            string-join($pages,''))
-    return <span xmlns="http://www.w3.org/1999/xhtml" class="Z3988" title="{$citation}"><!-- --></span>
 };
 
 (:~

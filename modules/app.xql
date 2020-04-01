@@ -7,7 +7,6 @@ import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="http://LiC.org/config" at "config.xqm";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace functx="http://www.functx.com";
-import module namespace http="http://expath.org/ns/http-client";
 
 (: Import application modules. :)
 import module namespace timeline="http://LiC.org/timeline" at "lib/timeline.xqm";
@@ -15,10 +14,8 @@ import module namespace facet="http://expath.org/ns/facet" at "lib/facet.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "content-negotiation/tei2html.xqm";
 import module namespace data="http://LiC.org/data" at "lib/data.xqm";
 import module namespace maps="http://LiC.org/maps" at "lib/maps.xqm";
-import module namespace d3xquery="http://syriaca.org/d3xquery" at "../d3xquery/d3xquery.xqm";
 
 (: Namespaces :)
-declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace html="http://www.w3.org/1999/xhtml";
@@ -264,9 +261,7 @@ declare function app:lazy-load($node as node(), $model as map(*), $paths as xs:s
 declare function app:teiHeader($node as node(), $model as map(*)){
     let $data := $model("data")/descendant::tei:teiHeader
     return 
-        if(tei2html:tei2html($model("data")/tei:TEI)) then 
-            (tei2html:header($data),tei2html:COinS($data)) 
-        else ()
+        if(tei2html:tei2html($model("data")/tei:TEI)) then tei2html:header($data) else ()
 }; 
 
 (:~  
@@ -372,14 +367,15 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             (<a href="?view=pageImages" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Page Images
                              </a>, '&#160;') 
-                    else()         
-                else if($f = 'lod') then  
-                    if($model("data")//@key) then 
-                         (<button class="btn btn-primary btn-xs" id="sourcesBtn" data-toggle="collapse" data-target="#teiViewLOD">
-                            <span data-toggle="tooltip" title="View Linked Data">
-                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
-                            </span></button>, '&#160;')
-                    else ()        
+                    else ()
+                       (:
+                       if($model("hits")/descendant::tei:pb[@facs]) then 
+                            (<a href="?view=pageImages" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
+                                <span data-toggle="tooltip" title="View Source Description">
+                                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Source Texts
+                                </span></a>, '&#160;') 
+                        else()
+                        :)
                 else () 
             }            
         </div>
@@ -998,9 +994,6 @@ function app:display-userinfo($node as node(), $model as map(*)) {
 };
 
 (: LOD functions :)
-(:~ 
- : Display LOD data across collection 
- :)
 declare 
     %templates:wrap
 function app:lod($node as node(), $model as map(*)) { 
@@ -1016,56 +1009,21 @@ function app:lod($node as node(), $model as map(*)) {
         </ul>
         {
             if(request:get-parameter('view', '') = 'map') then
-                app:map()
+                app:map(())
             else if(request:get-parameter('view', '') = 'persName') then
-                app:persons()
+                app:persons(())
             else if(request:get-parameter('view', '') = 'timeline') then
-                app:timeline()                 
+                app:timeline(())                 
             else if(request:get-parameter('view', '') = ('network','graph')) then
-                app:network() 
-            else app:map()
+                app:network(()) 
+            else app:map(())
+        
         }
     </div>
 };
 
-(:~ 
- : Display a subset of LOD data based on current data, either work record or search/browse results 
- :)
-declare 
-    %templates:wrap
-function app:subset-lod($node as node(), $model as map(*)) { 
-    <div>
-        <h2>Linked Data: <small>Persons and places related to this work.</small></h2>
-        {app:network($node, $model)}
-        <!--
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#places">Places</a></li>
-            <li><a data-toggle="tab" href="#persons">Persons</a></li>
-            <li><a data-toggle="tab" href="#relationship">Relationships</a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="places" class="tab-pane fade in active">
-              <h4>Places referenced in this work.</h4>
-              {app:map($node, $model)}
-            </div>
-            <div id="persons" class="tab-pane fade">
-              <h4>Persons referenced in this work.</h4>
-              {app:persons($node, $model)}
-            </div>
-            <div id="relationship" class="tab-pane fade">
-              <h4>A linked data graph visualizing the connection between works, people and places in the collection.</h4>
-              {app:network($node, $model)}
-            </div>
-          </div>
-          -->
-    </div>   
-};
-
-(:~
- : Create map of places mentioned in collection.
- : Used by app:lod()
-:)
-declare function app:map() {
+(: Places, build json for map with a script that is run periodically (Probably to slow to do dynamically) :)
+declare function app:map($nodes as node()*) {
     let $geojson := if(request:get-parameter('id', '') != '') then
                         doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
                     else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
@@ -1092,27 +1050,8 @@ declare function app:map() {
         else () )
 };
 
-(:~
- : Create map of subset of places mentioned in collection.  
-:)
-declare function app:map($node as node(), $model as map(*)) {
-    let $geojson := if(request:get-parameter('id', '') != '') then
-                        doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
-                    else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
-    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else () 
-    let $subset := for $key in $reference-data//@key
-                   return $geojson//tei:place[tei:idno = concat('http://vocab.getty.edu/tgn/', $key)]
-    return 
-        if(not(empty($subset))) then
-            (: This should just be a map of places, not work, should be able to pass in map type :)
-            <div>{maps:build-map($subset)}</div>
-        else ()
-};
-
-(:~
- : List all the persNames mentioned
- :)
-declare function app:persons() {
+(: List all the persNames (linked back to the text) and those with @Keys  (linked to their LCNAF profile)? :)
+declare function app:persons($nodes as node()*) {
     <div>
         <div>
         <h2>Persons</h2>
@@ -1163,66 +1102,12 @@ declare function app:persons() {
     </div>
 };
 
-(:~
- : List a subset of the persNames mentioned 
- :)
-declare function app:persons($node as node(), $model as map(*)) {
-    let $persNames := if(request:get-parameter('id', '') != '') then 
-                                doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person[tei:idno = request:get-parameter('id', '')]
-                              else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
-    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else () 
-    let $subset := for $key in $reference-data//@key
-                   return $persNames//tei:person[tei:idno = $key]
-    return   
-        if(not(empty($subset))) then
-            for $person at $i in $persNames
-            let $name :=  if($person/descendant::mads:name) then 
-                                string-join($person/descendant::mads:name/mads:namePart,', ')
-                              else if($person/descendant::tei:persName/descendant::tei:surname) then 
-                                  concat(normalize-space($person/descendant::tei:persName/descendant::tei:surname),', ', normalize-space($person/descendant::tei:persName/descendant::tei:forename))
-                              else string-join($person/descendant::tei:persName//text(),' ')
-            let $name-string := normalize-space($name)
-            let $sort-name := replace($name-string,"^\s+|^[mM]rs.\s|^[mM]r.\s|^\(|(['][s]+)|\)",'')
-            let $idno := replace($person/tei:idno,'\s|.|,|;', ' ')
-            let $related := $person/descendant::tei:relation
-            order by $sort-name
-            return 
-                  <div style="border-bottom:1px solid #eee;">
-                    <button class="btn btn-link" 
-                    data-toggle="collapse" data-target="{concat('#name',$i,'Show')}">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                    </button> 
-                    {normalize-space($name)} ({count($person/descendant::tei:relation)} associated work{if(count($related) gt 1) then 's' else()})
-                    {
-                    if($person/tei:persName/@type = ('lcnaf','lccn')) then 
-                        <a href="http://id.loc.gov/authorities/names/{$person/tei:idno}" alt="Go to Library of Congress authority record"><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-toggle="tooltip" title="Go to Library of Congress authority record"></span></a>
-                    else if($person/tei:persName/@type = 'orcid') then 
-                        <a href="https://orcid.org/{$person/tei:idno}" alt="Go to authority record"><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-toggle="tooltip" title="Go to authority record"></span></a>
-                    else ()}
-                    <div class="panel-collapse collapse {if(count($persNames) = 1) then 'in' else()} left-align" id="{concat('name',$i,'Show')}">{
-                        for $r in $related
-                        group by $type := $r/@type
-                        return 
-                            <div style="margin-left:2em;">
-                                <p style="font-weight:strong;">{functx:capitalize-first($type)} 
-                                {if($type = 'mention') then concat(' (',string($r[1]/@count),')') else () }</p>
-                                <ul>{
-                                for $work in $r
-                                let $id := $work/@active
-                                return <li><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
-                                }</ul>
-                            </div>
-                    }</div>
-                </div>
-        else ()
-};
-
 (: 
    Timeline of dates in the teiHeader/imprint (first imprint reference) linked to the texts a
    network visualization where people and places listed in each text are visible, 
    with larger nodes for higher mentions 
 :)
-declare function app:timeline() {
+declare function app:timeline($nodes as node()*) {
     <div>
         <div>
         <h2>Publication Dates</h2>
@@ -1233,171 +1118,42 @@ declare function app:timeline() {
 };
 
 (: 
-   Timeline of dates in the teiHeader/imprint (first imprint reference) linked to the texts a
-   network visualization where people and places listed in each text are visible, 
-   with larger nodes for higher mentions 
+ : d3js visualization of works/persons/places
 :)
-declare function app:timeline($node as node(), $model as map(*)) {
+declare function app:network($nodes as node()*) {
     <div>
-        <div>
-        <h2>Publication Dates</h2>
-        <p>A timeline of works in the collection.</p>
-        {timeline:timeline()}    
-        </div>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        {
+        if(request:get-parameter('type', '') = 'force') then 
+            (<h2>Collection Graph</h2>,<p>A linked data graph visualizing the connection between works, people and places in the collection.</p>) 
+        else if(request:get-parameter('type', '') = 'bubble') then 
+            (<h2>Persons and Places Graph</h2>,<p>A linked data graph visualizing the people and places referenced in the collection.</p>) 
+        else <h2>Graph visualization</h2>
+        }
+    <div id="tooltip"/>
+    <div id="result"/>
+    <script><![CDATA[
+        $(document).ready(function () {
+            //Start bubble chart here
+            //Get JSON data
+            var url = ']]>{$config:nav-base}/d3xquery/<![CDATA[';
+            var id = ']]>{request:get-parameter('id', '')}<![CDATA[';
+            var type = ']]>{request:get-parameter('type', '')}<![CDATA[';
+            var data = ']]>{request:get-parameter('data', '')}<![CDATA[';
+            selectGraphType(url,type,data,id)
+            //console.log(data[0].children)
+            });
+    ]]></script>
+      <style><![CDATA[
+        .d3jstooltip {
+          background-color:white;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          padding:.5em;
+          }
+        }
+        ]]>
+        </style>
+    <script src="{$config:nav-base}/d3xquery/visualizations.js"/>
     </div>
 };
-(: 
- : d3js visualization of works/persons/places
-:)
-declare function app:network() {
-    let $dataType := request:get-parameter('data', '')
-    let $id := request:get-parameter('id', '')
-    let $data := 
-            if($dataType = 'persNames') then
-                if($id != '') then 
-                    doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person[tei:idno = $id]
-                else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
-            else if($dataType = 'placeNames') then 
-                if($id != '') then
-                    doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = $id]
-                else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place 
-            else if($dataType = 'work') then 
-                if($id != '') then
-                    doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:relation[@active = $id] | 
-                    doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:relation[@active = $id]
-                else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person | 
-                     doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place 
-            else 
-                doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person | 
-                doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place   
-    let $type := if(request:get-parameter('type', '') != '') then request:get-parameter('type', '') else 'Force'
-    let $json := 
-            (serialize(d3xquery:build-graph-type($data, (), (), $type, ()), 
-               <output:serialization-parameters>
-                   <output:method>json</output:method>
-               </output:serialization-parameters>))
-    return 
-        if(not(empty($data))) then 
-            <div>
-                <script src="https://d3js.org/d3.v4.min.js"></script>
-                {
-                if(request:get-parameter('type', '') = 'force') then 
-                    (<h2>Collection Graph</h2>,<p>A linked data graph visualizing the connection between works, people and places in the collection.</p>) 
-                else if(request:get-parameter('type', '') = 'bubble') then 
-                    (<h2>Persons and Places Graph</h2>,<p>A linked data graph visualizing the people and places referenced in the collection.</p>) 
-                else <h2>Graph visualization</h2>
-                }
-                <div id="tooltip"/>
-                <div id="result"/>
-                <script><![CDATA[
-                    $(document).ready(function () {
-                        //Start bubble chart here
-                        //Get JSON data
-                        var url = ']]>{$config:nav-base}/d3xquery/<![CDATA[';
-                        var postData =]]>{$json}<![CDATA[;
-                        var id = ']]>{request:get-parameter('id', '')}<![CDATA[';
-                        var type = ']]>{$type}<![CDATA[';
-                        //var data = ']]>{request:get-parameter('data', '')}<![CDATA[';
-                        selectGraphType(type,postData)
-                        //selectGraphTypePostData(type,postData)
-                        //console.log(postData);
-                        });
-                ]]></script>
-                  <style><![CDATA[
-                    .d3jstooltip {
-                      background-color:white;
-                      border: 1px solid #ccc;
-                      border-radius: 6px;
-                      padding:.5em;
-                      }
-                    }
-                    ]]>
-                </style>
-                <script src="{$config:nav-base}/d3xquery/visualizations.js"/>
-            </div>
-        else () 
-};
-
-(: Check for LOD relationships, do not build graph or buttons f false() :)
-declare function app:checkRelationships($node as node(), $model as map(*)){
-    let $persNames := if(request:get-parameter('id', '') != '') then 
-                                doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person[tei:idno = request:get-parameter('id', '')]
-                              else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
-    let $geojson := if(request:get-parameter('id', '') != '') then
-                        doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
-                    else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
-    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else () 
-    let $keys := $reference-data//@key
-    let $subset := (for $key in $keys
-                    return $geojson//tei:place[tei:idno = concat('http://vocab.getty.edu/tgn/', $key)],
-                    for $key in $keys
-                    return $persNames//tei:person[tei:idno = $key])                   
-    let $type := if(request:get-parameter('type', '') != '') then request:get-parameter('type', '') else 'Force'
-    return if(not(empty($subset))) then true() else false()
-};
-
-(: 
- : d3js visualization of works/persons/places
-:)
-declare function app:network($node as node(), $model as map(*)) {
-    let $persNames := if(request:get-parameter('id', '') != '') then 
-                                doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person[tei:idno = request:get-parameter('id', '')]
-                              else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
-    let $geojson := if(request:get-parameter('id', '') != '') then
-                        doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
-                    else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
-    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else () 
-    let $keys := $reference-data//@key
-    let $subset := (for $key in $keys
-                    return $geojson//tei:place[tei:idno = concat('http://vocab.getty.edu/tgn/', $key)],
-                    for $key in $keys
-                    return $persNames//tei:person[tei:idno = $key])                   
-    let $type := if(request:get-parameter('type', '') != '') then request:get-parameter('type', '') else 'Force'
-    let $json := 
-            (serialize(d3xquery:build-graph-type($subset, (), (), $type, ()), 
-               <output:serialization-parameters>
-                   <output:method>json</output:method>
-               </output:serialization-parameters>))
-    return 
-        if(not(empty($subset))) then 
-            <div>
-                <script src="https://d3js.org/d3.v4.min.js"></script>
-                {
-                if(request:get-parameter('type', '') = 'force') then 
-                    (<h2>Collection Graph</h2>,<p>A linked data graph visualizing the connection between works, people and places in the collection.</p>) 
-                else if(request:get-parameter('type', '') = 'bubble') then 
-                    (<h2>Persons and Places Graph</h2>,<p>A linked data graph visualizing the people and places referenced in the collection.</p>) 
-                else <h2>Graph visualization</h2>
-                }
-                <div id="tooltip"/>
-                <div id="result"/>
-                <script><![CDATA[
-                    $(document).ready(function () {
-                        //Start bubble chart here
-                        //Get JSON data
-                        var url = ']]>{$config:nav-base}/d3xquery/<![CDATA[';
-                        var postData =]]>{$json}<![CDATA[;
-                        var id = ']]>{request:get-parameter('id', '')}<![CDATA[';
-                        var type = ']]>{$type}<![CDATA[';
-                        //var data = ']]>{request:get-parameter('data', '')}<![CDATA[';
-                        selectGraphType(type,postData)
-                        //selectGraphTypePostData(type,postData)
-                        //console.log(postData);
-                        });
-                ]]></script>
-                  <style><![CDATA[
-                    .d3jstooltip {
-                      background-color:white;
-                      border: 1px solid #ccc;
-                      border-radius: 6px;
-                      padding:.5em;
-                      }
-                    }
-                    ]]>
-                </style>
-                <script src="{$config:nav-base}/d3xquery/visualizations.js"/>
-            </div>
-        else () 
-   
-};
-
