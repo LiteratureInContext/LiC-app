@@ -33,12 +33,12 @@ declare function d3xquery:format-table($relationships){
 };
 
 (: Output based on d3js requirements for producing a d3js tree format, single nested level, gives collection overview :)
-declare function d3xquery:format-tree-types($relationships as item()*){
+declare function d3xquery:format-tree-types($relationships as item()*, $dataType as xs:string?){
     <root>
         <data>
             <children>
                 {
-                    if(request:get-parameter('focus', '') = 'work') then 
+                    if($dataType = 'work') then 
                         (: Get all works, size is based on counts in relations? on click get a force graph of persons/places? :)
                         for $r in $relationships//tei:relation
                         let $title := string-join($r/descendant::tei:title,' ')
@@ -87,32 +87,35 @@ declare function d3xquery:format-relationship-graph($relationships as item()*){
         <root>
             <nodes>{
                 (
-                for $r in $relationships//tei:relation
+                for $r in $relationships/descendant-or-self::tei:relation
                 group by $group := $r/@active
                 return
                     <json:value>
-                        <id>{normalize-space(string($group))}</id>
+                        <id>{string($group)}</id>
                         <uri>{substring-before(replace($group,$config:data-root,''),'.xml')}</uri>
                         <label>{normalize-space(string-join($r[1]/tei:desc//text(),''))}</label>
                         <size>{count($r)}</size>
                         <type>work</type>
                    </json:value>,
-                for $r in $relationships//tei:relation
+                for $r in $relationships/descendant-or-self::tei:relation
                 group by $group := $r/@passive
                 return
                     <json:value>
-                        <id>{normalize-space(string($group))}</id>
-                        <label>{if($r[1]/ancestor::tei:place) then $r[1]/ancestor::tei:place/tei:placeName//text() else $r[1]/ancestor::tei:person/tei:persName[1]//text()}</label>
+                        <id>{string($group)}</id>
+                        <label>{if($r[1]/ancestor::tei:place) then 
+                                normalize-space(string-join($r[1]/ancestor::tei:place/tei:placeName//text(),'')) 
+                                else normalize-space(string-join($r[1]/ancestor::tei:person/tei:persName[1]//text(),''))}</label>
                         <size>{count($r)}</size>
                         <type>{if($r[1]/ancestor::tei:place) then 'place' else 'person'}</type>
                    </json:value>)     
             }</nodes>
             <links>{
-                for $r in $relationships//tei:relation
+                for $r in $relationships/descendant-or-self::tei:relation
                 return 
                     <json:value>
-                        <source>{normalize-space(string($r/@passive))}</source>
-                        <target>{normalize-space(string($r/@active))}</target>
+                        {(if(count($relationships/descendant-or-self::tei:relation) = 1) then attribute {xs:QName("json:array")} {'true'} else())}
+                        <source>{string($r/@passive)}</source>
+                        <target>{string($r/@active)}</target>
                         <relationship>{string($r[1]/@ana)}</relationship>
                         <value>0</value>
                     </json:value>
@@ -120,19 +123,19 @@ declare function d3xquery:format-relationship-graph($relationships as item()*){
         </root>
 };
 
-declare function d3xquery:build-graph-type($records as item()*, $id as xs:string?, $relationship as xs:string?, $type as xs:string?){
+declare function d3xquery:build-graph-type($records as item()*, $id as xs:string?, $relationship as xs:string?, $type as xs:string?, $dataType as xs:string?){
     let $records := 
             if($id != '') then 
                 $records[descendant::tei:idno[. = $id]] | $records[descendant::tei:relation[@active[. = $id]]]
             else $records
     let $data := 
-        if($type = ('Force','Sankey')) then 
+        if(lower-case($type) = ('force','sankey')) then 
             d3xquery:format-relationship-graph($records)
-        else if($type = ('Table','table','Bundle')) then 
+        else if(lower-case($type) = ('table','bundle')) then 
             d3xquery:format-table($records)
-        else if($type = ('Tree','Round Tree','Circle Pack','Bubble')) then 
-            d3xquery:format-tree-types($records)
-        else if($type = ('Bar Chart','Pie Chart')) then
+        else if(lower-case($type) = ('tree','round tree','circle pack','bubble')) then 
+            d3xquery:format-tree-types($records, $dataType)
+        else if(lower-case($type) = ('bar chart','pie chart')) then
             (:d3xquery:format-tree-types(d3xquery:get-relationship($records)):)''   
         else d3xquery:format-table($records) 
     return $data

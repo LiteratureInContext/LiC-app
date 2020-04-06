@@ -291,6 +291,12 @@ sup..footnoteRef {
     }
 .facet-label.remove {background-color:#eee; color:#666; font-weight:normal; margin:.25em; display:inline-block;}
 
+svg {
+  max-width: 100%;
+  max-height: 500px;
+  display: block;
+}
+
 /* Annotation styles */
 .annotationsResults {margin: .5em 2em;}
 .annotation-snippet{display:block;}

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="page-content">
 
@@ -7,7 +6,7 @@
                     <div data-template="app:teiHeader"/>
                     <div class="lic-well">
                         <div class="coursepackToolbar">        
-                            <div data-template="app:other-data-formats" data-template-formats="sources,notes,citation,print,tei,pdf,epub,pageImages"/>
+                            <div data-template="app:other-data-formats" data-template-formats="sources,notes,citation,print,tei,pdf,epub,pageImages,lod"/>
                             <div class="panel-collapse collapse left-align" id="teiViewSources">
                                 <hr/>
                                 <h3>Sources </h3>
@@ -20,12 +19,16 @@
                                 <div data-template="app:display-nodes" data-template-paths="/descendant::tei:encodingDesc/tei:editorialDecl"/>
                                 <div data-template="app:display-nodes" data-template-paths="/descendant::tei:distributor"/>
                             </div>
+                            <div class="panel-collapse collapse left-align" id="teiViewCitation">
+                                <hr/>
+                                <h3>Citation </h3>
+                                <div data-template="app:citation"/>
+                            </div>
+                            <div class="panel-collapse collapse left-align" id="teiViewLOD">
+                                <div data-template="app:subset-lod"/>
+                            </div>
                         </div>
-                        <div class="panel-collapse collapse left-align" id="teiViewCitation">
-                            <hr/>
-                            <h3>Citation </h3>
-                            <div data-template="app:citation"/>
-                        </div>
+                        <!--<div data-template="app:lazy-load" data-template-paths="/descendant::tei:text"/>-->
                         <div data-template="app:display-nodes" data-template-paths="/descendant::tei:text"/>
                         <div data-template="app:footnotes"/>
                         <!--
