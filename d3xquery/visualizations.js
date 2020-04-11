@@ -173,9 +173,8 @@ function bubble(graph,rootURL,type) {
         .style("border", "1px solid grey")
         .call(responsivefy);
     
-    var tooltip = d3.selectAll("#tooltip")
-    	.attr("class", "d3jstooltip")
-    	//.style("position","fixed")
+   var tooltip = d3.select("body").append("div")
+        .attr("class", "d3jstooltip")
     	.style("position","absolute")
     	.style("opacity", 0);
     
