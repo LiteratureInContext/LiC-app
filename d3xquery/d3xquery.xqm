@@ -48,6 +48,7 @@ declare function d3xquery:format-tree-types($relationships as item()*, $dataType
                             <json:value>
                                 <id>{string($key)}</id>
                                 <name>{$title[1]}</name>
+                                <desc>{$title[1]} mentioned in {count($r)} relationships.</desc>
                                 <size>{count($r)}</size>
                              </json:value>
                     else 
@@ -66,6 +67,19 @@ declare function d3xquery:format-tree-types($relationships as item()*, $dataType
                             <json:value>
                                 <id>{$r/tei:idno[1]/text()}</id>
                                 <name>{$name}</name>
+                                <desc>{$name}: 
+                                    {for $rtype in $related
+                                     group by $key := $rtype/@ana
+                                     return
+                                        concat("&#xa;", 
+                                            if($key = 'pubPlace') then 'Place of Publication for ' 
+                                            else if($key = 'editor') then 'Editor of '
+                                            else if($key = 'author') then 'Author of '
+                                            else if($key = 'mention') then 'Mentioned in ' 
+                                            else $key,
+                                            " ", count($rtype), ' works.')
+                                    }
+                                </desc>
                                 <size>{count($related)}</size>
                                 <type>{if($r/descendant::tei:persName) then 'person' else if($r/descendant::tei:placeName) then 'place' else 'other'}</type>
                              </json:value>
@@ -111,12 +125,18 @@ declare function d3xquery:format-relationship-graph($relationships as item()*){
             }</nodes>
             <links>{
                 for $r in $relationships/descendant-or-self::tei:relation
+                let $key := $r/@ana
                 return 
                     <json:value>
                         {(if(count($relationships/descendant-or-self::tei:relation) = 1) then attribute {xs:QName("json:array")} {'true'} else())}
                         <source>{string($r/@passive)}</source>
                         <target>{string($r/@active)}</target>
-                        <relationship>{string($r[1]/@ana)}</relationship>
+                        <relationship>{if($key = 'pubPlace') then 'Place of Publication for ' 
+                                            else if($key = 'editor') then 'Editor of '
+                                            else if($key = 'author') then 'Author of '
+                                            else if($key = 'mention') then 'Mentioned in ' 
+                                            else $key
+                        (:string($r[1]/@ana):)}</relationship>
                         <value>0</value>
                     </json:value>
             }</links>
