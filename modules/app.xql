@@ -334,32 +334,10 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
             {
                 for $f in tokenize($formats,',')
                 return 
-                    if($f = 'tei') then
-                        (
-                        <a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.tei" class="btn btn-primary btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this work.">
-                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI/XML
-                        </a>, '&#160;')
-                    else if($f = 'pdf') then                        
-                        (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.pdf" class="btn btn-primary btn-xs" id="pdfBtn" data-toggle="tooltip" title="Click to view the PDF for this work.">
-                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF
-                        </a>, '&#160;')                         
-                    else if($f = 'epub') then                        
-                        (
-                        <a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.epub" class="btn btn-primary btn-xs" id="epubBtn" data-toggle="tooltip" title="Click to view the EPUB for this work.">
-                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> EPUB
-                        </a>, '&#160;')  
-                   else if($f = 'print') then                        
+                   if($f = 'print') then                        
                         (<a href="javascript:window.print();" type="button" class="btn btn-primary btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer." >
                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
                         </a>, '&#160;')  
-                   else if($f = 'rdf') then
-                        (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.rdf" class="btn btn-primary btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record.">
-                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/XML
-                        </a>, '&#160;')
-                  else if($f = 'ttl') then
-                        (<a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.ttl" class="btn btn-primary btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
-                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/TTL
-                        </a>, '&#160;')
                   else if($f = 'notes') then
                         (<button class="btn btn-primary btn-xs" id="notesBtn" data-toggle="collapse" data-target="#teiViewNotes">
                             <span data-toggle="tooltip" title="View Notes">
@@ -394,12 +372,45 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             </span></button>, '&#160;')
                     else ()        
                 else () 
+            }
+            { 
+                <div class="btn-group" data-toggle="tooltip"  title="Download Work Options">
+                          <button type="button" class="btn btn-primary dropdown-toggle btn-xs"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">{
+                            for $f in tokenize($formats,',')
+                            return 
+                                 if($f = 'tei') then
+                                     <li><a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.tei" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this work.">TEI/XML</a></li>
+                                 else if($f = 'pdf') then                        
+                                     <li><a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.pdf" id="pdfBtn" data-toggle="tooltip" title="Click to view the PDF for this work.">PDF</a></li>                         
+                                 else if($f = 'epub') then                        
+                                     <li><a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.epub" id="epubBtn" data-toggle="tooltip" title="Click to view the EPUB for this work.">EPUB</a></li>  
+                                else if($f = 'rdf') then
+                                     <li><a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.rdf" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record.">RDF/XML</a></li>
+                                else if($f = 'ttl') then
+                                     <li><a href="{$config:nav-base}/work/{request:get-parameter('doc', '')}.ttl" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >RDF/TTL</a></li>
+                                else()}     
+                        </ul>
+                </div>
+            }
+            {
+            <button id="rangy" class="rangy rangy-select btn btn-primary btn-lg" data-url="{$config:nav-base}/modules/lib/coursepack.xql" 
+                data-workid="{document-uri(root($model("data")))}"
+                data-worktitle="{$model("data")//tei:TEI/descendant::tei:titleStmt/tei:title[1]}" 
+                title="Save selection/text to coursepack"> 
+                <span data-toggle="tooltip" title="Coursepack tools">
+                    <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
+                </span>
+            </button>
             }            
         </div>
     else ()
 };
 
-(: Course pack display functions :)
+(: Coursepack display functions :)
 (:~
  : Get coursepack by id or list all available coursepacks
 :)
@@ -425,6 +436,7 @@ declare function app:select-coursepack($node as node(), $model as map(*)){
 
 (:~
  : HTML Coursepack title
+ : @depreciated 
 :)
 declare function app:display-coursepack-title($node as node(), $model as map(*)){
    <h1>{string($model("coursepack")/@title)}</h1> 
@@ -445,9 +457,49 @@ return
                 <p><a href="{$config:nav-base}/coursepack.html">Browse list</a></p>
             </div>
         </div>
-     else if(request:get-parameter('id', '') != '') then 
-         <div class="lic-well coursepack">
-            <form class="form-inline" method="get" action="{string($coursepacks/@id)}" id="search">
+    else if(request:get-parameter('id', '') != '') then 
+        <form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search">
+            <div class="row">
+                <div class="col-md-6"><h1>{string($model("coursepack")/@title)}</h1>
+                    <p class="desc">{$coursepacks/*:desc}</p>
+                </div>
+                <div class="col-md-6">
+                <div class="coursepackToolbar">
+                    <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-primary deleteCoursepack" data-toggle="tooltip" title="Delete Coursepack"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
+                        {
+                            if(request:get-parameter('view', '') = 'expanded') then 
+                                <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=list" class="toolbar btn btn-primary" data-toggle="tooltip" title="List Coursepack Works"><span class="glyphicon glyphicon-th-list"/> List Works </a>
+                            else 
+                                <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=expanded" class="toolbar btn btn-primary" data-toggle="tooltip" title="Expand Coursepack Works to see text"><span class="glyphicon glyphicon-plus-sign"/> Expand Works </a>
+                        }
+                        {if($model("hits")//@key or $model("coursepack")//@key) then 
+                             (<a class="btn btn-primary" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
+                                 <span data-toggle="tooltip" title="View Linked Data">
+                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
+                                 </span></a>, '&#160;')
+                             else () 
+                         }
+                        <a href="javascript:window.print();" type="button" id="printBtn"  class="toolbar btn btn-primary" data-toggle="tooltip" title="Print Coursepack"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
+                        <div class="btn-group" data-toggle="tooltip"  title="Download Coursepack Option">
+                          <button type="button" class="btn btn-primary dropdown-toggle"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.pdf" id="pdfBtn" title="Download Coursepack as PDF">PDF</a></li>
+                            <li><a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.epub" id="epubBtn" title="Download Coursepack as EPUB">EPUB</a></li>
+                            <li><a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.tei"  id="teiBtn" title="Download Coursepack as TEI">TEI</a></li>
+                            <li><a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.txt"  id="textBtn" title="Download Coursepack as plain text">Text</a></li>
+                          </ul>
+                        </div> 
+                </div>
+                                   
+                </div>
+            </div>
+        <div class="panel-collapse collapse left-align" id="teiViewLOD">
+            {app:subset-lod($node, $model)}
+        </div>
+        <div class="lic-well coursepack">
                 <div class="coursepackToolbar search-box no-print">
                     <div class="form-group">
                         <input type="text" class="form-control" id="query" name="query" placeholder="Search Coursepack"/>
@@ -467,25 +519,36 @@ return
                             </select>
                         </div>
                     <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Search Coursepack"><span class="glyphicon glyphicon-search"/></button> 
-                    <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-primary deleteCoursepack" data-toggle="tooltip" title="Delete Coursepack">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
                     {
-                    if(request:get-parameter('view', '') = 'expanded') then 
-                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=list" class="toolbar btn btn-primary" data-toggle="tooltip" title="List Coursepack Works"><span class="glyphicon glyphicon-th-list"/> List Works </a>
-                    else 
-                        <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=expanded" class="toolbar btn btn-primary" data-toggle="tooltip" title="Expand Coursepack Works to see text"><span class="glyphicon glyphicon-plus-sign"/> Expand Works </a>
+                        if($hits != '') then 
+                            app:pageination-inline($node, $model, 'title,author,pubDate')
+                        else
+                            <div class="btn-group">
+                               <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Sort <span class="caret"/></button>
+                                   <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                                       {
+                                           for $option in tokenize('title,author,pubDate',',')
+                                           return 
+                                           <li role="presentation">
+                                               <a role="menuitem" tabindex="-1" href="?sort-element={$option}" id="rel">
+                                                   {
+                                                       if($option = 'pubDate' or $option = 'persDate') then 'Date'
+                                                       else if($option = 'pubPlace') then 'Place of publication'
+                                                       else functx:capitalize-first($option)
+                                                   }
+                                               </a>
+                                           </li>
+                                       }
+                                   </ul>
+                               </div>
+                           </div>
+                        
                     }
-                    <a href="javascript:window.print();" type="button" id="printBtn"  class="toolbar btn btn-primary" data-toggle="tooltip" title="Print Coursepack"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
-                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.pdf" class="toolbar btn btn-primary" id="pdfBtn" data-toggle="tooltip" title="Download Coursepack as PDF"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> PDF</a>
-                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.epub" class="toolbar btn btn-primary" id="epubBtn" data-toggle="tooltip" title="Download Coursepack as EPUB"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> EPUB</a>
-                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.tei" class="toolbar btn btn-primary" id="teiBtn" data-toggle="tooltip" title="Download Coursepack as TEI"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI</a>
-                    <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.txt" class="toolbar btn btn-primary" id="textBtn" data-toggle="tooltip" title="Download Coursepack as plain text"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Text</a>
-                </div>
-                <p class="desc">{$coursepacks/*:desc}</p>
+               </div>
+
                  {
                  if($hits != '') then
-                     (app:pageination($node, $model, 'title,author,pubDate'),
-                     <hr/>,
+                     (<hr/>,
                       <span style="margin-left:3em;"><input type="checkbox" class="toggle-button" id="selectAll" /> Select All</span>,
                      <hr/>,
                      app:show-hits($node, $model, 1, 10))
@@ -495,14 +558,32 @@ return
                     for $work in $coursepacks/descendant-or-self::tei:TEI
                     let $title := $work/descendant::tei:title[1]/text()
                     let $id := document-uri(root($work))
+                    let $selection := if($coursepacks//work[@id = $id]/text) then
+                                        for $text in $coursepacks//work[@id = $id]/text
+                                        let $html := util:parse-html($text/text())
+                                        return 
+                                            (<div><h4>Selected Text</h4>
+                                            {util:parse-html($text/text())}</div>)
+                                      else()
+                    order by data:filter-sort-string(data:add-sort-options($work, request:get-parameter('sort-element', '')))
                     return  
                         <div class="result row">
-                            <span class="col-md-1">
-                             <button data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=deleteWork&amp;coursepackid={string($coursepacks/@id)}&amp;workid={$id}" class="removeWork btn btn-default">
-                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button> 
-                            </span>
-                            <span class="col-md-11">{(
-                                if(request:get-parameter('view', '') = 'expanded') then 
+                            <div class="col-md-1">
+                             <button data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=deleteWork&amp;coursepackid={string($coursepacks/@id)}&amp;workid={$id}" class="removeWork btn btn-default btn-sm" data-toggle="tooltip" title="Delete Work from Coursepack">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                             </button>
+                             <button data-url="{$config:nav-base}/modules/data.xql?id={string($coursepacks/@id)}&amp;view=expand&amp;workid={$id}" class="expand btn btn-default btn-sm" data-toggle="tooltip" title="Expand Work to see text">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                             </button>
+                            </div>
+                            <div class="col-md-11">{(
+                                if($selection != '') then
+                                    (<h4 class="selections-from">Selections from: </h4>, 
+                                    tei2html:summary-view($work, (), $id[1]),
+                                    if(request:get-parameter('view', '') = 'expanded') then 
+                                       <div class="selected-text">{$selection}</div> 
+                                    else ())
+                                else if(request:get-parameter('view', '') = 'expanded') then
                                     (tei2html:header($work/descendant::tei:teiHeader),
                                     tei2html:tei2html($work/descendant::tei:text),
                                     let $notes := $work/descendant::tei:note[@target]
@@ -516,11 +597,14 @@ return
                                             </div>
                                         else ()
                                     )
-                                else tei2html:summary-view($work, (), $id[1])) }</span>
+                                else tei2html:summary-view($work, (), $id[1])
+                                )}
+                                <div class="expandedText"></div>
+                                </div>
                         </div> 
                  }      
-          </form>
         </div>
+        </form>
     else        
         <div>
             <h1>Available Coursepacks</h1>
@@ -635,6 +719,74 @@ let $pagination-links :=
 };
 
 (:~
+ : Display paging functions in html templates
+:)
+declare %templates:wrap function app:pageination-inline($node as node()*, $model as map(*), $sort-options as xs:string*){
+let $search-string := app:search-string()
+let $sort-options := $sort-options
+let $hits := $model("hits")
+let $perpage := if($app:perpage) then xs:integer($app:perpage) else 20
+let $start := if($app:start) then $app:start else 1
+let $total-result-count := count($hits)
+let $end := 
+    if ($total-result-count lt $perpage) then 
+        $total-result-count
+    else 
+        $start + $perpage
+let $number-of-pages :=  xs:integer(ceiling($total-result-count div $perpage))
+let $current-page := xs:integer(($start + $perpage) div $perpage)
+(: get all parameters to pass to paging function, strip start parameter :)
+let $url-params := replace(replace(request:get-query-string(), '&amp;start=\d+', ''),'start=\d+','')
+let $param-string := if($url-params != '') then concat('?',$url-params,'&amp;start=') else '?start='        
+let $pagination-links := 
+        if($total-result-count gt $perpage) then 
+            <ul class="pagination">
+                {((: Show 'Previous' for all but the 1st page of results :)
+                        if ($current-page = 1) then ()
+                        else <li><a href="{concat($param-string, $perpage * ($current-page - 2)) }">Prev</a></li>,
+                        (: Show links to each page of results :)
+                        let $max-pages-to-show := 8
+                        let $padding := xs:integer(round($max-pages-to-show div 2))
+                        let $start-page := 
+                                      if ($current-page le ($padding + 1)) then
+                                          1
+                                      else $current-page - $padding
+                        let $end-page := 
+                                      if ($number-of-pages le ($current-page + $padding)) then
+                                          $number-of-pages
+                                      else $current-page + $padding - 1
+                        for $page in ($start-page to $end-page)
+                        let $newstart := 
+                                      if($page = 1) then 1 
+                                      else $perpage * ($page - 1)
+                        return 
+                            if ($newstart eq $start) then <li class="active"><a href="#" >{$page}</a></li>
+                             else <li><a href="{concat($param-string, $newstart)}">{$page}</a></li>,
+                        (: Shows 'Next' for all but the last page of results :)
+                        if ($start + $perpage ge $total-result-count) then ()
+                        else <li><a href="{concat($param-string, $start + $perpage)}">Next</a></li>,
+                        if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
+                        else(),
+                        <li><a href="{concat($param-string,'1&amp;perpage=',$total-result-count)}">All</a></li>,
+                        if($search-string != '') then
+                            <li class="pull-right search-new"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
+                        else () 
+                        )}
+            </ul>
+        else 
+            <ul class="pagination">
+                {(
+                    if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
+                    else(),
+                    if($search-string != '') then   
+                        <li class="pull-right"><a href="{request:get-url()}"><span class="glyphicon glyphicon-search"/> Reset</a></li>
+                    else() 
+                    )}
+            </ul>    
+    return $pagination-links 
+};
+
+(:~
  : Create a span with the number of items in the current search result.
 :)
 declare function app:hit-count($node as node()*, $model as map(*)) {
@@ -650,12 +802,12 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
         map { "hits" := 
                     if(request:get-parameter('view', '') = 'author') then
                         for $hit in $hits
-                        let $author := $hit/descendant::tei:titleStmt/descendant::tei:author
+                        let $author := $hit/descendant::tei:titleStmt/descendant::tei:author[1]
                         let $name :=  tei2html:persName-last-first($author)
                         group by $facet-grp-p := $name[1]
                         order by normalize-space(string($facet-grp-p)) ascending
                         return 
-                            <author xmlns="http://www.w3.org/1999/xhtml" key="{normalize-space(string-join(($author[1]),''))}" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}">
+                            <author xmlns="http://www.w3.org/1999/xhtml" key="{normalize-space(string-join($author[1]/tei:persName[1]//text(),' '))}" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}">
                                 {$hit}
                             </author>
                     else $hits
@@ -824,7 +976,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                     </button>{$author} ({string($hit/@count)} {if(xs:integer($hit/@count) gt 1) then ' works' else ' work'})
                     <div class="nestedResults"></div>
                  </span>
-            </div>           
+            </div>     
     (:Standard display/title :)
     else 
         let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
@@ -1059,31 +1211,14 @@ function app:lod($node as node(), $model as map(*)) {
 declare 
     %templates:wrap
 function app:subset-lod($node as node(), $model as map(*)) { 
-    <div>
-        <h2>Linked Data: <small>Persons and places related to this work.</small></h2>
-        {app:network($node, $model)}
-        <!--
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#places">Places</a></li>
-            <li><a data-toggle="tab" href="#persons">Persons</a></li>
-            <li><a data-toggle="tab" href="#relationship">Relationships</a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="places" class="tab-pane fade in active">
-              <h4>Places referenced in this work.</h4>
-              {app:map($node, $model)}
-            </div>
-            <div id="persons" class="tab-pane fade">
-              <h4>Persons referenced in this work.</h4>
-              {app:persons($node, $model)}
-            </div>
-            <div id="relationship" class="tab-pane fade">
-              <h4>A linked data graph visualizing the connection between works, people and places in the collection.</h4>
-              {app:network($node, $model)}
-            </div>
-          </div>
-          -->
-    </div>   
+    let $graph := app:network($node, $model)
+    return 
+        if(not(empty($graph))) then
+            <div>
+                 <h2>Linked Data: <small>Persons and places related to this work.</small></h2>
+                 {$graph}
+             </div> 
+        else ()
 };
 
 (:~
@@ -1363,17 +1498,21 @@ declare function app:checkRelationships($node as node(), $model as map(*)){
  : d3js visualization of works/persons/places
 :)
 declare function app:network($node as node(), $model as map(*)) {
-    let $persNames := if(request:get-parameter('id', '') != '') then 
+    let $persNames := if(contains(request:get-uri(),'/coursepack/')) then 
+                        doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
+                      else if(request:get-parameter('id', '') != '') then 
                         doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person[tei:idno = request:get-parameter('id', '')]
                       else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
-    let $geojson := if(request:get-parameter('id', '') != '') then
+    let $geojson := if(contains(request:get-uri(),'/coursepack/')) then 
+                        doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
+                    else if(request:get-parameter('id', '') != '') then
                         doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
                     else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
-    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else () 
+    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else if(not(empty($model("coursepack")))) then $model("coursepack") else () 
     let $keys := $reference-data//@key
     let $subset := if(not(empty($model("data")))) then
-                        let $id := document-uri(root($model("data")))
-                        return 
+                       let $id := document-uri(root($model("data")))
+                       return 
                             ($geojson/descendant::tei:relation[@active = $id] | $persNames/descendant::tei:relation[@active = $id])
                    else 
                       for $r in $reference-data
@@ -1385,7 +1524,7 @@ declare function app:network($node as node(), $model as map(*)) {
                <output:serialization-parameters>
                    <output:method>json</output:method>
                </output:serialization-parameters>))
-    return
+    return 
         if(not(empty($subset))) then 
             <div id="LODResults">
                 <script src="https://d3js.org/d3.v4.min.js"></script>
