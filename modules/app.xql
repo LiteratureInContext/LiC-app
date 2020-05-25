@@ -625,7 +625,7 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
                         group by $facet-grp-p := $name[1]
                         order by normalize-space(string($facet-grp-p)) ascending
                         return 
-                            <author xmlns="http://www.w3.org/1999/xhtml" key="{normalize-space(string-join(($author[1]),''))}" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}">
+                            <author xmlns="http://www.w3.org/1999/xhtml" key="{normalize-space(string-join($author[1]/tei:persName[1]//text(),' '))}" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}">
                                 {$hit}
                             </author>
                     else $hits
