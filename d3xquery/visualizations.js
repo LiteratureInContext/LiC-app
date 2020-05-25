@@ -68,7 +68,7 @@ function selectGraphType(data,rootURL,type) {
 
 /* Force Graph */
 function forcegraph(graph,rootURL,type) {
-       /* Set up svg */
+    /* Set up svg */
     var svg = d3.select("#result").append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -84,11 +84,9 @@ function forcegraph(graph,rootURL,type) {
    
     var radius = 6;
     
-    var simulation = d3.forceSimulation()
-        .force("link", d3.forceLink()
-        .id(function (d) {return d.id;}))
-        .force("charge", d3.forceManyBody().strength(-15))
-        .force("center", d3.forceCenter(width / 2, height / 2));
+    var simulation = d3.forceSimulation().force("link", d3.forceLink().id(function (d) {
+        return d.id;
+    })).force("charge", d3.forceManyBody().strength(-15)).force("center", d3.forceCenter(width / 2, height / 2));
     
     //console.log(graph);
     
@@ -101,14 +99,13 @@ function forcegraph(graph,rootURL,type) {
     }).attr("stroke", function (d) {
         return d3.rgb(color(d.type)).darker();
     }).call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended))
-     .on('mouseover.fade', fade(0.1))
      .on("mouseover", function (d) {
         d3.select(this).attr("r", 14);
-        return tooltip.style("visibility", "visible").text(d.label + ' (' + d.type+ ') ').style("opacity", 1).style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 5) + "px");
-    })
-    .on('mouseout.fade', fade(1))
-    .on("mouseout", function (d) {
+        d3.select(this).style("opacity", 1);
+        return tooltip.style("visibility", "visible").text(d.label).style("opacity", 1).style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 5) + "px");
+    }).on("mouseout", function (d) {
         d3.select(this).attr("r", 6);
+        d3.select(this).style("opacity", .5);
         return tooltip.style("visibility", "hidden");
     }).on("mousemove", function () {
         return tooltip.style("top", (event.pageY -10) + "px").style("left",(event.pageX + 10) + "px");                     
@@ -123,40 +120,13 @@ function forcegraph(graph,rootURL,type) {
         window.location = url;
     });
     
-     var edgepaths = svg.selectAll(".edgepath")
-            .data(graph.links)
-            .enter()
-            .append('path')
-            .attr('class', 'edgepath')
-            .attr('fill-opacity', 0)
-            .attr('stroke-opacity', 0)
-            .attr('id', function (d, i) {return 'edgepath' + i})
-            .style("pointer-events", "none");
-
-      var edgelabels = svg.selectAll(".edgelabel")
-            .data(graph.links)
-            .enter()
-            .append('text')
-            .style("visibility", "hidden")
-            .style("pointer-events", "none")
-            .attr('class', 'edgelabel')
-            .attr('id', function (d, i) {return 'edgelabel' + i})
-            .attr('font-size', 10)
-            .attr('fill', '#aaa');
+    node.append("title").text(function (d) {
+        return d.id;
+    });
     
-    edgelabels.append('textPath')
-            .on('mouseover.fade', fade(1))
-            .on('mouseout.fade', fade(0))
-            .attr('xlink:href', function (d, i) {return '#edgepath' + i})
-            .style("text-anchor", "middle")
-            .style("pointer-events", "none")
-            .attr("startOffset", "50%")
-            .text(function (d) {return d.relationship});
-            
     simulation.nodes(graph.nodes).on("tick", ticked);
     
     simulation.force("link").links(graph.links);
-    
     
     function ticked() {
         link.attr("x1", function (d) {
@@ -173,23 +143,6 @@ function forcegraph(graph,rootURL,type) {
             return d.x = Math.max(radius, Math.min(width - radius, d.x));
         }).attr("cy", function (d) {
             return d.y = Math.max(radius, Math.min(height - radius, d.y));
-        });
-        
-        edgepaths.attr('d', function (d) {
-            return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
-        });
-
-        edgelabels.attr('transform', function (d) {
-            if (d.target.x < d.source.x) {
-                var bbox = this.getBBox();
-
-                rx = bbox.x + bbox.width / 2;
-                ry = bbox.y + bbox.height / 2;
-                return 'rotate(180 ' + rx + ' ' + ry + ')';
-            }
-            else {
-                return 'rotate(0)';
-            }
         });
     }
     
@@ -209,30 +162,6 @@ function forcegraph(graph,rootURL,type) {
         d.fx = null;
         d.fy = null;
     }
-
-      const linkedByIndex = {};
-        graph.links.forEach(d => {
-          linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
-        });
-      
-     function isConnected(a, b) {
-          return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
-        }
-     
-     function fade(opacity) {
-        return d => {
-          node.style('stroke-opacity', function (o) {
-            const thisOpacity = isConnected(d, o) ? 1 : opacity;
-            this.setAttribute('fill-opacity', thisOpacity);
-            return thisOpacity;
-          });
-    
-          link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
-          edgelabels.style('visibility', o => (o.source === d || o.target === d ? 'visible' : 'hidden'));
-          
-        };
-      }
-    
 };
 
 //Force Graph functions
@@ -267,12 +196,11 @@ function bubble(graph,rootURL,type) {
         l = d.name,
         s = d.size,
         id = d.id,
-        desc = d.desc,
         r = (d.size < 3) ? Math.floor(d.size * 6): Math.floor(d.size * 2);
         //Math.floor(d.size * 3);
         //Math.sqrt((d.size + 1) / m * -Math.log(Math.random())) * maxRadius,
         d = {
-            cluster: i, radius: r, name: l, size: s, id: id, desc: desc
+            cluster: i, radius: r, name: l, size: s, id: id
         };
         if (! clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
         return d;
@@ -296,8 +224,7 @@ function bubble(graph,rootURL,type) {
         return d3.rgb(color(d.cluster)).darker();
     }).on("mouseover", function (d) {
         d3.select(this).style("opacity", .5);
-        return tooltip.style("visibility", "visible").text(d.desc).style("opacity", 1).style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 10) + "px");
-        //tooltip.style("visibility", "visible").text(d.name + ' mentioned in ' + d.size + ' work(s)').style("opacity", 1).style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 10) + "px");
+        return tooltip.style("visibility", "visible").text(d.name + ' mentioned in ' + d.size + ' work(s)').style("opacity", 1).style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY + 10) + "px");
     }).on("mouseout", function (d) {
         d3.select(this).style("opacity", 1);
         return tooltip.style("visibility", "hidden");
