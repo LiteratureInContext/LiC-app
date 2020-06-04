@@ -63,16 +63,36 @@ declare function cntneg:content-negotiation($data as item()*, $content-type as x
                  else 'html'
     let $file-name := if(contains($page,'.')) then substring-before($page,'.') else $page                 
     let $flag := cntneg:determine-type-flag($type)
+    let $works := 
+                if($data/descendant-or-self::*:coursepack) then 
+                    if($flag = 'tei' or $flag = 'xml' or $flag = 'txt') then
+                        <coursepack>
+                            <title>{string($data/descendant-or-self::*:coursepack/@title)}</title>
+                            <author>{string($data/descendant-or-self::*:coursepack/@user)}</author>
+                            <id>{string($data/descendant-or-self::*:coursepack/@id)}</id>
+                            <works>{
+                               for $work at $p in $data//tei:TEI[descendant::tei:titleStmt/tei:title[1] != '']
+                               let $title := $work/descendant::tei:title[1]/text()
+                               let $id := document-uri(root($work))
+                               group by $workID := $id
+                               return
+                                    if($data//*:work[@id = $id]/text) then
+                                        for $text in $data//*:work[@id = $id]/text
+                                        return (<title>Selected Text from {$title}</title>,$text)
+                                    else $work
+                            }</works>
+                        </coursepack>
+                     else $data   
+                else $data
     return 
         if($flag = ('tei','xml')) then 
-            (response:set-header("Content-Type", "application/xml; charset=utf-8"),$data)                
+            (response:set-header("Content-Type", "application/xml; charset=utf-8"),$works)                
         else if($flag = 'pdf') then 
             if($data/descendant-or-self::coursepack) then 
-                let $pdf := xslfo:render(tei2fo:main($data), "application/pdf", ())
-                return
-                    response:stream-binary($pdf, "media-type=application/pdf", $file-name || ".pdf")
+               let $pdf := xslfo:render(tei2fo:main($works), "application/pdf", ())
+               return response:stream-binary($pdf, "media-type=application/pdf", $file-name || ".pdf")
             else 
-                let $pdf := xslfo:render(tei2fo:main($data/tei:TEI), "application/pdf", ())
+                let $pdf := xslfo:render(tei2fo:main($works/tei:TEI), "application/pdf", ())
                 return
                 response:stream-binary($pdf, "media-type=application/pdf", $file-name || ".pdf")
                
@@ -80,19 +100,19 @@ declare function cntneg:content-negotiation($data as item()*, $content-type as x
              (
                 response:set-header("Content-Disposition", concat("attachment; filename=", concat($file-name, '.epub'))),
                 response:stream-binary(
-                    compression:zip( epub:epub($file-name, $data), true() ),
+                    compression:zip( epub:epub($file-name, $works), true() ),
                     'application/epub+zip',
                     concat($file-name, '.epub')
                 )
-            )                 
+            )             
         else if($flag = 'txt') then
             (response:set-header("Content-Type", "text/plain; charset=utf-8"),
              response:set-header("Access-Control-Allow-Origin", "text/plain; charset=utf-8"),
-             tei2txt:tei2txt($data))
+             tei2txt:tei2txt($works))
         (: Output as html using existdb templating module or tei2html.xqm :)
         else
             (response:set-header("Content-Type", "text/html; charset=utf-8"),
-             tei2html:tei2html($data))            
+             tei2html:tei2html($works))            
 }; 
 
 (: Utility functions to set media type-dependent values :)

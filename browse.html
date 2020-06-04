@@ -78,8 +78,10 @@
                                     <span class="pull-left">
                                         <input type="checkbox" class="toggle-button" id="selectAll"/> Select All                                        
                                     </span>
+                                    <!--
                                     <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">
                                         <span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
+                                    -->    
                                     <button class="btn btn-primary addToCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">
                                         <span class="glyphicon glyphicon-plus-sign"/> Add Selected to Coursepack</button>
                                     <a href="coursepack.html" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="View all coursepacks">
@@ -107,6 +109,21 @@
                 </div>
                 <div class="modal-body">
                     <div>
+                        <div id="addToCoursepackModal" style="display:none" class="coursepack">
+                            <h4>Add to Coursepack</h4>
+                            <div class="indent desc">
+                                <label>Select Coursepack</label>
+                                <select id="addToCoursepackID">
+                                    <option data-template="app:select-coursepack"/>
+                                </select>
+                            </div>
+                            <span>
+                                <button id="f-btn-submit-addSelected" type="submit" class="btn btn-primary saveToCoursepack coursepackAdmin" data-url="$nav-base/modules/lib/coursepack.xql">
+                                    <span class="glyphicon glyphicon-save"/>Save </button>  
+                                <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" title="Create a new coursepack" data-url="$nav-base/modules/lib/coursepack.xql">
+                                        <span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
+                            </span>
+                        </div>
                         <div id="saveCoursepackModal" style="display:none" class="coursepack">
                             <h4>Create New Coursepack</h4>
                             <div class="indent desc">
@@ -116,21 +133,7 @@
                                 </span>
                             </div>
                             <span class="input-group-btn">
-                                <button id="f-btn-search" type="submit" class="btn btn-primary addCoursepackTitle">
-                                    <span class="glyphicon glyphicon-save"/>Save </button>
-                            </span>
-                            
-                        </div>
-                        <div id="addToCoursepackModal" style="display:none" class="coursepack">
-                            <h4>Add to Coursepack</h4>
-                            <div class="indent desc">
-                                <label>Select Coursepack</label>
-                                <select id="addToCoursepackID">
-                                    <option data-template="app:select-coursepack"/>
-                                </select>
-                            </div>
-                            <span class="input-group-btn">
-                                <button id="f-btn-search" type="submit" class="btn btn-primary saveToCoursepack">
+                                <button id="f-btn-submit-addCoursepack" type="submit" class="btn btn-primary addCoursepackTitle" data-url="$nav-base/modules/lib/coursepack.xql">
                                     <span class="glyphicon glyphicon-save"/>Save </button>
                             </span>
                         </div>

@@ -28,8 +28,8 @@ let $path := if(request:get-parameter('id', '')  != '') then
 let $data :=
     if(request:get-parameter('coursepack', '') = 'true') then 
         if(request:get-parameter('query', '') != '') then 
-            <coursepack>{(data:get-coursepacks(),data:search-coursepacks())}</coursepack>
-        else <coursepack>{data:get-coursepacks()}</coursepack>
+            (data:get-coursepacks(),data:search-coursepacks())
+        else data:get-coursepacks()
     else if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
         data:get-document()
     else ()

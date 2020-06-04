@@ -555,17 +555,17 @@ return
                  else if(data:create-query() != '') then
                      <div>No results.</div>
                  else 
-                    for $work in $coursepacks/descendant-or-self::tei:TEI
+                    for $work in $coursepacks//tei:TEI[descendant::tei:title[1]!='']
                     let $title := $work/descendant::tei:title[1]/text()
                     let $id := document-uri(root($work))
                     let $selection := if($coursepacks//work[@id = $id]/text) then
                                         for $text in $coursepacks//work[@id = $id]/text
-                                        let $html := util:parse-html($text/text())
                                         return 
-                                            (<div><h4>Selected Text</h4>
-                                            {util:parse-html($text/text())}</div>)
+                                            (<div><h4>Selected Text</h4>,
+                                            {tei2html:tei2html($text/child::*)}</div>)
                                       else()
                     order by data:filter-sort-string(data:add-sort-options($work, request:get-parameter('sort-element', '')))
+                    group by $workID := $id 
                     return  
                         <div class="result row">
                             <div class="col-md-1">

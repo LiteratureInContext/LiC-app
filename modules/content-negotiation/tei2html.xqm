@@ -440,11 +440,11 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
                         else $blurb
                     }</span>
             else()}
-            {
+            {(:
             if($id != '') then 
             <span class="results-list-desc uri"><span class="srp-label">URI: </span><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}</a></span>
             else()
-            }
+            :)''}
         </div>    
    
 };
