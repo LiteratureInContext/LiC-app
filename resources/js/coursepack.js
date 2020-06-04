@@ -8,7 +8,7 @@
                     statusCode: {
                         401: function(){
                             //console.log('Restricted. Please login.');
-                            alert('This function is restricted. Please register or login.');
+                            //alert('This function is restricted. Please register or login.');
                             $('#loginModal').modal('show');
                         }
                     }
@@ -29,15 +29,15 @@
                     });
                  });
                  
-                //Add selected works to coursepackworks
+                //Add selected works to coursepack
                 $('.addCoursepackTitle').on('click', function(e){ // on change of state
                     e.preventDefault(e);
+                    var url = $(this).data('url')
                     $.get('userInfo', function(data) {
                         coursepack.push({coursepackID: 'coursepack' , coursepackTitle: $('#coursepackTitle').val(), coursepackDesc: $('#coursepackDesc').val(), works: coursepackworks });
-                        $.post('modules/lib/coursepack.xql',JSON.stringify({ 'coursepack': coursepack }), function(data) {
+                        $.post(url,JSON.stringify({ 'coursepack': coursepack }), function(data) {
                             $('#saveCoursepackModal').hide();
                             $('#responseBody').html(data);
-                            //alert(data);
                         }).fail( function(jqXHR, textStatus, errorThrown) {
                                console.log(textStatus);
                        });
@@ -64,18 +64,20 @@
                 //Create new coursepack
                 $('.saveToCoursepack').on('click', function(e){ // on change of state
                     e.preventDefault(e);
+                    var url = $(this).data('url')
                     coursepack.push({coursepackID: $('#addToCoursepackID').val(), works: coursepackworks });
-                    $.get('userInfo', function(data) {
-                        $.post('modules/lib/coursepack.xql?action=update',JSON.stringify({ 'coursepack': coursepack }), function(data) {
+                    console.log(coursepack)
+                    //$.get('userInfo', function(data) {
+                        $.post(url + '?action=update',JSON.stringify({ 'coursepack': coursepack }), function(data) {
                             $('#addToCoursepackModal').hide();
                             $('#responseBody').html(data);
                             //alert(data);
                         }).fail( function(jqXHR, textStatus, errorThrown) {
                                console.log(textStatus);
                        });
-                    }).fail( function(jqXHR, textStatus, errorThrown) {
-                           console.log(errorThrown);
-                    });                        
+                   // }).fail( function(jqXHR, textStatus, errorThrown) {
+                   //        console.log(errorThrown);
+                   // });                       
                  });
                 
                 //Delete coursepack
@@ -96,11 +98,11 @@
                 //Delete work from coursepack
                 $('.removeWork').on('click', function(e){ // on change of state
                     e.preventDefault(e);
+                    var url = $(this).data('url')
                     $.get('userInfo', function(data) {
-                        var url = $(this).data('url')
                         $.get(url, function(data) {
-                            location.reload();
-                            console.log('removed');
+                           location.reload();
+                            //console.log(data);
                         }).fail( function(jqXHR, textStatus, errorThrown) {
                             console.log(textStatus);
                         });
@@ -109,7 +111,58 @@
                    });   
                 });
                 
+                //expand a single work
+                $('.expand').on('click', function(e){ // on change of state
+                    e.preventDefault(e);
+                    var url = $(this).data('url')
+                    var current = $(this) 
+                    var $expandedText = $(current).closest('.row').find('.expandedText');
+                    //If annotation results are empty load via ajax, otherwise toggle to show or hide div
+                    if($expandedText.is(':empty')){
+                         $.get(url, function(data) {
+                               $(current).closest('.row').find('.expandedText').html(data);
+                           }, "html"); 
+                           $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                       } else {
+                         $expandedText.toggle();
+                         $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                       } 
+                     
+                });
                 
+                //Use Rangy to save selected HTML to coursepack
+                $('.rangy').on('click', function(e){ // on change of state
+                    e.preventDefault(e);
+                    var selection = rangy.getSelection().toHtml(),
+                        url = $(this).data('url'),
+                        workID = $(this).data('workid'),
+                        workTitle = $(this).data('worktitle'); 
+                    coursepackworks.push({id: workID , title: workTitle, text: selection});
+                    $('#coursepackTools').toggle( "slide" );
+                    $('#response').modal('show');
+                    $('#saveCoursepackModal').hide();
+                    $('#addToCoursepackModal').show();
+                    
+                    //console.log(selection.attr('id'));
+                });
+                
+                //test to trigger rangy popup
+                /* 
+                $('body').on( 'mouseup', function(){
+                   $('#rangy').show();
+                    console.log('something has been selected! Yay!');
+                    var sel = rangy.getSelection();
+                    if( sel.length > 0 ){
+                      console.log('something has been selected! Yay!');
+                    }
+                  });
+                   */ 
+                  
+                 $('#coursepackTools .close').on('click', function(e){ // on change of state
+                    e.preventDefault(e);
+                    $('#coursepackTools').toggle( "slide" ); 
+                 }); 
+                 
                  //Clear modal response body
                  $('.modalClose').on('click', function(e){ // on change of state
                     e.preventDefault(e);
@@ -129,7 +182,7 @@
                   });
                  
                  //Footnotes 
-                 $( '.lic-well' ).on( 'click', '.footnoteRef a', function (e) {
+                 $( '#content' ).on( 'click', '.footnoteRef a', function (e) {
                     e.stopPropagation();
                     e.preventDefault();
                     var link = $(this);
@@ -146,15 +199,5 @@
                     $(this).find('form').trigger('reset');
                 });
                 
-            });
-            
-        //Autheticate current user
-        /*  
-        function autheticate(url){
-            $.get('userInfo', function(data) {
-                    //do I need a call back? 
-            }).fail( function(jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-            });
-        } */    
+            }); 
           

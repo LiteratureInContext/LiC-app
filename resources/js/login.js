@@ -70,7 +70,7 @@ $("#newUserForm").submit(function( event ) {
    // Return success 
    if(message == 'success') {
      // $('#responseBody').html(message);
-      window.location.reload();
+     // window.location.reload();
    } else {
         alert('This username already exists.');
       //$('#responseBody').html('Username already exists.');
@@ -94,9 +94,11 @@ $("#loginForm").submit(function( event ) {
     if (data.fail) {
         $('#loginResponseBody').html('Wrong user or password');
         $(form)[0].reset();
+        console.log(data);
     } else {
        $('#loginResponseBody').html('Success.');
-       window.location.reload();
+       //window.location.reload();
+       console.log(data);
     }
   }).fail( function(jqXHR, textStatus, errorThrown) {
     // do fail notice
@@ -110,7 +112,7 @@ $('#logout').click(function(event) {
   event.preventDefault();
   var url = $(this).attr('href');
   $.get(url, function(data) {
-    window.location.reload()
+    //window.location.reload()
  });
   //end post
 });

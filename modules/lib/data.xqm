@@ -54,6 +54,7 @@ declare function data:get-coursepacks() {
     if(request:get-parameter('id', '') != '') then 
         let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = request:get-parameter('id', '')]
         let $docs := for $rec in $coursepack//work
+                     group by $rec-id := $rec/@id
                      return doc(string($rec/@id))
         return 
             ($coursepack, $docs)
