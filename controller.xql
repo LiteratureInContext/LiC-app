@@ -28,17 +28,26 @@ else if ($exist:path eq "/") then
 else if ($exist:resource = "login") then 
     (util:declare-option("exist:serialize", "method=json media-type=application/json"),
     try {
-        let $loggedIn := login:set-user($config:login-domain, (), false())
+        let $loggedIn := login:set-user($config:login-domain, (), true())
         let $user := request:get-attribute($config:login-domain || ".user")
         return
-           if ($user and sm:list-users() = $userParam) then
+           if ($user and sm:list-users() = $user) then
                 <response>
                     <user>{$user}</user>
                     <logged>{$loggedIn}</logged>
                 </response>
+            else if($userParam and sm:list-users() = $userParam) then
+                <response>
+                    <user>{$user}</user>
+                    <logged>{$loggedIn}</logged>
+                </response>
+            else if($logout = 'true') then 
+               <response>
+                    <success>You have been logged out.</success>
+                </response> 
             else (
                 <response>
-                    <fail>Wrong user or password</fail>
+                    <fail>Wrong user or password user: {$user} userParam: {$userParam}</fail>
                 </response>
             )
     } catch * {

@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.Default.css"/>
         <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>
+        <!--        <script type="text/javascript" src="$nav-base/resources/scripts/loadsource.js"/>-->
         <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/lightslider.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
@@ -24,7 +25,7 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.plugins.min.js"></script>
         -->
-        <!--<script type="text/javascript" src="$nav-base/resources/js/lazyload.js"/>-->
+        <script type="text/javascript" src="$nav-base/resources/js/lazyload.js"/>
         <script>
             $(document).ready(function() {
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
@@ -56,6 +57,9 @@
                         </li>
                         <li id="works">
                             <a href="$nav-base/browse.html">Titles &amp; Authors</a>
+                        </li>
+                        <li id="works">
+                            <a href="$nav-base/lod.html">Linked Data</a>
                         </li>
                         <li id="coursepacks">
                             <a href="$nav-base/coursepack.html">Coursepacks</a>
@@ -153,5 +157,19 @@
         <script type="text/javascript" src="$nav-base/resources/js/login.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/coursepack.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/annotations.js"/>
+        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-159152992-2"/>
+        
+        <script>
+              window.dataLayer = window.dataLayer || [];
+            
+              function gtag(){dataLayer.push(arguments);}
+            
+              gtag('js', new Date());
+            
+             
+            
+              gtag('config', 'UA-159152992-2');
+            
+            </script>
     </body>
 </html>

@@ -33,10 +33,10 @@ declare function geojson:json-wrapper($nodes as node()*) as element()*{
         <type>FeatureCollection</type>
         <features>
             {
-            let $nodes := $nodes//tei:place[descendant::tei:geo]
+            let $nodes := $nodes/descendant-or-self::tei:place[descendant::tei:geo]
             let $count := count($nodes)
             for $n in $nodes
-            return (:geojson:geojson-object($n, $count):) geojson:geojson-object-relation($n, $count)
+            return geojson:geojson-object-relation($n, $count)
             }
         </features>
     </root>
@@ -102,6 +102,8 @@ for $r in $node/descendant::tei:relation
 let $id := $node/descendant::tei:idno[1]
 let $title := $node/descendant::tei:placeName[1]
 let $coords := $node/descendant::tei:geo[1]
+let $workID := string($r/@active)
+let $link := concat($config:nav-base,'/work',substring-before(replace($workID,$config:data-root,''),'.xml'))
 let $lat := $coords/tei:lat
 let $long := $coords/tei:long 
 return 
@@ -118,8 +120,8 @@ return
             <name>{$title/text()}</name>
             <type>{string($r/@type)}</type>
             <relation>
-                <id>{$r/tei:id/text()}</id>
-                <title>{$r/tei:title/text()}</title>
+                <id>{$link}</id>
+                <title>{$r/tei:desc/tei:title/text()}</title>
             </relation> 
         </properties>
     </json:value>
