@@ -69,7 +69,7 @@ $("#newUserForm").submit(function( event ) {
    var message = $(data).attr('message')
    // Return success 
    if(message == 'success') {
-     // $('#responseBody').html(message);
+      $('#responseBody').html(message);
       window.location.reload();
    } else {
         alert('This username already exists.');
@@ -94,9 +94,11 @@ $("#loginForm").submit(function( event ) {
     if (data.fail) {
         $('#loginResponseBody').html('Wrong user or password');
         $(form)[0].reset();
+        console.log(data);
     } else {
        $('#loginResponseBody').html('Success.');
        window.location.reload();
+       console.log(data);
     }
   }).fail( function(jqXHR, textStatus, errorThrown) {
     // do fail notice

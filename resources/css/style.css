@@ -102,14 +102,23 @@ body {
     box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
     overflow: auto;
 }
+
 .coursepackToolbar {
     display:block;
-    margin:1.25em .15em;
-    padding:1.25em .15em;
-    text-align:center;
-    border-bottom: 1px solid #A18C6A;
+    margin:1.25em .15em .25em .15em;
+    padding:1.25em .15em .25em .15em;
+    text-align:right;
+/*    border-bottom: 1px solid #A18C6A;*/
 }
+.expandedText {margin-left:1.5em;}
 
+.workToolbar {
+    display:block;
+    margin:1.25em .15em .25em .15em;
+    padding:1.25em .15em .25em .15em;
+    text-align:center;
+    }
+    
 .search .coursepackToolbar {
     border-top: 1px solid #A18C6A;
     border-bottom: 1px solid #A18C6A;
@@ -130,8 +139,42 @@ body {
     background-color: #6386A5 !important;
     border-color: #6386A5 !important;
 }
-.coursepack .desc {margin:1em;}
+.coursepack .desc {margin:.25em 1em;}
 
+.selected-text {margin:1em; }
+
+#coursepackTools {
+   position: fixed; 
+   top: 135px; 
+   left: 50px;
+   border: 0;
+   display:block; 
+   display:none; 
+   min-height: 20px;
+   padding: 1em;
+   margin-bottom: 1em;
+   background-color: white;
+   border: 1px solid #A18C6A;
+   border-radius: 4px;
+   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+   box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+   overflow: auto;
+    
+}
+.rangy-select {
+ position: fixed; 
+ top: 125px; 
+ left: 4px;
+ border: 0;
+ display:block; 
+ 
+ /* display: none;
+  * position: fixed; top: 125px; left: 0; border: 0; 
+  position: sticky;
+  top: 0;
+   */ 
+    
+}
 /* Browse Styles */
 .fixed.search-box  {
     position:fixed; margin:0 7em 1em 2em;
@@ -213,7 +256,7 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .toolbar {margin-right:.15em; font-size:small; padding-left:.75em; padding-right:.75em; line-height: 1.25em;}
 
 /* Work styles */
-.lazyContent {width:100%; height: 25px; border: 1px solid #eee;}
+.lazyContent {width:100%; min-height: 50px;}
 
 .pageImages {display:block; margin:1em; padding:1em;}
 
@@ -291,6 +334,12 @@ sup..footnoteRef {
     }
 .facet-label.remove {background-color:#eee; color:#666; font-weight:normal; margin:.25em; display:inline-block;}
 
+svg {
+  max-width: 100%;
+  max-height: 500px;
+  display: block;
+}
+
 /* Annotation styles */
 .annotationsResults {margin: .5em 2em;}
 .annotation-snippet{display:block;}
@@ -321,6 +370,9 @@ sup..footnoteRef {
 .tei-lg {display:block; margin:1em 0;}
 .tei-l {display:block;}
 .tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top;}
+.tei-div .tei-opener {display:block; margin:1em 0;}
+.tei-div .tei-closer {display:block; margin:1em 0; text-align:right;}
+.tei-div .tei-opener .tei-dateline {display:block; text-align:right;}
 .tei-pb {display:block; margin:1.5em 0; border-top:1px double #ccc; text-align:center;}
 .tei-stage {display:block; padding:1em;}
 .tei-sp {padding-bottom:.5em;}
@@ -340,7 +392,7 @@ sup..footnoteRef {
 }
 /* Styles for mobile */
 @media screen and (max-width: 992px) {
-.page-content {margin:.5em;}
+.page-content {margin:.5em .25em;}
 .navbar-brand {padding-left: 1em; margin-top:-.24em; margin-bottom:-.24em; font-size: 24px;}
 .btn {font-size:small;}
 .coursepackToolbar .btn {margin:2px;}

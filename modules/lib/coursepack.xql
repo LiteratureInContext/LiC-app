@@ -7,6 +7,7 @@ xquery version "3.1";
 
 (: Import eXist modules:)
 import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace data="http://LiC.org/data" at "data.xqm";
 import module namespace functx="http://www.functx.com";
 
 (: Import application modules. :)
@@ -18,10 +19,31 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 declare namespace http="http://expath.org/ns/http-client";
 
+
+(:Add an id to each node so it can be used by the data:get-fragment-from-doc function. For selected texts:)
+declare function local:addID($nodes as node()*) as item()* {
+    for $node in $nodes
+    return 
+        typeswitch($node)
+            case text() return $node
+            case comment() return ()
+            case element() return
+                element {name($node)}
+                        {(
+                            if($node/@id or $node/@xml:id) then () else attribute {'id'} {generate-id($node)},
+                            for $a in $node/@*
+                            return attribute {node-name($a)} {string($a)},
+                            
+                                local:addID($node/node())
+                            )}
+            default return local:addID($node/node())
+};
+
 declare variable $local:user {
     if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
     else xmldb:get-current-user()
 };
+
 (:~
  : Build new coursepack and save to database. 
  : @param $data works and coursepack information passed from JavaScript post
@@ -38,9 +60,23 @@ declare function local:create-new-coursepack($data as item()*){
             {( $desc,
                for $work in $works?*
                let $workID := $work?id
+               group by $id := $workID
                return 
-               (<work id="{$workID}">{$work?title}</work> (:,
-               local:update-work($workID, $id, $coursepackTitle, $coursepack(1)('coursepackDesc')):)
+               (<work id="{$id}">
+                <title>{$work?title}</title>
+                {if($work?text) then
+                    let $text := $work?text
+                    let $regex := fn:analyze-string($text,'id="([^"]*)"')
+                    let $m1 := $regex//fn:match[1]/fn:group/text()
+                    let $m2 := $regex//fn:match[last()]/fn:group/text()
+                    let $nodes := local:addID(doc(xmldb:encode-uri($workID))//tei:TEI)
+                    let $ms1 := $nodes/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
+                    let $ms2 := $nodes/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
+                    return
+                    <text>{(:$work?text:)data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')}</text>
+                 else ()}
+                </work> 
+                (:,local:update-work($workID, $id, $coursepackTitle, $coursepack(1)('coursepackDesc')):)
                )
             )}
         </coursepack>
@@ -70,7 +106,21 @@ declare function local:update-coursepack($data as item()*){
     let $insertWorks :=  
                for $work in $works?*
                let $workID := $work?id
-               return (<work id="{$workID}">{$work?title}</work>
+               return 
+               (<work id="{$workID}">
+                <title>{$work?title}</title>
+                {if($work?text) then
+                    let $text := $work?text
+                    let $regex := fn:analyze-string($text,'id="([^"]*)"')
+                    let $m1 := $regex//fn:match[1]/fn:group/text()
+                    let $m2 := $regex//fn:match[last()]/fn:group/text()
+                    let $nodes := local:addID(doc(xmldb:encode-uri($workID))//tei:TEI)
+                    let $ms1 := $nodes/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
+                    let $ms2 := $nodes/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
+                    return
+                    <text>{(:$work?text:)data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')}</text>
+                 else ()}
+                </work> 
                (:,local:update-work($workID, $coursepackID, $coursepackTitle, $desc):)
                )
     return 
@@ -264,6 +314,7 @@ declare function local:authenticate($data as item()*){
                             <message>You must be logged in to use this feature. </message>
                         </response>)        
 };
+
 (:~
  : Get and process post data.
 :)

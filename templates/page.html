@@ -19,16 +19,14 @@
         <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
         <!-- hypothes.is -->
         <script type="text/javascript" src="https://hypothes.is/embed.js" async="async"/>
-        <!-- lazyload  -->
-        <!--
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.plugins.min.js"></script>
-        -->
-        <!--<script type="text/javascript" src="$nav-base/resources/js/lazyload.js"/>-->
+        
+        <!-- rangy -->
+        <script type="text/javascript" src="$nav-base/resources/js/rangy-core.js"/>
+        
         <script>
             $(document).ready(function() {
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
-                $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'});
+                $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'}); 
             });
         </script>
     </head>
@@ -57,6 +55,11 @@
                         <li id="works">
                             <a href="$nav-base/browse.html">Titles &amp; Authors</a>
                         </li>
+                        <!--
+                        <li id="works">
+                            <a href="$nav-base/lod.html">Linked Data</a>
+                        </li>
+                        -->
                         <li id="coursepacks">
                             <a href="$nav-base/coursepack.html">Coursepacks</a>
                         </li>
@@ -153,5 +156,19 @@
         <script type="text/javascript" src="$nav-base/resources/js/login.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/coursepack.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/annotations.js"/>
+        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-159152992-2"/>
+        
+        <script>
+              window.dataLayer = window.dataLayer || [];
+            
+              function gtag(){dataLayer.push(arguments);}
+            
+              gtag('js', new Date());
+            
+             
+            
+              gtag('config', 'UA-159152992-2');
+            
+            </script>
     </body>
 </html>

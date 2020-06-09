@@ -131,46 +131,101 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
  : Testing Lazy load here: 
  : 
 :)
+declare function tei2html:page-chunk($nodes as node()*){  
+    let $pages := $nodes/descendant::tei:pb
+    let $workID := substring-before(replace(document-uri(root($nodes)),$config:data-root,''),'.xml')
+    let $count := count($pages)
+    let $firstPage := 
+        for $page in $pages[1]
+        let $ms1 := $page
+        let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ()(:($nodes//element())[last()]:) 
+        let $data := data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')
+        return 
+            let $root := root($nodes)/child::*[1]
+            let $id := string($root/@xml:id)
+            let $wrapped := 
+                    element {node-name($root)}
+                            {(
+                                for $a in $root/@*
+                                return attribute {node-name($a)} {string($a)},
+                                $data
+                            )}
+            return 
+                (<div class="hidden">{tei2html:tei2html($nodes//tei:note)}</div>,
+                <div class="tei-page-chunk row" n="{string($page/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
+                    <div class="col-md-8">{
+                        if($data != '') then
+                             if($data/self::tei:text) then
+                                 tei2html:tei2html($wrapped/child::*/node())
+                             else tei2html:tei2html($wrapped)
+                         else ()
+                     }</div>
+                     <div class="col-md-4">{
+                         if($data/descendant::tei:pb[@facs]) then 
+                             for $image in $data/descendant::tei:pb[@facs]
+                             let $src := 
+                                         if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
+                                             string($image/@facs) 
+                                         else concat($config:image-root,$id,'/',string($image/@facs))   
+                             return 
+                                      <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
+                                           <a href="{$src}"><img src="{$src}" width="100%"/></a>
+                                           <span class="caption">Page {string($image/@n)}</span>
+                                      </span>
+                         else ()
+                     }</div>
+                 </div>)
+    return 
+    (<script type="text/javascript" src="{$config:nav-base}/resources/js/lazyload.js"/>,$firstPage,
+    for $pb at $i in subsequence($pages, 2, $count)
+    return
+        <div class="lazyLoad lazyContent" data-src="{$config:nav-base}/modules/data.xql" data-page="{$i+1}" data-work="{$workID}"></div>
+     )
+};
 
-declare function tei2html:page-chunk($nodes as node()*){        
-    for $page in $nodes/descendant::tei:pb
-    let $ms1 := $page
-    let $ms2 := if($page/following::tei:pb) then $page/following::tei:pb[1] else ()(:($nodes//element())[last()]:) 
+(: for loading specific pages :)
+declare function tei2html:get-page($nodes as node()*, $page as item()*){  
+    let $pages := $nodes/descendant::tei:pb
+    let $workID := substring-before(replace(document-uri(root($nodes)),$config:data-root,''),'.xml')
+    let $page := if($page castable as xs:integer) then xs:integer($page) else 0
+    for $current in $pages[$page]
+    let $ms1 := $current
+    let $ms2 := if($current/following::tei:pb) then $current/following::tei:pb[1] else ()(:($nodes//element())[last()]:) 
     let $data := data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')
     return 
-    let $root := root($nodes)/child::*[1]
-    let $id := string($root/@xml:id)
-    let $wrapped := 
-            element {node-name($root)}
-                    {(
-                        for $a in $root/@*
-                        return attribute {node-name($a)} {string($a)},
-                        $data
-                    )}
-    return 
-            <div class="tei-page-chunk row" n="{string($page/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
-                <div class="col-md-8">{
-                    if($data != '') then
-                         if($data/self::tei:text) then
-                             tei2html:tei2html($wrapped/child::*/node())
-                         else tei2html:tei2html($wrapped)
-                     else ()
-                 }</div>
-                 <div class="col-md-4">{
-                     if($data/descendant::tei:pb[@facs]) then 
-                         for $image in $data/descendant::tei:pb[@facs]
-                         let $src := 
-                                     if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
-                                         string($image/@facs) 
-                                     else concat($config:image-root,$id,'/',string($image/@facs))   
-                         return 
-                                  <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
-                                       <a href="{$src}"><img src="{$src}" width="100%"/></a>
-                                       <span class="caption">Page {string($image/@n)}</span>
-                                  </span>
-                     else ()
-                 }</div>
-             </div>             
+            let $root := root($nodes)/child::*[1]
+            let $id := string($root/@xml:id)
+            let $wrapped := 
+                    element {node-name($root)}
+                            {(
+                                for $a in $root/@*
+                                return attribute {node-name($a)} {string($a)},
+                                $data
+                            )}
+            return 
+                <div class="tei-page-chunk row" n="{string($current/@n)}" ms1="{string($ms1/@n)}" ms2="{string($ms2/@n)}">
+                    <div class="col-md-8">{
+                        if($data != '') then
+                             if($data/self::tei:text) then
+                                 tei2html:tei2html($wrapped/child::*/node())
+                             else tei2html:tei2html($wrapped)
+                         else ()
+                     }</div>
+                     <div class="col-md-4">{
+                         if($data/descendant::tei:pb[@facs]) then 
+                             for $image in $data/descendant::tei:pb[@facs]
+                             let $src := 
+                                         if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
+                                             string($image/@facs) 
+                                         else concat($config:image-root,$id,'/',string($image/@facs))   
+                             return 
+                                      <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
+                                           <a href="{$src}"><img src="{$src}" width="100%"/></a>
+                                           <span class="caption">Page {string($image/@n)}</span>
+                                      </span>
+                         else ()
+                     }</div>
+                 </div>   
 };
 
 (: end chunk functions :)
@@ -263,7 +318,7 @@ return
 };
 
 declare function tei2html:graphic($node as element (tei:graphic)) {
-let $id := string(root($node)//tei:TEI/@xml:id)
+let $id := string(root($node)/tei:TEI/@xml:id)
 let $imgURL :=  if($node/@url) then 
                     if(starts-with($node/@url,'https://') or starts-with($node/@url,'http://')) then
                         string($node/@url)
@@ -333,7 +388,6 @@ declare function tei2html:annotations($node as node()*) {
         tei2html:tei2html($node/node()))}</span>
 };
 
-
 declare %private function tei2html:get-id($node as element()) {
     if($node/@xml:id) then
         string($node/@xml:id)
@@ -354,7 +408,7 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
             else ()}
             {if($nodes/descendant::tei:biblStruct) then 
                 <span class="results-list-desc desc" dir="ltr" lang="en">
-                    <label>Source: </label> 
+                    <strong>Source: </strong> 
                     { let $monograph := $nodes/descendant::tei:sourceDesc[1]/descendant::tei:monogr[1]
                       return 
                         (tei2html:tei2html($monograph/tei:title),
@@ -368,8 +422,8 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
                             concat(', ', normalize-space(string($monograph/tei:imprint[1]/tei:date[1])))
                            else ()
                            ,') ')
-                        else ()
-                        )}
+                        else ())
+                        }
                 </span>
             else ()}
             {if($nodes/descendant-or-self::*[starts-with(@xml:id,'abstract')]) then 
@@ -386,23 +440,104 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
                         else $blurb
                     }</span>
             else()}
-            {
+            {(:
             if($id != '') then 
             <span class="results-list-desc uri"><span class="srp-label">URI: </span><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}</a></span>
             else()
-            }
+            :)''}
         </div>    
    
+};
+
+
+(: Embed COinS into HTML :)
+declare function tei2html:COinS($nodes as node()*){
+    let $source := $nodes/descendant-or-self::tei:sourceDesc
+    let $constants := concat('url_ver=Z39.88-2004&amp;ctx_ver=Z39.88-2004&amp;rfr_id=',
+                    encode-for-uri('info:sid/anthology.lib.virginia.edu:work'),
+                    '&amp;rft_val_fmt=', encode-for-uri('info:ofi/fmt:kev:mtx:book'))
+    let $root := root($source)
+    let $id := if($root/@xml:id) then
+                    string($root/@xml:id)
+                else if($root/@exist:id) then
+                    string($root/@exist:id)
+                else generate-id($root)
+    let $idURI := concat('&amp;rft_id=',$id)                
+    let $genre := '&amp;rft.genre=book'
+    let $title :=  for $t in $source/descendant::tei:analytic/tei:title | $source/tei:monogr/tei:title
+                   return concat('&amp;rft.title=',encode-for-uri(normalize-space(string-join($t,''))))
+    let $author := for $a at $i in $source/descendant::tei:monogr/tei:author
+                   return 
+                        if($i = 1 and $a/tei:forename) then
+                            concat('&amp;rft.aulast=', encode-for-uri(normalize-space(string-join($a/tei:surname,' '))),
+                            '&amp;rft.aufirst=', encode-for-uri(normalize-space(string-join($a/tei:forename,' '))))
+                        else concat('&amp;rft.au=', encode-for-uri(normalize-space(string-join($a,' '))))
+    let $publisher := for $p in $source/descendant::tei:imprint[1]/tei:publisher[1]
+                      return concat('&amp;rft.publisher=', encode-for-uri(normalize-space(string-join($p,''))))                      
+    let $place := for $p in $source/descendant::tei:imprint[1]/tei:pubPlace[1]   
+                  return concat('&amp;rft.publisher=', encode-for-uri(normalize-space(string-join($p))))
+    let $date :=  for $d in $source/descendant::tei:imprint[1]/tei:date[1]   
+                  return concat('&amp;rft.date=', encode-for-uri(normalize-space(string-join($d,' '))))
+    let $pages := for $page in $source/descendant::tei:biblScope
+                  return concat('&amp;rft.tpages=',encode-for-uri(normalize-space(string-join($page,' '))))                  
+    let $citation := 
+        concat($constants,$idURI,$genre,
+            string-join($title,''),
+            string-join($author,''),
+            string-join($publisher,''),
+            string-join($place,''),
+            string-join($date,''),
+            string-join($pages,''))
+    return <span xmlns="http://www.w3.org/1999/xhtml" class="Z3988" title="{$citation}"><!-- --></span>
 };
 
 (:~
  : Select citation type based on child elements
 :)
 declare function tei2html:citation($nodes as node()*) {
+(:
     if($nodes/descendant::tei:monogr and not($nodes/descendant::tei:analytic)) then 
         tei2html:monograph($nodes/descendant::tei:monogr)
     else if($nodes/descendant::tei:analytic) then tei2html:analytic($nodes/descendant::tei:analytic)
     else tei2html:record($nodes/descendant-or-self::tei:teiHeader)
+:)
+    let $persons :=     if($nodes/descendant::tei:author) then 
+                            tei2html:emit-responsible-persons($nodes/descendant::tei:author,20)
+                        else if($nodes/descendant::tei:editor[not(@role) or @role!='translator']) then 
+                            (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],20), 
+                            if(count($nodes/descendant::tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
+                        else ()
+    let $analytic := if($nodes/descendant::tei:analytic/tei:title) then
+                        if(starts-with($nodes/descendant::tei:analytic/tei:title,'"')) then
+                           $nodes/descendant::tei:analytic/tei:title
+                        else concat('"',$nodes/descendant::tei:analytic/tei:title,'." ')
+                     else()
+    let $monograph := if($nodes/descendant::tei:monogr/tei:title) then
+                        if($nodes/descendant::tei:monogr/tei:title[@type="sub"]) then 
+                            concat($nodes/descendant::tei:monogr/tei:title[@type='main'],'; ',$nodes/descendant::tei:monogr/tei:title[@type="sub"])
+                        else ()
+                     else() 
+    let $imprint := if($nodes/descendant::tei:monogr/descendant::tei:imprint) then
+                        (if($nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:publisher[1]) then 
+                            $nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:publisher[1]/text()
+                        else (),
+                        if($nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:date[1]) then
+                            concat(', ',$nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:date[1]/text())
+                        else ()
+                        )
+                    else ()
+    let $biblScope :=  if($nodes/descendant::tei:biblScope) then 
+                            $nodes/descendant::tei:biblScope/text() 
+                       else()                   
+    return 
+    <span class="citation">{
+        concat(if($persons != '') then concat(string-join($persons,''),'. ') else (),
+        if($analytic != '') then string-join($analytic,'') else (),
+        if($monograph != '') then string-join($monograph,'') else (),
+        if($imprint != '') then concat(', ',string-join($imprint,'')) else (),
+        if($biblScope != '') then concat(', ',string-join($biblScope,'')) else (),
+        '. Literature in Context: An Open Anthology. ', request:get-url(),'. ', 'Accessed: ', current-dateTime())
+    }</span>
 };
 
 (:~
@@ -473,18 +608,16 @@ declare function tei2html:series($nodes as node()*) {(
 :)
 declare function tei2html:analytic($nodes as node()*) {
     let $persons := if($nodes/tei:author) then 
-                        concat(tei2html:emit-responsible-persons($nodes/tei:author,3),', ')
+                        concat(tei2html:emit-responsible-persons($nodes/tei:author,20),', ')
                     else if($nodes/tei:editor[not(@role) or @role!='translator']) then 
-                        (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],3), 
+                        (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],20), 
                         if(count($nodes/tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
-                    else 'No authors or Editors'
+                    else ()
     return (
-            $persons, 
-            concat('"',tei2html:tei2html($nodes/tei:title[1]),if(not(ends-with($nodes/tei:title[1][starts-with(@xml:lang,'en')][1],'.|:|,'))) then '.' else (),'"'),            
+            $persons, concat('"',tei2html:tei2html($nodes/tei:title[1]),if(not(ends-with($nodes/tei:title[1][starts-with(@xml:lang,'en')][1],'.|:|,'))) then '.' else (),'"'),            
             if(count($nodes/tei:editor[@role='translator']) gt 0) then (tei2html:emit-responsible-persons($nodes/tei:editor[@role!='translator'],3),', trans. ') else (),
             if($nodes/following-sibling::tei:monogr/tei:title[1][@level='m']) then 'in' else(),
-            if($nodes/following-sibling::tei:monogr) then tei2html:monograph($nodes/following-sibling::tei:monogr) else()
-        )
+            if($nodes/following-sibling::tei:monogr) then tei2html:monograph($nodes/following-sibling::tei:monogr) else())
 };
 
 (:~
