@@ -1197,9 +1197,10 @@ function app:lod($node as node(), $model as map(*)) {
             else if(request:get-parameter('view', '') = 'persName') then
                 app:persons()
             else if(request:get-parameter('view', '') = 'timeline') then
-                app:timeline(())                 
-            else ()
-        
+                app:timeline()                 
+            else if(request:get-parameter('view', '') = ('network','graph')) then
+                app:network() 
+            else app:map()
         }
     </div>
 };

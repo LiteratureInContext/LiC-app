@@ -408,7 +408,7 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
             else ()}
             {if($nodes/descendant::tei:biblStruct) then 
                 <span class="results-list-desc desc" dir="ltr" lang="en">
-                    <strong>Source: </strong> 
+                    <strong>Source: </strong> 
                     { let $monograph := $nodes/descendant::tei:sourceDesc[1]/descendant::tei:monogr[1]
                       return 
                         (tei2html:tei2html($monograph/tei:title),
