@@ -69,8 +69,8 @@ $("#newUserForm").submit(function( event ) {
    var message = $(data).attr('message')
    // Return success 
    if(message == 'success') {
-     // $('#responseBody').html(message);
-     // window.location.reload();
+      $('#responseBody').html(message);
+      window.location.reload();
    } else {
         alert('This username already exists.');
       //$('#responseBody').html('Username already exists.');
@@ -97,7 +97,7 @@ $("#loginForm").submit(function( event ) {
         console.log(data);
     } else {
        $('#loginResponseBody').html('Success.');
-       //window.location.reload();
+       window.location.reload();
        console.log(data);
     }
   }).fail( function(jqXHR, textStatus, errorThrown) {
@@ -112,7 +112,7 @@ $('#logout').click(function(event) {
   event.preventDefault();
   var url = $(this).attr('href');
   $.get(url, function(data) {
-    //window.location.reload()
+    window.location.reload()
  });
   //end post
 });
