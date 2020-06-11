@@ -133,17 +133,24 @@
                 //Use Rangy to save selected HTML to coursepack
                 $('.rangy').on('click', function(e){ // on change of state
                     e.preventDefault(e);
+                   
+                   //Get parent node if not selected. 
+                    a = rangy.getSelection()
+                    b = a.getRangeAt(0)
+                    b.setStartBefore(a.anchorNode.parentNode)
+                    a.setSingleRange(b)
+                    a.toHtml()
+                    
                     var selection = rangy.getSelection().toHtml(),
                         url = $(this).data('url'),
                         workID = $(this).data('workid'),
                         workTitle = $(this).data('worktitle'); 
-                    coursepackworks.push({id: workID , title: workTitle, text: selection});
+                    coursepackworks.push({id: workID , title: workTitle, text: a.toHtml()});
                     $('#coursepackTools').toggle( "slide" );
                     $('#response').modal('show');
                     $('#saveCoursepackModal').hide();
                     $('#addToCoursepackModal').show();
-                    
-                    //console.log(selection.attr('id'));
+
                 });
                 
                 //test to trigger rangy popup
