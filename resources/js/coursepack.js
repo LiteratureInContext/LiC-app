@@ -34,6 +34,7 @@
                     e.preventDefault(e);
                     var url = $(this).data('url')
                     $.get('userInfo', function(data) {
+                        coursepack.length = 0;
                         coursepack.push({coursepackID: 'coursepack' , coursepackTitle: $('#coursepackTitle').val(), coursepackDesc: $('#coursepackDesc').val(), works: coursepackworks });
                         $.post(url,JSON.stringify({ 'coursepack': coursepack }), function(data) {
                             $('#saveCoursepackModal').hide();
@@ -65,6 +66,7 @@
                 $('.saveToCoursepack').on('click', function(e){ // on change of state
                     e.preventDefault(e);
                     var url = $(this).data('url')
+                    coursepack.length = 0;
                     coursepack.push({coursepackID: $('#addToCoursepackID').val(), works: coursepackworks });
                     console.log(coursepack)
                     //$.get('userInfo', function(data) {
