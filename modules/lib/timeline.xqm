@@ -137,7 +137,7 @@ declare function timeline:format-dates($start as xs:string*, $end as xs:string*,
 declare function timeline:get-date-published($data as node()*) as node()*{
     if($data/descendant-or-self::tei:date) then
         for $imprint in $data/descendant::tei:imprint
-        let $title := $imprint/ancestor::tei:sourceDesc/descendant::tei:title[1]//text()
+        let $title := $imprint/ancestor::tei:sourceDesc/descendant::tei:title[1]
         let $id := document-uri(root($imprint))
         let $link := concat($config:nav-base,'/work',substring-before(replace($id,$config:data-root,''),'.xml'))
         let $citation :=
@@ -146,28 +146,28 @@ declare function timeline:get-date-published($data as node()*) as node()*{
                 (tei2html:tei2html($monograph/tei:title),
                         if($monograph/tei:imprint) then 
                           concat(' (',
-                           normalize-space(string($monograph/tei:imprint[1]/tei:pubPlace[1])),
+                           normalize-space(string-join($monograph[1]/tei:imprint[1]/tei:pubPlace[1],'')),
                            if($monograph/tei:imprint/tei:publisher) then 
-                            concat(': ', normalize-space(string($monograph/tei:imprint[1]/tei:publisher[1])))
+                            concat(': ', normalize-space(string-join($monograph[1]/tei:imprint[1]/tei:publisher[1],'')))
                            else (),
                            if($monograph/tei:imprint/tei:date) then 
-                            concat(', ', normalize-space(string($monograph/tei:imprint[1]/tei:date[1])))
+                            concat(', ', normalize-space(string-join($monograph[1]/tei:imprint[1]/tei:date[1],'')))
                            else ()
                            ,') ')
                         else ()
                         )
         let $citation := string-join($citation,' ')            
         let $start := if($imprint/tei:date/@when) then
-                        string($imprint/tei:date/@when)
+                        string($imprint/tei:date[1]/@when)
                      else if($imprint/tei:date/@from) then   
-                        string($imprint/tei:date/@from)
+                        string($imprint/tei:date[1]/@from)
                      else ()
         let $end := if($imprint/tei:date/@when) then
-                        string($imprint/tei:date/@when)
+                        string($imprint/tei:date[1]/@when)
                      else if($imprint/tei:date/@to) then   
-                        string($imprint/tei:date/@to)
+                        string($imprint/tei:date[1]/@to)
                      else ()   
-        let $imprint-text := normalize-space(concat($title,' ',tei2html:tei2html($imprint/tei:date)))
+        let $imprint-text := normalize-space(concat($title,' ',tei2html:tei2html($imprint/tei:date[1])))
         return timeline:format-dates($start, $end,$imprint-text,$citation, $link)
     else () 
 };
