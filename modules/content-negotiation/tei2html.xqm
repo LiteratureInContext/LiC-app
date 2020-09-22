@@ -333,12 +333,10 @@ return
             attribute src { $imgURL },
             if($node/@width) then 
                 attribute width { $node/@width }
-            else ()
-            (:,
+            else (),
             if($node/@style) then 
                 attribute style { $node/@style }
             else ()
-            :)
             )}</img>
         </a>
     else ()               
@@ -402,9 +400,13 @@ declare %private function tei2html:get-id($node as element()) {
 declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $id as xs:string?) as item()* {
     let $title := $nodes/descendant-or-self::tei:title[1]      
     return 
-        <div class="summary">
+        <span class="summary">
+        {if(contains($id,'/headnotes')) then <strong>Headnote: </strong> else()}
             <a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}" dir="ltr">{tei2html:tei2html($title)}</a> 
-            {if($nodes/descendant::tei:titleStmt/tei:author) then (' by ', tei2html:emit-responsible-persons($nodes/descendant::tei:titleStmt//tei:author//tei:name,10))
+            {if($nodes/descendant::tei:titleStmt/tei:author//tei:name) then 
+                (' by ', tei2html:emit-responsible-persons($nodes/descendant::tei:titleStmt//tei:author//tei:name,10))
+             else if($nodes/descendant::tei:titleStmt/tei:author) then
+                (' by ', tei2html:emit-responsible-persons($nodes/descendant::tei:titleStmt//tei:author,10))
             else ()}
             {if($nodes/descendant::tei:biblStruct) then 
                 <span class="results-list-desc desc" dir="ltr" lang="en">
@@ -445,7 +447,7 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
             <span class="results-list-desc uri"><span class="srp-label">URI: </span><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}</a></span>
             else()
             :)''}
-        </div>    
+        </span>    
    
 };
 
