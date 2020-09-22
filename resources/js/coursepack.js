@@ -135,9 +135,10 @@
                 //Use Rangy to save selected HTML to coursepack
                 $('.rangy').on('click', function(e){ // on change of state
                     e.preventDefault(e);
-                   
+                   a = rangy.getSelection()
+                   //If no selection add whole record
+                   if (a.rangeCount > 0) {
                    //Get parent node if not selected. 
-                    a = rangy.getSelection()
                     b = a.getRangeAt(0)
                     b.setStartBefore(a.anchorNode.parentNode)
                     a.setSingleRange(b)
@@ -148,6 +149,14 @@
                         workID = $(this).data('workid'),
                         workTitle = $(this).data('worktitle'); 
                     coursepackworks.push({id: workID , title: workTitle, text: a.toHtml()});
+                    }else {
+                    
+                    var url = $(this).data('url'),
+                        workID = $(this).data('workid'),
+                        workTitle = $(this).data('worktitle'); 
+                    coursepackworks.push({id: workID , title: workTitle});
+
+                    }
                     $('#coursepackTools').toggle( "slide" );
                     $('#response').modal('show');
                     $('#saveCoursepackModal').hide();
