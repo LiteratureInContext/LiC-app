@@ -981,9 +981,14 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
     else 
         let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
         for $hit at $p in subsequence($model("hits"), $start, $per-page)
+        let $root := root($hit)
         let $id := document-uri(root($hit))
         let $title := $hit/descendant::tei:title[1]/text()
         let $expanded := kwic:expand($hit)
+        let $xmlId := $root//tei:TEI/@xml:id
+        let $headnotes := if($xmlId != '') then
+                            collection($config:data-root || '/headnotes')//tei:relation[@active[matches(.,concat($xmlId,"(\W.*)?$"))]]
+                          else ()
         return
             <div class="result row">
                 <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
@@ -992,6 +997,17 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                 {if($expanded//exist:match) then  
                     <span class="result-kwic">{tei2html:output-kwic($expanded, $id)}</span>
                  else ()}
+                 {if(count($headnotes) gt 0) then
+                    for $h in $headnotes
+                    let $root := root($h)
+                    let $hID := document-uri($root)
+                    let $title := $root/descendant::tei:title[1]/text()
+                    return 
+                    <div class="headnoteInline">
+                      <input type="checkbox" name="target-texts" class="coursepack headnoteCheckbox" value="{$hID}" data-title="{$title}"/>
+                      <span class="HeadnoteLabel">{(tei2html:summary-view($root, (), $hID[1])) }</span>
+                    </div>
+                  else ()}
                  </span>
             </div>           
 };
