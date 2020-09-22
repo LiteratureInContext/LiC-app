@@ -807,7 +807,7 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
                         group by $facet-grp-p := $name[1]
                         order by normalize-space(string($facet-grp-p)) ascending
                         return 
-                            <author xmlns="http://www.w3.org/1999/xhtml" key="{normalize-space(string-join($author[1]/tei:persName[1]//text(),' '))}" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}">
+                            <author xmlns="http://www.w3.org/1999/xhtml" id="{string($author[1]/tei:persName[1]/@key)}" key="{normalize-space(string-join($author[1]/tei:persName[1]//text(),' '))}" name="{normalize-space(string($facet-grp-p))}" count="{count($hit)}">
                                 {$hit}
                             </author>
                     else $hits
@@ -967,6 +967,10 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
         let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
         for $hit at $p in subsequence($model("hits"), $start, $per-page)
         let $author := string($hit/@name)
+        let $authorKey := $hit/@id
+        let $headnotes := if($authorKey != '') then
+                            collection($config:data-root || '/headnotes')//tei:relation[@active[matches(.,concat($authorKey,"(\W.*)?$"))]]
+                          else ()
         where $author != ''
         return 
             <div class="result row">
@@ -974,6 +978,17 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                     <button class="getNestedResults btn btn-link" data-toggle="tooltip" title="View Works" data-author-id="{string($hit/@key)}">
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                     </button>{$author} ({string($hit/@count)} {if(xs:integer($hit/@count) gt 1) then ' works' else ' work'})
+                    {if(count($headnotes) gt 0) then
+                    for $h in $headnotes
+                    let $root := root($h)
+                    let $hID := document-uri($root)
+                    let $title := $root/descendant::tei:title[1]/text()
+                    return 
+                    <div class="headnoteInline indent">
+                      <input type="checkbox" name="target-texts" class="coursepack headnoteCheckbox" value="{$hID}" data-title="{$title}"/>
+                      <span class="HeadnoteLabel">{(tei2html:summary-view($root, (), $hID[1])) }</span>
+                    </div>
+                  else ()}
                     <div class="nestedResults"></div>
                  </span>
             </div>     
