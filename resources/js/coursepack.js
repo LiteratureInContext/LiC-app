@@ -34,6 +34,7 @@
                     e.preventDefault(e);
                     var url = $(this).data('url')
                     $.get('userInfo', function(data) {
+                        coursepack.length = 0;
                         coursepack.push({coursepackID: 'coursepack' , coursepackTitle: $('#coursepackTitle').val(), coursepackDesc: $('#coursepackDesc').val(), works: coursepackworks });
                         $.post(url,JSON.stringify({ 'coursepack': coursepack }), function(data) {
                             $('#saveCoursepackModal').hide();
@@ -65,6 +66,7 @@
                 $('.saveToCoursepack').on('click', function(e){ // on change of state
                     e.preventDefault(e);
                     var url = $(this).data('url')
+                    coursepack.length = 0;
                     coursepack.push({coursepackID: $('#addToCoursepackID').val(), works: coursepackworks });
                     console.log(coursepack)
                     //$.get('userInfo', function(data) {
@@ -133,17 +135,33 @@
                 //Use Rangy to save selected HTML to coursepack
                 $('.rangy').on('click', function(e){ // on change of state
                     e.preventDefault(e);
+                   a = rangy.getSelection()
+                   //If no selection add whole record
+                   if (a.rangeCount > 0) {
+                   //Get parent node if not selected. 
+                    b = a.getRangeAt(0)
+                    b.setStartBefore(a.anchorNode.parentNode)
+                    a.setSingleRange(b)
+                    a.toHtml()
+                    
                     var selection = rangy.getSelection().toHtml(),
                         url = $(this).data('url'),
                         workID = $(this).data('workid'),
                         workTitle = $(this).data('worktitle'); 
-                    coursepackworks.push({id: workID , title: workTitle, text: selection});
+                    coursepackworks.push({id: workID , title: workTitle, text: a.toHtml()});
+                    }else {
+                    
+                    var url = $(this).data('url'),
+                        workID = $(this).data('workid'),
+                        workTitle = $(this).data('worktitle'); 
+                    coursepackworks.push({id: workID , title: workTitle});
+
+                    }
                     $('#coursepackTools').toggle( "slide" );
                     $('#response').modal('show');
                     $('#saveCoursepackModal').hide();
                     $('#addToCoursepackModal').show();
-                    
-                    //console.log(selection.attr('id'));
+
                 });
                 
                 //test to trigger rangy popup
