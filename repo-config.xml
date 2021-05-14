@@ -11,7 +11,8 @@
         <!-- Web Site URL -->
         <url/>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base>/exist/apps/LiC</nav-base>
+        <!--<nav-base>/exist/apps/LiC</nav-base>-->
+        <nav-base/>
         <!-- eXist app root for app deployment-->
         <app-root>LiC</app-root>
         <!-- eXist data app root for gazetteer data -->
@@ -38,15 +39,14 @@
                         <p>Sponsored by funding from the National Endowment for the Humanities, and led by teams of scholars, students, and librarians at Marymount University and the University of Virginia, our goal is a platform for establishing authoritative, contextualized works that teachers and students can use with confidence. In this way, we hope to provide a tool for the thoughtful, collaborative editing and dissemination of our shared humanistic heritage.</p>
                 </div>
             </slide>
-            <slide type="work" id="/work/Sterme/sentimental-journey-2vols" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/>
-            <slide type="work" id="/work/Behn/Behn_Rover" imageURL="/resources/images/Behn.jpg" imageDesc="" order="3"/>
-            <slide type="text" imageURL="" imageDesc="" order="4">
+            <slide type="work" id="/work/Behn/behn-rover" imageURL="/resources/images/Behn.jpg" imageDesc="" order="2"/>
+            <slide type="text" imageURL="" imageDesc="" order="3">
                 <div class="row">
                       <h2>Coursepacks</h2>
                       <p>As a born-digital platform crafted with the needs of the classroom in mind, <em>Literature in Context</em> offers teachers the ability to create custom mini-anthologies or coursepacks with ease. They can be housed online for persistent digital access, but also formatted for printing and simplicity of citation. In later build-outs, <em>Literature in Context</em> will enable multiple skins that enable a variety of reading experiences, and we also plan to incorporate annotation tools like hypothes.is to make collaborative reading possible. </p>
                 </div>
             </slide>
-            <slide type="text" imageURL="" imageDesc="" order="5">
+            <slide type="text" imageURL="" imageDesc="" order="4">
                 <div class="row">
                       <h2>Want to collaborate?</h2>
                         <ul class="center social-media list-inline">
