@@ -41,7 +41,7 @@
             </slide>
             <slide type="work" id="/work/Behn/behn-rover" imageURL="resources/images/Behn.jpg" imageDesc="Aphra Behn" class="pull-left" width="50%" order="2"/>
             <slide type="work" id="/work/Sterne/sentimental-journey-2vols" imageURL="resources/images/sterne.jpeg" class="pull-left" width="50%" imageDesc="Portrait of Sterne by Sir Joshua Reynolds" order="3"/>
-            <slide type="work" id="/work/Haywood/fantomina" imageURL="" imageDesc="" order="4"/>
+            <slide type="work" id="/work/Haywood/haywood-fantomina" imageURL="" imageDesc="" order="4"/>
             <slide type="text" imageURL="" imageDesc="" order="5">
                 <div class="row">
                       <h2>Coursepacks</h2>
