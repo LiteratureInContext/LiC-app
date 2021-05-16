@@ -39,8 +39,8 @@
                         <p>Sponsored by funding from the National Endowment for the Humanities, and led by teams of scholars, students, and librarians at Marymount University and the University of Virginia, our goal is a platform for establishing authoritative, contextualized works that teachers and students can use with confidence. In this way, we hope to provide a tool for the thoughtful, collaborative editing and dissemination of our shared humanistic heritage.</p>
                 </div>
             </slide>
-            <slide type="work" id="/work/Behn/behn-rover" imageURL="resources/images/Behn.jpg" imageDesc="" order="2"/>
-            <slide type="work" id="/work/Sterne/sentimental-journey-2vols" imageURL="resources/images/sterne.jpeg" imageDesc="Portrait of Sterne by Sir Joshua Reynolds" order="3"/>
+            <slide type="work" id="/work/Behn/behn-rover" imageURL="resources/images/Behn.jpg" imageDesc="Aphra Behn" class="pull-left" width="50%" order="2"/>
+            <slide type="work" id="/work/Sterne/sentimental-journey-2vols" imageURL="resources/images/sterne.jpeg" class="pull-left" width="50%" imageDesc="Portrait of Sterne by Sir Joshua Reynolds" order="3"/>
             <slide type="work" id="/work/Haywood/fantomina" imageURL="" imageDesc="" order="4"/>
             <slide type="text" imageURL="" imageDesc="" order="5">
                 <div class="row">
