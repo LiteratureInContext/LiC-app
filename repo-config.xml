@@ -39,16 +39,26 @@
                         <p>Sponsored by funding from the National Endowment for the Humanities, and led by teams of scholars, students, and librarians at Marymount University and the University of Virginia, our goal is a platform for establishing authoritative, contextualized works that teachers and students can use with confidence. In this way, we hope to provide a tool for the thoughtful, collaborative editing and dissemination of our shared humanistic heritage.</p>
                 </div>
             </slide>
-            <slide type="work" id="/work/Behn/behn-rover" imageURL="resources/images/Behn.jpg" imageDesc="Aphra Behn" class="pull-left" width="50%" order="2"/>
+            <slide type="work" id="/work/Behn/behn-rover" imageURL="resources/images/Behn.jpg" imageDesc="Aphra Behn" class="pull-left" width="50%" order="2">
+                <div>
+                    <div class="featuredImage"><img src="resources/images/Behn.jpg"/></div>
+                </div>
+            </slide>
             <slide type="work" id="/work/Sterne/sentimental-journey-2vols" imageURL="resources/images/sterne.jpeg" class="pull-left" width="50%" imageDesc="Portrait of Sterne by Sir Joshua Reynolds" order="3"/>
             <slide type="work" id="/work/Haywood/haywood-fantomina" imageURL="" imageDesc="" order="4"/>
             <slide type="text" imageURL="" imageDesc="" order="5">
                 <div class="row">
                       <h2>Coursepacks</h2>
-                      <p>As a born-digital platform crafted with the needs of the classroom in mind, <em>Literature in Context</em> offers teachers the ability to create custom mini-anthologies or coursepacks with ease. They can be housed online for persistent digital access, but also formatted for printing and simplicity of citation. In later build-outs, <em>Literature in Context</em> will enable multiple skins that enable a variety of reading experiences, and we also plan to incorporate annotation tools like hypothes.is to make collaborative reading possible. </p>
+                      <p>As a born-digital platform crafted with the needs of the classroom in mind, <em>Literature in Context</em> offers teachers the ability to create custom mini-anthologies or coursepacks with ease, including excerpts of longer works in the database. These coursepacks can be housed online for persistent digital access, but also formatted for printing and simplicity of citation. In later build-outs, <em>Literature in Context</em> will enable multiple skins that enable a variety of reading experiences. </p>
                 </div>
             </slide>
             <slide type="text" imageURL="" imageDesc="" order="6">
+                <div class="row">
+                    <h2>Annotation</h2>
+                    <p>Students can annotate directly in <em>Literature in Context</em> through a native Hypothesis layer. Faculty can set up class annotation groups, or students can work inddependently.</p>
+                </div>
+            </slide>
+            <slide type="text" imageURL="" imageDesc="" order="7">
                 <div class="row">
                       <h2>Want to collaborate?</h2>
                         <ul class="center social-media list-inline">
