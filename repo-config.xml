@@ -57,7 +57,7 @@
                 <div class="row">
                     <div class="featuredImage"><img src="resources/images/hypothesis.png" width="250" height="250" alt="hypothes.is"/></div>
                     <h2>Annotation</h2>
-                    <p>Students can annotate directly in <em>Literature in Context</em> through a native Hypothes.is layer. Faculty can set up class annotation groups, or students can work independently. Take a look at this <ref source="https://web.hypothes.is/quick-start-guide-for-students/">getting started tutorial</ref>!</p>
+                    <p>Students can annotate directly in <em>Literature in Context</em> through a native Hypothes.is layer. Faculty can set up class annotation groups, or students can work independently. Take a look at this <a href="https://web.hypothes.is/quick-start-guide-for-students/">getting started tutorial</a>!</p>
                 </div>
             </slide>
             <slide type="text" imageURL="" imageDesc="" order="7">
