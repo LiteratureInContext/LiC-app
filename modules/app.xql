@@ -92,10 +92,11 @@ declare function app:create-featured-slides($node as node(), $model as map(*)) {
     let $order := if($slide/@order != '') then xs:integer($slide/@order) else 100
     let $imageURL := 
         if(starts-with($slide/@imageURL,'http')) then string($slide/@imageURL) 
-        else if(starts-with($slide/@imageURL,'/resources/')) then concat($config:nav-base,string($slide/@imageURL)) 
-        else ()
+        else if(starts-with($slide/@imageURL,'resources/')) then concat($config:nav-base,'/',string($slide/@imageURL))
+        else if(starts-with($slide/@imageURL,'/resources/')) then concat($config:nav-base,string($slide/@imageURL))
+        else string($slide/@imageURL)
     let $image := if($imageURL != '') then 
-                    <img src="{$imageURL}" alt="{if($slide/@imageDesc != '') then string($slide/@imageDesc) else 'Featured image'}"/>
+                    <img src="{$imageURL}" alt="{if($slide/@imageDesc != '') then string($slide/@imageDesc) else 'Featured image'}" width="{if($slide/@width != '') then string($slide/@width) else '80%'}"/>
                   else ()
     order by $order
     return 
