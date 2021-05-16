@@ -45,12 +45,8 @@
                 </div>
             </slide>
             <slide type="work" id="/work/Sterne/sentimental-journey-2vols" imageURL="$nav-base/resources/images/sterne.jpeg" class="pull-left" width="50%" imageDesc="Portrait of Sterne by Sir Joshua Reynolds" order="3"/>
-  <!--          <slide type="work" id="/work/Haywood/haywood-fantomina" imageURL="" imageDesc="" order="4"/> -->
-            <slide type="text" order="4"> 
-                <div type="work" id="/work/Sterne/sentimental-journey-2vols">
-                    <div class="featuredImage"><img src="resources/images/Wheatley.jpg" alt="Image of Philis Wheatley."/></div>
-                </div>
-            </slide>"
+            <slide type="work" id="/work/Haywood/haywood-fantomina" imageURL="" imageDesc="" order="4"/>
+ 
             <slide type="text" imageURL="" imageDesc="" order="5">
                 <div class="row">
                       <h2>Coursepacks</h2>
@@ -59,7 +55,7 @@
             </slide>
             <slide type="text" imageURL="" imageDesc="" order="6">
                 <div class="row">
-                    <div class="featuredImage"><img src="resources/images/hypothesis.png" width="50%" alt="hypothes.is"/></div>
+                    <div class="featuredImage"><img src="resources/images/hypothesis.png" width="250" height="250" alt="hypothes.is"/></div>
                     <h2>Annotation</h2>
                     <p>Students can annotate directly in <em>Literature in Context</em> through a native Hypothesis layer. Faculty can set up class annotation groups, or students can work inddependently.</p>
                 </div>
