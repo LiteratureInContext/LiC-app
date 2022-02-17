@@ -1463,7 +1463,7 @@ declare function app:network() {
             else 
                 doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person | 
                 doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place   
-    let $type := if(request:get-parameter('type', '') != '') then request:get-parameter('type', '') else 'Force'
+    let $type := if(request:get-parameter('type', '') = 'bubble') then 'bubble' else 'Force'
     let $json := 
             (serialize(d3xquery:build-graph-type($data, (), (), $graphType, ()), 
                <output:serialization-parameters>
@@ -1522,7 +1522,7 @@ declare function app:checkRelationships($node as node(), $model as map(*)){
                     return $geojson//tei:place[tei:idno = concat('http://vocab.getty.edu/tgn/', $key)],
                     for $key in $keys
                     return $persNames//tei:person[tei:idno = $key])                   
-    let $type := if(request:get-parameter('type', '') != '') then request:get-parameter('type', '') else 'Force'
+    let $type := if(request:get-parameter('type', '') = 'bubble') then 'bubble' else 'Force'
     return if(not(empty($subset))) then true() else false()
 };
 
@@ -1550,7 +1550,7 @@ declare function app:network($node as node(), $model as map(*)) {
                       for $r in $reference-data
                       let $id := document-uri(root($r))
                       return ($geojson/descendant::tei:relation[@active = $id] | $persNames/descendant::tei:relation[@active = $id])                 
-    let $type := if(request:get-parameter('type', '') != '') then request:get-parameter('type', '') else 'Force'
+    let $type := if(request:get-parameter('type', '') = 'bubble') then 'bubble' else 'Force'
     let $json := 
             (serialize(d3xquery:build-graph-type($subset, (), (), $type, ()), 
                <output:serialization-parameters>
