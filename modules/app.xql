@@ -170,7 +170,7 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
             if(empty($rec)) then 
                 if(not(empty(data:get-coursepacks()))) then <blockquote>No record found</blockquote>
                 else response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
-            else map {"data" := $rec }
+            else map {"data" : $rec }
     else <blockquote>No record found</blockquote>
 };
 
@@ -417,11 +417,11 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
 :)
 declare function app:get-coursepacks($node as node(), $model as map(*)) {
     if(data:create-query() != '') then 
-        map {"coursepack" := data:get-coursepacks(),
-               "hits" := data:search-coursepacks()  
+        map {"coursepack" : data:get-coursepacks(),
+               "hits" : data:search-coursepacks()  
          }
     else 
-        map {"coursepack" :=  data:get-coursepacks()}  
+        map {"coursepack" :  data:get-coursepacks()}  
 };
 
 (:~
@@ -800,7 +800,7 @@ declare function app:hit-count($node as node()*, $model as map(*)) {
 declare %templates:wrap function app:browse-works($node as node(), $model as map(*)) {
     let $hits := data:search()       
     return          
-        map { "hits" := 
+        map { "hits" : 
                     if(request:get-parameter('view', '') = 'author') then
                         for $hit in $hits
                         let $author := $hit/descendant::tei:titleStmt/descendant::tei:author[1]
@@ -822,7 +822,7 @@ declare %templates:wrap function app:list-contributors($node as node(), $model a
     let $contributors := doc(replace($config:data-root,'/data','/contributors') || '/editors.xml')//tei:person
     let $hits := data:search()    
     return          
-        map { "hits" :=
+        map { "hits" :
                     if(request:get-parameter('contributorID', '') != '') then 
                         for $n in $contributors[@xml:id = request:get-parameter('contributorID', '')]
                         order by $n/descendant::tei:surname[1]
@@ -831,7 +831,7 @@ declare %templates:wrap function app:list-contributors($node as node(), $model a
                         for $n in $contributors
                         order by $n/descendant::tei:surname[1]
                         return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>,
-               "records" := $hits                 
+               "records" : $hits                 
                     
             }  
 };
@@ -1057,8 +1057,8 @@ declare %templates:wrap function app:search-works($node as node(), $model as map
             )
             return
                 map {
-                    "hits" := $hits,
-                    "query" := $queryExpr
+                    "hits" : $hits,
+                    "query" : $queryExpr
                 }
 };
 
@@ -1083,7 +1083,7 @@ declare function app:search-string(){
 
 (:
  : Display Timeline. Uses http://timeline.knightlab.com/
-:)
+
 declare function app:timeline($data as node()*, $title as xs:string*){
 (: Test for valid dates json:xml-to-json() May want to change some css styles for font:)
 if($data/descendant-or-self::tei:imprint/descendant::tei:date[@when or @to or @from or @notBefore or @notAfter]) then 
@@ -1109,7 +1109,7 @@ if($data/descendant-or-self::tei:imprint/descendant::tei:date[@when or @to or @f
     </div>
 else ()
 };
-
+:)
 (:
  : Display facets from HTML page 
  : @param $collection passed from html 
@@ -1133,7 +1133,7 @@ declare function app:display-facets($node as node(), $model as map(*), $facet-de
 declare function app:username-login($node as node(), $model as map(*)) {
     let $user:= 
         if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
-        else xmldb:get-current-user()    
+        else sm:id()/sm:id/sm:real/sm:username/string(.)    
     let $userName := 
             if(sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson'))) then 
                 sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) 
@@ -1173,11 +1173,11 @@ declare
 function app:userinfo($node as node(), $model as map(*)) as map(*) {
     let $user:=         
         if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
-        else xmldb:get-current-user()
+        else sm:id()/sm:id/sm:real/sm:username/string(.)
     let $name := if ($user) then sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) else 'Guest'
     let $group := if ($user) then sm:get-user-groups($user) else 'guest'
     return
-        map { "user-id" := $user, "user-name" := $name, "user-groups" := $group}
+        map { "user-id" : $user, "user-name" : $name, "user-groups" : $group}
 };
 
 
@@ -1186,7 +1186,7 @@ declare
 function app:display-userinfo($node as node(), $model as map(*)) {
     let $user:= 
         if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
-        else xmldb:get-current-user()
+        else sm:id()/sm:id/sm:real/sm:username/string(.)
     let $userName := 
             if(sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson'))) then 
                 sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) 

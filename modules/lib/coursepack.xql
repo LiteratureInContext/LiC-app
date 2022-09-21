@@ -41,7 +41,7 @@ declare function local:addID($nodes as node()*) as item()* {
 
 declare variable $local:user {
     if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
-    else xmldb:get-current-user()
+    else sm:id()/sm:id/sm:real/sm:username/string(.)
 };
 
 (:~
