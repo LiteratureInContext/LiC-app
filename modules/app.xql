@@ -1191,11 +1191,13 @@ function app:display-userinfo($node as node(), $model as map(*)) {
             if(sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson'))) then 
                 sm:get-account-metadata($user, xs:anyURI('http://axschema.org/namePerson')) 
             else $user 
-    let $coursepacks := collection($config:app-root || '/coursepacks')/coursepack[@user = $user]            
+    let $coursepacks := if($user = 'admin') then
+                            collection($config:app-root || '/coursepacks')/coursepack
+                         else collection($config:app-root || '/coursepacks')/coursepack[@user = $user]            
     return
         <div>
             <h1>{$user} : {$userName}</h1>
-            <h3>Your coursepacks:</h3>
+            <h3>{if($user = 'admin') then 'All coursepacks:' else 'Your coursepacks:'}</h3>
             {for $coursepack in $coursepacks
              return 
                     <div class="indent">
