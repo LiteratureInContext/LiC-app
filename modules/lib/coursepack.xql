@@ -54,7 +54,7 @@ declare function local:create-new-coursepack($data as item()*){
     let $coursepackTitle := $coursepack(1)('coursepackTitle')
     let $works := $coursepack(1)('works')
     let $desc := if($coursepack(1)('coursepackDesc')) then <desc>{$coursepack(1)('coursepackDesc')}</desc> else ()
-    let $id := concat(replace($coursepackTitle,'\s|''|:|;',''),$num)
+    let $id := concat(replace($coursepackTitle,'\s|''|:|;|/|\\',''),$num)
     let $newcoursepack :=  
         <coursepack id="{$id}" title="{$coursepackTitle}" user="{$local:user}">
             {( $desc,
@@ -247,13 +247,9 @@ declare function local:delete-work-response(){
  : @param $data json data
  :)
 declare function local:authenticate($data as item()*){
-    let $group :=  
-                    if($local:user) then 
-                        sm:get-user-groups($local:user) 
-                    else () 
     let $action := request:get-parameter('action', '')
     return 
-        if($group = 'lic') then 
+        if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then 
             if($action = ('update','delete','deleteWork')) then
                 let $coursepackID := if(request:get-parameter('coursepackid', '') != '') then
                             request:get-parameter('coursepackid', '')
@@ -267,7 +263,7 @@ declare function local:authenticate($data as item()*){
                 let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
                 let $coursepack-permissions := sm:get-permissions(xs:anyURI(document-uri(root($coursepack))))
                 return
-                    if($coursepack-permissions/*/@owner = $local:user) then 
+                    if(($coursepack-permissions/*/@owner = $local:user) or ($coursepack-permissions/@user = $local:user) or ($local:user = 'admin')) then 
                         if(request:get-parameter('action', '') = 'update') then 
                             (response:set-header("Content-Type", "text/html"),
                             <output:serialization-parameters>
@@ -311,7 +307,7 @@ declare function local:authenticate($data as item()*){
                 </output:serialization-parameters>,
                 response:set-status-code( 401 ),
                         <response status="fail">
-                            <message>You must be logged in to use this feature. </message>
+                            <message>You must be logged in to use this feature.</message>
                         </response>)        
 };
 
