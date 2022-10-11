@@ -182,9 +182,7 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                         {$tei2fo:basic-block-element-attributes}
                         <fo:table-column column-width="20%"/>
                         <fo:table-column column-width="80%"/>
-                        <fo:table-body>{
-                            for $node in $node/tei:castItem
-                            return
+                        <fo:table-body>
                                    <fo:table-row>
                                        <fo:table-cell>
                                            <fo:block margin-bottom="1.5em">{tei2fo:tei2fo($node/tei:speaker,$p)} </fo:block>
@@ -193,7 +191,6 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                                            <fo:block>{tei2fo:tei2fo($node/tei:l,$p)}</fo:block>
                                        </fo:table-cell>
                                    </fo:table-row>  
-                               }
                             </fo:table-body>
                     </fo:table>
                     )}
@@ -234,29 +231,37 @@ declare function tei2fo:footnotes($nodes,$p) {
 if($nodes//tei:note[@target]) then 
 <fo:block>
     <fo:block>{$tei2fo:h2}Footnotes</fo:block> 
-        <fo:table>{$tei2fo:basic-block-element-attributes}
-         <fo:table-column column-width="10%"/>
-         <fo:table-column column-width="90%"/>
-         <fo:table-body>{
-            for $node in $nodes//tei:note[@target]
-            return
-                <fo:table-row>
-                    <fo:table-cell>
-                        {(if($node/@xml:id) then 
-                            attribute id { tei2fo:get-id($node, $p) }
-                        else (), 
-                        <fo:block margin-bottom="1.5em">{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>)}
-                    </fo:table-cell>
-                    <fo:table-cell>
-                        <fo:block>{tei2fo:tei2fo($node/node(),$p)}</fo:block>
-                        {if($node/@resp) then
-                            <fo:block margin-bottom="1.5em"> - [{substring-after($node/@resp,'#')}]</fo:block>
-                        else ()}
-                    </fo:table-cell>
-                </fo:table-row>  
-            }
-         </fo:table-body>
-     </fo:table>
+        {
+        if($nodes//tei:note[@target]) then
+            <fo:table>{$tei2fo:basic-block-element-attributes}
+                <fo:table-column column-width="10%"/>
+                <fo:table-column column-width="90%"/>
+                <fo:table-body>{
+                   for $node in $nodes//tei:note[@target]
+                   return
+                       <fo:table-row>
+                           <fo:table-cell>
+                               {(if($node/@xml:id) then 
+                                 (: WS:Note, this causes issues with coursepacks that may have duplicate IDs
+                                 attribute id { tei2fo:get-id($node, $p) } 
+                                 :) ''
+                               else (), 
+                               <fo:block margin-bottom="1.5em">{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>)}
+                           </fo:table-cell>
+                           <fo:table-cell>
+                               <fo:block>{tei2fo:tei2fo($node/node(),$p)}</fo:block>
+                               {if($node/@resp) then
+                                   <fo:block margin-bottom="1.5em"> - [{substring-after($node/@resp,'#')}]</fo:block>
+                               else ()}
+                           </fo:table-cell>
+                       </fo:table-row>  
+                   }
+                </fo:table-body>
+            </fo:table>
+        else 
+            for $node in $nodes
+            return tei2fo:tei2fo($node/node(),$p)
+        }
 </fo:block>
 else ()
 };
@@ -266,27 +271,35 @@ else ()
 declare function tei2fo:coursepacks($nodes) {
 <fo:block>
     <fo:block>{$tei2fo:h2}Footnotes</fo:block> 
-        <fo:table>{$tei2fo:basic-block-element-attributes}
-         <fo:table-column column-width="10%"/>
-         <fo:table-column column-width="90%"/>
-         <fo:table-body>{
-            for $node in $nodes//tei:note[@target]
-            return
-                <fo:table-row>
-                    <fo:table-cell>
-                        {(if($node/@xml:id) then 
-                            attribute id { $node/@xml:id }
-                        else (), 
-                        <fo:block margin-bottom="1.5em">{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>)}
-                    </fo:table-cell>
-                    <fo:table-cell>
-                        <fo:block>{tei2fo:tei2fo($node/node(),$p)}</fo:block>
-                        <fo:block margin-bottom="1.5em"> - [{substring-after($node/@resp,'#')}]</fo:block>
-                    </fo:table-cell>
-                </fo:table-row>  
-            }
-         </fo:table-body>
-     </fo:table>
+        {
+        if($nodes//tei:note[@target]) then 
+            <fo:table>{$tei2fo:basic-block-element-attributes}
+             <fo:table-column column-width="10%"/>
+             <fo:table-column column-width="90%"/>
+             <fo:table-body>{
+                for $node in $nodes//tei:note[@target]
+                return
+                    <fo:table-row>
+                        <fo:table-cell>
+                            {(if($node/@xml:id) then 
+                               (: WS:Note, this causes issues with coursepacks that may have duplicate IDs
+                               attribute id { $node/@xml:id }
+                               :) ''
+                            else (), 
+                            <fo:block margin-bottom="1.5em">{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>)}
+                        </fo:table-cell>
+                        <fo:table-cell>
+                            <fo:block>{tei2fo:tei2fo($node/node(),$p)}</fo:block>
+                            <fo:block margin-bottom="1.5em"> - [{substring-after($node/@resp,'#')}]</fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>  
+                }
+             </fo:table-body>
+         </fo:table>
+        else             
+            for $node in $nodes
+            return tei2fo:tei2fo($node/node(),$p)
+        }
 </fo:block>
 };
 
