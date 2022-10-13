@@ -8,6 +8,7 @@ xquery version "3.1";
 (: Import eXist modules:)
 import module namespace config="http://LiC.org/config" at "../config.xqm";
 import module namespace data="http://LiC.org/data" at "data.xqm";
+import module namespace tei2html="http://syriaca.org/tei2html" at "../content-negotiation/tei2html.xqm";
 import module namespace functx="http://www.functx.com";
 
 (: Import application modules. :)
@@ -32,9 +33,7 @@ declare function local:addID($nodes as node()*) as item()* {
                         {(
                             if($node/@id or $node/@xml:id) then () else attribute {'id'} {generate-id($node)},
                             for $a in $node/@*
-                            return attribute {node-name($a)} {string($a)},
-                            
-                                local:addID($node/node())
+                            return attribute {node-name($a)} {string($a)},local:addID($node/node())
                             )}
             default return local:addID($node/node())
 };
@@ -54,27 +53,27 @@ declare function local:create-new-coursepack($data as item()*){
     let $coursepackTitle := $coursepack(1)('coursepackTitle')
     let $works := $coursepack(1)('works')
     let $desc := if($coursepack(1)('coursepackDesc')) then <desc>{$coursepack(1)('coursepackDesc')}</desc> else ()
-    let $id := concat(replace($coursepackTitle,'\s|''|:|;|/|\\',''),$num)
+    let $id := concat(replace($coursepackTitle,'\s|''|:|;|/|\\|,',''),$num)
     let $newcoursepack :=  
         <coursepack id="{$id}" title="{$coursepackTitle}" user="{$local:user}">
             {( $desc,
-               for $work in $works?*
+               for $work at $n in $works?*
                let $workID := $work?id
-               group by $id := $workID
+               group by $groupID := $workID
                return 
-               (<work id="{$id}">
-                <title>{$work?title}</title>
-                {if($work?text) then
-                    let $text := $work?text
+               (<work id="{$groupID}" num="{$n}">
+                <title>{$work?title[1]}</title>
+                {for $text in $work?text
                     let $regex := fn:analyze-string($text,'id="([^"]*)"')
                     let $m1 := $regex//fn:match[1]/fn:group/text()
                     let $m2 := $regex//fn:match[last()]/fn:group/text()
-                    let $nodes := local:addID(doc(xmldb:encode-uri($workID))//tei:TEI)
-                    let $ms1 := $nodes/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
-                    let $ms2 := $nodes/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
-                    return
-                    <text>{(:$work?text:)data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')}</text>
-                 else ()}
+                    let $nodes := doc(xs:anyURI(xmldb:encode-uri($workID)))
+                    let $nodesIDs := local:addID($nodes)
+                    let $ms1 := $nodesIDs/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
+                    let $ms2 := $nodesIDs/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
+                    return 
+                       <text>{(:$work?text:)data:get-fragment-from-doc($nodesIDs, $ms1, $ms2, true(), true(),'')}</text>
+                 }
                 </work> 
                 (:,local:update-work($workID, $id, $coursepackTitle, $coursepack(1)('coursepackDesc')):)
                )
@@ -102,15 +101,29 @@ declare function local:update-coursepack($data as item()*){
     let $works := $coursepack(1)('works')
     let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
     let $coursepackTitle := string($coursepack/@title)
+    let $numWorks := count($coursepack//work)
     let $desc := $coursepack//desc/text()
     let $insertWorks :=  
-               for $work in $works?*
+               for $work at $n in $works?*
                let $workID := $work?id
+               let $num := $n + $numWorks
+               group by $groupID := $workID
                return 
-               (<work id="{$workID}">
-                <title>{$work?title}</title>
-                {if($work?text) then
-                    let $text := $work?text
+               (<work id="{$groupID}" num="{$num}">
+                <title>{$work?title[1]}</title>
+                
+                {
+                    for $text in $work?text
+                    let $regex := fn:analyze-string($text,'id="([^"]*)"')
+                    let $m1 := $regex//fn:match[1]/fn:group/text()
+                    let $m2 := $regex//fn:match[last()]/fn:group/text()
+                    let $nodes := doc(xs:anyURI(xmldb:encode-uri($workID)))
+                    let $nodesIDs := local:addID($nodes)
+                    let $ms1 := $nodesIDs/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
+                    let $ms2 := $nodesIDs/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
+                    return 
+                       <text>{(:$work?text:)data:get-fragment-from-doc($nodesIDs, $ms1, $ms2, true(), true(),'')}</text>
+                (:   for $text in $work?text) 
                     let $regex := fn:analyze-string($text,'id="([^"]*)"')
                     let $m1 := $regex//fn:match[1]/fn:group/text()
                     let $m2 := $regex//fn:match[last()]/fn:group/text()
@@ -119,7 +132,7 @@ declare function local:update-coursepack($data as item()*){
                     let $ms2 := $nodes/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
                     return
                     <text>{(:$work?text:)data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')}</text>
-                 else ()}
+                :) }
                 </work> 
                (:,local:update-work($workID, $coursepackID, $coursepackTitle, $desc):)
                )
@@ -160,7 +173,7 @@ declare function local:create-new-coursepack-response($data as item()*){
                 <ul>{
                     for $work in $works?*
                     return 
-                        <li>{$work?title}</li>
+                        <li>{$work?title[1]}</li>
                  }</ul>
                  <a href="{$config:nav-base}/coursepack/{$coursepackID}">Go to Coursepack</a><br/>
                  <a href="{$config:nav-base}/coursepack.html">See all Coursepacks</a>
@@ -187,7 +200,7 @@ declare function local:update-coursepack-response($data as item()*){
                 <ul>{
                     for $work in $works?*
                     return 
-                        <li>{$work?title}</li>
+                        <li>{$work?title[1]}</li>
                  }</ul>
                  <a href="{$config:nav-base}/coursepack/{$coursepackID}">Go to Coursepack</a><br/>
                  <a href="{$config:nav-base}/coursepack.html">See all Coursepacks</a>

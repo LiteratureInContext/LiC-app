@@ -565,8 +565,12 @@ return
                                             (<div><h4>Selected Text</h4>,
                                             {tei2html:tei2html($text/child::*)}</div>)
                                       else()
-                    order by data:filter-sort-string(data:add-sort-options($work, request:get-parameter('sort-element', '')))
-                    group by $workID := $id 
+                    let $num := if($coursepacks//work[@id = $id]/@num) then $coursepacks//work[@id = $id]/@num else 1
+                    let $order := if(request:get-parameter('sort-element', '') != '') then
+                                    data:filter-sort-string(data:add-sort-options($work, request:get-parameter('sort-element', '')))
+                                  else $num
+                    order by $order                  
+                    (: group by $workID := $id :) 
                     return  
                         <div class="result row">
                             <div class="col-md-1">

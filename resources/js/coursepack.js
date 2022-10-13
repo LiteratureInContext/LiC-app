@@ -138,23 +138,24 @@
                    a = rangy.getSelection()
                    //If no selection add whole record
                    if (a.rangeCount > 0) {
-                   //Get parent node if not selected. 
-                    b = a.getRangeAt(0)
-                    b.setStartBefore(a.anchorNode.parentNode)
-                    a.setSingleRange(b)
-                    a.toHtml()
+                        //Get parent node if not selected. 
+                         b = a.getRangeAt(0)
+                         b.setStartBefore(a.anchorNode.parentNode)
+                         a.setSingleRange(b)
+                         a.toHtml()
+                         
+                         var selection = rangy.getSelection().toHtml(),
+                             url = $(this).data('url'),
+                             workID = $(this).data('workid'),
+                             workTitle = $(this).data('worktitle'); 
+                         coursepackworks.push({id: workID , title: workTitle, text: a.toHtml()});
+                         //console.log(a.toHtml());
+                    } else {
                     
-                    var selection = rangy.getSelection().toHtml(),
-                        url = $(this).data('url'),
-                        workID = $(this).data('workid'),
-                        workTitle = $(this).data('worktitle'); 
-                    coursepackworks.push({id: workID , title: workTitle, text: a.toHtml()});
-                    }else {
-                    
-                    var url = $(this).data('url'),
-                        workID = $(this).data('workid'),
-                        workTitle = $(this).data('worktitle'); 
-                    coursepackworks.push({id: workID , title: workTitle});
+                        var url = $(this).data('url'),
+                            workID = $(this).data('workid'),
+                            workTitle = $(this).data('worktitle'); 
+                        coursepackworks.push({id: workID , title: workTitle});
 
                     }
                     $('#coursepackTools').toggle( "slide" );
@@ -216,6 +217,31 @@
                 $('.modal').on('hidden.bs.modal', function(){
                     $(this).find('form').trigger('reset');
                 });
-                
+               
+               
+               //Test Drag and Drop
+               //$( "#sortable" ).sortable();
+               
+               $("#sortable").sortable({
+                    start: function(e, ui) {
+                        // creates a temporary attribute on the element with the old index
+                        $(this).attr('data-previndex', ui.item.index());
+                    },
+                    update: function(e, ui) {
+                        // gets the new and old index then removes the temporary attribute
+                        var newIndex = ui.item.index();
+                        var oldIndex = $(this).attr('data-previndex');
+                        var element_id = ui.item.attr('id');
+                        var data = $(this).sortable('serialize');
+                        console.log('Hello?');
+                        console.log(data);
+                        console.log(element_id);
+                        //$(this).ui.item('data-newOrder', ui.item.index());
+                        //console.log(newIndex);
+                        //console.log('id of Item moved = '+element_id+' old position = '+oldIndex+' new position = '+newIndex);
+
+                    }
+                });
+               
             }); 
           
