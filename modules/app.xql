@@ -543,7 +543,6 @@ return
                                    </ul>
                                </div>
                            </div>
-                        
                     }
                </div>
 
@@ -562,7 +561,7 @@ return
                     let $selection := if($coursepacks//work[@id = $id]/text) then
                                         for $text in $coursepacks//work[@id = $id]/text
                                         return 
-                                            (<div><h4>Selected Text</h4>,
+                                            (<div><h4> TT2 Selected Text</h4>,
                                             {tei2html:tei2html($text/child::*)}</div>)
                                       else()
                     let $num := if($coursepacks//work[@id = $id]/@num) then $coursepacks//work[@id = $id]/@num else 1
@@ -581,14 +580,8 @@ return
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                              </button>
                             </div>
-                            <div class="col-md-11">{(
-                                if($selection != '') then
-                                    (<h4 class="selections-from">Selections from: </h4>, 
-                                    tei2html:summary-view($work, (), $id[1]),
-                                    if(request:get-parameter('view', '') = 'expanded') then 
-                                       <div class="selected-text">{$selection}</div> 
-                                    else ())
-                                else if(request:get-parameter('view', '') = 'expanded') then
+                            <div class="col-md-11">{
+                                if(request:get-parameter('view', '') = 'expanded') then
                                     (tei2html:header($work/descendant::tei:teiHeader),
                                     tei2html:tei2html($work/descendant::tei:text),
                                     let $notes := $work/descendant::tei:note[@target]
@@ -602,8 +595,16 @@ return
                                             </div>
                                         else ()
                                     )
-                                else tei2html:summary-view($work, (), $id[1])
-                                )}
+                                else 
+                                    (tei2html:summary-view($work, (), $id[1]),
+                                        if($selection != '') then 
+                                            <h5 class="selections-from indent">
+                                                <button data-url="{$config:nav-base}/modules/data.xql?id={string($coursepacks/@id)}&amp;view=expand&amp;workid={$id}" class="expand btn btn-link" data-toggle="tooltip" title="Expand ork to see text">
+                                                   <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &#160; {count($selection)} Selections 
+                                                </button>
+                                            </h5>
+                                        else () 
+                                    )}
                                 <div class="expandedText"></div>
                                 </div>
                         </div> 
