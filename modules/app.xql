@@ -599,7 +599,7 @@ return
                                     (tei2html:summary-view($work, (), $id[1]),
                                         if($selection != '') then 
                                             <h5 class="selections-from indent">
-                                                <button data-url="{$config:nav-base}/modules/data.xql?id={string($coursepacks/@id)}&amp;view=expand&amp;workid={$id}" class="expand btn btn-link" data-toggle="tooltip" title="Expand ork to see text">
+                                                <button data-url="{$config:nav-base}/modules/data.xql?id={string($coursepacks/@id)}&amp;view=expand&amp;workid={$id}" class="expand btn btn-link" data-toggle="tooltip" title="Expand work to see text">
                                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &#160; {count($selection)} Selections 
                                                 </button>
                                             </h5>
