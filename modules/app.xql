@@ -566,9 +566,9 @@ return
                                       else()
                     let $num := if($coursepacks//work[@id = $id]/@num) then $coursepacks//work[@id = $id]/@num else 1
                     let $order := if(request:get-parameter('sort-element', '') != '') then
-                                    data:filter-sort-string(data:add-sort-options($work, request:get-parameter('sort-element', '')))
-                                  else $num
-                    order by $order                  
+                                    data:filter-sort-string(data:add-sort-options($work[1], request:get-parameter('sort-element', '')))
+                                  else $num[1]
+                    order by $order[1]                  
                     (: group by $workID := $id :) 
                     return  
                         <div class="result row">
