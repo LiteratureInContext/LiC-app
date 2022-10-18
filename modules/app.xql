@@ -1353,7 +1353,8 @@ declare function app:persons() {
                                 <ul>{
                                 for $work in $r
                                 let $id := $work/@active
-                                return <li><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
+                                return <li>
+                                <a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
                                 }</ul>
                             </div>
                     }</div>
@@ -1408,7 +1409,11 @@ declare function app:persons($node as node(), $model as map(*)) {
                                 <ul>{
                                 for $work in $r
                                 let $id := $work/@active
-                                return <li><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
+                                return 
+                                    <li>
+                                        <a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">
+                                        {tei2html:tei2html($work//tei:title)}</a>
+                                     </li>
                                 }</ul>
                             </div>
                     }</div>
@@ -1547,7 +1552,7 @@ declare function app:network($node as node(), $model as map(*)) {
                     else if(request:get-parameter('id', '') != '') then
                         doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
                     else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
-    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else if(not(empty($model("coursepack")))) then $model("coursepack") else () 
+    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else if(not(empty($model("coursepack")))) then $model("coursepack") else collection($config:data-root) 
     let $keys := $reference-data//@key
     let $subset := if(not(empty($model("data")))) then
                        let $id := document-uri(root($model("data")))
