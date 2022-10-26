@@ -52,11 +52,13 @@ declare function local:create-new-coursepack($data as item()*){
     let $coursepack := $data?coursepack
     let $coursepackTitle := $coursepack(1)('coursepackTitle')
     let $works := $coursepack(1)('works')
-    let $desc := if($coursepack(1)('coursepackDesc')) then <desc>{$coursepack(1)('coursepackDesc')}</desc> else ()
+    let $desc := if($coursepack(1)('coursepackDesc')) then <desc id="coursepackNotes">{$coursepack(1)('coursepackDesc')}</desc> else ()
     let $id := concat(replace($coursepackTitle,'\s|''|:|;|/|\\|,',''),$num)
+    let $userFullName := sm:get-account-metadata($local:user, xs:anyURI('http://axschema.org/namePerson'))
     let $newcoursepack :=  
         <coursepack id="{$id}" title="{$coursepackTitle}" user="{$local:user}">
-            {( $desc,
+            <instructor>{if($userFullName != '') then $userFullName else $local:user}</instructor>
+            {($desc,
                for $work at $n in $works?*
                let $workID := $work?id
                group by $groupID := $workID
@@ -152,6 +154,31 @@ declare function local:update-coursepack($data as item()*){
         }
 };
 
+(:~
+ : Update an existing coursepack. 
+ : @param $data works and coursepack information passed from JavaScript post
+:)
+declare function local:update-notes($data as item()*, $coursepackID, $noteID){
+    let $JSON := parse-json($data)
+    let $noteJSON := $JSON?note
+    let $noteCleaned := replace($noteJSON, '&amp;nbsp;','&#160;')
+    let $noteText := parse-xml-fragment($noteCleaned)
+    let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
+    let $note := $coursepack/descendant-or-self::*[@id=$noteID]
+    return 
+        try { 
+            (update value $note with $noteText/child::*, 
+            <response status="success">
+                <message>Updated! {$noteText}</message>
+            </response>)
+        } catch * {
+            (response:set-status-code( 500 ),
+            <response status="fail">
+                <message>Failed to add new coursepack {$coursepackID} : {concat($err:code, ": ", $err:description)} {$noteText}</message>
+            </response>)
+        }
+};
+
 (:~ 
  : Create HTML response to create-new-coursepack request
  : @param $data works and coursepack information passed from JavaScript post
@@ -212,6 +239,21 @@ declare function local:update-coursepack-response($data as item()*){
  : Create HTML response to create-new-coursepack request  
  : @param $data works and coursepack information passed from JavaScript post
  :)
+declare function local:update-notes-response($data as item()*, $coursepackID, $noteID){
+    let $payload := util:base64-decode($data)
+    let $response := local:update-notes($payload, $coursepackID, $noteID)
+    return 
+        <response status="success" xmlns="http://www.w3.org/1999/xhtml">
+            <div class="coursepack">
+                <div class="bg-info hidden">{$response}</div>
+                <h4>Coursepack Updated</h4>
+            </div>
+        </response>
+};
+(:~ 
+ : Create HTML response to create-new-coursepack request  
+ : @param $data works and coursepack information passed from JavaScript post
+ :)
 declare function local:delete-coursepack-response(){
     let $coursepackID := request:get-parameter('coursepackid', '')
     let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
@@ -264,48 +306,62 @@ declare function local:authenticate($data as item()*){
     return 
         if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then 
             if($action = ('update','delete','deleteWork')) then
-                let $coursepackID := if(request:get-parameter('coursepackid', '') != '') then
-                            request:get-parameter('coursepackid', '')
-                         else if(not(empty($data))) then
-                            let $payload := util:base64-decode($data)
-                            let $json-data := parse-json($payload)
-                            let $coursepack := $json-data?coursepack
-                            let $id := $coursepack(1)('coursepackID')
-                            return $id
-                         else 'no data'
-                let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
-                let $coursepack-permissions := sm:get-permissions(xs:anyURI(document-uri(root($coursepack))))
-                return
-                    if(($coursepack-permissions/*/@owner = $local:user) or ($coursepack-permissions/@user = $local:user) or ($local:user = 'admin')) then 
-                        if(request:get-parameter('action', '') = 'update') then 
+                if(request:get-parameter('content', '') = 'notes') then
+                            if(not(empty($data))) then
+                                let $coursepackID := request:get-parameter('coursepackid', '')
+                                let $noteID := request:get-parameter('noteid', '')
+                                return 
+                                     (response:set-header("Content-Type", "text/html"),
+                                     <output:serialization-parameters>
+                                         <output:method value='html5'/>
+                                         <output:media-type value='text/html'/>
+                                     </output:serialization-parameters>, local:update-notes-response($data, $coursepackID, $noteID))  
+                             else 'no data'
+                             
+                else 
+                    let $coursepackID := 
+                             if(request:get-parameter('coursepackid', '') != '') then
+                                request:get-parameter('coursepackid', '')
+                             else if(not(empty($data))) then
+                                let $payload := util:base64-decode($data)
+                                let $json-data := parse-json($payload)
+                                let $coursepack := $json-data?coursepack
+                                let $id := $coursepack(1)('coursepackID')
+                                return $id
+                             else 'no data'
+                    let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
+                    let $coursepack-permissions := sm:get-permissions(xs:anyURI(document-uri(root($coursepack))))
+                    return
+                        if(($coursepack-permissions/*/@owner = $local:user) or ($coursepack-permissions/@user = $local:user) or ($local:user = 'admin')) then 
+                            if(request:get-parameter('action', '') = 'update') then 
+                                (response:set-header("Content-Type", "text/html"),
+                                <output:serialization-parameters>
+                                    <output:method value='html5'/>
+                                    <output:media-type value='text/html'/>
+                                </output:serialization-parameters>, local:update-coursepack-response($data))        
+                            else if(request:get-parameter('action', '') = 'delete') then 
+                                (response:set-header("Content-Type", "text/html"),
+                                <output:serialization-parameters>
+                                    <output:method value='html5'/>
+                                    <output:media-type value='text/html'/>
+                                </output:serialization-parameters>, local:delete-coursepack-response())
+                            else if(request:get-parameter('action', '') = 'deleteWork') then 
+                                (response:set-header("Content-Type", "text/html"),
+                                <output:serialization-parameters>
+                                    <output:method value='html5'/>
+                                    <output:media-type value='text/html'/>
+                                </output:serialization-parameters>, local:delete-work-response())
+                            else() 
+                        else 
                             (response:set-header("Content-Type", "text/html"),
                             <output:serialization-parameters>
                                 <output:method value='html5'/>
                                 <output:media-type value='text/html'/>
-                            </output:serialization-parameters>, local:update-coursepack-response($data))        
-                        else if(request:get-parameter('action', '') = 'delete') then 
-                            (response:set-header("Content-Type", "text/html"),
-                            <output:serialization-parameters>
-                                <output:method value='html5'/>
-                                <output:media-type value='text/html'/>
-                            </output:serialization-parameters>, local:delete-coursepack-response())
-                        else if(request:get-parameter('action', '') = 'deleteWork') then 
-                            (response:set-header("Content-Type", "text/html"),
-                            <output:serialization-parameters>
-                                <output:method value='html5'/>
-                                <output:media-type value='text/html'/>
-                            </output:serialization-parameters>, local:delete-work-response())
-                        else() 
-                    else 
-                        (response:set-header("Content-Type", "text/html"),
-                        <output:serialization-parameters>
-                            <output:method value='html5'/>
-                            <output:media-type value='text/html'/>
-                        </output:serialization-parameters>,
-                        response:set-status-code( 401 ),
-                                <response status="fail">
-                                    <message>You do not have permission to edit this resource. Please log in. </message>
-                                </response>)
+                            </output:serialization-parameters>,
+                            response:set-status-code( 401 ),
+                                    <response status="fail">
+                                        <message>You do not have permission to edit this resource. Please log in. </message>
+                                    </response>)
             else
                 (response:set-header("Content-Type", "text/html"),
                 <output:serialization-parameters>

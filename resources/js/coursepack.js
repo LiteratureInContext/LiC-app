@@ -221,7 +221,7 @@
                
                //Test Drag and Drop
                //$( "#sortable" ).sortable();
-               
+               /* 
                $("#sortable").sortable({
                     start: function(e, ui) {
                         // creates a temporary attribute on the element with the old index
@@ -242,6 +242,42 @@
 
                     }
                 });
-               
+                */
+              //CKEditor
+              var editor;
+
+                CKEDITOR.on('instanceReady', function(ev) {
+                    editor = ev.editor;
+                    // you can also add more config for this instance of CKE here
+                    // e.g. editor.setReadOnly(false);
+                });
+                
+               $('.toggle-edit').click(function(e){
+                    e.preventDefault(e);
+                    
+                    var submitURL = $(this).data('url')
+                    var id_editedDiv = $(this).attr('data-editTarget');
+                    var editedDiv = '#' + id_editedDiv;
+                                    
+                    if($(editedDiv).attr('contenteditable') === 'true'){
+                        $(editedDiv).attr('contenteditable','false');
+                            editor.destroy();
+                            $(this).text('Start Editing');
+                            var content = editor.getData();
+                            $.post(submitURL,JSON.stringify({ 'note': content }), function(data) {
+                                // $('#addToCoursepackModal').hide();
+                                //$('#responseBody').html(data);
+                                 console.log(data)
+                             }).fail( function(jqXHR, textStatus, errorThrown) {
+                                    console.log(textStatus);
+                            });
+                    } else {
+                        $(editedDiv).attr('contenteditable','true');
+                            CKEDITOR.inline(id_editedDiv);
+                                $(this).text('Finish Editing');
+                                $(editedDiv).focus(); 
+                    }
+                  
+                });
             }); 
           

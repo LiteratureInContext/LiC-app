@@ -449,6 +449,8 @@ declare function app:display-coursepack-title($node as node(), $model as map(*))
 declare function app:display-coursepacks($node as node(), $model as map(*)){
 let $coursepacks := $model("coursepack")
 let $hits := $model("hits")
+let $user := if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
+             else sm:id()/sm:id/sm:real/sm:username/string(.)            
 return 
     if(empty($coursepacks)) then
         <div>
@@ -459,10 +461,32 @@ return
             </div>
         </div>
     else if(request:get-parameter('id', '') != '') then 
-        <form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search">
+        let $coursepack := $coursepacks/descendant-or-self::*:coursepack
+        let $instructor := $coursepack/@user
+        let $coursepackID := $coursepack/@id
+        let $coursepack-permissions := sm:get-permissions(xs:anyURI(document-uri(root($coursepack))))
+        let $edit :=
+                    if(($coursepack-permissions/*/@owner = $user) or ($coursepack-permissions/@user = $user) or ($user = 'admin')) then true()
+                    else false()
+        return 
+        <form class="form-inline coursepack" method="get" action="{string($coursepackID)}" id="search">
             <div class="row">
-                <div class="col-md-6"><h1>{string($model("coursepack")/@title)}</h1>
-                    <p class="desc">{$coursepacks/*:desc}</p>
+                <div class="col-md-6">
+                    <h1>{string($model("coursepack")/@title)}</h1>
+                    {
+                        if($coursepacks/*:instructor) then 
+                            <h3>{$coursepacks/*:instructor}</h3>
+                        else ()
+                    }
+                    
+                    <div id="introduction">
+                        {$coursepacks/*:desc}
+                    </div> 
+                    {
+                        if($edit = true()) then 
+                         <button class="toggle-edit" data-editTarget="introduction" data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=update&amp;content=notes&amp;coursepackid={string($coursepackID)}&amp;noteid={$coursepacks/*:desc/@id}">Start editing</button>
+                        else ()
+                    }
                 </div>
                 <div class="col-md-6">
                 <div class="coursepackToolbar">
@@ -610,6 +634,7 @@ return
                         </div> 
                  }      
         </div>
+        
         </form>
     else        
         <div>
