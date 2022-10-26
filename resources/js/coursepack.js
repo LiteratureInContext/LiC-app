@@ -221,7 +221,7 @@
                
                //Test Drag and Drop
                //$( "#sortable" ).sortable();
-               
+               /* 
                $("#sortable").sortable({
                     start: function(e, ui) {
                         // creates a temporary attribute on the element with the old index
@@ -242,7 +242,7 @@
 
                     }
                 });
-                
+                */
               //CKEditor
               var editor;
 
