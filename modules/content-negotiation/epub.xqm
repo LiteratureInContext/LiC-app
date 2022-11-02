@@ -16,110 +16,92 @@ module namespace epub = "http://exist-db.org/xquery/epub";
 
 import module namespace compression = "http://exist-db.org/xquery/compression";
 import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace tei2html="http://syriaca.org/tei2html" at "tei2html.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function epub:epub($id as xs:string, $work as item()*) {
-    if($work/descendant-or-self::coursepack) then
-        let $title := string($work/@title)
-        let $creator := string($work/@user)
-        let $urn := document-uri(root($work/descendant-or-self::coursepack))
-        return epub:generate-epub-coursepack($title, $creator, $work, $urn, ($config:app-root || "/resources/css/epub.css"), $id) 
-    else 
-        let $root := $work
-        let $fileDesc := $root//tei:teiHeader/tei:fileDesc
-        let $title := normalize-space(string-join($fileDesc//tei:titleStmt/tei:title[1]/string(),' '))
-        let $creator := normalize-space(string-join($fileDesc/tei:titleStmt/tei:author[1]/string(),' '))
-        let $urn := document-uri($root)
-        return epub:generate-epub($title, $creator, $root, $urn, ($config:app-root || "/resources/css/epub.css"), $id)
+    epub:generate-epub($id, $work) 
 };
 
-(:~
-    Main function of the EPUB module for assembling EPUB files: 
-    Takes the elements required for an EPUB document (wrapped in <entry> elements), 
-    and uses the compression:zip() function to returns a complete EPUB document.
-
-    @param $title the dc:title of the EPUB
-    @param $creator the dc:creator of the EPUB
-    @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
-    @param $urn the urn to use in the NCX file
-    @param $db-path-to-resources the db path to the required static resources (cover.jpg, stylesheet.css)
-    @param $filename the name of the EPUB file, sans file extension
-    @return serialized EPUB file
-    
-    @see http://demo.exist-db.org/exist/functions/compression/zip
-:)
-declare function epub:generate-epub($title, $creator, $doc as item()*, $urn, $db-path-to-resources, $filename) {
-    let $entries :=
-        (
-            epub:mimetype-entry(),
-            epub:container-entry(),
-            epub:content-opf-entry($title, $creator, $urn, $doc),
-            epub:title-xhtml-entry($doc),
-            epub:table-of-contents-xhtml-entry($title, $doc, false()),
-            epub:body-xhtml-entries($doc),
-            epub:stylesheet-entry($db-path-to-resources),
-            epub:toc-ncx-entry($urn, $title, $doc)
-        )
-    return
-        $entries
-};
-
-declare function epub:generate-epub-coursepack($title, $creator, $doc as item()*, $urn, $db-path-to-resources, $filename) {
-    let $entries :=
-        (
-            epub:mimetype-entry(),
-            epub:container-entry(),
-            epub:content-opf-entry-coursepack($title, $creator, $urn, $doc),
-            epub:title-xhtml-entry-coursepack($doc),
-            epub:table-of-contents-xhtml-entry-coursepack($title, $doc, false()),
-            epub:body-xhtml-entries-coursepack($doc),
-            epub:stylesheet-entry($db-path-to-resources),
-            epub:toc-ncx-entry-coursepack($urn, $title, $doc)
-        )
-    return
-        $entries
-};
-
-(:~ 
-    Helper function, returns the mimetype entry.
-    Note that the EPUB specification requires that the mimetype file be uncompressed.  
-    We can ensure the mimetype file is uncompressed by passing compression:zip() an entry element
-    with a method attribute of "store".
-    
-    @return the mimetype entry
-:)
-declare function epub:mimetype-entry() {
-    <entry name="mimetype" type="text" method="store">application/epub+zip</entry>
-};
-
-(:~ 
-    Helper function, returns the META-INF/container.xml entry.
-
-    @return the META-INF/container.xml entry
-:)
-declare function epub:container-entry() {
-    let $container :=
+declare function epub:generate-epub($id as xs:string, $work as item()*){
+   let $fileDesc := $work//tei:teiHeader/tei:fileDesc
+   let $title := normalize-space(string-join($fileDesc//tei:titleStmt/tei:title[1]/string(),' '))
+   let $creator := normalize-space(string-join($fileDesc/tei:titleStmt/tei:author[1]/string(),' '))
+   let $urn := document-uri($work)
+   return 
+    (
+   <entry name="mimetype" type="text" method="store">application/epub+zip</entry>,
+   <entry name="META-INF/container.xml" type="xml">
         <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
-            <rootfiles>
-                <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
-            </rootfiles>
-        </container>
-    return
-        <entry name="META-INF/container.xml" type="xml">{$container}</entry>
+              <rootfiles>
+                  <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
+              </rootfiles>
+          </container>
+    </entry>,
+    epub:build-toc($id, $work, $title, $creator, $urn),
+    epub:build-content($id, $work, $title, $creator, $urn),
+    epub:stylesheet-entry(($config:app-root || "/resources/css/epub.css")),
+    epub:build-title-page($id, $work, $title, $creator, $urn), 
+    epub:build-publication-page($id, $work, $title, $creator, $urn),
+    epub:body-entry($id, $work, $title, $creator, $urn)
+   )
+        
+};
+declare function epub:build-toc($id as xs:string, $work as item()*, $title, $creator, $urn){
+    <entry name="OEBPS/toc.ncx" type="xml">
+        <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+               <head>
+                   <meta name="dtb:uid" content="{$urn}"/>
+                   <meta name="dtb:depth" content="1"/>
+                   <meta name="dtb:totalPageCount" content="0"/>
+                   <meta name="dtb:maxPageNumber" content="0"/>
+               </head>
+               <docTitle>
+                   <text>{$title}</text>
+               </docTitle>
+               <navMap>   
+                   <navPoint id="title-page" playOrder="1">
+                       <navLabel>
+                           <text>Test Page</text>
+                       </navLabel>
+                       <content src="test.xhtml"/>
+                   </navPoint>
+                   <navPoint id="publication-page" playOrder="1">
+                       <navLabel>
+                           <text>Publication Page</text>
+                       </navLabel>
+                       <content src="publication-page.xhtml"/>
+                   </navPoint>
+                   {
+                    if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
+                       for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
+                       let $head := if($div/descendant::tei:head[1]) then $div/descendant::tei:head[1] else if($div/ancestor-or-self::tei:front) then 'Front Matter' else if($div/ancestor-or-self::tei:back) then 'Back Matter'  else concat('Section ', $p)
+                       let $h-id := concat('n',$p)
+                       return 
+                                <navPoint id="{$h-id}" playOrder="{$p + 2}">
+                                    <navLabel>
+                                        <text>{$head}</text>
+                                    </navLabel>
+                                    <content src="{$h-id}.xhtml"/>
+                                </navPoint>
+                    else 
+                        <navPoint id="n1" playOrder="3">
+                                    <navLabel>
+                                        <text>Contents</text>
+                                    </navLabel>
+                                    <content src="n1.xhtml"/>
+                                </navPoint>
+                   }
+               </navMap>
+           </ncx>
+  </entry>
 };
 
-(:~ 
-    Helper function, returns the OEBPS/content.opf entry.
-
-    @param $title the dc:title of the EPUB
-    @param $creator the dc:creator of the EPUB
-    @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
-    @return the OEBPS/content.opf entry
-:)
-declare function epub:content-opf-entry($title, $creator, $urn, $text as item()*) {
-    let $content-opf := 
-        <package xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" unique-identifier="bookid">
+declare function epub:build-content($id as xs:string, $work as item()*, $title, $creator, $urn){
+    <entry name="OEBPS/content.opf" type="xml">
+          <package xmlns:dc="http://purl.org/dc/elements/1.1/" 
+                  xmlns="http://www.idpf.org/2007/opf" unique-identifier="bookid" version="2.0">
             <metadata>
                 <dc:title>{$title}</dc:title>
                 <dc:creator>{$creator}</dc:creator>
@@ -128,199 +110,170 @@ declare function epub:content-opf-entry($title, $creator, $urn, $text as item()*
             </metadata>
             <manifest>
                 <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
-                <item id="title" href="title.html" media-type="application/xhtml+xml"/>
-                <item id="table-of-contents" href="table-of-contents.html" media-type="application/xhtml+xml"/>
-                { 
-                if($text//tei:body/tei:div) then
-                    for $div at $p in $text//tei:body/tei:div
-                    let $h-id := if($div/@xml:id) then $div/@xml:id else if($div/@n)  then string($div/@n) else concat('n',$p)
-                    return <item test="2" id="{$h-id}" href="{$h-id}.html" media-type="application/xhtml+xml"/>
-                else ()
-                }
+                <item id="title-page" href="title-page.xhtml" media-type="application/xhtml+xml"/>
+                <item id="publication-page" href="publication-page.xhtml" media-type="application/xhtml+xml"/>
                 {
-                for $image in $text//tei:graphic[@url]
-                return
-                    <item id="{$image/@url}" href="images/{$image/@url}.png" media-type="image/png"/>
+                if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
+                    for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
+                    let $h-id := concat('n',$p)
+                    return <item id="{$h-id}" href="{$h-id}.xhtml" media-type="application/xhtml+xml"/>
+                else <item id="n1" href="n1.xhtml" media-type="application/xhtml+xml"/> 
                 }
             </manifest>
             <spine toc="ncx">
-                <itemref idref="title"/>
-                <itemref idref="table-of-contents"/>
+                <itemref idref="title-page" />
+                <itemref idref="publication-page" />
                 {
-                (: get just divs for TOC :)
-                    for $div at $p in $text//tei:body/tei:div
-                    let $h-id := if($div/@xml:id) then $div/@xml:id else if($div/@n)  then string($div/@n) else concat('n',$p)
-                    return 
-                        <itemref idref="{$h-id}"/>
+                if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
+                    for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
+                    let $h-id := concat('n',$p)
+                    return <itemref idref="{$h-id}" />
+                else <itemref idref="n1" /> 
                 }
             </spine>
-            <guide>
-                <reference href="table-of-contents.html" type="toc" title="Table of Contents"/>
-                {                    
-                (: first text div :)
-                    let $first-text-div := $text//tei:body/tei:div[1]
-                    let $id := if($first-text-div/@xml:id) then $first-text-div/@xml:id else if($first-text-div/@n)  then string($first-text-div/@n) else 'n1' 
-                    let $title := if($first-text-div/tei:head) then $first-text-div/tei:head/descendant-or-self::*[not(self::tei:ref) and not(self::tei:note)]/text() else if($first-text-div/@n)  then string($first-text-div/@n) else if($first-text-div/@xml:id) then string($first-text-div/@xml:id) else 'Entry'
-                    return 
-                        <reference href="{$id}.html" type="text" title="{$title}"/>
-                }
-                {
-                (: index div :)
-                if ($text/id('index')) then
-                    <reference href="index.html" type="index" title="Index"/>
-                else 
-                    ()
-                }
-            </guide>
         </package>
-    return
-        <entry name="OEBPS/content.opf" type="xml">{$content-opf}</entry>
+    </entry>
 };
 
-declare function epub:content-opf-entry-coursepack($title, $creator, $urn, $text as item()*) {
-    let $content-opf := 
-        <package xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" unique-identifier="bookid">
-            <metadata>
-                <dc:title>{$title}</dc:title>
-                <dc:creator>{$creator}</dc:creator>
-                <dc:identifier id="bookid">{$urn}</dc:identifier>
-                <dc:language>en-US</dc:language>
-            </metadata>
-            <manifest>
-                <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
-                <item id="title" href="title.html" media-type="application/xhtml+xml"/>
-                <item id="table-of-contents" href="table-of-contents.html" media-type="application/xhtml+xml"/>
-                {
-                for $item at $p in $text//*:work
-                let $epubID := concat('n',$p)
-                group by $workID := $item/@id
-                return 
-                    <item id="{$epubID[1]}" href="{$epubID[1]}.html" media-type="application/xhtml+xml"/>}
-                {
-                for $image in $text//tei:graphic[@url]
-                return
-                    <item id="{$image/@url}" href="images/{$image/@url}.png" media-type="image/png"/>
-                }
-            </manifest>
-            <spine toc="ncx">
-                <itemref idref="title"/>
-                <itemref idref="table-of-contents"/>
-                {
-                (: get just divs for TOC :)
-                for $item at $p in $text//*:work
-                let $epubID := concat('n',$p)
-                group by $workID := $item/@id
-                return <itemref idref="{$epubID[1]}"/>
-                }
-            </spine>
-            <guide>
-                <reference href="table-of-contents.html" type="toc" title="Table of Contents"/>
-                {                    
-                (: first text div :)
-                for $item at $p in $text//*:work[1]
-                let $epubID := concat('n',$p)
-                let $title := if($item//*:text) then concat('Selections from',$item/*:title[1]/text()) else $item/*:title[1]/text()
-                group by $workID := $item/@id                
-                return <reference href="n1.html" type="text" title="{$title}"/>                
-                }
-                {
-                (: index div :)
-                if ($text/id('index')) then
-                    <reference href="index.html" type="index" title="Index"/>
-                else 
-                    ()
-                }
-            </guide>
-        </package>
-    return
-        <entry name="OEBPS/content.opf" type="xml">{$content-opf}</entry>
+declare function epub:build-title-page($id as xs:string, $work as item()*, $title, $creator, $urn){
+    <entry name="OEBPS/title-page.xhtml" type="xml">
+          <html xmlns="http://www.w3.org/1999/xhtml">
+             <head>
+                 <title>Title Page</title>
+                 <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+             </head>
+             <body>
+                 <div xmlns="http://www.w3.org/1999/xhtml" id="title">
+                    <h1>{ $work/descendant::tei:titleStmt/tei:title/string()}</h1>
+                    <h2 class="author">{ $work/descendant::tei:titleStmt/tei:author/string() }</h2>
+                    {
+                        for $resp in $work/descendant::tei:titleStmt/tei:respStmt
+                        return
+                            <p class="resp"><span class="respRole">{$resp/tei:resp/text()}</span>: {$resp/tei:name/text()}</p>
+                    }
+                   
+                </div>
+             </body>
+         </html>
+      </entry>
 };
 
-(:~ 
-    Helper function, creates the OEBPS/title.html file.
-
-    @param $volume the volume's ID
-    @return the entry for the OEBPS/title.html file
-:)
-declare function epub:title-xhtml-entry($doc) {
-    let $title := 'Title page'
-    let $body := epub:title-xhtml-body($doc//tei:fileDesc)
-    let $title-xhtml := epub:assemble-xhtml($title, $body)
-    return
-        <entry name="OEBPS/title.html" type="xml">{$title-xhtml}</entry>
+declare function epub:build-publication-page($id as xs:string, $work as item()*, $title, $creator, $urn){
+    <entry name="OEBPS/publication-page.xhtml" type="xml">
+          <html xmlns="http://www.w3.org/1999/xhtml">
+             <head>
+                 <title>publication-page</title>
+                 <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+             </head>
+             <body>
+                <hr/>
+                 {
+                    if($work/descendant::tei:sourceDesc) then 
+                            <div>
+                                <h3>Sources </h3>
+                                {epub:fix-namespaces(epub:tei2html($work/descendant::tei:sourceDesc/descendant::tei:imprint))}
+                            </div>    
+                    else ()
+                 }
+                 {
+                    if($work/descendant::tei:encodingDesc/tei:encodingDesc) then 
+                            <div>
+                                <hr/>
+                                <h3>Editorial Statements </h3>
+                                {(
+                                epub:fix-namespaces(epub:tei2html($work/descendant::tei:encodingDesc/tei:encodingDesc)),
+                                epub:fix-namespaces(epub:tei2html($work/descendant::tei:encodingDesc/tei:editorialDecl)),
+                                epub:fix-namespaces(epub:tei2html($work/descendant::tei:distributor))
+                                )}
+                            </div>    
+                    else ()
+                 }
+                 <div class="citation">
+                  <hr/><h3>Citation </h3>
+                  {epub:citation($work)}
+                </div>
+             </body>
+         </html>
+      </entry>
 };
 
-declare function epub:title-xhtml-entry-coursepack($doc) {
-    let $title := 'Title page'
-    let $body := epub:title-xhtml-body-coursepack($doc/descendant-or-self::*:coursepack)
-    let $title-xhtml := epub:assemble-xhtml($title, $body)
-    return
-        <entry name="OEBPS/title.html" type="xml">{$title-xhtml}</entry>
-};
-
-(:~ 
-    Helper function, creates the OEBPS/cover.html file.
-
-    @param $volume the volume's ID
-    @return the entry for the OEBPS/cover.html file
-:)
-declare function epub:title-xhtml-body($fileDesc as item()*) {
-    <div xmlns="http://www.w3.org/1999/xhtml" id="title">
-        <h2 class="author">{ $fileDesc/tei:titleStmt/tei:author/string() }</h2>
-        <h1>
-            { $fileDesc/tei:titleStmt/tei:title/string()}
-        </h1>
-        <ul>
-        {
-            for $resp in $fileDesc/tei:titleStmt/tei:respStmt
-            return
-                <li class="resp"><span class="respRole">{$resp/tei:resp/text()}</span>: {$resp/tei:name/text()}</li>
-        }
-        </ul>
-        { epub:fix-namespaces(epub:tei2epub($fileDesc/tei:publicationStmt)) }
-        { epub:fix-namespaces(epub:tei2epub($fileDesc/tei:sourceDesc)) }
-    </div>
-};
-
-declare function epub:title-xhtml-body-coursepack($fileDesc as item()*) {
-    <div xmlns="http://www.w3.org/1999/xhtml" id="title">
-        <h2 class="author">{ string($fileDesc/@user) }</h2>
-        <h1>
-            { string($fileDesc/@title)}
-        </h1>
-        { epub:fix-namespaces(epub:tei2epub($fileDesc/tei:publicationStmt)) }
-        { epub:fix-namespaces(epub:tei2epub($fileDesc/tei:sourceDesc)) }
-    </div>
-};
-
-(:~ 
-    Helper function, creates the XHTML files for the body of the EPUB.
-
-    @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
-    @return the serialized XHTML page, wrapped in an entry element
-:)
-declare function epub:body-xhtml-entries($doc) {                    
-        for $div at $p in $doc//tei:body/tei:div
-        let $title := if($div/tei:head) then $div/tei:head/descendant-or-self::*[not(self::tei:ref) and not(self::tei:note)]/text() else if($div/@n)  then string($div/@n) else if($div/@xml:id) then string($div/@xml:id) else 'Entry' 
-        let $body := epub:tei2epub($div)
-        let $body-xhtml:= epub:assemble-xhtml($title, epub:fix-namespaces($body))
-        let $id := if($div/@xml:id) then $div/@xml:id else if($div/@n)  then string($div/@n) else concat('n',$p)
-        return
-            <entry name="{concat('OEBPS/', $id, '.html')}" type="xml">{$body-xhtml}</entry>
-};
-
-declare function epub:body-xhtml-entries-coursepack($doc) {
-        for $item at $p in $doc//tei:TEI[not(ancestor::*:coursepack)][descendant::tei:titleStmt/tei:title[1] != '']
-        let $epubID := concat('n',$p)
-        let $id := document-uri(root($item))
-        let $title := if($doc//*:work[@id = $id]/text) then concat('Selections from',$item/descendant::tei:titleStmt/tei:title[1]/text()) else $item/descendant::tei:titleStmt/tei:title[1]/text() 
-        let $body := if($doc//*:work[@id = $id]/*:text) then
-                        epub:tei2epub($doc//*:work[@id = $id]/*:text/child::*)
-                     else epub:tei2epub($item/descendant::tei:body)
-        let $body-xhtml:= epub:assemble-xhtml($title, epub:fix-namespaces($body))
-        group by $workID := $id
+declare function epub:body-entry($id as xs:string, $work as item()*, $title, $creator, $urn){
+    if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
+        for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
+        let $head := if($div/descendant::tei:head[1]) then $div/descendant::tei:head[1] else if($div/ancestor-or-self::tei:front) then 'Front Matter' else if($div/ancestor-or-self::tei:back) then 'Back Matter'  else concat('Section ', $p)
+        let $h-id := concat('n',$p)
         return 
-            <entry name="{concat('OEBPS/', $epubID, '.html')}" type="xml">{$body-xhtml}</entry>
+            <entry name="OEBPS/{$h-id}.xhtml" type="xml">
+                <html xmlns="http://www.w3.org/1999/xhtml">
+                   <head>
+                       <title>{$title} {$h-id}</title>
+                       <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+                   </head>
+                   <body>
+                      { epub:fix-namespaces(epub:tei2html($div))}
+                      <hr/>
+                      {
+                        for $n in $work/descendant::tei:text/descendant::tei:note[@target]
+                        return 'TEST NOTE'
+                        (:
+                            <span class="tei-{local-name($n)} footnote {(
+                                        if($node/@type != '') then string($n/@type) 
+                                        else (), 
+                                        if($node/@place != '') then string($n/@place) 
+                                        else ())}">
+                                {(
+                                if($n/@xml:id) then 
+                                   <span class="tei-footnote-id" id="{ string($n/@xml:id) }">{string($n/@xml:id)}</span>
+                                else (),
+                                epub:fix-namespaces(epub:tei2html($n/node())),
+                                if($n/@resp) then
+                                    <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($n)}">{substring-after($n/@resp,'#')}</a>]</span>
+                                else ()
+                                )}</span>
+                                :)
+                      }
+                   </body>
+               </html>
+            </entry>
+    else 
+        <entry name="OEBPS/n1.xhtml" type="xml">
+          <html xmlns="http://www.w3.org/1999/xhtml">
+             <head>
+                 <title>{$title}</title>
+                 <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+             </head>
+             <body>
+                { epub:fix-namespaces(epub:tei2html($work/descendant::tei:text))}
+                <hr/>
+                {
+                        for $n in $work/descendant::tei:text/descendant::tei:note[@target]
+                        return 
+                            <div class="tei-{local-name($n)} footnote">{(
+                                if($n/@xml:id) then 
+                                   <span class="tei-footnote-id" id="{ string($n/@xml:id) }">{string($n/@xml:id)}</span>
+                                else (),
+                                <div class="footnote indent">{epub:fix-namespaces(epub:tei2html($n/node()))}</div>
+                            )}</div>
+                        (:
+                            <span class="tei-{local-name($n)} footnote {(
+                                        if($node/@type != '') then string($n/@type) 
+                                        else (), 
+                                        if($node/@place != '') then string($n/@place) 
+                                        else ())}">
+                                {(
+                                if($n/@xml:id) then 
+                                   <span class="tei-footnote-id" id="{ string($n/@xml:id) }">{string($n/@xml:id)}</span>
+                                else (),
+                                epub:fix-namespaces(epub:tei2html($n/node())),
+                                if($n/@resp) then
+                                    <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($n)}">{substring-after($n/@resp,'#')}</a>]</span>
+                                else ()
+                                )}</span>
+                                :)
+                      }
+             </body>
+         </html>
+        </entry>
 };
 
 (:~ 
@@ -333,184 +286,6 @@ declare function epub:stylesheet-entry($db-path-to-css) {
     <entry name="OEBPS/stylesheet.css" type="binary">{util:binary-doc($db-path-to-css)}</entry>
 };
 
-(:~ 
-    Helper function, creates the OEBPS/toc.ncx file.
-
-    @param $urn the EPUB's urn
-    @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
-    @return the NCX element's entry
-:)
-declare function epub:toc-ncx-entry($urn, $title, $text) { 
-    let $toc-ncx := 
-        <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
-            <head>
-                <meta name="dtb:uid" content="{$urn}"/>
-                <meta name="dtb:depth" content="2"/>
-                <meta name="dtb:totalPageCount" content="0"/>
-                <meta name="dtb:maxPageNumber" content="0"/>
-            </head>
-            <docTitle>
-                <text>{$title}</text>
-            </docTitle>
-            <navMap>
-                <navPoint id="navpoint-title" playOrder="1">
-                    <navLabel>
-                        <text>Title</text>
-                    </navLabel>
-                    <content src="title.html"/>
-                </navPoint>
-                <navPoint id="navpoint-table-of-contents" playOrder="2">
-                    <navLabel>
-                        <text>Table of Contents</text>
-                    </navLabel>
-                    <content src="table-of-contents.html"/>
-                </navPoint>
-                {epub:toc-ncx-div($text//tei:body, 2)}
-            </navMap>
-        </ncx>
-    return 
-        <entry name="OEBPS/toc.ncx" type="xml">{$toc-ncx}</entry>
-};
-
-declare function epub:toc-ncx-entry-coursepack($urn, $title, $text) { 
-    let $toc-ncx := 
-        <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
-            <head>
-                <meta name="dtb:uid" content="{$urn}"/>
-                <meta name="dtb:depth" content="2"/>
-                <meta name="dtb:totalPageCount" content="0"/>
-                <meta name="dtb:maxPageNumber" content="0"/>
-            </head>
-            <docTitle>
-                <text>{$title}</text>
-            </docTitle>
-            <navMap>
-                <navPoint id="navpoint-title" playOrder="1">
-                    <navLabel>
-                        <text>Title</text>
-                    </navLabel>
-                    <content src="title.html"/>
-                </navPoint>
-                <navPoint id="navpoint-table-of-contents" playOrder="2">
-                    <navLabel>
-                        <text>Table of Contents</text>
-                    </navLabel>
-                    <content src="table-of-contents.html"/>
-                </navPoint>
-                { epub:toc-ncx-tei($text, 2) }
-            </navMap>
-        </ncx>
-    return 
-        <entry name="OEBPS/toc.ncx" type="xml">{$toc-ncx}</entry>
-};
-
-declare function epub:toc-ncx-tei($root as item()*, $start as xs:int) {        
-    for $item at $p in $root//tei:TEI[not(ancestor::coursepack)][descendant::tei:titleStmt/tei:title[1] != '']
-    let $epubID := concat('n',$p)
-    let $id := document-uri(root($item))
-    let $title := if($root//work[@id = $id]/text) then concat('Selections from',$item/descendant::tei:titleStmt/tei:title[1]/text()) else $item/descendant::tei:titleStmt/tei:title[1]/text()  
-    let $lastFile := $root//tei:TEI[not(ancestor::coursepack)][descendant::tei:titleStmt/tei:title[1] != ''][last()]
-    let $lastFileID := concat('n',count($root//tei:TEI[not(ancestor::coursepack)][descendant::tei:titleStmt/tei:title[1] != '']))
-    let $index := count($p) + 1
-    group by $workID := $id
-    return 
-        <navPoint id="navpoint-{$epubID}" playOrder="{$start + $index}" xmlns="http://www.daisy.org/z3986/2005/ncx/">
-            <navLabel>
-                <text>{$title}</text>
-            </navLabel>
-            <content src="{$lastFileID}.html#{$epubID}"/>
-            { epub:toc-ncx-div($item, $start)}
-        </navPoint>
-};
-
-
-declare function epub:toc-ncx-div($root as element(), $start as xs:int) {        
-    for $div at $p in $root/tei:div
-    let $id := if($div/@xml:id) then $div/@xml:id else if($div/@n)  then string($div/@n) else concat('n',$p)
-    let $title := if($div/tei:head) then $div/tei:head/descendant-or-self::*[not(self::tei:ref) and not(self::tei:note)]/text() else if($div/@n)  then string($div/@n) else if($div/@xml:id) then string($div/@xml:id) else 'Entry'
-    let $lastFile := $div/ancestor-or-self::tei:div[last()]
-    let $lastFileID := if($lastFile/@xml:id) then string($lastFile/@xml:id) else if($lastFile/@n)  then string($lastFile/@n) else concat('n',count($root/tei:div))
-    let $index := $p + count($div/ancestor::tei:div) + 1
-    return
-        <navPoint id="navpoint-{$id}" playOrder="{$start + $index}" xmlns="http://www.daisy.org/z3986/2005/ncx/">
-            <navLabel>
-                <text>{$title}</text>
-            </navLabel>
-            <content src="{$lastFileID}.html#{$id}"/>
-            { epub:toc-ncx-div($div, $start)}
-        </navPoint>
-};
-
-(:~ 
-    Helper function, creates the OEBPS/table-of-contents.html file.
-
-    @param $title the page's title
-    @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
-    @return the entry for the OEBPS/table-of-contents.html file
-:)
-declare function epub:table-of-contents-xhtml-entry($title, $doc, $suppress-documents) {
-    let $body := 
-        <div xmlns="http://www.w3.org/1999/xhtml" id="table-of-contents">
-            <h2>Contents</h2>
-            <ul>{                  
-                     for $div at $p in $doc//tei:body/tei:div
-                     let $title := if($div/tei:head) then $div/tei:head/descendant-or-self::*[not(self::tei:ref) and not(self::tei:note)]/text() else if($div/@n)  then string($div/@n) else if($div/@xml:id) then string($div/@xml:id) else 'Entry'
-                     let $id := if($div/@xml:id) then $div/@xml:id else if($div/@n)  then string($div/@n) else concat('n',$p) 
-                     return
-                         <li>
-                             <a href="{$id}.html#{$id}">
-                             {$title}
-                             </a>
-                         </li>
-            }</ul>
-        </div>
-    let $table-of-contents-xhtml := epub:assemble-xhtml($title, $body)
-    return 
-        <entry name="OEBPS/table-of-contents.html" type="xml">{$table-of-contents-xhtml}</entry>
-};
-
-declare function epub:table-of-contents-xhtml-entry-coursepack($title, $doc, $suppress-documents) {
-    let $body := 
-        <div xmlns="http://www.w3.org/1999/xhtml" id="table-of-contents">
-            <h2>Contents</h2>
-            <ul>{
-                    for $item at $p in $doc//tei:TEI[not(ancestor::*:coursepack)][descendant::tei:titleStmt/tei:title[1] != '']
-                    let $epubID := concat('n',$p)
-                    let $id := document-uri(root($item))
-                    let $title := if($doc//*:work[@id = $id]/*:text) then concat('Selections from ',$item/descendant::tei:titleStmt/tei:title[1]/text()) else $item/descendant::tei:titleStmt/tei:title[1]/text()
-                    group by $workID := $id
-                    return
-                         <li class="coursepack">
-                             <a href="{$epubID}.html#{$epubID}">
-                             {$title}
-                             </a>
-                         </li>
-            }</ul>
-        </div>
-    let $table-of-contents-xhtml := epub:assemble-xhtml($title, $body)
-    return 
-        <entry name="OEBPS/table-of-contents.html" type="xml">{$table-of-contents-xhtml}</entry>
-};
-
-(:~ 
-    Helper function, contains the basic XHTML shell used by all XHTML files in the EPUB package.
-
-    @param $title the page's title
-    @param $body the body content
-    @return the serialized XHTML element
-:)
-declare function epub:assemble-xhtml($title, $body) {
-    <html xmlns="http://www.w3.org/1999/xhtml">
-        <head>
-            <title>{$title}</title>
-            <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
-        </head>
-        <body>
-            {$body}
-        </body>
-    </html>
-};
-
 declare function epub:fix-namespaces($node as node()*) {
     typeswitch ($node)
         case element() return
@@ -521,12 +296,12 @@ declare function epub:fix-namespaces($node as node()*) {
             $node
 };
 
-(: EPUB html output :)
+
 (:~
  : Simple TEI to HTML transformation
  : @param $node   
 :)
-declare function epub:tei2epub($nodes as node()*) as item()* {
+declare function epub:tei2html($nodes as node()*) as item()* {
     for $node in $nodes
     return 
         typeswitch($node)
@@ -542,37 +317,50 @@ declare function epub:tei2epub($nodes as node()*) as item()* {
                     else if(not($node/text()) and ($node/@to or $node/@from)) then  concat($unit,' ',$node/@from,' - ',$node/@to)
                     else $node/text()
             }
-            case element(tei:category) return element ul {epub:tei2epub($node/node())}
-            case element(tei:catDesc) return element li {epub:tei2epub($node/node())}
+            case element(tei:category) return element ul {epub:tei2html($node/node())}
+            case element(tei:catDesc) return element li {epub:tei2html($node/node())}
             case element(tei:castList) return 
                 <div class="tei-castList">{(
                     if($node/tei:head) then
-                       epub:tei2epub($node/tei:head)
+                       epub:tei2html($node/tei:head)
+                    else if($node/tei:p) then 
+                        <h3>{epub:tei2html($node/tei:p)}</h3>
                     else (),
-                    element dl {epub:tei2epub($node/tei:castItem)})}</div>
+                    if($node/tei:castItem) then
+                        element dl {epub:tei2html($node/tei:castItem)}    
+                    else 
+                        <div>{epub:tei2html($node/node())}</div>
+                    )}</div>
             case element(tei:castItem) return
                 if($node/tei:role) then
-                  (<dt class="tei-castItem">{epub:tei2epub($node/tei:actor)}</dt>,
-                     <dd class="castItem">{epub:tei2epub($node/tei:role)}</dd>,
-                     <dd class="castItem">{epub:tei2epub($node/tei:roleDesc)}</dd>)  
-                else <dt class="tei-castItem">{epub:tei2epub($node/node())}</dt>
+                  (<dt class="tei-castItem">{epub:tei2html($node/tei:actor)}</dt>,
+                     <dd class="castItem">{epub:tei2html($node/tei:role)}</dd>,
+                     <dd class="castItem">{epub:tei2html($node/tei:roleDesc)}</dd>)  
+                else <dt class="tei-castItem">{epub:tei2html($node/node())}</dt>
             case element(tei:foreign) return 
                 <span dir="{if($node/@xml:lang = ('syr','ar','^syr')) then 'rtl' else 'ltr'}">{
                     (if($node/@xml:lang) then attribute lang { $node/@xml:lang } else (),
-                    epub:tei2epub($node/node()))
+                    epub:tei2html($node/node()))
                 }</span>        
             case element(tei:graphic) return
                 epub:graphic($node)
             case element(tei:hi) return
                 epub:hi($node)                
             case element(tei:i) return
-                <i>{ epub:tei2epub($node/node()) }</i>                
+                <i>{ epub:tei2html($node/node()) }</i>                
             case element(tei:l) return
-                <span class="tei-l {if($node/@rend) then concat('tei-',$node/@rend) else ()}" id="{epub:get-id($node)}">{if($node/@n) then <span class="tei-line-number">{string($node/@n)}</span> else ()}{epub:tei2epub($node/node())}</span>
+                <span class="tei-l {if($node/@rend) then concat('tei-',$node/@rend) else ()}" id="{epub:get-id($node)}">{if($node/@n) then <span class="tei-line-number">{string($node/@n)}</span> else ()}{epub:tei2html($node/node())}</span>
+            case element(tei:list) return
+                if($node/@type='ordered') then
+                    <ol>{ epub:tei2html($node/node()) }</ol>
+                else 
+                    <ul>{ epub:tei2html($node/node()) }</ul>
+            case element(tei:item) return
+                <li>{ epub:tei2html($node/node()) }</li>
             case element(tei:lb) return
                 <br/>
             case element(tei:head) return
-                <span class="tei-head {(if($node/@title) then ' tei-head-title' else (),if($node/@subtitle) then ' tei-head-subtitle' else ())}">{epub:tei2epub($node/node())}</span>    
+                <span class="tei-head {(if($node/@title) then ' tei-head-title' else (),if($node/@subtitle) then ' tei-head-subtitle' else ())}">{epub:tei2html($node/node())}</span>    
             case element(tei:imprint) return 
             <span class="tei-{local-name($node)}" id="{epub:get-id($node)}">
             {
@@ -584,23 +372,28 @@ declare function epub:tei2epub($nodes as node()*) as item()* {
                     if($node//tei:date) then $node//tei:date else <abbr title="no date of publication">n.d.</abbr>,
                     if($node/following-sibling::tei:biblScope[@unit='series']) then ', ' else (),
                     if($node//tei:extent/@type = "online") then (' ',<a href="{$node//tei:extent}" class="tei-extent-link"><span class="glyphicon glyphicon-book"></span> View </a>) else $node//tei:extent,
-                    if($node//tei:note) then <span class="tei-note">{epub:tei2epub($node//tei:note)}</span> else ()
+                    if($node//tei:note) then <span class="tei-note">{epub:tei2html($node//tei:note)}</span> else ()
             }</span>
             case element(tei:note) return 
-                if($node/@target) then 
-                    <aside id="{ string($node/@xml:id) }" epub:type="footnote" class="tei-{local-name($node)} footnote 
+                if($node/@target) then ()
+                (: Hide notes, put at bottom of page
+                    <span class="tei-{local-name($node)} footnote 
                         {(
                             if($node/@type != '') then string($node/@type) 
                             else (), 
                             if($node/@place != '') then string($node/@place) 
                             else ())}">
                     {(
-                    epub:tei2epub($node/node()),
+                    if($node/@xml:id) then 
+                       <span class="tei-footnote-id" id="{ string($node/@xml:id) }">{string($node/@xml:id)}</span>
+                    else (),
+                    epub:tei2html($node/node()),
                     if($node/@resp) then
                         <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($node/@resp,'#')}">{substring-after($node/@resp,'#')}</a>]</span>
                     else ()
-                    )}</aside>
-                else <span class="tei-{local-name($node)}">{ epub:tei2epub($node/node()) }</span>
+                    )}</span>
+                    :)
+                else <span class="tei-{local-name($node)}">{ epub:tei2html($node/node()) }</span>
             case element(tei:pb) return 
                     <span class="tei-pb" data-num="{string($node/@n)}">{string($node/@n)}</span>
             case element(tei:persName) return 
@@ -609,35 +402,68 @@ declare function epub:tei2epub($nodes as node()*) as item()* {
                epub:ref($node)    
             case element(tei:title) return 
                 epub:title($node)
-            case element(tei:text) return 
-                epub:tei2epub($node/node()) 
             case element(tei:p) return 
-                <p xmlns="http://www.w3.org/1999/xhtml" id="{epub:get-id($node)}">{ epub:tei2epub($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
+                <p xmlns="http://www.w3.org/1999/xhtml" id="{epub:get-id($node)}">{ epub:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
             case element(tei:rs) return (: create a new function for RSs to insert the content of specific variables; as is, content of the node is inserted as tooltip title. could use content of source attribute or link as the # ref :)
-               <a href="#" data-toggle="tooltip" title="{epub:tei2epub($node/node())}">{ epub:tei2epub($node/node()) }</a>                
+               <a href="#" data-toggle="tooltip" title="{epub:tei2html($node/node())}">{ epub:tei2html($node/node()) }</a>                
             case element(tei:sp) return 
                 <div class="row tei-sp">
-                    <div class="col-md-3">{epub:tei2epub($node/tei:speaker)}</div>
-                    <div class="col-md-9">{epub:tei2epub($node/tei:l)}</div>
+                    <div class="col-md-3">{epub:tei2html($node/tei:speaker)}</div>
+                    <div class="col-md-9">{epub:tei2html($node/tei:l)}</div>
                 </div>
             case element(tei:seriesStmt) return 
                 if($node/tei:idno[@type="coursepack"]) then () 
-                else <span class="tei-{local-name($node)}">{ epub:tei2epub($node/node()) }</span>
-            case element(exist:match) return
-                <span class="match" style="background-color:yellow;">{$node/text()}</span>
+                else <span class="tei-{local-name($node)}">{ epub:tei2html($node/node()) }</span>
             case element() return
-                <span class="tei-{local-name($node)} {if($node/@n) then ' tei-n' else ()}" id="{epub:get-id($node)}">{ epub:tei2epub($node/node()) }</span>                
-            default return epub:tei2epub($node/node())
+                <span class="tei-{local-name($node)} {if($node/@n) then ' tei-n' else ()}" id="{epub:get-id($node)}">{ epub:tei2html($node/node()) }</span>                
+            default return epub:tei2html($node/node())
 };
 
-declare function epub:get-id($node as element()) {
-    if($node/@xml:id) then
-        string($node/@xml:id)
-    else if($node/@exist:id) then
-        string($node/@exist:id)
-    else generate-id($node)
-};
 
+(: end chunk functions :)
+declare function epub:header($header as element(tei:teiHeader)) {
+    let $titleStmt := $header//tei:titleStmt
+    let $pubStmt := $header//tei:publicationStmt
+    let $sourceDesc := $header//tei:sourceDesc
+    let $authors := $header//tei:titleStmt/tei:author
+    let $resps := $header//tei:respStmt
+    let $imprints := $header//tei:sourceDesc/tei:imprint
+    let $onlineImprints := $header//tei:sourceDesc/tei:imprint/tei:extent[@type="online"]
+    let $publishers := $header//tei:sourceDesc/tei:imprint/tei:publisher
+    return
+        <div xmlns="http://www.w3.org/1999/xhtml" class="text-header">
+            <h1>{$titleStmt/tei:title/text()} <br/>
+            <small>By 
+            {
+                let $author-full-names :=
+                    for $author in $authors//tei:name
+                    return epub:persName($author)
+                let $name-count := count($author-full-names)
+                return 
+                    if ($name-count le 2) then
+                        string-join($author-full-names, ' and ')
+                    else
+                        concat(
+                            string-join(
+                                $author-full-names[position() = (1 to last() - 1)]
+                                , 
+                                ', '),
+                            ', and ',
+                            $author-full-names[last()]
+                        )
+            }
+            </small></h1>
+            { if($resps != '') then 
+                <ul>{
+                for $n in $resps
+                return
+                    <li class="list-unstyled">{concat($n/descendant::tei:resp, ' by ', string-join($n/descendant::tei:name,', '))}</li>
+                }</ul>
+              else() 
+            }
+
+    </div>
+};
 
 (: tei persName display first name/last name/add name :)
 declare function epub:persName($nodes as node()*) {
@@ -653,12 +479,11 @@ return
             let $last := count($name/child::*[not(self::tei:addName)]) 
             for $part at $i in $name/child::*[not(self::tei:addName)]
              order by $part/@sort ascending, string-join($part/descendant-or-self::text(),' ') descending
-             return (epub:tei2epub($part/node()), if ($i != $last) then ' ' else ()),
-             if($name/tei:addName) then (', ',epub:tei2epub($name/tei:addName)) else ())
-        else epub:tei2epub($name/node())
+             return (epub:tei2html($part/node()), if ($i != $last) then ' ' else ()),
+             if($name/tei:addName) then (', ',epub:tei2html($name/tei:addName)) else ())
+        else epub:tei2html($name/node())
     }</span> 
 };
-
 
 (: tei persName display last name/first name/add name:)
 declare function epub:persName-last-first($nodes as node()*) {
@@ -675,10 +500,10 @@ return
             $name/descendant-or-self::tei:forename[1], 
             if($name/descendant-or-self::tei:addName) then 
                 for $addName in $name/descendant-or-self::tei:addName
-                return (', ',epub:tei2epub($addName)) 
+                return (', ',epub:tei2html($addName)) 
             else ()
             )
-      else epub:tei2epub($name/node())
+      else epub:tei2html($name/node())
     }</span>
 };
 
@@ -709,24 +534,25 @@ return
 
 declare function epub:hi($node as element (tei:hi)) {
     if($node/@rend='italic') then 
-        <em>{epub:tei2epub($node/node())}</em>  
+        <em>{epub:tei2html($node/node())}</em>  
     else if($node/@rend='bold') then 
-        <strong>{epub:tei2epub($node/node())}</strong>
+        <strong>{epub:tei2html($node/node())}</strong>
     else if($node/@rend=('superscript','sup')) then 
-        <sup>{epub:tei2epub($node/node())}</sup>
+        <sup>{epub:tei2html($node/node())}</sup>
     else if($node/@rend=('subscript','sub')) then         
-        <sub>{epub:tei2epub($node/node())}</sub>
-    else <span class="tei-hi tei-{$node/@rend}">{epub:tei2epub($node/node())}</span>
+        <sub>{epub:tei2html($node/node())}</sub>
+    else <span class="tei-hi tei-{$node/@rend}">{epub:tei2html($node/node())}</span>
 };
 
 declare function epub:ref($node as element (tei:ref)) {
     if($node/@corresp) then
         <span class="footnoteRef text">
-            <a href="#{string($node/@corresp)}" class="showFootnote" epub:type="noteref">{epub:tei2epub($node/node())}</a>
+            <a href="#{string($node/@corresp)}" class="showFootnote">{epub:tei2html($node/node())}</a>
+            <sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup>
         </span>
     else if(starts-with($node/@target,'http')) then 
-        <a href="{$node/@target}">{epub:tei2epub($node/node())}</a>
-    else epub:tei2epub($node/node())
+        <a href="{$node/@target}">{epub:tei2html($node/node())}</a>
+    else epub:tei2html($node/node())
 };
 
 declare function epub:title($node as element (tei:title)) {
@@ -741,11 +567,168 @@ declare function epub:title($node as element (tei:title)) {
     return  
         <span class="tei-title {$titleType}" xmlns="http://www.w3.org/1999/xhtml">{
             (if($node/@xml:lang) then attribute lang { $node/@xml:lang } else (),
-            epub:tei2epub($node/node()))}</span>
+            epub:tei2html($node/node()))}</span>
 };
 
 declare function epub:annotations($node as node()*) { 
     <span class="tei-annotation-show" xmlns="http://www.w3.org/1999/xhtml">{
         (if($node/@xml:lang) then attribute lang { $node/@xml:lang } else (),
-        epub:tei2epub($node/node()))}</span>
+        epub:tei2html($node/node()))}</span>
+};
+
+declare %private function epub:get-id($node as element()) {
+    if($node/@xml:id) then
+        string($node/@xml:id)
+    else generate-id($node)
+};
+
+(:~
+ : Select citation type based on child elements
+:)
+declare function epub:citation($nodes as node()*) {
+    let $persons :=     if($nodes/descendant::tei:author) then 
+                            epub:emit-responsible-persons($nodes/descendant::tei:author,20)
+                        else if($nodes/descendant::tei:editor[not(@role) or @role!='translator']) then 
+                            (epub:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],20), 
+                            if(count($nodes/descendant::tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
+                        else ()
+    let $analytic := if($nodes/descendant::tei:analytic/tei:title) then
+                        if(starts-with($nodes/descendant::tei:analytic/tei:title,'"')) then
+                           $nodes/descendant::tei:analytic/tei:title
+                        else concat('"',$nodes/descendant::tei:analytic/tei:title,'." ')
+                     else()
+    let $monograph := if($nodes/descendant::tei:monogr/tei:title) then
+                        if($nodes/descendant::tei:monogr/tei:title[@type="sub"]) then 
+                            concat($nodes/descendant::tei:monogr/tei:title[@type='main'],'; ',$nodes/descendant::tei:monogr/tei:title[@type="sub"])
+                        else ()
+                     else() 
+    let $imprint := if($nodes/descendant::tei:monogr/descendant::tei:imprint) then
+                        (if($nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:publisher[1]) then 
+                            $nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:publisher[1]/text()
+                        else (),
+                        if($nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:date[1]) then
+                            concat(', ',$nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:date[1]/text())
+                        else ()
+                        )
+                    else ()
+    let $biblScope :=  if($nodes/descendant::tei:biblScope) then 
+                            $nodes/descendant::tei:biblScope/text() 
+                       else()                   
+    return 
+    <span class="citation">{
+        concat(if($persons != '') then concat(string-join($persons,''),'. ') else (),
+        if($analytic != '') then string-join($analytic,'') else (),
+        if($monograph != '') then string-join($monograph,'') else (),
+        if($imprint != '') then concat(', ',string-join($imprint,'')) else (),
+        if($biblScope != '') then concat(', ',string-join($biblScope,'')) else (),
+        '. Literature in Context: An Open Anthology. ', request:get-url(),'. ', 'Accessed: ', current-dateTime())
+    }</span>
+};
+
+(:~
+ : Output monograph citation
+:)
+declare function epub:record($nodes) {
+    let $titleStmt := $nodes/descendant::tei:titleStmt
+    let $persons :=  concat(epub:emit-responsible-persons($titleStmt/tei:editor[@role='creator'],3), 
+                        if(count($titleStmt/tei:editor) gt 1) then ' (eds.), ' else ' (ed.), ')
+    let $id := $nodes/descendant-or-self::tei:publicationStmt[1]/tei:idno[1]                         
+    return 
+        ($persons, '"',epub:tei2html($titleStmt/tei:title[1]),'" in ',epub:tei2html($titleStmt/tei:title[@level='m'][1]),' last modified ',
+        for $d in $nodes/descendant-or-self::tei:publicationStmt/tei:date[1] return if($d castable as xs:date) then format-date(xs:date($d), '[MNn] [D], [Y]') else string($d),', ',replace($id[1],'/tei','')) 
+};
+
+(:~
+ : Output monograph citation
+:)
+declare function epub:monograph($nodes as node()*) {
+    let $persons := if($nodes/tei:author) then 
+                        concat(epub:emit-responsible-persons($nodes/tei:author,3),', ')
+                    else if($nodes/tei:editor[not(@role) or @role!='translator']) then 
+                        (epub:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],3), 
+                        if(count($nodes/tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
+                    else ()
+    return (
+            if(deep-equal($nodes/tei:editor | $nodes/tei:author, $nodes/preceding-sibling::tei:monogr/tei:editor | $nodes/preceding-sibling::tei:monogr/tei:author )) then () else $persons, 
+            epub:tei2html($nodes/tei:title[1]),
+            if(count($nodes/tei:editor[@role='translator']) gt 0) then (epub:emit-responsible-persons($nodes/tei:editor[@role!='translator'],3),', trans. ') else (),
+            if($nodes/tei:edition) then 
+                concat(', ', $nodes/tei:edition[1]/text(),' ')
+            else (),
+            if($nodes/tei:biblScope[@unit='vol']) then
+                concat(' ',epub:tei2html($nodes/tei:biblScope[@unit='vol']),' ')
+            else (),
+            if($nodes/following-sibling::tei:series) then epub:series($nodes/following-sibling::tei:series)
+            else if($nodes/following-sibling::tei:monogr) then ', '
+            else if($nodes/preceding-sibling::tei:monogr and $nodes/preceding-sibling::tei:monogr/tei:imprint[child::*[string-length(.) gt 0]]) then   
+            (' (', $nodes/preceding-sibling::tei:monogr/tei:imprint,')')
+            else if($nodes/tei:imprint[child::*[string-length(.) gt 0]]) then 
+                concat(' (',epub:tei2html($nodes/tei:imprint[child::*[string-length(.) gt 0]][1]),')', 
+                if($nodes/following-sibling::tei:monogr) then ', ' else() )
+            else ()
+        )
+};
+
+(:~
+ : Output series citation
+:)
+declare function epub:series($nodes as node()*) {(
+    if($nodes/preceding-sibling::tei:monogr/tei:title[@level='j']) then ' (=' 
+    else if($nodes/preceding-sibling::tei:series) then '; '
+    else ', ',
+    if($nodes/tei:title) then epub:tei2html($nodes/tei:title[1]) else (),
+    if($nodes/tei:biblScope) then 
+        (',', 
+        for $r in $nodes/tei:biblScope[@unit='series'] | $nodes/tei:biblScope[@unit='vol'] | $nodes/tei:biblScope[@unit='tomus']
+        return (epub:tei2html($r), if($r[position() != last()]) then ',' else ())) 
+    else (),
+    if($nodes/preceding-sibling::tei:monogr/tei:title[@level='j']) then ')' else (),
+    if($nodes/preceding-sibling::tei:monogr/tei:imprint and not($nodes/following-sibling::tei:series)) then 
+        (' (',epub:tei2html($nodes/preceding-sibling::tei:monogr/tei:imprint),')')
+    else ()
+)};
+
+(:~
+ : Output analytic citation
+:)
+declare function epub:analytic($nodes as node()*) {
+    let $persons := if($nodes/tei:author) then 
+                        concat(epub:emit-responsible-persons($nodes/tei:author,20),', ')
+                    else if($nodes/tei:editor[not(@role) or @role!='translator']) then 
+                        (epub:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],20), 
+                        if(count($nodes/tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
+                    else ()
+    return (
+            $persons, concat('"',epub:tei2html($nodes/tei:title[1]),if(not(ends-with($nodes/tei:title[1][starts-with(@xml:lang,'en')][1],'.|:|,'))) then '.' else (),'"'),            
+            if(count($nodes/tei:editor[@role='translator']) gt 0) then (epub:emit-responsible-persons($nodes/tei:editor[@role!='translator'],3),', trans. ') else (),
+            if($nodes/following-sibling::tei:monogr/tei:title[1][@level='m']) then 'in' else(),
+            if($nodes/following-sibling::tei:monogr) then epub:monograph($nodes/following-sibling::tei:monogr) else())
+};
+
+(:~
+ : Output authors/editors
+:)
+declare function epub:emit-responsible-persons($nodes as node()*, $num as xs:integer?) {
+    let $persons := 
+        let $limit := if($num) then $num else 3
+        let $count := count($nodes)
+        return 
+            if($count = 1) then 
+                epub:person($nodes)  
+            else if($count = 2) then
+                (epub:person($nodes[1]),' and ',epub:person($nodes[2]))            
+            else 
+                for $n at $p in subsequence($nodes, 1, $num)
+                return 
+                    if($p = ($num - 1)) then 
+                        (normalize-space(epub:person($n)), ' and ')
+                    else concat(normalize-space(epub:person($n)),', ')
+    return replace(string-join($persons),'\s+$','')                    
+};
+
+(:~
+ : Output authors/editors child elements. 
+:)
+declare function epub:person($nodes as node()*) {
+    epub:persName-last-first($nodes)
 };
