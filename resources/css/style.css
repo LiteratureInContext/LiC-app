@@ -302,7 +302,7 @@ form#search {margin-top:-1.5em; padding-top:0;}
     text-decoration:underline;
 }
 sup.footnoteRef{display:none;}
-sup..footnoteRef {
+sup.footnoteRef {
     font-size: .75em;
     line-height: 0.5em;
     vertical-align: baseline;
@@ -388,7 +388,7 @@ svg {
 .tei-head-subtitle {display:block; text-align:center; font-size:1.25em; font-weight:500; color: #777;}
 .tei-lg {display:block; margin:1em 0;}
 .tei-l {display:block;}
-.tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top;}
+.tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top; text-align:right; float: right;}
 .tei-div .tei-opener {display:block; margin:1em 0;}
 .tei-div .tei-closer {display:block; margin:1em 0; text-align:right;}
 .tei-div .tei-opener .tei-dateline {display:block; text-align:right;}
