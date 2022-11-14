@@ -40,8 +40,14 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                 <div class="tei-castList">{(
                     if($node/tei:head) then
                        tei2html:tei2html($node/tei:head)
+                    else if($node/tei:p) then 
+                        <h3>{tei2html:tei2html($node/tei:p)}</h3>
                     else (),
-                    element dl {tei2html:tei2html($node/tei:castItem)})}</div>
+                    if($node/tei:castItem) then
+                        element dl {tei2html:tei2html($node/tei:castItem)}    
+                    else 
+                        <div>{tei2html:tei2html($node/node())}</div>
+                    )}</div>
             case element(tei:castItem) return
                 if($node/tei:role) then
                   (<dt class="tei-castItem">{tei2html:tei2html($node/tei:actor)}</dt>,
@@ -60,7 +66,19 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(tei:i) return
                 <i>{ tei2html:tei2html($node/node()) }</i>                
             case element(tei:l) return
-                <span class="tei-l {if($node/@rend) then concat('tei-',$node/@rend) else ()}" id="{tei2html:get-id($node)}">{if($node/@n) then <span class="tei-line-number">{string($node/@n)}</span> else ()}{tei2html:tei2html($node/node())}</span>
+                <span class="tei-l {if($node/@rend) then concat('tei-',$node/@rend) else ()}" id="{tei2html:get-id($node)}">
+                {tei2html:tei2html($node/node())}
+                {if($node/@n != '' and not($node/@n mod 5)) then 
+                    <span class="tei-line-number"> [{string($node/@n)}]</span> 
+                    else ()}
+                </span>
+            case element(tei:list) return
+                if($node/@type='ordered') then
+                    <ol>{ tei2html:tei2html($node/node()) }</ol>
+                else 
+                    <ul>{ tei2html:tei2html($node/node()) }</ul>
+            case element(tei:item) return
+                <li>{ tei2html:tei2html($node/node()) }</li>
             case element(tei:lb) return
                 <br/>
             case element(tei:head) return
