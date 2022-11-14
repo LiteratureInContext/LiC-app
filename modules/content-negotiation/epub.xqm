@@ -212,25 +212,24 @@ declare function epub:body-entry($id as xs:string, $work as item()*, $title, $cr
                    <body>
                       { epub:fix-namespaces(epub:tei2html($div))}
                       <hr/>
+                      {if($div/descendant::tei:note[@target]) then 
+                        <h2>Footnotes</h2>
+                      else ()}
                       {
-                        for $n in $work/descendant::tei:text/descendant::tei:note[@target]
-                        return 'TEST NOTE'
-                        (:
-                            <span class="tei-{local-name($n)} footnote {(
-                                        if($node/@type != '') then string($n/@type) 
-                                        else (), 
-                                        if($node/@place != '') then string($n/@place) 
-                                        else ())}">
-                                {(
-                                if($n/@xml:id) then 
+                        for $n in $div/descendant::tei:note[@target]
+                        return 
+                            <div class="footnote">
+                               {if($n/@xml:id) then 
                                    <span class="tei-footnote-id" id="{ string($n/@xml:id) }">{string($n/@xml:id)}</span>
-                                else (),
-                                epub:fix-namespaces(epub:tei2html($n/node())),
-                                if($n/@resp) then
-                                    <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($n)}">{substring-after($n/@resp,'#')}</a>]</span>
-                                else ()
-                                )}</span>
-                                :)
+                                else ()}
+                                <div class="indent">
+                                    {epub:fix-namespaces(epub:tei2html($n/node()))}
+                                    {if($n/@resp) then
+                                        <span> - [{substring-after($n/@resp,'#')}]</span>
+                                     else ()
+                                    }
+                                </div>
+                            </div>
                       }
                    </body>
                </html>
@@ -349,7 +348,36 @@ declare function epub:tei2html($nodes as node()*) as item()* {
             case element(tei:i) return
                 <i>{ epub:tei2html($node/node()) }</i>                
             case element(tei:l) return
-                <span class="tei-l {if($node/@rend) then concat('tei-',$node/@rend) else ()}" id="{epub:get-id($node)}">{if($node/@n) then <span class="tei-line-number">{string($node/@n)}</span> else ()}{epub:tei2html($node/node())}</span>
+                (:
+                <fo:block>
+                    {if($node/@n != '' and not($node/@n mod 5)) then 
+                        attribute  text-align-last { 'justify' }
+                    else ()}
+                    {if($node/@rend='italic') then
+                        attribute font-style { 'italic' }
+                     else if($node/@rend='bold') then
+                        attribute font-weight { 'bold' }
+                     else if($node/@rend=('superscript','sup')) then
+                        (attribute vertical-align { 'sup' },
+                        attribute font-size { '8pt' }
+                        )
+                     else if($node/@rend=('subscript','sub')) then
+                        (attribute vertical-align { 'sub' },
+                        attribute font-size { '8pt' }
+                        )                                                
+                     else ()}                     
+                    {tei2fo:tei2fo($node/node(),$p)}
+                    {if($node/@n != '' and not($node/@n mod 5)) then 
+                        <fo:inline>{$tei2fo:line-number-attributes}{$tei2fo:basic-inline-element-attributes}  <fo:leader leader-pattern="space" /> [{string($node/@n)}]</fo:inline>
+                    else ()}
+                
+                :)
+                <span class="tei-l {if($node/@rend) then concat('tei-',$node/@rend) else ()}" id="{epub:get-id($node)}">
+                {epub:tei2html($node/node())}
+                {if($node/@n != '' and not($node/@n mod 5)) then 
+                    <span class="tei-line-number"> [{string($node/@n)}]</span> 
+                    else ()}
+                </span>
             case element(tei:list) return
                 if($node/@type='ordered') then
                     <ol>{ epub:tei2html($node/node()) }</ol>
