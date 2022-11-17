@@ -3,6 +3,8 @@ xquery version "3.0";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace sm = "http://exist-db.org/xquery/securitymanager";
 
+import module namespace xrest="http://exquery.org/ns/restxq/exist" at "java:org.exist.extensions.exquery.restxq.impl.xquery.exist.ExistRestXqModule";
+
 (: The following external variables are set by the repo:deploy function :)
 
 (: file path pointing to the exist installation directory :)
@@ -20,6 +22,6 @@ sm:chmod(xs:anyURI($target || '/modules/lib/coursepack.xql'), "rwxrwxr-x"),
 sm:chmod(xs:anyURI($target || '/modules/build-lod.xql'), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || '/coursepacks'), "rwxrwxr-x"),
 sm:chgrp(xs:anyURI($target || '/coursepacks'), "lic"),
-sm:create-group('lic'),
-sm:add-group-member('lic', 'admin')
+(: create lic group for coursepack users :)
+xdb:create-group('lic')
 )

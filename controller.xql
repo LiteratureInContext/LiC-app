@@ -54,20 +54,20 @@ else if ($exist:resource = "login") then
         <response>
             <fail>{$err:description}</fail>
         </response>
-    }) 
+    })
     
 (: Check user credentials :)
 else if ($exist:resource = "userInfo") then 
     ((:util:declare-option("exist:serialize", "method=json media-type=application/json"),:)
      let $currentUser := 
                 if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
-                else sm:id()/sm:id/sm:real/sm:username/string(.)
+                else xmldb:get-current-user()
     let $group :=  
                 if($currentUser) then 
                     sm:get-user-groups($currentUser) 
                 else () 
     return
-        if($group = 'lic') then
+    if($group = 'lic') then
             (response:set-status-code( 200 ), 
             response:set-header("Content-Type", "text/html"),
             <response status="success" xmlns="http://www.w3.org/1999/xhtml">
