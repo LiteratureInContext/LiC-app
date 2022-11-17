@@ -29,115 +29,87 @@ declare function epub:generate-epub($id as xs:string, $work as item()*){
    let $title := normalize-space(string-join($fileDesc//tei:titleStmt/tei:title[1]/string(),' '))
    let $creator := normalize-space(string-join($fileDesc/tei:titleStmt/tei:author[1]/string(),' '))
    let $urn := document-uri($work)
-   return 
-    (
-   <entry name="mimetype" type="text" method="store">application/epub+zip</entry>,
-   <entry name="META-INF/container.xml" type="xml">
-        <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
-              <rootfiles>
-                  <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
-              </rootfiles>
-          </container>
-    </entry>,
-    epub:build-toc($id, $work, $title, $creator, $urn),
-    epub:build-content($id, $work, $title, $creator, $urn),
-    epub:stylesheet-entry(($config:app-root || "/resources/css/epub.css")),
-    epub:build-title-page($id, $work, $title, $creator, $urn), 
-    epub:build-publication-page($id, $work, $title, $creator, $urn),
-    epub:body-entry($id, $work, $title, $creator, $urn)
-   )
-        
-};
-declare function epub:build-toc($id as xs:string, $work as item()*, $title, $creator, $urn){
-    <entry name="OEBPS/toc.ncx" type="xml">
-        <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
-               <head>
-                   <meta name="dtb:uid" content="{$urn}"/>
-                   <meta name="dtb:depth" content="1"/>
-                   <meta name="dtb:totalPageCount" content="0"/>
-                   <meta name="dtb:maxPageNumber" content="0"/>
-               </head>
-               <docTitle>
-                   <text>{$title}</text>
-               </docTitle>
-               <navMap>   
-                   <navPoint id="title-page" playOrder="1">
-                       <navLabel>
-                           <text>Test Page</text>
-                       </navLabel>
-                       <content src="test.xhtml"/>
-                   </navPoint>
-                   <navPoint id="publication-page" playOrder="1">
-                       <navLabel>
-                           <text>Publication Page</text>
-                       </navLabel>
-                       <content src="publication-page.xhtml"/>
-                   </navPoint>
-                   {
-                    if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
-                       for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
-                       let $head := if($div/descendant::tei:head[1]) then $div/descendant::tei:head[1] else if($div/ancestor-or-self::tei:front) then 'Front Matter' else if($div/ancestor-or-self::tei:back) then 'Back Matter'  else concat('Section ', $p)
-                       let $h-id := concat('n',$p)
-                       return 
-                                <navPoint id="{$h-id}" playOrder="{$p + 2}">
-                                    <navLabel>
-                                        <text>{$head}</text>
-                                    </navLabel>
-                                    <content src="{$h-id}.xhtml"/>
-                                </navPoint>
-                    else 
-                        <navPoint id="n1" playOrder="3">
-                                    <navLabel>
-                                        <text>Contents</text>
-                                    </navLabel>
-                                    <content src="n1.xhtml"/>
-                                </navPoint>
-                   }
-               </navMap>
-           </ncx>
-  </entry>
+   let $xhtml := epub:body-xhtml-entries($id, $work, $title, $creator, $urn)
+   let $css := ($config:app-root || "/resources/css/epub.css")
+   let $entries :=
+        (
+            epub:mimetype-entry(),
+            epub:container-entry(),
+            epub:content-opf-entry($id, $work, $title, $creator, $urn),
+            epub:title-xhtml-entry($id, $work, $title, $creator, $urn),
+            epub:stylesheet-entry($css),
+            epub:toc-ncx-entry($id, $work, $title, $creator, $urn),
+            epub:nav-entry($id, $work, $title, $creator, $urn),
+            $xhtml
+        )
+    return
+        $entries  
 };
 
-declare function epub:build-content($id as xs:string, $work as item()*, $title, $creator, $urn){
-    <entry name="OEBPS/content.opf" type="xml">
-          <package xmlns:dc="http://purl.org/dc/elements/1.1/" 
-                  xmlns="http://www.idpf.org/2007/opf" unique-identifier="bookid" version="2.0">
-            <metadata>
+declare function epub:mimetype-entry() {
+    <entry name="mimetype" type="text" method="store">application/epub+zip</entry>
+};
+
+declare function epub:container-entry() {
+    let $container :=
+        <container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
+            <rootfiles>
+                <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
+            </rootfiles>
+        </container>
+    return
+        <entry name="META-INF/container.xml" type="xml">{$container}</entry>
+};
+
+declare function epub:content-opf-entry($id as xs:string, $work as item()*, $title, $creator, $urn) {
+    let $entries :=
+        if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
+                for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
+                let $head := if($div/descendant::tei:head[1]) then $div/descendant::tei:head[1] else if($div/ancestor-or-self::tei:front) then 'Front Matter' else if($div/ancestor-or-self::tei:back) then 'Back Matter'  else concat('Section ', $p)
+                let $h-id := concat('n',$p)
+                return 
+                    <item xmlns="http://www.idpf.org/2007/opf" id="{$h-id}" href="{$h-id}.xhtml" media-type="application/xhtml+xml"/>
+        else <item xmlns="http://www.idpf.org/2007/opf" id="n1" href="n1.xhtml" media-type="application/xhtml+xml"/>
+    let $refs :=
+        if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
+                for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
+                let $head := if($div/descendant::tei:head[1]) then $div/descendant::tei:head[1] else if($div/ancestor-or-self::tei:front) then 'Front Matter' else if($div/ancestor-or-self::tei:back) then 'Back Matter'  else concat('Section ', $p)
+                let $h-id := concat('n',$p)
+                return 
+                    <itemref xmlns="http://www.idpf.org/2007/opf" idref="{$h-id}"/>
+        else <itemref xmlns="http://www.idpf.org/2007/opf" idref="n1"/>
+    let $content-opf :=
+        <package xmlns="http://www.idpf.org/2007/opf" unique-identifier="bookid" version="3.0">
+            <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
                 <dc:title>{$title}</dc:title>
                 <dc:creator>{$creator}</dc:creator>
                 <dc:identifier id="bookid">{$urn}</dc:identifier>
-                <dc:language>en-US</dc:language>
             </metadata>
             <manifest>
                 <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+                <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
                 <item id="title-page" href="title-page.xhtml" media-type="application/xhtml+xml"/>
                 <item id="publication-page" href="publication-page.xhtml" media-type="application/xhtml+xml"/>
                 {
-                if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
-                    for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
-                    let $h-id := concat('n',$p)
-                    return <item id="{$h-id}" href="{$h-id}.xhtml" media-type="application/xhtml+xml"/>
-                else <item id="n1" href="n1.xhtml" media-type="application/xhtml+xml"/> 
+                    $entries
                 }
+                <item id="css" href="stylesheet.css" media-type="text/css"/>
             </manifest>
             <spine toc="ncx">
-                <itemref idref="title-page" />
-                <itemref idref="publication-page" />
+                <itemref idref="title-page"/>
+                <itemref idref="publication-page"/>
                 {
-                if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
-                    for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
-                    let $h-id := concat('n',$p)
-                    return <itemref idref="{$h-id}" />
-                else <itemref idref="n1" /> 
+                    $refs
                 }
             </spine>
         </package>
-    </entry>
+    return
+        <entry name="OEBPS/content.opf" type="xml">{$content-opf}</entry>
 };
 
-declare function epub:build-title-page($id as xs:string, $work as item()*, $title, $creator, $urn){
-    <entry name="OEBPS/title-page.xhtml" type="xml">
-          <html xmlns="http://www.w3.org/1999/xhtml">
+declare function epub:title-xhtml-entry($id, $work, $title, $creator, $urn) {
+    let $title-xhtml := 
+        <html xmlns="http://www.w3.org/1999/xhtml">
              <head>
                  <title>Title Page</title>
                  <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
@@ -155,12 +127,13 @@ declare function epub:build-title-page($id as xs:string, $work as item()*, $titl
                 </div>
              </body>
          </html>
-      </entry>
+    return
+        <entry name="OEBPS/title-page.xhtml" type="xml">{$title-xhtml}</entry>
 };
 
-declare function epub:build-publication-page($id as xs:string, $work as item()*, $title, $creator, $urn){
-    <entry name="OEBPS/publication-page.xhtml" type="xml">
-          <html xmlns="http://www.w3.org/1999/xhtml">
+declare function epub:publication-xhtml-entry($id as xs:string, $work as item()*, $title, $creator, $urn){
+    let $xhtml := 
+        <html xmlns="http://www.w3.org/1999/xhtml">
              <head>
                  <title>publication-page</title>
                  <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
@@ -194,10 +167,11 @@ declare function epub:build-publication-page($id as xs:string, $work as item()*,
                 </div>
              </body>
          </html>
-      </entry>
+    return
+        <entry name="OEBPS/publication-page.xhtml" type="xml">{$xhtml}</entry>
 };
 
-declare function epub:body-entry($id as xs:string, $work as item()*, $title, $creator, $urn){
+declare function epub:body-xhtml-entries($id as xs:string, $work as item()*, $title, $creator, $urn){
     if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
         for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
         let $head := if($div/descendant::tei:head[1]) then $div/descendant::tei:head[1] else if($div/ancestor-or-self::tei:front) then 'Front Matter' else if($div/ancestor-or-self::tei:back) then 'Back Matter'  else concat('Section ', $p)
@@ -253,37 +227,96 @@ declare function epub:body-entry($id as xs:string, $work as item()*, $title, $cr
                                 else (),
                                 <div class="footnote indent">{epub:fix-namespaces(epub:tei2html($n/node()))}</div>
                             )}</div>
-                        (:
-                            <span class="tei-{local-name($n)} footnote {(
-                                        if($node/@type != '') then string($n/@type) 
-                                        else (), 
-                                        if($node/@place != '') then string($n/@place) 
-                                        else ())}">
-                                {(
-                                if($n/@xml:id) then 
-                                   <span class="tei-footnote-id" id="{ string($n/@xml:id) }">{string($n/@xml:id)}</span>
-                                else (),
-                                epub:fix-namespaces(epub:tei2html($n/node())),
-                                if($n/@resp) then
-                                    <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($n)}">{substring-after($n/@resp,'#')}</a>]</span>
-                                else ()
-                                )}</span>
-                                :)
                       }
              </body>
          </html>
         </entry>
 };
 
-(:~ 
-    Helper function, creates the CSS entry for the EPUB.
-
-    @param $db-path-to-css the db path to the required static resources (cover.jpg, stylesheet.css)
-    @return the CSS entry
-:)
-declare function epub:stylesheet-entry($db-path-to-css) {
-    <entry name="OEBPS/stylesheet.css" type="binary">{util:binary-doc($db-path-to-css)}</entry>
+declare function epub:stylesheet-entry($css as xs:string) {
+    <entry name="OEBPS/stylesheet.css" type="binary">{util:binary-doc($css)}</entry>
 };
+
+declare function epub:toc-ncx-entry($id as xs:string, $work as item()*, $title, $creator, $urn) {
+    let $toc-ncx :=
+        <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+            <head>
+                <meta name="dtb:uid" content="{$urn}"/>
+                <meta name="dtb:depth" content="2"/>
+                <meta name="dtb:totalPageCount" content="0"/>
+                <meta name="dtb:maxPageNumber" content="0"/>
+            </head>
+            <docTitle>
+                <text>{$title}</text>
+            </docTitle>
+            <navMap>
+                <navPoint id="title-page" playOrder="1">
+                    <navLabel>
+                        <text>Title</text>
+                    </navLabel>
+                    <content src="title-page.xhtml"/>
+                </navPoint>
+                <navPoint id="publication-page" playOrder="2">
+                       <navLabel>
+                           <text>Publication Page</text>
+                       </navLabel>
+                       <content src="publication-page.xhtml"/>
+                   </navPoint>
+                {
+                    if(count($work/descendant::tei:text/tei:body/tei:div) gt 1) then
+                       for $div at $p in $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
+                       let $head := if($div/descendant::tei:head[1]) then $div/descendant::tei:head[1] else if($div/ancestor-or-self::tei:front) then 'Front Matter' else if($div/ancestor-or-self::tei:back) then 'Back Matter'  else concat('Section ', $p)
+                       let $h-id := concat('n',$p)
+                       return 
+                                <navPoint id="{$h-id}" playOrder="{$p + 2}">
+                                    <navLabel>
+                                        <text>{$head}</text>
+                                    </navLabel>
+                                    <content src="{$h-id}.xhtml"/>
+                                </navPoint>
+                    else 
+                        <navPoint id="n1" playOrder="3">
+                                    <navLabel>
+                                        <text>Contents</text>
+                                    </navLabel>
+                                    <content src="n1.xhtml"/>
+                                </navPoint>
+                   }
+            </navMap>
+        </ncx>
+    return
+        <entry name="OEBPS/toc.ncx" type="xml">{$toc-ncx}</entry>
+};
+
+
+declare function epub:nav-entry($id, $work, $title, $creator, $urn) {
+    let $toc :=
+        <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+            <head>
+                <title>Navigation</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+            </head>
+            <body>
+                <nav epub:type="toc">
+                <ol>
+                    {
+                        let $divs := $work/descendant::tei:text/tei:front | $work/descendant::tei:text/tei:body/tei:div | $work/descendant::tei:text/tei:back
+                        for $div at $p in $divs
+                        let $html := if($div/descendant::tei:head[1]) then $div/descendant::tei:head[1] else if($div/ancestor-or-self::tei:front) then 'Front Matter' else if($div/ancestor-or-self::tei:back) then 'Back Matter'  else concat('Section ', $p)
+                        let $h-id := concat('n',$p)
+                        return
+                            <li>
+                                <a href="{$h-id}.xhtml">{$html}</a>
+                            </li>
+                    }
+                    </ol>
+                </nav>
+            </body>
+        </html>
+    return
+        <entry name="OEBPS/nav.xhtml" type="xml">{$toc}</entry>
+};
+
 
 declare function epub:fix-namespaces($node as node()*) {
     typeswitch ($node)
@@ -294,7 +327,6 @@ declare function epub:fix-namespaces($node as node()*) {
         default return
             $node
 };
-
 
 (:~
  : Simple TEI to HTML transformation
@@ -348,30 +380,6 @@ declare function epub:tei2html($nodes as node()*) as item()* {
             case element(tei:i) return
                 <i>{ epub:tei2html($node/node()) }</i>                
             case element(tei:l) return
-                (:
-                <fo:block>
-                    {if($node/@n != '' and not($node/@n mod 5)) then 
-                        attribute  text-align-last { 'justify' }
-                    else ()}
-                    {if($node/@rend='italic') then
-                        attribute font-style { 'italic' }
-                     else if($node/@rend='bold') then
-                        attribute font-weight { 'bold' }
-                     else if($node/@rend=('superscript','sup')) then
-                        (attribute vertical-align { 'sup' },
-                        attribute font-size { '8pt' }
-                        )
-                     else if($node/@rend=('subscript','sub')) then
-                        (attribute vertical-align { 'sub' },
-                        attribute font-size { '8pt' }
-                        )                                                
-                     else ()}                     
-                    {tei2fo:tei2fo($node/node(),$p)}
-                    {if($node/@n != '' and not($node/@n mod 5)) then 
-                        <fo:inline>{$tei2fo:line-number-attributes}{$tei2fo:basic-inline-element-attributes}  <fo:leader leader-pattern="space" /> [{string($node/@n)}]</fo:inline>
-                    else ()}
-                
-                :)
                 <span class="tei-l {if($node/@rend) then concat('tei-',$node/@rend) else ()}" id="{epub:get-id($node)}">
                 {epub:tei2html($node/node())}
                 {if($node/@n != '' and not($node/@n mod 5)) then 
@@ -404,23 +412,6 @@ declare function epub:tei2html($nodes as node()*) as item()* {
             }</span>
             case element(tei:note) return 
                 if($node/@target) then ()
-                (: Hide notes, put at bottom of page
-                    <span class="tei-{local-name($node)} footnote 
-                        {(
-                            if($node/@type != '') then string($node/@type) 
-                            else (), 
-                            if($node/@place != '') then string($node/@place) 
-                            else ())}">
-                    {(
-                    if($node/@xml:id) then 
-                       <span class="tei-footnote-id" id="{ string($node/@xml:id) }">{string($node/@xml:id)}</span>
-                    else (),
-                    epub:tei2html($node/node()),
-                    if($node/@resp) then
-                        <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($node/@resp,'#')}">{substring-after($node/@resp,'#')}</a>]</span>
-                    else ()
-                    )}</span>
-                    :)
                 else <span class="tei-{local-name($node)}">{ epub:tei2html($node/node()) }</span>
             case element(tei:pb) return 
                     <span class="tei-pb" data-num="{string($node/@n)}">{string($node/@n)}</span>
@@ -447,8 +438,6 @@ declare function epub:tei2html($nodes as node()*) as item()* {
             default return epub:tei2html($node/node())
 };
 
-
-(: end chunk functions :)
 declare function epub:header($header as element(tei:teiHeader)) {
     let $titleStmt := $header//tei:titleStmt
     let $pubStmt := $header//tei:publicationStmt
