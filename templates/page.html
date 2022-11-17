@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title data-template="config:app-title">App Title</title>
@@ -15,9 +14,12 @@
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.Default.css"/>
         <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>
+        <script type="text/javascript" src="$nav-base/resources/jquery-ui/jquery-ui.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/lightslider.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
+        <!-- CKEditor -->
+        <script src="https://cdn.ckeditor.com/4.20.0/standard-all/ckeditor.js"></script>
         <!-- hypothes.is -->
         <script type="text/javascript" src="https://hypothes.is/embed.js" async="async"/>
         
@@ -27,7 +29,7 @@
         <script>
             $(document).ready(function() {
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
-                $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'}); 
+                $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'});
             });
         </script>
     </head>
@@ -84,7 +86,7 @@
                         <li>
                             <span data-template="app:userinfo">
                                 <div data-template="app:username-login"/>
-                            </span>                            
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -96,6 +98,9 @@
             <ul class="funders">
                 <li>
                     <img src="$nav-base/resources/images/NEH_h-logo_01_fullcolor.jpg" width="200px" alt="National Endowment for the Humanities (NEH)" class="funder"/>
+                </li>
+                <li>
+                    <img src="$nav-base/resources/images/VIVALogo5_smal.png" width="100px" alt="Virginia's Academic Library Consortium" class="funder" style="padding-bottom:1em;"/>
                 </li>
                 <li>
                     <img src="$nav-base/resources/images/marymount.logo.png" width="150px" alt="Marymount University" class="funder"/>
@@ -134,7 +139,7 @@
                 </ul>
                 <p>
                     <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
+                        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
                     </a>
                     <br/>Original content on this site created by its authors is licensed under a
                     <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY 4.0 International License</a>.
@@ -159,15 +164,15 @@
         
         <script>
               window.dataLayer = window.dataLayer || [];
-            
+
               function gtag(){dataLayer.push(arguments);}
-            
+
               gtag('js', new Date());
-            
-             
-            
+
+
+
               gtag('config', 'UA-159152992-2');
-            
+
             </script>
     </body>
 </html>

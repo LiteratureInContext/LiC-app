@@ -6,15 +6,13 @@ Login module/User manager for LiC application.
 xquery version "3.1";
 
 import module namespace config="http://LiC.org/config" at "../config.xqm";
-
-(: Import eXist modules:)
-
-import module namespace xmldb = "http://exist-db.org/xquery/xmldb";
+import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
+import module namespace sm = "http://exist-db.org/xquery/securitymanager";
+import module namespace http="http://expath.org/ns/http-client";
 
 (: Namespaces :)
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
-declare namespace http="http://expath.org/ns/http-client";
 
 declare variable $metadata-fullname-key := xs:anyURI("http://axschema.org/namePerson");
 declare variable $metadata-description-key := xs:anyURI("http://exist-db.org/security/description");
@@ -25,7 +23,7 @@ declare function local:create-user($data as item()*) as xs:string? {
     let $fullName := $data?fullName
     let $password := $data?password
     return
-        (xmldb:create-user($user, $password, 'lic', ()),
+        (sm:create-account($user, $password, 'lic'),
         sm:set-umask($user, 18),
         sm:set-account-metadata($user, $metadata-fullname-key, $fullName),
         $user
@@ -35,7 +33,7 @@ declare function local:create-user($data as item()*) as xs:string? {
 (: Delete user :)
 declare function local:delete-user($data as item()*) as xs:string? {
     let $user := $data?user
-    return xmldb:delete-user($user)
+    return sm:remove-account($user)
 };
 
 (:
@@ -49,7 +47,7 @@ declare function local:set-user($user as xs:string?, $password as xs:string?, $m
         else ()
     let $cookie := request:get-cookie-value($config:login-domain)
     return
-       (xmldb:login(xs:anyURI($config:app-root), $user, $password),
+       (login:set-user($config:login-domain, (), true()),
         request:set-attribute($config:login-domain || ".user", $user),
         request:set-attribute("xquery.user", $user),
         request:set-attribute("xquery.password", $password)

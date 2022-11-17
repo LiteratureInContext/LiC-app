@@ -29,12 +29,13 @@ let $results :=
                 let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = request:get-parameter('id', '')]
                 let $workid := request:get-parameter('workid', '')
                 let $work := $coursepack//work[@id = $workid]
+                let $count := count($work/descendant::text)
                 return 
                     if($work/text) then
-                        for $text in $work/text
+                        for $text at $n in $work/text
                         return 
                             <div>
-                                 <h4>Selected Text</h4>
+                                 <h4>Selected Text {if($count gt 1) then $n else 'test'}</h4>
                                  {tei2html:tei2html($text)}
                             </div>
                     else 

@@ -28,6 +28,7 @@ declare variable $tei2fo:h2 {(
     )};
 declare variable $tei2fo:h3 {(
     attribute font-size{'12pt'},
+    attribute font-weight{'bold'},
     attribute space-before{'.5em'},
     attribute space-after{'.5em'}
     )};
@@ -50,7 +51,7 @@ declare variable $tei2fo:line-number-attributes {(
    attribute font-size {"8pt"},
    attribute color {"#666666"}
     )};
-
+    
 (: Simple typeswitch for tei elements :)
 declare function tei2fo:tei2fo($nodes as node()*, $p) {
     for $node in $nodes
@@ -68,11 +69,26 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                     $tei2fo:basic-block-element-attributes,
                     if($node/tei:head) then
                         <fo:block>{$tei2fo:h3}{tei2fo:tei2fo($node/tei:head,$p)}</fo:block>
+                    else if($node/tei:p) then
+                        <fo:block>{$tei2fo:h3}{tei2fo:tei2fo($node/tei:p,$p)}</fo:block>    
                     else (),
-                    <fo:block margin-left="1em">{tei2fo:tei2fo($node/tei:role,$p)}</fo:block>,
-                    <fo:block margin-left="2em">{tei2fo:tei2fo($node/tei:roleDesc,$p)}</fo:block>
+                    if( $node/tei:role and $node/tei:roleDesc) then
+                        (
+                        <fo:block margin-left="1em">{tei2fo:tei2fo($node/tei:role,$p)}</fo:block>,
+                        <fo:block margin-left="2em">{tei2fo:tei2fo($node/tei:roleDesc,$p)}</fo:block>
+                        ) 
+                    else 
+                        for $child in $node/child::*[not(self::tei:p) and not(self::tei:head)]
+                        return 
+                        <fo:block margin-left="2em">{tei2fo:tei2fo($child,$p)}</fo:block>
                     )}
-                </fo:block>                        
+                </fo:block>
+        case element(tei:castItem) return
+                if($node/tei:role) then
+                  (<fo:block>{tei2fo:tei2fo($node/tei:actor,$p)}</fo:block>,
+                     <fo:block margin-left="8pt">{tei2fo:tei2fo($node/tei:role,$p)}</fo:block>,
+                     <fo:block margin-left="16pt">{tei2fo:tei2fo($node/tei:roleDesc,$p)}</fo:block>)  
+                else <fo:block margin-left="2em">{tei2fo:tei2fo($node/node(),$p)}</fo:block>
             (: D :)
             case element(tei:div) return
                     <fo:block page-break-after="always">
@@ -91,6 +107,11 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                     {$tei2fo:basic-block-element-attributes}
                     {tei2fo:tei2fo($node/node(),$p)}
                 </fo:block>
+            case element(tei:floatingText) return 
+                <fo:block font-size="8pt" color="#666666">
+                    {$tei2fo:basic-block-element-attributes}
+                    {tei2fo:tei2fo($node/node(),$p)}
+                </fo:block>                
             (: G :)                
             case element(tei:graphic) return ()
                 (:<fo:external-graphic width="100%" content-width="scale-down-to-fit" scaling="uniform" src="url({$node/@url})"/>:)
@@ -120,10 +141,19 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                     <fo:inline font-variant="smallcaps">{$tei2fo:basic-inline-element-attributes}{tei2fo:tei2fo($node/node(),$p)}</fo:inline>
                 else if($node/@rend='underline') then 
                     <fo:inline text-decoration="underline">{$tei2fo:basic-inline-element-attributes}{tei2fo:tei2fo($node/node(),$p)}</fo:inline>                    
+                else if($node/@rend='indent') then 
+                    <fo:block margin-left="8pt">{tei2fo:tei2fo($node/node(),$p)}</fo:block>                   
+                else if($node/@rend='indent2') then 
+                    <fo:block margin-left="16pt">{tei2fo:tei2fo($node/node(),$p)}</fo:block>                             
+                else if($node/@rend='indent3') then 
+                    <fo:block margin-left="24pt">{tei2fo:tei2fo($node/node(),$p)}</fo:block>                    
                 else tei2fo:tei2fo($node/node(),$p) 
             (: L :)
             case element(tei:l) return
                 <fo:block>
+                    {if($node/@n != '' and not($node/@n mod 5)) then 
+                        attribute  text-align-last { 'justify' }
+                    else ()}
                     {if($node/@rend='italic') then
                         attribute font-style { 'italic' }
                      else if($node/@rend='bold') then
@@ -136,15 +166,37 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                         (attribute vertical-align { 'sub' },
                         attribute font-size { '8pt' }
                         )                                                
-                     else ()}
-                    {if($node/@n) then <fo:inline>{$tei2fo:line-number-attributes}{$tei2fo:basic-inline-element-attributes}{string($node/@n)}</fo:inline>
-                    else ()}                     
+                     else ()}                     
                     {tei2fo:tei2fo($node/node(),$p)}
+                    {if($node/@n != '' and not($node/@n mod 5)) then 
+                        <fo:inline>{$tei2fo:line-number-attributes}{$tei2fo:basic-inline-element-attributes}  <fo:leader leader-pattern="space" /> [{string($node/@n)}]</fo:inline>
+                    else ()}
                 </fo:block> 
             case element(tei:lb) return
                 <fo:block/>
             case element(tei:lg) return
                 <fo:block>{$tei2fo:basic-block-element-attributes}{tei2fo:tei2fo($node/node(),$p)}</fo:block>
+            case element(tei:list) return
+                if($node/tei:item) then
+                    (
+                    for $n in $node/child::*[not(self::tei:item)]
+                    return
+                        <fo:block>{$tei2fo:basic-block-element-attributes}{tei2fo:tei2fo($node/node(),$p)}</fo:block>,
+                    <fo:list-block margin-left='8pt'>{
+                        for $item in $node/tei:item
+                        return
+                            <fo:list-item>
+                                <fo:list-item-label end-indent="label-end()">
+                                    <fo:block><fo:inline font-family="Symbol">&#8226;</fo:inline></fo:block>
+                                </fo:list-item-label>
+                                <fo:list-item-body start-indent="body-start()">
+                                <fo:block>{tei2fo:tei2fo($item,$p)}</fo:block>
+                                </fo:list-item-body>
+                            </fo:list-item>
+                    }</fo:list-block>
+                    )                           
+                else 
+                    <fo:block>{$tei2fo:basic-block-element-attributes}{tei2fo:tei2fo($node/node(),$p)}</fo:block>
             (: N :)
             case element(tei:note) return 
                 if($node/@target) then () 
@@ -182,9 +234,7 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                         {$tei2fo:basic-block-element-attributes}
                         <fo:table-column column-width="20%"/>
                         <fo:table-column column-width="80%"/>
-                        <fo:table-body>{
-                            for $node in $node/tei:castItem
-                            return
+                        <fo:table-body>
                                    <fo:table-row>
                                        <fo:table-cell>
                                            <fo:block margin-bottom="1.5em">{tei2fo:tei2fo($node/tei:speaker,$p)} </fo:block>
@@ -193,17 +243,16 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                                            <fo:block>{tei2fo:tei2fo($node/tei:l,$p)}</fo:block>
                                        </fo:table-cell>
                                    </fo:table-row>  
-                               }
                             </fo:table-body>
                     </fo:table>
                     )}
                 </fo:block>
             case element(tei:speaker) return
                 <fo:block font-style="italic" space-after=".25em">
-                {tei2fo:tei2fo($node/node(),$p)}
+                {upper-case($node/node())}
                 </fo:block> 
             case element(tei:stage) return
-                <fo:block space-after="8mm" font-style="italic">{tei2fo:tei2fo($node/node(),$p)}</fo:block>    
+                <fo:block space-after="8mm" font-style="italic" font-size="8pt" color="#666666">{tei2fo:tei2fo($node/node(),$p)}</fo:block>    
             (: T :)
             case element(tei:TEI) return
                 tei2fo:tei2fo($node/tei:text,$p)
@@ -234,29 +283,21 @@ declare function tei2fo:footnotes($nodes,$p) {
 if($nodes//tei:note[@target]) then 
 <fo:block>
     <fo:block>{$tei2fo:h2}Footnotes</fo:block> 
-        <fo:table>{$tei2fo:basic-block-element-attributes}
-         <fo:table-column column-width="10%"/>
-         <fo:table-column column-width="90%"/>
-         <fo:table-body>{
+        {
+        if($nodes//tei:note[@target]) then
             for $node in $nodes//tei:note[@target]
             return
-                <fo:table-row>
-                    <fo:table-cell>
-                        {(if($node/@xml:id) then 
-                            attribute id { tei2fo:get-id($node, $p) }
-                        else (), 
-                        <fo:block margin-bottom="1.5em">{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>)}
-                    </fo:table-cell>
-                    <fo:table-cell>
-                        <fo:block>{tei2fo:tei2fo($node/node(),$p)}</fo:block>
-                        {if($node/@resp) then
-                            <fo:block margin-bottom="1.5em"> - [{substring-after($node/@resp,'#')}]</fo:block>
-                        else ()}
-                    </fo:table-cell>
-                </fo:table-row>  
-            }
-         </fo:table-body>
-     </fo:table>
+                <fo:block margin-bottom="1.5em">
+                    <fo:block>{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>
+                    <fo:block>{$tei2fo:basic-inline-element-attributes} {tei2fo:tei2fo($node/node(),$p)}</fo:block>
+                    {if($node/@resp) then
+                        <fo:block margin-bottom="1.5em"> - [{substring-after($node/@resp,'#')}]</fo:block>
+                    else ()}
+                </fo:block>
+        else 
+            for $node in $nodes
+            return tei2fo:tei2fo($node/node(),$p)
+        }
 </fo:block>
 else ()
 };
@@ -266,27 +307,34 @@ else ()
 declare function tei2fo:coursepacks($nodes) {
 <fo:block>
     <fo:block>{$tei2fo:h2}Footnotes</fo:block> 
-        <fo:table>{$tei2fo:basic-block-element-attributes}
-         <fo:table-column column-width="10%"/>
-         <fo:table-column column-width="90%"/>
-         <fo:table-body>{
-            for $node in $nodes//tei:note[@target]
-            return
-                <fo:table-row>
-                    <fo:table-cell>
-                        {(if($node/@xml:id) then 
-                            attribute id { $node/@xml:id }
-                        else (), 
-                        <fo:block margin-bottom="1.5em">{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>)}
-                    </fo:table-cell>
-                    <fo:table-cell>
-                        <fo:block>{tei2fo:tei2fo($node/node(),$p)}</fo:block>
-                        <fo:block margin-bottom="1.5em"> - [{substring-after($node/@resp,'#')}]</fo:block>
-                    </fo:table-cell>
-                </fo:table-row>  
-            }
-         </fo:table-body>
-     </fo:table>
+        {
+        if($nodes//tei:note[@target]) then 
+            <fo:table>{$tei2fo:basic-block-element-attributes}
+             <fo:table-column column-width="10%"/>
+             <fo:table-column column-width="90%"/>
+             <fo:table-body>{
+                for $node in $nodes//tei:note[@target]
+                return
+                    <fo:table-row>
+                        <fo:table-cell>
+                            {(if($node/@xml:id) then 
+                               (: WS:Note, this causes issues with coursepacks that may have duplicate IDs
+                               attribute id { $node/@xml:id }
+                               :) ''
+                            else (), 
+                            <fo:block margin-bottom="1.5em">{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>)}
+                        </fo:table-cell>
+                        <fo:table-cell>
+                            <fo:block>{tei2fo:tei2fo($node/node(),$p)}  - [{substring-after($node/@resp,'#')}]</fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>  
+                }
+             </fo:table-body>
+         </fo:table>
+        else             
+            for $node in $nodes
+            return tei2fo:tei2fo($node/node(),$p)
+        }
 </fo:block>
 };
 
@@ -306,7 +354,7 @@ declare function tei2fo:titlepage($data as node()*)   {
             {   
                 if($data/descendant-or-self::coursepack) then
                    $data/descendant-or-self::coursepack/desc/text() 
-                else 
+                else
                     let $authors := $data//tei:titleStmt/tei:author
                     let $author-full-names :=
                         for $author in $authors
@@ -354,16 +402,25 @@ declare function tei2fo:table-of-contents($data as node()*) {
                             <fo:page-number-citation ref-id="n{$p[1]}"/>
                         </fo:block>
                     </fo:block>     
-            else 
-                for $toc at $p in $data/tei:text/tei:body/tei:div[tei:head]
-                return
-                    <fo:block space-after="0.15in">
-                        <fo:block text-align-last="justify">
-                            {$toc/tei:head/descendant-or-self::*[not(self::tei:note)]/text()}
-                            <fo:leader leader-pattern="dots"/>
-                            <fo:page-number-citation ref-id="n{$p}"/>
-                        </fo:block>
-                    </fo:block>
+            else () (:
+                if(count($data/descendant::tei:text/tei:body/tei:div) gt 1) then
+                    for $div at $p in $data/descendant::tei:text/tei:front | $data/descendant::tei:text/tei:body/tei:div | $data/descendant::tei:text/tei:back
+                    let $head := if($div/descendant::tei:head[1]) then $div/descendant::tei:head[1] else if($div/ancestor-or-self::tei:front) then 'Front Matter' else if($div/ancestor-or-self::tei:back) then 'Back Matter'  else concat('Section ', $p)
+                    let $h-id := concat('n',$p)
+                    return 
+                        if($head != '') then 
+                            <fo:block space-after="0.15in">
+                                <fo:block text-align-last="justify">
+                                    <fo:basic-link internal-destination="{generate-id(.)}">
+                                    {string($head)} 
+                                    <fo:leader leader-pattern="dots"/>
+                                    <fo:page-number-citation ref-id="{generate-id(.)}"/>
+                                    </fo:basic-link>
+                                </fo:block>
+                            </fo:block>
+                        else ()
+                else () 
+                :)
         }
         </fo:flow>
     </fo:page-sequence>
@@ -379,7 +436,7 @@ declare function tei2fo:main($data as node()*) {
       </fo:simple-page-master>
     </fo:layout-master-set>
     { tei2fo:titlepage($data) }
-    { if($data/descendant-or-self::coursepack or count($data/descendant-or-self::tei:div[tei:head]) gt 1) then tei2fo:table-of-contents($data) else () }   
+    { if($data/descendant-or-self::coursepack (: or count($data/descendant-or-self::tei:div[tei:head]) gt 1:)) then tei2fo:table-of-contents($data) else () }   
     <fo:page-sequence master-reference="contents">
         <fo:static-content flow-name="xsl-region-after">
             <fo:block border-top-style="solid" border-top-color="#666666" border-top-width=".015in" padding-top=".025in" margin-bottom="0in" padding-after="0in" padding-bottom="0">
