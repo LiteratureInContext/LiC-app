@@ -107,8 +107,8 @@ declare function local:make-place($nodes as node()*){
 
 (:lat long:)
 declare function local:make-person($nodes as node()*){
-  let $personsCntl := collection($config:data-root)//tei:persName[@key][not(parent::tei:editor/parent::tei:titleStmt)]
-  let $persons := collection($config:data-root)//tei:persName[not(@key)][not(parent::tei:editor/parent::tei:titleStmt)]
+  let $personsCntl := collection($config:data-root)//tei:persName[@key]
+  let $persons := collection($config:data-root)//tei:persName[not(@key)]
   return
   (for $p1 in $personsCntl
   group by $facet-grp := $p1/@key

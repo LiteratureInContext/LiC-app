@@ -449,8 +449,6 @@ declare function app:display-coursepack-title($node as node(), $model as map(*))
 declare function app:display-coursepacks($node as node(), $model as map(*)){
 let $coursepacks := $model("coursepack")
 let $hits := $model("hits")
-let $user := if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
-             else sm:id()/sm:id/sm:real/sm:username/string(.)            
 return 
     if(empty($coursepacks)) then
         <div>
@@ -461,32 +459,10 @@ return
             </div>
         </div>
     else if(request:get-parameter('id', '') != '') then 
-        let $coursepack := $coursepacks/descendant-or-self::*:coursepack
-        let $instructor := $coursepack/@user
-        let $coursepackID := $coursepack/@id
-        let $coursepack-permissions := sm:get-permissions(xs:anyURI(document-uri(root($coursepack))))
-        let $edit :=
-                    if(($coursepack-permissions/*/@owner = $user) or ($coursepack-permissions/@user = $user) or ($user = 'admin')) then true()
-                    else false()
-        return 
-        <form class="form-inline coursepack" method="get" action="{string($coursepackID)}" id="search">
+        <form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search">
             <div class="row">
-                <div class="col-md-6">
-                    <h1>{string($model("coursepack")/@title)}</h1>
-                    {
-                        if($coursepacks/*:instructor) then 
-                            <h3>{$coursepacks/*:instructor}</h3>
-                        else ()
-                    }
-                    
-                    <div id="introduction">
-                        {$coursepacks/*:desc}
-                    </div> 
-                    {
-                        if($edit = true()) then 
-                         <button class="toggle-edit" data-editTarget="introduction" data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=update&amp;content=notes&amp;coursepackid={string($coursepackID)}&amp;noteid={$coursepacks/*:desc/@id}">Start editing</button>
-                        else ()
-                    }
+                <div class="col-md-6"><h1>{string($model("coursepack")/@title)}</h1>
+                    <p class="desc">{$coursepacks/*:desc}</p>
                 </div>
                 <div class="col-md-6">
                 <div class="coursepackToolbar">
@@ -567,6 +543,7 @@ return
                                    </ul>
                                </div>
                            </div>
+                        
                     }
                </div>
 
@@ -585,15 +562,11 @@ return
                     let $selection := if($coursepacks//work[@id = $id]/text) then
                                         for $text in $coursepacks//work[@id = $id]/text
                                         return 
-                                            (<div><h4> TT2 Selected Text</h4>,
+                                            (<div><h4>Selected Text</h4>,
                                             {tei2html:tei2html($text/child::*)}</div>)
                                       else()
-                    let $num := if($coursepacks//work[@id = $id]/@num) then $coursepacks//work[@id = $id]/@num else 1
-                    let $order := if(request:get-parameter('sort-element', '') != '') then
-                                    data:filter-sort-string(data:add-sort-options($work[1], request:get-parameter('sort-element', '')))
-                                  else $num[1]
-                    order by $order[1]                  
-                    (: group by $workID := $id :) 
+                    order by data:filter-sort-string(data:add-sort-options($work, request:get-parameter('sort-element', '')))
+                    group by $workID := $id 
                     return  
                         <div class="result row">
                             <div class="col-md-1">
@@ -604,8 +577,14 @@ return
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                              </button>
                             </div>
-                            <div class="col-md-11">{
-                                if(request:get-parameter('view', '') = 'expanded') then
+                            <div class="col-md-11">{(
+                                if($selection != '') then
+                                    (<h4 class="selections-from">Selections from: </h4>, 
+                                    tei2html:summary-view($work, (), $id[1]),
+                                    if(request:get-parameter('view', '') = 'expanded') then 
+                                       <div class="selected-text">{$selection}</div> 
+                                    else ())
+                                else if(request:get-parameter('view', '') = 'expanded') then
                                     (tei2html:header($work/descendant::tei:teiHeader),
                                     tei2html:tei2html($work/descendant::tei:text),
                                     let $notes := $work/descendant::tei:note[@target]
@@ -619,22 +598,13 @@ return
                                             </div>
                                         else ()
                                     )
-                                else 
-                                    (tei2html:summary-view($work, (), $id[1]),
-                                        if($selection != '') then 
-                                            <h5 class="selections-from indent">
-                                                <button data-url="{$config:nav-base}/modules/data.xql?id={string($coursepacks/@id)}&amp;view=expand&amp;workid={$id}" class="expand btn btn-link" data-toggle="tooltip" title="Expand work to see text">
-                                                   <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &#160; {count($selection)} Selections 
-                                                </button>
-                                            </h5>
-                                        else () 
-                                    )}
+                                else tei2html:summary-view($work, (), $id[1])
+                                )}
                                 <div class="expandedText"></div>
                                 </div>
                         </div> 
                  }      
         </div>
-        
         </form>
     else        
         <div>
@@ -1378,8 +1348,7 @@ declare function app:persons() {
                                 <ul>{
                                 for $work in $r
                                 let $id := $work/@active
-                                return <li>
-                                <a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
+                                return <li><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
                                 }</ul>
                             </div>
                     }</div>
@@ -1434,11 +1403,7 @@ declare function app:persons($node as node(), $model as map(*)) {
                                 <ul>{
                                 for $work in $r
                                 let $id := $work/@active
-                                return 
-                                    <li>
-                                        <a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">
-                                        {tei2html:tei2html($work//tei:title)}</a>
-                                     </li>
+                                return <li><a href="{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}">{tei2html:tei2html($work//tei:title)}</a></li>
                                 }</ul>
                             </div>
                     }</div>
@@ -1577,7 +1542,7 @@ declare function app:network($node as node(), $model as map(*)) {
                     else if(request:get-parameter('id', '') != '') then
                         doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
                     else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
-    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else if(not(empty($model("coursepack")))) then $model("coursepack") else collection($config:data-root) 
+    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else if(not(empty($model("coursepack")))) then $model("coursepack") else () 
     let $keys := $reference-data//@key
     let $subset := if(not(empty($model("data")))) then
                        let $id := document-uri(root($model("data")))

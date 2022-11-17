@@ -1,5 +1,1327 @@
-<TEI xmlns="http://www.tei-c.org/ns/1.0"><text><body><listPlace><place><idno>http://vocab.getty.edu/tgn/7008927</idno><placeName>Le Havre</placeName><location type="gps"><geo><lat>49.515031</lat><long>-1.287609</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7008927"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7003237</idno><placeName>Lombardy</placeName><location type="gps"><geo><lat>45.6667</lat><long>9.5</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7003237"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7004446</idno><placeName>Cologne</placeName><location type="gps"><geo><lat>50.933333</lat><long>6.95</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7004446"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7004449</idno><placeName>Mainz</placeName><location type="gps"><geo><lat>50</lat><long>8.271111</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7004449"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7000084</idno><placeName>Germany</placeName><location type="gps"><geo><lat>51.5</lat><long>10.5</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7000084"><desc><title type="main">A Sentimental Journey</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7000084"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7027563</idno><placeName>Eastwell</placeName><location type="gps"><geo><lat>52.833333</lat><long>-.833333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/headnotes/finch.xml" passive="http://vocab.getty.edu/tgn/7027563"><desc><title>Headnote for Anne Finch</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Finch/finch-nightingale.xml" passive="http://vocab.getty.edu/tgn/7027563"><desc><title type="main">"To the Nightingale"</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7024573</idno><placeName>Greenland</placeName><location type="gps"><geo><lat>72</lat><long>-40</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7024573"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7013445</idno><placeName>Boston</placeName><location type="gps"><geo><lat>42.35</lat><long>-71.05</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Franklin/franklin-dogood-1.xml" passive="http://vocab.getty.edu/tgn/7013445"><desc><title>The Silence Dogood Essays</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Douglass/douglass-narrative.xml" passive="http://vocab.getty.edu/tgn/7013445"><desc><title> Narrative of the Life of Frederick Douglass, an American Slave </title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7016836</idno><placeName>Turkestan</placeName><location type="gps"><geo><lat>39</lat><long>71</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7016836"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000095</idno><placeName>Spain</placeName><location type="gps"><geo><lat>40</lat><long>-4</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/1000095"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011781</idno><placeName>London</placeName><location type="gps"><geo><lat>51.514248</lat><long>-.093145</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Defoe/defoe-crusoe.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Robinson Crusoe</title><title type="sub">The life and strange surprizing adventures of Robinson Crusoe: of York, mariner: who lived eight and twenty years, all alone in an un-inhabited island on the coast of America, near the mouth of the great river of Oroonoque; ... Written by himself.</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-death-whitefield.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"On the Death of the Rev. MR. GEORGE WHITEFIELD" </title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-maecenas.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"To Maecenas" </title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Shakespeare/shakespeare-tempest.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">The Tempest</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Walpole/walpole-castle.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">The Castle of Otranto</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Finch/finch-nightingale.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"To the Nightingale"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-death.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>"Death"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-god-reconciling-world.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>"2.Cor.5.19. God was in Christ Reconciling the World to Himself"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-death-walter-lloid-knight.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>On the Death of the Truly Honorable Sir Walter Lloid Knight.</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Johnson/johnson-london.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>London: A Poem, in Imitation of the Third Satire of Juvenal</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Pope/pope-rape-lock.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main"> The Rape of the Lock </title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-against-pleasure.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>"Against Pleasure"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Rochester/rochester-satyr-mankind.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"Satyr [Against Reason and Mankind]"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-3-september.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>"On the 3. of September, 1651"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Austen/northanger%20abbey%20with%20dummy%20header.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Template</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-cambridge.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"To the University of Cambridge, in New-England" </title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-religion.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>"On Controversies in Religion"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Austen/austen-lady-susan.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Lady Susan</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Behn/behn-rover.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>The Rover, or, The Banished Cavaliers</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wordsworth/tintern-abbey.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Tintern Abbey</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">A Sentimental Journey</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-distress.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">
-                   "NIOBE in Distress for her Children slain by APOLLO, from Ovid's Metamorphoses, Book VI. and from a view of the Painting of Mr. Richard Wilson" </title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Stuart/Stuart-Articles_of_Peace.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title> 
-                    Articles of Peace Between the Most Serene and Mighty Prince Charles II and Several Indian Kings and Queens ["The Treaty of Middle Plantation"]
-                </title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Winkfield/winkfield-female-american.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">The Female American; Or, The Adventures of Unca Eliza Winkfield (Vol. I)</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-brought.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"Upon Being Brought from Africa to America"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Hays/hays-memoirs.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Memoirs of Emma Courtney</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Behn/behn-oroonoko.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Oroonoko, or, The royal slave: A True History</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-painter.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main"> "To S. M. a young African Painter, on seeing his Works"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-death-infant.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"On the Death of J. C. an Infant"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-majesty.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"To the KING's Most Excellent Majesty"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Johnson/johnson-rambler-4.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">The Rambler No. 4</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Chudleigh/chudleigh-ladies.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"To the Ladies"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Rowlandson/rowlandson-sovereignty.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">The soveraignty and goodness of God, together, with the faithfulness of his promises displayed; being a narrative of the captivity and restauration of Mrs. Mary Rowlandson. Commended by her, to all that desires to know the Lords doing to, and dealings with her. Especially to her dear children and relations, / written by her own hand for her private use, and now made publick at the earnest desire of some friends, and for the benefit of the afflicted.
-</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Defoe/defoe-plague.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">A Journal of the Plague Year</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Swift/Swift-Gulliver.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Travels into Several Remote Nations of the World</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Austen/northanger-abbey-with-dummy-header.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Template</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-to-the-duchess-of-york.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>"To Her Royal Highness the Duchess of York"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-evening-hymn.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"An HYMN to the EVENING"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-double-murder.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>"Upon the Double Murder of King Charles I"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-dearest-lucasia.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>"Content, to my dearest Lucasia"</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Doyle/doyle-sign.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">The Sign of the Four</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Philips/philips-rosania.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title>"Rosania to Lucasia on her Letters"</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Haywood/haywood-fantomina.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Fantomina; or, Love in a Maze</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wollstonecraft/wollstonecraft-vindication-excerpted.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">A Vindication of the Rights of Woman</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-imagination.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">"On IMAGINATION" </title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Wheatley/wheatley-poems.xml" passive="http://vocab.getty.edu/tgn/7011781"><desc><title type="main">Poems on Various Subjects, Religious and Moral </title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000004</idno><placeName>Asia</placeName><location type="gps"><geo><lat>43.8</lat><long>87.633</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1000004"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7622466</idno><placeName>Mer de Glace</placeName><location type="gps"><geo><lat>45.918827</lat><long>6.929334</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7622466"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7002435</idno><placeName>Russia</placeName><location type="gps"><geo><lat>60</lat><long>47</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7002435"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7617157</idno><placeName>Blanc, Mont</placeName><location type="gps"><geo><lat>45.356009</lat><long>6.685511</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7617157"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000002</idno><placeName>South America</placeName><location type="gps"><geo><lat>-3.55</lat><long>-56.683</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1000002"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000003</idno><placeName>Europe</placeName><location type="gps"><geo><lat>56.2</lat><long>15.016</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1000003"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Winkfield/winkfield-female-american.xml" passive="http://vocab.getty.edu/tgn/1000003"><desc><title type="main">The Female American; Or, The Adventures of Unca Eliza Winkfield (Vol. I)</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7007567</idno><placeName>New York</placeName><location type="gps"><geo><lat>40.7</lat><long>-74</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Hays/hays-memoirs.xml" passive="http://vocab.getty.edu/tgn/7007567"><desc><title type="main">Memoirs of Emma Courtney</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Poe/poe-masque.xml" passive="http://vocab.getty.edu/tgn/7007567"><desc><title type="main">The Masque of the Red Death</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011805</idno><placeName>Woolwich</placeName><location type="gps"><geo><lat>51.4833</lat><long>.0667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7011805"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7007843</idno><placeName>Pennine Alps</placeName><location type="gps"><geo><lat>46.083333</lat><long>7.833333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7007843"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7008772</idno><placeName>Lyons</placeName><location type="gps"><geo><lat>45.748457</lat><long>4.846711</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7008772"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7006074</idno><placeName>Livorno</placeName><location type="gps"><geo><lat>43.55</lat><long>10.316667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7006074"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7012346</idno><placeName>Strasbourg</placeName><location type="gps"><geo><lat>48.600381</lat><long>7.787355</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7012346"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7007280</idno><placeName>Luzern</placeName><location type="gps"><geo><lat>47.083333</lat><long>8.266667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7007280"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011931</idno><placeName>Oxford</placeName><location type="gps"><geo><lat>51.75</lat><long>-1.25</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Austen/austen-northanger-abbey.xml" passive="http://vocab.getty.edu/tgn/7011931"><desc><title type="main">Northanger Abbey</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7011931"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7014406</idno><placeName>Philadelphia</placeName><location type="gps"><geo><lat>39.95</lat><long>-75.15</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Paine/paine-common-sense.xml" passive="http://vocab.getty.edu/tgn/7014406"><desc><title>Common Sense</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Doyle/doyle-sign.xml" passive="http://vocab.getty.edu/tgn/7014406"><desc><title type="main">The Sign of the Four</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/8698314</idno><placeName>Americas</placeName><location type="gps"><geo><lat>19</lat><long>-96</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/8698314"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000080</idno><placeName>Italy</placeName><location type="gps"><geo><lat>42.8333</lat><long>12.8333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/1000080"><desc><title type="main">A Sentimental Journey</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1000080"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7002445</idno><placeName>England</placeName><location type="gps"><geo><lat>53</lat><long>-2</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Austen/austen-lady-susan.xml" passive="http://vocab.getty.edu/tgn/7002445"><desc><title type="main">Lady Susan</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7002445"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Winkfield/winkfield-female-american.xml" passive="http://vocab.getty.edu/tgn/7002445"><desc><title type="main">The Female American; Or, The Adventures of Unca Eliza Winkfield (Vol. I)</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7002444</idno><placeName>Scotland</placeName><location type="gps"><geo><lat>57</lat><long>-4</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7002444"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7002448</idno><placeName>Northern Ireland</placeName><location type="gps"><geo><lat>54.5</lat><long>-6.5</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Swift/swift-modest-proposal.xml" passive="http://vocab.getty.edu/tgn/7002448"><desc><title type="main">A Modest Proposal</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1110561</idno><placeName>Pentland Hills</placeName><location type="gps"><geo><lat>55.766667</lat><long>-3.416667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1110561"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7007299</idno><placeName>Lausanne</placeName><location type="gps"><geo><lat>46.533333</lat><long>6.666667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7007299"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1109172</idno><placeName>Jura</placeName><location type="gps"><geo><lat>47.166667</lat><long>7</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1109172"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7018915</idno><placeName>Greenwich</placeName><location type="gps"><geo><lat>51.4667</lat><long>.0333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7018915"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7008263</idno><placeName>Rennes</placeName><location type="gps"><geo><lat>48.111981</lat><long>-1.674291</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7008263"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7016735</idno><placeName>Mediterranean Sea</placeName><location type="gps"><geo><lat>35</lat><long>20</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7016735"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7016612</idno><placeName>Afghanistan</placeName><location type="gps"><geo><lat>33</lat><long>65</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Doyle/doyle-sign.xml" passive="http://vocab.getty.edu/tgn/7016612"><desc><title type="main">The Sign of the Four</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7016619</idno><placeName>Black Sea</placeName><location type="gps"><geo><lat>43</lat><long>35</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7016619"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7018236</idno><placeName>Flanders</placeName><location type="gps"><geo><lat>51</lat><long>4.5</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7018236"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7465617</idno><placeName>Arthur's Seat</placeName><location type="gps"><geo><lat>55.933333</lat><long>-3.166667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7465617"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7459637</idno><placeName>Orkney Islands</placeName><location type="gps"><geo><lat>59</lat><long>-3</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7459637"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7001369</idno><placeName>Tel Aviv-Jaffa</placeName><location type="gps"><geo><lat>32.0833</lat><long>34.7667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Walpole/walpole-castle.xml" passive="http://vocab.getty.edu/tgn/7001369"><desc><title type="main">The Castle of Otranto</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7023890</idno><placeName>Rhone</placeName><location type="gps"><geo><lat>43.332856</lat><long>4.845111</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7023890"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7007868</idno><placeName>Brussels</placeName><location type="gps"><geo><lat>50.833333</lat><long>4.333333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7007868"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000144</idno><placeName>Turkey</placeName><location type="gps"><geo><lat>39</lat><long>35</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1000144"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7007746</idno><placeName>Alps</placeName><location type="gps"><geo><lat>46.416667</lat><long>10</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7007746"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7659490</idno><placeName>Boulogne</placeName><location type="gps"><geo><lat>46.793456</lat><long>-1.319403</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7659490"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7005688</idno><placeName>Turin</placeName><location type="gps"><geo><lat>45.05</lat><long>7.666667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7005688"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7005560</idno><placeName>Mexico</placeName><location type="gps"><geo><lat>23</lat><long>-102</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7005560"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7008038</idno><placeName>Paris</placeName><location type="gps"><geo><lat>48.866667</lat><long>2.333333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7008038"><desc><title type="main">A Sentimental Journey</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7008038"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7004474</idno><placeName>Naples</placeName><location type="gps"><geo><lat>40.833333</lat><long>14.25</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7004474"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7016845</idno><placeName>Netherlands</placeName><location type="gps"><geo><lat>52.5</lat><long>5.75</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7016845"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7009002</idno><placeName>Calais</placeName><location type="gps"><geo><lat>50.951241</lat><long>1.85899</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7009002"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011554</idno><placeName>Dover</placeName><location type="gps"><geo><lat>51.133333</lat><long>1.3</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7011554"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011798</idno><placeName>London</placeName><location type="gps"><geo><lat>51.514125</lat><long>-.093689</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/LMWMontagu/montagu-saturday.xml" passive="http://vocab.getty.edu/tgn/7011798"><desc><title type="main">"Saturday. The Small-Pox."</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011393</idno><placeName>Portsmouth</placeName><location type="gps"><geo><lat>50.766667</lat><long>-1.083333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7011393"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7003712</idno><placeName>Berlin</placeName><location type="gps"><geo><lat>52.516667</lat><long>13.4</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7003712"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7001378</idno><placeName>Beersheba</placeName><location type="gps"><geo><lat>31.25</lat><long>34.7833</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7001378"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1005503</idno><placeName>Saint Marylebone</placeName><location type="gps"><geo><lat>51.5167</lat><long>-.135</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Austen/austen-lady-susan.xml" passive="http://vocab.getty.edu/tgn/1005503"><desc><title type="main">Lady Susan</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000056</idno><placeName>Peru</placeName><location type="gps"><geo><lat>-10</lat><long>-76</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1000056"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7624576</idno><placeName>Montreuil</placeName><location type="gps"><geo><lat>48.777427</lat><long>1.369654</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7624576"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7449907</idno><placeName>Finsbury</placeName><location type="gps"><geo><lat>51.528393</lat><long>-.11435</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7449907"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7001303</idno><placeName>Thrace</placeName><location type="gps"><geo><lat>40.98975</lat><long>27.96055</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7001303"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7001306</idno><placeName>Dublin</placeName><location type="gps"><geo><lat>53.333056</lat><long>-6.248889</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7001306"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Burney/burney-evelina.xml" passive="http://vocab.getty.edu/tgn/7001306"><desc><title type="main">Evelina; or, A Young Lady's Entrance into the World</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1130681</idno><placeName>Tay</placeName><location type="gps"><geo><lat>56.366667</lat><long>-3.35</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1130681"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7009707</idno><placeName>Seine River</placeName><location type="gps"><geo><lat>49.433333</lat><long>.433333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7009707"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7000457</idno><placeName>Florence</placeName><location type="gps"><geo><lat>43.766667</lat><long>11.25</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7000457"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1050546</idno><placeName>Coupar Angus</placeName><location type="gps"><geo><lat>56.55</lat><long>-3.266667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1050546"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7009702</idno><placeName>Perth</placeName><location type="gps"><geo><lat>56.4</lat><long>-3.433333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7009702"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7009546</idno><placeName>Edinburgh</placeName><location type="gps"><geo><lat>55.95</lat><long>-3.2</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7009546"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7007887</idno><placeName>Ghent</placeName><location type="gps"><geo><lat>51.05</lat><long>3.716667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7007887"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/4012701</idno><placeName>Mayfair</placeName><location type="gps"><geo><lat>51.5</lat><long>-.15</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Winkfield/winkfield-female-american.xml" passive="http://vocab.getty.edu/tgn/4012701"><desc><title type="main">The Female American; Or, The Adventures of Unca Eliza Winkfield (Vol. I)</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7003321</idno><placeName>Vienna</placeName><location type="gps"><geo><lat>48.2167</lat><long>16.3667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7003321"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7008456</idno><placeName>Cambrai</placeName><location type="gps"><geo><lat>50.177216</lat><long>3.233826</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7008456"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7002473</idno><placeName>Istanbul</placeName><location type="gps"><geo><lat>41.011046</lat><long>28.957798</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7002473"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7008175</idno><placeName>Surrey</placeName><location type="gps"><geo><lat>51.2</lat><long>-.05</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Winkfield/winkfield-female-american.xml" passive="http://vocab.getty.edu/tgn/7008175"><desc><title type="main">The Female American; Or, The Adventures of Unca Eliza Winkfield (Vol. I)</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7007240</idno><placeName>Florida</placeName><location type="gps"><geo><lat>28</lat><long>-82</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Winkfield/winkfield-female-american.xml" passive="http://vocab.getty.edu/tgn/7007240"><desc><title type="main">The Female American; Or, The Adventures of Unca Eliza Winkfield (Vol. I)</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7008174</idno><placeName>Staffordshire</placeName><location type="gps"><geo><lat>52.833333</lat><long>-2</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Austen/austen-lady-susan.xml" passive="http://vocab.getty.edu/tgn/7008174"><desc><title type="main">Lady Susan</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011731</idno><placeName>Switzerland</placeName><location type="gps"><geo><lat>47</lat><long>8</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7011731"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7015931</idno><placeName>North Sea</placeName><location type="gps"><geo><lat>55.333</lat><long>3</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7015931"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011614</idno><placeName>Gravesend</placeName><location type="gps"><geo><lat>51.433333</lat><long>.366667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7011614"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1102873</idno><placeName>Hyde Park</placeName><location type="gps"><geo><lat>51.506991</lat><long>-.16476</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/1102873"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7007919</idno><placeName>Virginia</placeName><location type="gps"><geo><lat>37</lat><long>-80</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Winkfield/winkfield-female-american.xml" passive="http://vocab.getty.edu/tgn/7007919"><desc><title type="main">The Female American; Or, The Adventures of Unca Eliza Winkfield (Vol. I)</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7029209</idno><placeName>Upper Norwood</placeName><location type="gps"><geo><lat>51.416667</lat><long>-.1</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Doyle/doyle-sign.xml" passive="http://vocab.getty.edu/tgn/7029209"><desc><title type="main">The Sign of the Four</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7001554</idno><placeName>Mesopotamia</placeName><location type="gps"><geo><lat>34</lat><long>44</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7001554"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7647999</idno><placeName>Dranse</placeName><location type="gps"><geo><lat>46.403706</lat><long>6.520282</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7647999"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000078</idno><placeName>Ireland</placeName><location type="gps"><geo><lat>53</lat><long>-8</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1000078"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011913</idno><placeName>Thames</placeName><location type="gps"><geo><lat>51.5</lat><long>.466667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Doyle/doyle-sign.xml" passive="http://vocab.getty.edu/tgn/7011913"><desc><title type="main">The Sign of the Four</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7011913"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7004540</idno><placeName>Palestine</placeName><location type="gps"><geo><lat>31.9167</lat><long>35.3333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Walpole/walpole-castle.xml" passive="http://vocab.getty.edu/tgn/7004540"><desc><title type="main">The Castle of Otranto</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7011919</idno><placeName>Windsor</placeName><location type="gps"><geo><lat>51.483333</lat><long>-.6</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7011919"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Winkfield/winkfield-female-american.xml" passive="http://vocab.getty.edu/tgn/7011919"><desc><title type="main">The Female American; Or, The Adventures of Unca Eliza Winkfield (Vol. I)</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7008461</idno><placeName>Lille</placeName><location type="gps"><geo><lat>50.632971</lat><long>3.058585</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7008461"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7012611</idno><placeName>Rhine</placeName><location type="gps"><geo><lat>51.98404</lat><long>4.08245</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7012611"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7013304</idno><placeName>Ann Arbor</placeName><location type="gps"><geo><lat>42.2833</lat><long>-83.7333</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Rochester/rochester-satyr-mankind.xml" passive="http://vocab.getty.edu/tgn/7013304"><desc><title type="main">"Satyr [Against Reason and Mankind]"</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7012456</idno><placeName>Franconia</placeName><location type="gps"><geo><lat>49.816</lat><long>10.865</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7012456"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7018159</idno><placeName>Venice</placeName><location type="gps"><geo><lat>45.438611</lat><long>12.326667</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7018159"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000074</idno><placeName>Greece</placeName><location type="gps"><geo><lat>39</lat><long>22</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1000074"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7010273</idno><placeName>Saint Petersburg</placeName><location type="gps"><geo><lat>59.8833</lat><long>30.25</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7010273"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/1000070</idno><placeName>France</placeName><location type="gps"><geo><lat>46</lat><long>2</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/1000070"><desc><title type="main">A Sentimental Journey</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/1000070"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7000874</idno><placeName>Rome</placeName><location type="gps"><geo><lat>41.9</lat><long>12.483333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7000874"><desc><title type="main">A Sentimental Journey</title></desc></relation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7000874"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7003746</idno><placeName>Geneva</placeName><location type="gps"><geo><lat>46.196732</lat><long>6.110443</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7003746"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7619479</idno><placeName>Moulines</placeName><location type="gps"><geo><lat>44.864142</lat><long>4.374444</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7619479"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7014986</idno><placeName>Egypt (ancient)</placeName><location type="gps"><geo><lat>31.19518</lat><long>29.90976</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Winkfield/winkfield-female-american.xml" passive="http://vocab.getty.edu/tgn/7014986"><desc><title type="main">The Female American; Or, The Adventures of Unca Eliza Winkfield (Vol. I)</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7009562</idno><placeName>Saint Andrews</placeName><location type="gps"><geo><lat>56.333333</lat><long>-2.783333</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7009562"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7623294</idno><placeName>Montréal</placeName><location type="gps"><geo><lat>43.199051</lat><long>2.142604</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Sterne/sentimental-journey-2vols.xml" passive="http://vocab.getty.edu/tgn/7623294"><desc><title type="main">A Sentimental Journey</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7631625</idno><placeName>Le Môle</placeName><location type="gps"><geo><lat>46.105505</lat><long>6.453572</long></geo></location><listRelation><relation type="mention" ana="mention" active="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" passive="http://vocab.getty.edu/tgn/7631625"><desc><title type="main">Frankenstein, or The Modern Prometheus</title></desc></relation></listRelation></place></listPlace><listPlace><place><idno>http://vocab.getty.edu/tgn/7617217</idno><placeName>Passy</placeName><location type="gps"><geo><lat>48.200758</lat><long>2.910748</long></geo></location><listRelation><relation type="pubPlace" ana="pubPlace" active="/db/apps/LiC-data/data/Franklin/Franklin-remarks-concerning-savages.xml" passive="http://vocab.getty.edu/tgn/7617217"><desc><title>Remarks Concerning the Savages of North-America</title></desc></relation></listRelation></place></listPlace></body></text></TEI>
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <text>
+        <body>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7004446</idno>
+                    <placeName>Cologne</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>50.933333</lat>
+                            <long>6.95</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7004449</idno>
+                    <placeName>Mainz</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>50</lat>
+                            <long>8.271111</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7000084</idno>
+                    <placeName>Germany</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.5</lat>
+                            <long>10.5</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7027563</idno>
+                    <placeName>Eastwell</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>52.833333</lat>
+                            <long>-.833333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Finch/out/temp-dir-for-ant/tmp2.xml</id>
+                            <title type="main">"To the Nightingale"</title>
+                        </relation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/headnotes/finch.xml</id>
+                            <title>Headnote for Anne Finch</title>
+                        </relation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Finch/finch-nightingale.xml</id>
+                            <title type="main">"To the Nightingale"</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7024573</idno>
+                    <placeName>Greenland</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>72</lat>
+                            <long>-40</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7011781</idno>
+                    <placeName>London</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.514248</lat>
+                            <long>-.093145</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-whitefield.xml</id>
+                            <title type="main">"On the Death of the Rev. MR. GEORGE WHITEFIELD" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lady-death-relations.xml</id>
+                            <title type="main">"To a Lady on the Death of Three Relations"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-maecenas.xml</id>
+                            <title type="main">"To Maecenas" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Defoe/defoe-crusoe.xml</id>
+                            <title type="main">Robinson Crusoe</title>
+                            <title type="sub">The life and strange surprizing adventures of Robinson Crusoe: of York, mariner: who lived eight and twenty years, all alone in an un-inhabited island on the coast of America, near the mouth of the great river of Oroonoque; ... Written by himself.</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-son-brother.xml</id>
+                            <title type="main">"To a LADY and her Children, on the Death of her Son and their Brother"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-rebus.xml</id>
+                            <title type="main">
+                   "A REBUS, by I. B."</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-sewell.xml</id>
+                            <title type="main">"On the Death of the Rev. DR. SEWELL"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Rochester/rochester-satyr-mankind.xml</id>
+                            <title type="main">"Satyr [Against Reason and Mankind]"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-cambridge.xml</id>
+                            <title type="main">"To the University of Cambridge, in New-England" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-religion.xml</id>
+                            <title>"On Controversies in Religion"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-honorable-william.xml</id>
+                            <title type="main">"To the Right Honourable WILLLAM, Earl of DARTMOUTH, His Majesty's Principal
+                   Secretary of State for North America, &amp;c." </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-neptune.xml</id>
+                            <title type="main">"ODE TO NEPTUNE"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-hymn-humanity.xml</id>
+                            <title type="main">"An HYMN to HUMANITY" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-recollection.xml</id>
+                            <title type="main">"On RECOLLECTION" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-morning-hymn.xml</id>
+                            <title type="main">"An HYMN to the MORNING"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-clergyman-death-lady.xml</id>
+                            <title type="main">"To a Clergyman on the Death of his Lady" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lady-death-husband.xml</id>
+                            <title type="main">"To a Lady on the Death of her Husband"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-majesty.xml</id>
+                            <title type="main">"To the KING's Most Excellent Majesty"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-hurricane.xml</id>
+                            <title type="main">"To a LADY on her remarkable Preservation in an Hurricane in North-Carolina"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-funeral.xml</id>
+                            <title type="main">"A Funeral POEM on the Death of C. E. an Infant of Twelve Months"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-farewel.xml</id>
+                            <title type="main">
+                   "A Farewel to AMERICA"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-captain.xml</id>
+                            <title type="main">"To Captain H----D, of the 65th Regiment"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Johnson/johnson-rambler-4.xml</id>
+                            <title type="main">The Rambler No. 4</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Chudleigh/chudleigh-ladies.xml</id>
+                            <title type="main">"To the Ladies"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Swift/Swift-Gulliver.xml</id>
+                            <title type="main">Travels into Several Remote Nations of the World</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lady-health.xml</id>
+                            <title type="main">"To a LADY on her coming to North-America with her Son, for the Recovery of her
+                   Health"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-virtue.xml</id>
+                            <title type="main">"On Virtue" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-to-the-duchess-of-york.xml</id>
+                            <title>"To Her Royal Highness the Duchess of York"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-evening-hymn.xml</id>
+                            <title type="main">"An HYMN to the EVENING"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-dearest-lucasia.xml</id>
+                            <title>"Content, to my dearest Lucasia"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-daily-devotion.xml</id>
+                            <title type="main">"To the Rev. DR. THOMAS AMORY on reading his Sermons on DAILY DEVOTION, in which
+                   that Duty is recommended and assisted"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-rosania.xml</id>
+                            <title>"Rosania to Lucasia on her Letters"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Haywood/haywood-fantomina.xml</id>
+                            <title type="main">Fantomina; or, Love in a Maze</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-imagination.xml</id>
+                            <title type="main">"On IMAGINATION" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-marshall.xml</id>
+                            <title type="main">"On the Death of Dr. SAMUEL MARSHALL"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-his-daughter.xml</id>
+                            <title type="main">"To the Honourable T. H. Esq; on the Death of his Daughter"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-lieutenant.xml</id>
+                            <title type="main">
+                   "To His Honour the Lieutenant-Governor, on the Death of his Lady"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Finch/finch-nightingale.xml</id>
+                            <title type="main">"To the Nightingale"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-death.xml</id>
+                            <title>"Death"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-god-reconciling-world.xml</id>
+                            <title>"2.Cor.5.19. God was in Christ Reconciling the World to Himself"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-death-walter-lloid-knight.xml</id>
+                            <title>On the Death of the Truly Honorable Sir Walter Lloid Knight.</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Pope/pope-rape-lock.xml</id>
+                            <title type="main"> The Rape of the Lock </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-gentleman-voyage.xml</id>
+                            <title type="main">"To a GENTLEMAN on his Voyage to Great-Britain for the
+                   Recovery of his Health"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-against-pleasure.xml</id>
+                            <title>"Against Pleasure"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-avis.xml</id>
+                            <title type="main">"To a GENTLEMAN and LADY on the Death of the Lady's Brother and Sister, and a Child
+                   of the Name Avis, aged one Year" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-young-gentleman.xml</id>
+                            <title type="main">"On the Death of a young Gentleman"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-rebus-answer.xml</id>
+                            <title type="main">
+                   "AN ANSWER to the Rebus, by the Author of these
+                   POEMS" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-3-september.xml</id>
+                            <title>"On the 3. of September, 1651"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Finch/out/temp-dir-for-ant/tmp2.xml</id>
+                            <title type="main">"To the Nightingale"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-goliath.xml</id>
+                            <title type="main">"Goliath of Gath"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Behn/behn-rover.xml</id>
+                            <title>The Rover, or, The Banished Cavaliers</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-distress.xml</id>
+                            <title type="main">
+                   "NIOBE in Distress for her Children slain by APOLLO, from Ovid's Metamorphoses, Book VI. and from a view of the Painting of Mr. Richard Wilson" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-brought.xml</id>
+                            <title type="main">"Upon Being Brought from Africa to America"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Behn/behn-oroonoko.xml</id>
+                            <title type="main">Oroonoko, or, The royal slave: A True History</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-providence.xml</id>
+                            <title type="main">"Thoughts on the WORKS of PROVIDENCE" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-painter.xml</id>
+                            <title type="main"> "To S. M. a young African Painter, on seeing his Works"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-isaiah.xml</id>
+                            <title type="main">"ISAIAH lxiii. I-8" </title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-infant.xml</id>
+                            <title type="main">"On the Death of J. C. an Infant"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Austen/austen-sanditon-ms.xml</id>
+                            <title type="main">TITLE HERE</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Philips/philips-double-murder.xml</id>
+                            <title>"Upon the Double Murder of King Charles I"</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wollstonecraft/wollstonecraft-vindication-excerpted.xml</id>
+                            <title type="main">A Vindication of the Rights of Woman</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Wheatley/wheatley-death-young-lady.xml</id>
+                            <title type="main">"On the Death of a young Lady of Five Years of Age" </title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1000004</idno>
+                    <placeName>Asia</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>43.8</lat>
+                            <long>87.633</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7622466</idno>
+                    <placeName>Mer de Glace</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>45.918827</lat>
+                            <long>6.929334</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7002435</idno>
+                    <placeName>Russia</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>60</lat>
+                            <long>47</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7617157</idno>
+                    <placeName>Blanc, Mont</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>45.356009</lat>
+                            <long>6.685511</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1000002</idno>
+                    <placeName>South America</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>-3.55</lat>
+                            <long>-56.683</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1000003</idno>
+                    <placeName>Europe</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>56.2</lat>
+                            <long>15.016</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7011805</idno>
+                    <placeName>Woolwich</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.4833</lat>
+                            <long>.0667</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7007843</idno>
+                    <placeName>Pennine Alps</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>46.083333</lat>
+                            <long>7.833333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7011931</idno>
+                    <placeName>Oxford</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.75</lat>
+                            <long>-1.25</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/8698314</idno>
+                    <placeName>Americas</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>19</lat>
+                            <long>-96</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1000080</idno>
+                    <placeName>Italy</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>42.8333</lat>
+                            <long>12.8333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7002445</idno>
+                    <placeName>England</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>53</lat>
+                            <long>-2</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7002444</idno>
+                    <placeName>Scotland</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>57</lat>
+                            <long>-4</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7002448</idno>
+                    <placeName>Northern Ireland</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>54.5</lat>
+                            <long>-6.5</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Swift/swift-modest-proposal.xml</id>
+                            <title type="main">A Modest Proposal</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1110561</idno>
+                    <placeName>Pentland Hills</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>55.766667</lat>
+                            <long>-3.416667</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1109172</idno>
+                    <placeName>Jura</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>47.166667</lat>
+                            <long>7</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7018915</idno>
+                    <placeName>Greenwich</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.4667</lat>
+                            <long>.0333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7016735</idno>
+                    <placeName>Mediterranean Sea</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>35</lat>
+                            <long>20</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7016619</idno>
+                    <placeName>Black Sea</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>43</lat>
+                            <long>35</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7465617</idno>
+                    <placeName>Arthur's Seat</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>55.933333</lat>
+                            <long>-3.166667</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7459637</idno>
+                    <placeName>Orkney Islands</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>59</lat>
+                            <long>-3</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7001369</idno>
+                    <placeName>Tel Aviv-Jaffa</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>32.0833</lat>
+                            <long>34.7667</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7023890</idno>
+                    <placeName>Rhone</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>43.332856</lat>
+                            <long>4.845111</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1000144</idno>
+                    <placeName>Turkey</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>39</lat>
+                            <long>35</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7007746</idno>
+                    <placeName>Alps</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>46.416667</lat>
+                            <long>10</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7005560</idno>
+                    <placeName>Mexico</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>23</lat>
+                            <long>-102</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7008038</idno>
+                    <placeName>Paris</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>48.866667</lat>
+                            <long>2.333333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7011798</idno>
+                    <placeName>City of London</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.514125</lat>
+                            <long>-.093689</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/LMWMontagu/montagu-saturday.xml</id>
+                            <title type="main">"Saturday. The Small-Pox."</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7011393</idno>
+                    <placeName>Portsmouth</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>50.766667</lat>
+                            <long>-1.083333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1000056</idno>
+                    <placeName>Peru</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>-10</lat>
+                            <long>-76</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7449907</idno>
+                    <placeName>Finsbury</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.528393</lat>
+                            <long>-.11435</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7001306</idno>
+                    <placeName>Dublin</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>53.333056</lat>
+                            <long>-6.248889</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                        <relation type="pubPlace">
+                            <id>/db/apps/LiC-data/data/Burney/burney-evelina.xml</id>
+                            <title type="main">Evelina; or, A Young Lady's Entrance into the World</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1130681</idno>
+                    <placeName>Tay</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>56.366667</lat>
+                            <long>-3.35</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1050546</idno>
+                    <placeName>Coupar Angus</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>56.55</lat>
+                            <long>-3.266667</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7009702</idno>
+                    <placeName>Perth</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>56.4</lat>
+                            <long>-3.433333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7009546</idno>
+                    <placeName>Edinburgh</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>55.95</lat>
+                            <long>-3.2</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7002473</idno>
+                    <placeName>Istanbul</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>41.011046</lat>
+                            <long>28.957798</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7011731</idno>
+                    <placeName>Switzerland</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>47</lat>
+                            <long>8</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7015931</idno>
+                    <placeName>North Sea</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>55.333</lat>
+                            <long>3</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7011614</idno>
+                    <placeName>Gravesend</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.433333</lat>
+                            <long>.366667</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7647999</idno>
+                    <placeName>Dranse</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>46.403706</lat>
+                            <long>6.520282</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1000078</idno>
+                    <placeName>Ireland</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>53</lat>
+                            <long>-8</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7011913</idno>
+                    <placeName>Thames</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.5</lat>
+                            <long>.466667</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7004540</idno>
+                    <placeName>Palestine</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>31.9167</lat>
+                            <long>35.3333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Walpole/walpole-castle.xml</id>
+                            <title type="main">The Castle of Otranto</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7011919</idno>
+                    <placeName>Windsor</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.483333</lat>
+                            <long>-.6</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7012611</idno>
+                    <placeName>Rhine</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>51.98404</lat>
+                            <long>4.08245</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1000074</idno>
+                    <placeName>Greece</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>39</lat>
+                            <long>22</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/1000070</idno>
+                    <placeName>France</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>46</lat>
+                            <long>2</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7010273</idno>
+                    <placeName>Saint Petersburg</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>59.8833</lat>
+                            <long>30.25</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7000874</idno>
+                    <placeName>Rome</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>41.9</lat>
+                            <long>12.483333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7009562</idno>
+                    <placeName>Saint Andrews</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>56.333333</lat>
+                            <long>-2.783333</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+            <listPlace>
+                <place>
+                    <idno>http://vocab.getty.edu/tgn/7631625</idno>
+                    <placeName>Le Môle</placeName>
+                    <location type="gps">
+                        <geo>
+                            <lat>46.105505</lat>
+                            <long>6.453572</long>
+                        </geo>
+                    </location>
+                    <listRelation>
+                        <relation type="mention">
+                            <id>/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml</id>
+                            <title type="main">Frankenstein, or The Modern Prometheus</title>
+                        </relation>
+                    </listRelation>
+                </place>
+            </listPlace>
+        </body>
+    </text>
+</TEI>

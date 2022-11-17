@@ -23,7 +23,6 @@ body {
     border-bottom:4px solid #A18C6A;
 }
 .navbar {margin-bottom:0;}
-.navbar-collapse {padding-right:5em;}
 .banner {height:25px; background-image: url(../images/banner.png);}
 .navbar {background-color:white; border-top: 2px solid #42566D; border-bottom: 2px solid #42566D;}
 .navbar .logo img {vertical-align:text-bottom;}
@@ -111,11 +110,6 @@ body {
     text-align:right;
 /*    border-bottom: 1px solid #A18C6A;*/
 }
-
-ul.coursepack {
-  list-style-type: none;
-}
-
 .expandedText {margin-left:1.5em;}
 
 .workToolbar {
@@ -302,7 +296,7 @@ form#search {margin-top:-1.5em; padding-top:0;}
     text-decoration:underline;
 }
 sup.footnoteRef{display:none;}
-sup.footnoteRef {
+sup..footnoteRef {
     font-size: .75em;
     line-height: 0.5em;
     vertical-align: baseline;
@@ -373,13 +367,10 @@ svg {
 .tei-div {margin:1em 0;}
 .tei-distributor {display:block;}
 .tei-distributor .tei-email {display:block; margin-left:2em;}
-.tei-floatingText  {display:block; color: #777; font-size:small;}
 .tei-front {display:block; margin: 1em 0;}
 .tei-front .tei-titlePage {display:block; text-align:center;}
 .tei-footnote-id {display:block; font-size:1.25em; font-weight:500;}
-.tei-indent {display:block; text-indent:2em;}
-.tei-indent2 {display:block; text-indent:4em;}
-.tei-indent3 {display:block; text-indent:6em;}
+.tei-indent {text-indent:2em;}
 .results-list-desc .tei-imprint {display:inline; margin:inherit;}
 .tei-imprint {display:block; margin:1em;}
 .tei-imprint .tei-note {display:block; font-size:small; margin-left:2em;}
@@ -388,13 +379,12 @@ svg {
 .tei-head-subtitle {display:block; text-align:center; font-size:1.25em; font-weight:500; color: #777;}
 .tei-lg {display:block; margin:1em 0;}
 .tei-l {display:block;}
-.tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top; text-align:right; float: right;}
+.tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top;}
 .tei-div .tei-opener {display:block; margin:1em 0;}
 .tei-div .tei-closer {display:block; margin:1em 0; text-align:right;}
 .tei-div .tei-opener .tei-dateline {display:block; text-align:right;}
 .tei-pb {display:block; margin:1.5em 0; border-top:1px double #ccc; text-align:center;}
-.tei-speaker {font-variant:small-caps;}
-.tei-stage {display:block; padding:1em; font-size:small; color: #777; font-style: italic;}
+.tei-stage {display:block; padding:1em;}
 .tei-sp {padding-bottom:.5em;}
 .tei-teiHeader{display:block; margin:1em; text-align:center;}
 .title-sub {display:inline-block; margin-left:.5em;}
@@ -420,16 +410,3 @@ svg {
 .slide-content .featuredImage img {width:60%;}
 .slide-content {font-size:.75em;}
 }
-
-/* Drag and drop styles */
-.container { padding:1em;}
-
-.box {
-  border: 3px solid #666;
-  border-radius: .5em;
-  padding: 10px;
-  cursor: move;
-}
-/* Coursepack */
-/* Editing styles */
-.editArea {content: "\270f";}
