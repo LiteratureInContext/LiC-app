@@ -561,9 +561,12 @@ declare function tei2html:citation($nodes as node()*) {
         if($monograph != '') then string-join($monograph,'') else (),
         if($imprint != '') then concat(', ',string-join($imprint,'')) else (),
         if($biblScope != '') then concat(', ',string-join($biblScope,'')) else (),
-        if($analytic != '' or $monograph != '' or $imprint != '' or $biblScope != '') then '. ' else (),
-        ' Literature in Context: An Open Anthology. ', request:get-url(),'. ', 'Accessed: ', current-dateTime())
-    }</span>
+        if($analytic != '' or $monograph != '' or $imprint != '' or $biblScope != '') then '. ' 
+        else concat('"',$nodes/descendant::tei:title[1],'." '))
+        }
+        <em> Literature in Context: An Open Anthology. </em>
+        {concat(request:get-url(),'. ', 'Accessed: ', current-dateTime())}
+    </span>
 };
 
 (:~
