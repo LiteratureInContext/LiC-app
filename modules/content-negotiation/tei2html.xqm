@@ -250,8 +250,10 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
                     return tei2html:persName($author)
                 let $name-count := count($author-full-names)
                 return 
-                    if ($name-count le 2) then
-                        string-join($author-full-names, ' and ')
+                    if ($name-count eq 1) then
+                        $author-full-names
+                    else if ($name-count eq 2) then
+                        concat($author-full-names[1], ' and ',$author-full-names[last()])    
                     else
                         concat(
                             string-join(
@@ -263,11 +265,14 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
                         )
             }
             </small></h1>
-            { if($resps != '') then 
+            { 
+            if($resps != '' and not(contains(document-uri(root($header)),'/data/headnotes'))) then 
                 <ul>{
                 for $n in $resps
                 return
-                    <li class="list-unstyled">{concat($n/descendant::tei:resp, ' by ', string-join($n/descendant::tei:name,', '))}</li>
+                    <li class="list-unstyled">
+                        {concat($n/descendant::tei:resp, ' by ', string-join($n/descendant::tei:name,', '))}
+                    </li>
                 }</ul>
               else() 
             }
@@ -504,9 +509,9 @@ declare function tei2html:citation($nodes as node()*) {
     else tei2html:record($nodes/descendant-or-self::tei:teiHeader)
 :)
     let $persons :=     if($nodes/descendant::tei:author) then 
-                            tei2html:emit-responsible-persons($nodes/descendant::tei:author,20)
+                            tei2html:emit-responsible-persons($nodes/descendant::tei:author/descendant::tei:name,20)
                         else if($nodes/descendant::tei:editor[not(@role) or @role!='translator']) then 
-                            (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],20), 
+                            (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator']/descendant::tei:name,20), 
                             if(count($nodes/descendant::tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
                         else ()
     let $analytic := if($nodes/descendant::tei:analytic/tei:title) then
@@ -538,8 +543,12 @@ declare function tei2html:citation($nodes as node()*) {
         if($monograph != '') then string-join($monograph,'') else (),
         if($imprint != '') then concat(', ',string-join($imprint,'')) else (),
         if($biblScope != '') then concat(', ',string-join($biblScope,'')) else (),
-        '. Literature in Context: An Open Anthology. ', request:get-url(),'. ', 'Accessed: ', current-dateTime())
-    }</span>
+        if($analytic != '' or $monograph != '' or $imprint != '' or $biblScope != '') then '. ' 
+        else concat('"',$nodes/descendant::tei:title[1],'." '))
+        }
+        <em> Literature in Context: An Open Anthology. </em>
+        {concat(request:get-url(),'. ', 'Accessed: ', current-dateTime())}
+    </span>
 };
 
 (:~
@@ -633,13 +642,13 @@ declare function tei2html:emit-responsible-persons($nodes as node()*, $num as xs
             if($count = 1) then 
                 tei2html:person($nodes)  
             else if($count = 2) then
-                (tei2html:person($nodes[1]),' and ',tei2html:person($nodes[2]))            
+                (tei2html:person($nodes[1]),' and ',string-join($nodes[2], ' '))            
             else 
                 for $n at $p in subsequence($nodes, 1, $num)
                 return 
                     if($p = ($num - 1)) then 
                         (normalize-space(tei2html:person($n)), ' and ')
-                    else concat(normalize-space(tei2html:person($n)),', ')
+                    else concat(normalize-space(string-join($nodes[2], ' ')),', ')
     return replace(string-join($persons),'\s+$','')                    
 };
 
