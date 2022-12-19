@@ -380,6 +380,13 @@ svg {
 .tei-indent {display:block; text-indent:2em;}
 .tei-indent2 {display:block; text-indent:4em;}
 .tei-indent3 {display:block; text-indent:6em;}
+.tei-indent4 {display:block; text-indent:8em;}
+.tei-indent5 {display:block; text-indent:10em;}
+.tei-indent6 {display:block; text-indent:12em;}
+.tei-indent7 {display:block; text-indent:14em;}
+.tei-indent8 {display:block; text-indent:16em;}
+.tei-indent9 {display:block; text-indent:18em;}
+.tei-indent10 {display:block; text-indent:20em;}
 .results-list-desc .tei-imprint {display:inline; margin:inherit;}
 .tei-imprint {display:block; margin:1em;}
 .tei-imprint .tei-note {display:block; font-size:small; margin-left:2em;}
