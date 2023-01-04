@@ -520,27 +520,21 @@ declare function tei2html:COinS($nodes as node()*){
  : Select citation type based on child elements
 :)
 declare function tei2html:citation($nodes as node()*) {
-(:
-    if($nodes/descendant::tei:monogr and not($nodes/descendant::tei:analytic)) then 
-        tei2html:monograph($nodes/descendant::tei:monogr)
-    else if($nodes/descendant::tei:analytic) then tei2html:analytic($nodes/descendant::tei:analytic)
-    else tei2html:record($nodes/descendant-or-self::tei:teiHeader)
-:)
     let $persons :=     if($nodes/descendant::tei:author) then 
-                            tei2html:emit-responsible-persons($nodes/descendant::tei:author/descendant::tei:name,20)
+                            tei2html:emit-responsible-persons($nodes/descendant::tei:author,20)
                         else if($nodes/descendant::tei:editor[not(@role) or @role!='translator']) then 
-                            (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator']/descendant::tei:name,20), 
+                            (tei2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],20), 
                             if(count($nodes/descendant::tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
                         else ()
     let $analytic := if($nodes/descendant::tei:analytic/tei:title) then
                         if(starts-with($nodes/descendant::tei:analytic/tei:title,'"')) then
-                           $nodes/descendant::tei:analytic/tei:title
-                        else concat('"',$nodes/descendant::tei:analytic/tei:title,'." ')
+                           $nodes/descendant::tei:analytic/tei:title/text()
+                        else concat('"',$nodes/descendant::tei:analytic/tei:title,'" ')
                      else()
     let $monograph := if($nodes/descendant::tei:monogr/tei:title) then
                         if($nodes/descendant::tei:monogr/tei:title[@type="sub"]) then 
-                            concat($nodes/descendant::tei:monogr/tei:title[@type='main'],'; ',$nodes/descendant::tei:monogr/tei:title[@type="sub"])
-                        else ()
+                           concat($nodes/descendant::tei:monogr/tei:title[@type='main'],'; ',$nodes/descendant::tei:monogr/tei:title[@type="sub"])
+                        else $nodes/descendant::tei:monogr/tei:title/text()
                      else() 
     let $imprint := if($nodes/descendant::tei:monogr/descendant::tei:imprint) then
                         (if($nodes/descendant::tei:monogr/descendant::tei:imprint[1]/descendant::tei:publisher[1]) then 
@@ -556,9 +550,10 @@ declare function tei2html:citation($nodes as node()*) {
                        else()                   
     return 
     <span class="citation">{
-        concat(if($persons != '') then concat(string-join($persons,''),'. ') else (),
-        if($analytic != '') then string-join($analytic,'') else (),
-        if($monograph != '') then string-join($monograph,'') else (),
+        (if($persons != '') then concat(string-join($persons,''),'. ') else (),
+        if($analytic != '') then <span class="title-analytic">{$analytic}</span> else (),
+        if($analytic != '') then '. ' else(),
+        if($monograph != '') then <span class="title-monograph"> {$monograph}</span> else (),
         if($imprint != '') then concat(', ',string-join($imprint,'')) else (),
         if($biblScope != '') then concat(', ',string-join($biblScope,'')) else (),
         if($analytic != '' or $monograph != '' or $imprint != '' or $biblScope != '') then '. ' 
