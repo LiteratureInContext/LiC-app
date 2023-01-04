@@ -408,8 +408,7 @@ svg {
 .tei-titleStmt .tei-title {display:block; font-size:large; font-weight:600; margin:1em; padding:1em;}
 .tei-titlePage { margin: 1em 0;}
 .tei-titlePart {font-weight:500; font-size:1.5em;}
-
-
+.title-monograph {font-style:italic;}
 /* Styles for mobile */
 @media (max-width: 1000px) {
   /* Turn off fixed search-box for smaller browsers*/
