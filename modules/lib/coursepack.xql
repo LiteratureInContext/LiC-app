@@ -53,7 +53,7 @@ declare function local:create-new-coursepack($data as item()*){
     let $coursepackTitle := $coursepack(1)('coursepackTitle')
     let $works := $coursepack(1)('works')
     let $desc := if($coursepack(1)('coursepackDesc')) then <desc id="coursepackNotes">{$coursepack(1)('coursepackDesc')}</desc> else ()
-    let $id := concat(replace($coursepackTitle,'\s|''|:|;|/|\\|,',''),$num)
+    let $id := concat(replace(replace($coursepackTitle, "[^a-zA-Z0-9 - |]", ''),'\s',''),$num)
     let $userFullName := sm:get-account-metadata($local:user, xs:anyURI('http://axschema.org/namePerson'))
     let $newcoursepack :=  
         <coursepack id="{$id}" title="{$coursepackTitle}" user="{$local:user}">
