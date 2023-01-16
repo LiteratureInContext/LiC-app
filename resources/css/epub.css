@@ -1,0 +1,137 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin-right: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
+  }
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin-right: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
+  }
+  
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+@page {
+  margin-top: 30px;
+  margin-bottom: 20px; }
+
+
+
+#title {text-align:center;}
+#title .resp {margin-top:8em; font-size:small;}
+
+.tei-footnote-id {display:block;}
+.indent {margin-left: 12px;}
+sup.footnoteRef{display:none;}
+sup.footnoteRef {
+    font-size: .75em;
+    line-height: 0.5em;
+    vertical-align: baseline;
+    position: relative;
+    }
+    
+/* TEI styles */
+.tei-ab { text-indent: 5mm; }
+.tei-annotation-show {}
+.tei-author {font-weight:500;}
+.tei-addrLine {display:block; margin-left:2em;}
+.tei-availability {display:block; }
+.tei-body {display:block; margin:1em;}
+.tei-castList dl {display:block; margin-left:1em;}
+.tei-castList dt {font-weight:600; color:#444;}
+.tei-castList dd {margin-left:1em;}
+.tei-div {margin:1em 0;}
+.tei-distributor {display:block;}
+.tei-distributor .tei-email {display:block; margin-left:2em;}
+.tei-floatingText  {display:block; color: #777; font-size:small;}
+.tei-front {display:block; margin: 1em 0; text-align:center;}
+.tei-titlePage {display:block; text-align:center;  margin: 1em 0;}
+.tei-footnote-id {display:block; font-size:1.25em; font-weight:500;}
+.tei-indent {display:block; text-indent:2em;}
+.tei-indent2 {display:block; text-indent:4em;}
+.tei-indent3 {display:block; text-indent:6em;}
+.tei-indent4 {display:block; text-indent:8em;}
+.tei-indent5 {display:block; text-indent:10em;}
+.tei-indent6 {display:block; text-indent:12em;}
+.tei-indent7 {display:block; text-indent:14em;}
+.tei-indent8 {display:block; text-indent:16em;}
+.tei-indent9 {display:block; text-indent:18em;}
+.tei-indent10 {display:block; text-indent:20em;}
+.results-list-desc .tei-imprint {display:inline; margin:inherit;}
+.tei-imprint {display:block; margin:1em;}
+.tei-imprint .tei-note {display:block; font-size:small; margin-left:2em;}
+.tei-head {display:block; text-align:center; font-size:1.5em; font-weight:500; color: #777;}
+/*.tei-head-title {display:block; text-align:center; font-size:1.35em; font-weight:500;}*/
+.tei-head-subtitle {display:block; text-align:center; font-size:1.25em; font-weight:500; color: #777;}
+.tei-lg {display:block; margin:1em 0;}
+.tei-l {display:block;}
+.tei-line-number {margin-right:1em; font-size:smaller; color:#666; vertical-align:text-top; text-align:right; float: right;}
+.tei-div .tei-opener {display:block; margin:1em 0;}
+.tei-div .tei-closer {display:block; margin:1em 0; text-align:right;}
+.tei-div .tei-opener .tei-dateline {display:block; text-align:right;}
+.tei-pb {display:block; margin:1.5em 0; border-top:1px double #ccc; text-align:center;}
+.tei-publicationStmt{display:block; text-align: left; }
+.tei-publisher {display:block; font-size:large; }
+.tei-speaker {font-variant:small-caps;}
+.tei-stage {display:block; padding:1em; font-size:small; color: #777; font-style: italic;}
+.tei-sp {padding-bottom:.5em;}
+.tei-teiHeader{display:block; margin:1em; text-align:center;}
+.title-sub {display:inline-block; margin-left:.5em;}
+.tei-titleStmt .tei-title {display:block; font-size:large; font-weight:600; margin:1em; padding:1em;}
+.tei-titlePart {font-weight:500; font-size:1.5em;}
+.tei-teiHeader5 { font-size: .85em; }
+.tei-supplied:before { content:"<"; }
+.tei-supplied:after { content:">"; }
+.tei-signed { text-align: right; }
+.tei-signed { font-style: italic; }
+.tei-pb { font-size: .85em; background-color: #C0C0C0; border-left: 1px solid black; border-right: 1px solid black; padding: 0 1em; }
+.tei-anchor { font-size: .85em; background-color: #C0C0C0; padding: 0 .25em; border-right: 1px solid black; text-indent: 0; margin: 0 .25em; }
+.tei-hi { font-style: italic; }
+.tei-code { font-family:monospace }
+.tei-del { text-decoration: line-through; }
+.tei-trailer { color: green; }
+.tei-speaker { font-style:italic; }
+.tei-figDesc:before { content: '[..'; }
+.tei-figDesc:after { content: '..]'; }
+.tei-figDesc { color: grey;font-style:italic; }
+.tei-foreign { font-style:italic; }
+.tei-email { font-family:monospace }
+.tei-floatingText { margin: 6pt; border: solid black 1pt; }
+.tei-table { font-size: smaller; background-color: #F0F0F0; }
+.tei-address { margin-top: 2em; margin-left: 2em; margin-right: 2em; margin-bottom: 2em; }
+.tei-castList { list-style: ordered; }
+.tei-l { margin-left: 1em; }
+.tei-closer { margin-top: 1em; margin-left: 1em; margin-left: 1em; }
+.tei-p { text-align: justify; }
+.tei-q { margin-left: 10px; margin-right: 10px; }
+.tei-q:before { content: '‘'; }
+.tei-q:after { content: '’'; }
+.tei-docTitle { font-size: larger; }
+.tei-stage { font-style: italic; }
+.tei-edition:before { content: 'Edition: '; }
+.tei-add { color: green; text-decoration: underline; }
+.tei-unclear:after { content: ' [?] '; }
+.tei-argument { margin-bottom: 0.5em; }
+.tei-corr:before { content: '['; }
+.tei-corr:after { content: ']'; }
+.tei-sic:before { content: '{'; }
+.tei-sic:after { content: '}'; }
+.tei-addrLine { white-space: nowrap; }
+.tei-gap { color: grey; }
+.tei-gap:before { content: '[..'; }
+.tei-gap:after { content: '..]'; }
+.tei-quote:before { content: '‘'; }
+.tei-quote:after { content: '’'; }
+.tei-quote { margin-left: 10px; margin-right: 10px; }
+
+
+[epub-type="noteref"] { display: none }
+.book-content-popup-container [epub-type"noteref"] { display: block; }
