@@ -426,16 +426,3 @@ svg {
 .slide-content .featuredImage img {width:60%;}
 .slide-content {font-size:.75em;}
 }
-
-/* Drag and drop styles */
-.container { padding:1em;}
-
-.box {
-  border: 3px solid #666;
-  border-radius: .5em;
-  padding: 10px;
-  cursor: move;
-}
-/* Coursepack */
-/* Editing styles */
-.editArea {content: "\270f";}
