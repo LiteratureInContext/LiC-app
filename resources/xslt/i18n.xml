@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Interface translations for TEI XSL stylesheets -->
-<i18n>
+<!-- Interface translations for TEI XSL stylesheets --><i18n>
   <codes>
     <code xml:lang="hr" lang3="hrv">
       <desc>Croatian</desc>

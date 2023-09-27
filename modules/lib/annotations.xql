@@ -2,9 +2,9 @@ xquery version "3.1";
 (: For dynamically loading functions.  :)
 
 (: Import application modules. :)
-import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "../content-negotiation/tei2html.xqm";
-import module namespace data="http://LiC.org/data" at "data.xqm";
+import module namespace data="http://LiC.org/apps/data" at "data.xqm";
 
 (: Namespaces :)
 declare namespace tei="http://www.tei-c.org/ns/1.0";

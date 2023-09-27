@@ -1,20 +1,21 @@
-xquery version "3.0";
+xquery version "3.1";
 
 (:~
  : A set of helper functions to access the application context from
  : within a module.
  :)
-module namespace config="http://LiC.org/config";
 
-declare namespace templates="http://exist-db.org/xquery/templates";
+module namespace config="http://LiC.org/apps/config";
+
+import module namespace templates="http://exist-db.org/xquery/html-templating";
+import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
-
-(: 
+(:
     Determine the application root collection from the current module load path.
 :)
-declare variable $config:app-root := 
+declare variable $config:app-root :=
     let $rawPath := system:get-module-load-path()
     let $modulePath :=
         (: strip the xmldb: part :)
@@ -32,6 +33,7 @@ declare variable $config:app-root :=
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 
 declare variable $config:expath-descriptor := doc(concat($config:app-root, "/expath-pkg.xml"))/expath:package;
+
 (: Get repo-config.xml to parse global varaibles :)
 declare variable $config:get-config := doc($config:app-root || '/repo-config.xml');
 
@@ -139,6 +141,7 @@ declare function config:app-info($node as node(), $model as map(*)) {
     let $repo := config:repo-descriptor()
     return
         <table class="app-info">
+          <caption>Application Info</caption>
             <tr>
                 <td>app collection:</td>
                 <td>{$config:app-root}</td>
@@ -146,10 +149,15 @@ declare function config:app-info($node as node(), $model as map(*)) {
             {
                 for $attr in ($expath/@*, $expath/*, $repo/*)
                 return
-                    <tr>
-                        <td>{node-name($attr)}:</td>
-                        <td>{$attr/string()}</td>
-                    </tr>
+                  if ($attr eq '')
+                then (<tr>
+                    <td>{node-name($attr)}:</td>
+                    <td>{$attr/@*/string()}</td>
+                </tr>)
+                else (<tr>
+                    <td>{node-name($attr)}:</td>
+                    <td>{$attr/string()}</td>
+                </tr>)
             }
             <tr>
                 <td>Controller:</td>

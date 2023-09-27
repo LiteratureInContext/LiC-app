@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:fotex="http://www.tug.org/fotex" exclude-result-prefixes="fotex a rng tei teix" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/Format" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:fotex="http://www.tug.org/fotex" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="fotex a rng tei teix" version="2.0">
   <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet" type="stylesheet">
       <desc>
          <p>
@@ -1015,49 +1014,49 @@ of this software, even if advised of the possibility of such damage.
 <!-- one sided, single column -->
       <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="simple1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
-            <region-before extent="{$regionBeforeExtent}"/>
+            <fo:region-before extent="{$regionBeforeExtent}"/>
             <region-after extent="{$regionAfterExtent}"/>
          </fo:simple-page-master>
          <!-- for left-hand/tei:even pages in twosided mode, single column -->
       <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="left1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
-            <region-before region-name="xsl-region-before-left" extent="{$regionBeforeExtent}"/>
+            <fo:region-before region-name="xsl-region-before-left" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-left" extent="{$regionAfterExtent}"/>
          </fo:simple-page-master>
          <!-- for right-hand/tei:odd pages in twosided mode, single column -->
       <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="right1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
-            <region-before region-name="xsl-region-before-right" extent="{$regionBeforeExtent}"/>
+            <fo:region-before region-name="xsl-region-before-right" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-right" extent="{$regionAfterExtent}"/>
          </fo:simple-page-master>
          <!-- special case of first page in either mode, single column -->
       <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="first1" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
-            <region-before region-name="xsl-region-before-first" extent="{$regionBeforeExtent}"/>
+            <fo:region-before region-name="xsl-region-before-first" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-first" extent="{$regionAfterExtent}"/>
          </fo:simple-page-master>
          <!-- for pages in one-side mode, 2 column -->
       <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="simple2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body column-count="{$columnCount}" margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
-            <region-before extent="{$regionBeforeExtent}"/>
+            <fo:region-before extent="{$regionBeforeExtent}"/>
             <region-after extent="{$regionAfterExtent}"/>
          </fo:simple-page-master>
          <!-- for left-hand/tei:even pages in twosided mode, 2 column -->
       <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="left2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body column-count="{$columnCount}" margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
-            <region-before region-name="xsl-region-before-left" extent="{$regionBeforeExtent}"/>
+            <fo:region-before region-name="xsl-region-before-left" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-left" extent="{$regionAfterExtent}"/>
          </fo:simple-page-master>
          <!-- for right-hand/tei:odd pages in twosided mode, 2 column -->
       <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="right2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body column-count="{$columnCount}" margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
-            <region-before region-name="xsl-region-before-right" extent="{$regionBeforeExtent}"/>
+            <fo:region-before region-name="xsl-region-before-right" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-right" extent="{$regionAfterExtent}"/>
          </fo:simple-page-master>
          <!-- special case of first page in either mode -->
       <fo:simple-page-master xmlns:fo="http://www.w3.org/1999/XSL/Format" master-name="first2" page-width="{$pageWidth}" page-height="{$pageHeight}" margin-top="{$pageMarginTop}" margin-bottom="{$pageMarginBottom}" margin-left="{$pageMarginLeft}" margin-right="{$pageMarginRight}">
             <region-body column-count="{$columnCount}" margin-bottom="{$bodyMarginBottom}" margin-top="{$bodyMarginTop}"/>
-            <region-before region-name="xsl-region-before-first" extent="{$regionBeforeExtent}"/>
+            <fo:region-before region-name="xsl-region-before-first" extent="{$regionBeforeExtent}"/>
             <region-after region-name="xsl-region-after-first" extent="{$regionAfterExtent}"/>
          </fo:simple-page-master>
          <!-- setup for double-sided, 1 column, no first page -->

@@ -6,8 +6,8 @@ xquery version "3.1";
 :)
 
 (: Import eXist modules:)
-import module namespace config="http://LiC.org/config" at "../config.xqm";
-import module namespace data="http://LiC.org/data" at "data.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
+import module namespace data="http://LiC.org/apps/data" at "data.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "../content-negotiation/tei2html.xqm";
 import module namespace functx="http://www.functx.com";
 
@@ -69,7 +69,7 @@ declare function local:create-new-coursepack($data as item()*){
                     let $regex := fn:analyze-string($text,'id="([^"]*)"')
                     let $m1 := $regex//fn:match[1]/fn:group/text()
                     let $m2 := $regex//fn:match[last()]/fn:group/text()
-                    let $nodes := doc(xs:anyURI(xmldb:encode-uri($workID)))
+                    let $nodes := doc(xs:anyURI(xmldb:encode-uri($workID[1])))
                     let $nodesIDs := local:addID($nodes)
                     let $ms1 := $nodesIDs/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
                     let $ms2 := $nodesIDs/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
@@ -83,7 +83,7 @@ declare function local:create-new-coursepack($data as item()*){
         </coursepack>
     return 
         try { 
-            (xmldb:store(xmldb:encode-uri($config:app-root || '/coursepacks'), xmldb:encode-uri(concat($id,'.xml')), $newcoursepack),
+            (xmldb:store(xmldb:encode-uri($config:app-root || '/coursepacks'), xmldb:encode-uri(concat($id[1],'.xml')), $newcoursepack),
             'Saved!')
         } catch * {
             (response:set-status-code( 500 ),
@@ -119,7 +119,7 @@ declare function local:update-coursepack($data as item()*){
                     let $regex := fn:analyze-string($text,'id="([^"]*)"')
                     let $m1 := $regex//fn:match[1]/fn:group/text()
                     let $m2 := $regex//fn:match[last()]/fn:group/text()
-                    let $nodes := doc(xs:anyURI(xmldb:encode-uri($workID)))
+                    let $nodes := doc(xs:anyURI(xmldb:encode-uri($workID[1])))
                     let $nodesIDs := local:addID($nodes)
                     let $ms1 := $nodesIDs/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
                     let $ms2 := $nodesIDs/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 

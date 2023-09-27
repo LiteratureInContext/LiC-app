@@ -16,7 +16,7 @@ module namespace epub = "http://exist-db.org/xquery/epub";
 
 import module namespace compression = "http://exist-db.org/xquery/compression";
 import module namespace tei2html="http://syriaca.org/tei2html" at "tei2html.xqm";
-import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 

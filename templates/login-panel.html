@@ -1,93 +1,124 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml">
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="POST" action="$nav-base/login" class="form-horizontal" id="loginForm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">Login</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container" id="loginResponse">
-                        <div class="control-group">
-                            <label class="control-label" for="user">User:</label>
-                            <div class="controls">
-                                <input type="text" name="user" required="required"/>
-                            </div>
+            <div class="modal-content">
+                <form action="admin" method="post" class="form-horizontal" id="loginForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Login</h4>
                         </div>
-                        <div class="control-group">
-                            <label class="control-label" for="password">Password:</label>
-                            <div class="controls">
-                                <input type="password" name="password"/>
-                            </div>
+                        <div class="modal-body">
+                            <div class="container" id="loginResponse">
+                                <div class="control-group">
+                                    <label class="control-label" for="user">User:</label>
+                                    <div class="controls">
+                                        <input type="text" name="user" required="required"/>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="password">Password:</label>
+                                    <div class="controls">
+                                        <input type="password" name="password"/>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="duration" value="P14D"/> Remember me for 2 weeks </label>
+                                    </div>
+                                </div>
+                                <div id="loginResponseBody">
+                                    
+                                </div>
+                            </div>  
                         </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <label class="checkbox">
-                                        <input type="checkbox" name="duration" value="P14D"/> Remember me for 2 weeks </label>
-                            </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-sm btn btn-outline-dark" type="submit">Login</button>
+                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#newUserModal"><span class="bi bi-person"/> Create New User</button>
+                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#resetModal"><span class="bi bi-person"/> Reset password</button>
+                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
                         </div>
-                        <div id="loginResponseBody">
-                                
-                        </div>
-                        </div>  
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">Login</button>
-                        <button href="#newUserModal" class="btn btn-success" data-toggle="modal" data-dismiss="modal">Create New User</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </form>
-        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal-content -->
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="newUserForm">
+            <div class="modal-content">
+                <form method="POST" action="$nav-base/modules/userManager.xql" class="form-horizontal" id="resetForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Reset password</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container" id="resetResponse">
+                                <div id="formBody"> 
+                                <div class="mb-3">
+                                    <label for="user" class="form-label">User name</label>
+                                    <input type="text" class="form-control" name="user" required="required"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">New Password</label>
+                                    <input id="resetPassword" type="password" class="form-control" name="password" required="required"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="passwordConfirm" class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control" name="passwordConfirm" id="resetPasswordConfirm" required="required"/>
+                                </div>
+                                <input type="hidden" class="form-control" name="reset" value="true"/>
+                                <div id="resetResponseBody"/> 
+                                </div>
+                            </div>  
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit"><span class="bi bi-person"/> Reset password</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="$nav-base/modules/userManager.xql" class="form-horizontal" id="newUserForm">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">Create an Account</h4>
+                        <h5 class="modal-title" id="newUserModalLabel">Create an Account</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                     </div>
                     <div class="modal-body">
                         <div id="formBody"> 
-                        <div class="control-group">
-                            <label class="control-label" for="user">User Name:</label>
-                            <div class="controls">
-                                <input type="text" name="user" required="required"/>
-                               <!-- <input type="text" name="user" required="required"/>-->
+                            <div class="mb-3">
+                                <label for="user" class="form-label">User name</label>
+                                <input type="text" class="form-control" name="user" required="required"/>
                             </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="fullName">Full name:</label>
-                            <div class="controls">
-                                <input type="text" name="fullName"/>
+                            <div class="mb-3">
+                                <label for="fullName" class="form-label">Full name</label>
+                                <input type="text" class="form-control" name="fullName"/>
                             </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="password">Password:</label>
-                            <div class="controls">
-                                <input type="password" id="password" name="password" required="required"/>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input id="password" type="password" class="form-control" name="password" required="required"/>
                             </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="passwordConfirm">Confirm password:</label>
-                            <div class="controls">
-                                <input type="password" id="passwordConfirm" name="passwordConfirm" required="required"/>
+                            <div class="mb-3">
+                                <label for="passwordConfirm" class="form-label">Confirm Password</label>
+                                <input id="passwordConfirm" type="password" class="form-control" name="passwordConfirm" required="required"/>
                             </div>
-                        </div>
-                        </div>
+                        </div>                        
                         <div id="responseBody">
                             
-                        </div>
+                        </div>                        
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="submit">Create Account</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
-                </div><!-- /.modal-content -->
+                </div>
+                
             </form>
-        </div><!-- /.modal-dialog -->
-    </div>
+        </div>
+    </div>  
 </div>

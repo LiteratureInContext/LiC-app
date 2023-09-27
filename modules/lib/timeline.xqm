@@ -1,13 +1,13 @@
 xquery version "3.0";
 
-module namespace timeline="http://LiC.org/timeline";
+module namespace timeline="http://LiC.org/apps/timeline";
 
 (:~
  : Module to build timeline json passed to http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js widget
  : @author Winona Salesky <wsalesky@gmail.com>
  : @authored 2014-08-05
 :)
-import module namespace config="http://LiC.org/config" at "config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "../content-negotiation/tei2html.xqm";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";

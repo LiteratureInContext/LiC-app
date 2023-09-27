@@ -1,6 +1,6 @@
 xquery version "3.0";
 
-module namespace maps = "http://LiC.org/maps";
+module namespace maps = "http://LiC.org/apps/maps";
 
 (:~
  : Module builds leafletjs maps and/or Google maps
@@ -9,7 +9,7 @@ module namespace maps = "http://LiC.org/maps";
  : @author Winona Salesky <wsalesky@gmail.com>
  : @authored 2014-06-25
 :)
-import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 import module namespace geojson = "http://syriaca.org/srophe/geojson" at "../content-negotiation/geojson.xqm";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";

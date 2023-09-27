@@ -1,7 +1,7 @@
 xquery version "3.1";
 
 module namespace d3xquery="http://syriaca.org/d3xquery";
-import module namespace config="http://LiC.org/config" at "../modules/config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../modules/config.xqm";
 import module namespace functx="http://www.functx.com";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace json="http://www.json.org";

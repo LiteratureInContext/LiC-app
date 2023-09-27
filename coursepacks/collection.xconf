@@ -1,0 +1,34 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <!-- index data in coursepacks -->
+    <index xmlns:tei="http://www.tei-c.org/ns/1.0">
+        <fulltext default="none" attributes="no"/>
+        <!-- Full text search configuration  -->
+        <lucene diacritics="no">
+            <!-- Does not currently search tei header info, other then title -->
+            <!-- Should maybe not index placeName, location, state or event?-->
+            <text qname="tei:text">
+                <ignore qname="tei:note"/>
+            </text>
+            <!-- Simple Fields for sorting -->
+            <text qname="tei:work">
+                <field name="title" expression="descendant::tei:title" boost="3.5"/>
+                <field name="author" expression="descendant::tei:author" boost="2.5"/>
+                <field name="pubDate" expression="descendant::tei:date" boost="2.5"/>                
+            </text>
+            <text qname="tei:note"/>
+            <text qname="tei:teiHeader"/>
+            <text qname="tei:author" boost="2.0"/>
+            <text qname="tei:persName" boost="2.0"/>
+            <text qname="tei:placeName" boost="2.0"/>
+            <text qname="tei:title" boost="2.5"/>
+            <text qname="tei:date" boost="1.0"/>
+        </lucene>
+        
+        <!-- Range indexes -->
+        <range>
+            <create qname="tei:title" type="xs:string"/>
+            <create qname="tei:date" type="xs:string"/>
+            <create qname="tei:author" type="xs:string"/>
+        </range>
+    </index>
+</collection>

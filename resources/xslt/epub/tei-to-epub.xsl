@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:iso="http://www.iso.org/ns/1.0" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:smil="http://www.w3.org/ns/SMIL" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" exclude-result-prefixes="#all">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:iso="http://www.iso.org/ns/1.0" xmlns:smil="http://www.w3.org/ns/SMIL" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:teix="http://www.tei-c.org/ns/Examples" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" exclude-result-prefixes="#all">
   <xsl:import href="../html/html.xsl"/>
   <xsl:import href="epub-common.xsl"/>
   <xsl:import href="epub-preflight.xsl"/>
@@ -838,7 +837,7 @@ height: </xsl:text>
     <xsl:param name="author"/>
     <xsl:param name="printAuthor"/>
     <xsl:param name="coverImageOutside"/>
-    <metadata xmlns="http://www.idpf.org/2007/opf" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <metadata xmlns="http://www.idpf.org/2007/opf" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/">
       <dc:title>
         <xsl:sequence select="tei:generateSimpleTitle(.)"/>
       </dc:title>

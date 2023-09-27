@@ -12,7 +12,7 @@
         <url/>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
         <!--<nav-base>/exist/apps/LiC</nav-base>-->
-        <nav-base/>
+        <nav-base></nav-base>
         <!-- eXist app root for app deployment-->
         <app-root>LiC</app-root>
         <!-- eXist data app root for gazetteer data -->

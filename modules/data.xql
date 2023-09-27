@@ -4,10 +4,10 @@ xquery version "3.1";
  : Not a library module
 :)
 
-import module namespace config="http://LiC.org/config" at "config.xqm";
-import module namespace data="http://LiC.org/data" at "lib/data.xqm";
+import module namespace config="http://LiC.org/apps/config" at "config.xqm";
+import module namespace data="http://LiC.org/apps/data" at "lib/data.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "content-negotiation/tei2html.xqm";
-import module namespace maps="http://LiC.org/maps" at "lib/maps.xqm";
+import module namespace maps="http://LiC.org/apps/maps" at "lib/maps.xqm";
 
 import module namespace functx="http://www.functx.com";
 
@@ -21,7 +21,9 @@ let $results :=
             if(request:get-parameter('query', '')) then 
                 if(request:get-parameter('query', '') = 'geojson') then
                     doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/geojson.xml')))
-                else request:get-parameter('query', '')
+                else data:search()
+            else if(request:get-parameter('facet-author', '')) then 
+                data:search()
             else if(request:get-parameter('getPage', '') != '') then 
                 let $data := data:get-document(request:get-parameter('workID', ''))
                 return tei2html:get-page($data, request:get-parameter('getPage', ''))
@@ -54,12 +56,22 @@ let $results :=
                                         else ()
                                     )}</div>
             else request:get-data() 
-
 return 
     if(request:get-parameter('getPage', '') != '') then 
         $results
     else if(request:get-parameter('view', '') = 'expand' and request:get-parameter('workid', '') != '') then
         $results
+    else if(request:get-parameter('facet-author', '')) then
+        for $hit in $results
+        let $title := $hit/descendant::tei:title[1]/text()
+        let $id := document-uri($hit)
+        return 
+            <div class="result row">
+                <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
+                    <span class="col-md-11">
+                        {(tei2html:summary-view($hit, (), $id[1])) }
+                    </span>
+                </div>  
     else (response:set-header("Content-Type", "application/json"),
         serialize($results, 
             <output:serialization-parameters>

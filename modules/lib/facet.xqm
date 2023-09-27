@@ -20,7 +20,7 @@ module namespace facet = "http://expath.org/ns/facet";
 
 import module namespace tei2html="http://syriaca.org/tei2html" at "../content-negotiation/tei2html.xqm";
 
-import module namespace config="http://LiC.org/config" at "config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "config.xqm";
 import module namespace functx="http://www.functx.com";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 

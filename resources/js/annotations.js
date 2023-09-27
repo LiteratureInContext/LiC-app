@@ -62,6 +62,7 @@ $(document).ready(function () {
     }); 
     
     // Get search/browse results, load dynamically 
+    
     $('.getNestedResults').on('click', function(e){ // on change of state
         e.preventDefault(e);
         var workID = $(this).data('work-id');
@@ -80,5 +81,37 @@ $(document).ready(function () {
               $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
             }
     });    
-    
+
+    $('.dynamicContent').on('click', function(e){ // on change of state
+        e.preventDefault(e);
+        var url = $(this).data('url');
+        var current = $(this) 
+        var $annotationsResults = $(current).closest('.result').find('.nestedResults');
+        if($annotationsResults.is(':empty')){
+              $.get(url, function(data) {
+                    $(current).closest('.result').find('.nestedResults').html(data);                 
+                }, "html"); 
+                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+            } else {
+              $annotationsResults.toggle();
+              $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+            }
+        console.log('test dynamic content loading. TEST URL: ' + url);
+        
+        /* 
+        var url = $(this).data('dynamicContent-url');
+        var current = $(this) 
+        var $annotationsResults = $(current).closest('.result').find('.nestedResults');
+        //If annotation results are empty load via ajax, otherwise toggle to show or hide div
+         if($annotationsResults.is(':empty')){
+              $.get(url, function(data) {
+                    $(current).closest('.result').find('.nestedResults').html(data);                 
+                }, "html"); 
+                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+            } else {
+              $annotationsResults.toggle();
+              $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+            }
+             */ 
+    });
 });

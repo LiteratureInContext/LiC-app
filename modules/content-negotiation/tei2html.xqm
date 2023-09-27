@@ -5,8 +5,8 @@ xquery version "3.0";
  :)
  
 module namespace tei2html="http://syriaca.org/tei2html";
-import module namespace config="http://LiC.org/config" at "../config.xqm";
-import module namespace data="http://LiC.org/data" at "../lib/data.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
+import module namespace data="http://LiC.org/apps/data" at "../lib/data.xqm";
 
 declare namespace html="http://purl.org/dc/elements/1.1/";
 declare namespace tei="http://www.tei-c.org/ns/1.0";

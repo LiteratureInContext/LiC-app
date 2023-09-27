@@ -5,7 +5,7 @@ xquery version "3.0";
  
 module namespace tei2txt="http://syriaca.org/tei2txt";
 import module namespace tei2html="http://syriaca.org/tei2html" at "tei2html.xqm";
-import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace html="http://www.w3.org/1999/xhtml";

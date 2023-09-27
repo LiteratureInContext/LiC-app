@@ -21,7 +21,7 @@ xquery version "3.1";
  :)
  
 import module namespace xmldb="http://exist-db.org/xquery/xmldb";
-import module namespace templates="http://exist-db.org/xquery/templates" ;
+import module namespace templates="http://exist-db.org/xquery/html-templating" ;
 (:import module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";:)
 import module namespace crypto="http://expath.org/ns/crypto";
 import module namespace http="http://expath.org/ns/http-client";

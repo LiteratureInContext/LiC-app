@@ -6,12 +6,12 @@ xquery version "3.0";
  : @authored 2018-04-12
 :)
 
-import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 
 (: Content serialization modules. :)
 import module namespace cntneg="http://syriaca.org/cntneg" at "content-negotiation.xqm";
 (: Data processing module. :)
-import module namespace data="http://LiC.org/data" at "../lib/data.xqm";
+import module namespace data="http://LiC.org/apps/data" at "../lib/data.xqm";
 
 (: Namespaces :)
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";

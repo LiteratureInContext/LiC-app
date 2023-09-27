@@ -1,20 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <facets xmlns="http://expath.org/ns/facet">
-    <facet-definition name="Author">
-        <group-by function="facet:group-by-author">
-            <sub-path>descendant::tei:titleStmt/descendant::tei:author/tei:persName</sub-path>
+    <facet-definition name="author" label="Author">
+        <group-by function="authorLastNameFirstName">
+            <sub-path>descendant::tei:titleStmt/tei:author</sub-path>
         </group-by>
-        <max-values show="10">60</max-values>
-        <order-by direction="descending">value</order-by>
-    </facet-definition>
-    <facet-definition name="Place of Publication">
-        <group-by>
-            <sub-path>descendant::tei:sourceDesc/descendant::tei:imprint/tei:pubPlace/tei:placeName</sub-path>
-        </group-by>
-        <max-values show="10">60</max-values>
+        <max-values show="5">40</max-values>
         <order-by direction="ascending">value</order-by>
     </facet-definition>
-    <facet-definition name="Publication Date">
+    <facet-definition name="placePub" label="Place of Publication">
+        <group-by function="pubPlace">
+            <sub-path>descendant::tei:sourceDesc/descendant::tei:imprint/tei:pubPlace</sub-path>
+        </group-by>
+        <max-values show="5">10</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
+    <!--
+    <facet-definition name="pubDate" label="Publication Date">
+        <group-by>
+            <sub-path>descendant::tei:sourceDesc/descendant::tei:imprint/tei:date</sub-path>
+        </group-by>
+        <max-values show="5">10</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
+    -->
+    <facet-definition name="pubDateRange" label="Publication Date">
         <range type="xs:year">
             <bucket gt="1830-01-01" name="1830 &gt;" order="18"/>
             <bucket gt="1810-01-01" lt="1820-01-01" name="1810-1820" order="17"/>
@@ -36,26 +44,9 @@
             <bucket gt="1650-01-01" lt="1660-01-01" name="1650-1660" order="1"/>
         </range>
         <group-by type="xs:date">
-            <sub-path>descendant::tei:biblStruct/descendant::tei:imprint/tei:date</sub-path>
+            <sub-path>descendant::tei:biblStruct/descendant::tei:imprint/tei:date/@when</sub-path>
         </group-by>
-        <max-values show="10">40</max-values>
-        <order-by direction="descending">order</order-by>
-    </facet-definition>
-    <facet-definition name="Contributor">
-        <group-by function="facet:group-by-contributor">
-            <sub-path/>
-        </group-by>
-        <max-values show="10">60</max-values>
+        <max-values show="5">20</max-values>
         <order-by direction="descending">value</order-by>
     </facet-definition>
-    <!-- Add 
-        $model("records")//tei:titleStmt//*[@ref= 'editors.xml#' || $id] | $model("records")//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $id]
-    <facet-definition name="Contributors">
-        <group-by>
-            <sub-path>descendant::tei:sourceDesc/descendant::tei:author</sub-path>
-        </group-by>
-        <max-values show="10">60</max-values>
-        <order-by direction="ascending">value</order-by>
-    </facet-definition>
-    -->
 </facets>

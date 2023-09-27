@@ -1,7 +1,7 @@
 xquery version "3.0";
 
 module namespace tei2fo="http://LiC.org/tei2fo";
-import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 
 declare namespace fo="http://www.w3.org/1999/XSL/Format";
 declare namespace tei="http://www.tei-c.org/ns/1.0";

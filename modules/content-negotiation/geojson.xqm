@@ -8,7 +8,7 @@ module namespace geojson="http://syriaca.org/srophe/geojson";
  : @authored 2014-06-25
 :)
 
-import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 import module namespace http="http://expath.org/ns/http-client";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";

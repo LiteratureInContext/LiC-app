@@ -20,21 +20,21 @@ module namespace cntneg="http://syriaca.org/cntneg";
  : @authored 2018-04-12
 :)
 
-import module namespace config="http://LiC.org/config" at "../config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 
 (:
  : Content serialization modules.
  : Additional modules can be added. 
 :)
 import module namespace tei2html="http://syriaca.org/tei2html" at "tei2html.xqm";
-import module namespace tei2fo="http://LiC.org/tei2fo" at "tei2fo.xqm";
+import module namespace tei2fo="http://LiC.org/apps/tei2fo" at "tei2fo.xqm";
 import module namespace epub="http://exist-db.org/xquery/epub" at "epub.xqm";
 import module namespace tei2txt="http://syriaca.org/tei2txt" at "tei2txt.xqm";
 import module namespace jsonld="http://syriaca.org/jsonld" at "jsonld.xqm";
 
 (: These are needed for rending as HTML via existdb templating module, can be removed if not using 
 import module namespace config="http://syriaca.org/config" at "config.xqm";
-import module namespace templates="http://exist-db.org/xquery/templates" ;
+import module namespace templates="http://exist-db.org/xquery/html-templating" ;
 :)
 
 (: Namespaces :)

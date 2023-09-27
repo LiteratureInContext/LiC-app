@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>Literature in Context</description>
-    <author/>
-    <website/>
-    <status>alpha</status>
-    <license>GNU-LGPL</license>
-    <copyright>true</copyright>
-    <type>application</type>
-    <target>LiC</target>
-    <prepare>pre-install.xql</prepare>
-    <finish>post-install.xql</finish>
-    
-
-<deployed>2019-08-05T17:09:05.051-04:00</deployed>
-</meta>
+  <description>LiC updated application</description>
+  <author>Winona Salesky</author>
+  <website>wsalesky.com</website>
+  <status>alpha</status>
+  <license>AGPL-3.0</license>
+  <copyright>true</copyright>
+  <type>application</type>
+  <target>LiC</target>
+  <prepare>pre-install.xq</prepare>
+  <finish>post-install.xq</finish>
+<deployed>2023-09-13T14:16:53.717-04:00</deployed></meta>

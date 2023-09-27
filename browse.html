@@ -100,56 +100,56 @@
     <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form id="coursepackCreation">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="modalClose close" data-dismiss="modal">
-                        <span aria-hidden="true"> x </span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        <div id="addToCoursepackModal" style="display:none" class="coursepack">
-                            <h4>Add to Coursepack</h4>
-                            <div class="indent desc">
-                                <label>Select Coursepack</label>
-                                <select id="addToCoursepackID">
-                                    <option data-template="app:select-coursepack"/>
-                                </select>
-                            </div>
-                            <span>
-                                <button id="f-btn-submit-addSelected" type="submit" class="btn btn-primary saveToCoursepack coursepackAdmin" data-url="$nav-base/modules/lib/coursepack.xql">
-                                    <span class="glyphicon glyphicon-save"/>Save </button>  
-                                <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" title="Create a new coursepack" data-url="$nav-base/modules/lib/coursepack.xql">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="modalClose close" data-dismiss="modal">
+                            <span aria-hidden="true"> x </span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <div id="addToCoursepackModal" style="display:none" class="coursepack">
+                                <h4>Add to Coursepack</h4>
+                                <div class="indent desc">
+                                    <label>Select Coursepack</label>
+                                    <select id="addToCoursepackID">
+                                        <option data-template="app:select-coursepack"/>
+                                    </select>
+                                </div>
+                                <span>
+                                    <button id="f-btn-submit-addSelected" type="submit" class="btn btn-primary saveToCoursepack coursepackAdmin" data-url="$nav-base/modules/lib/coursepack.xql">
+                                        <span class="glyphicon glyphicon-save"/>Save </button>  
+                                    <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" title="Create a new coursepack" data-url="$nav-base/modules/lib/coursepack.xql">
                                         <span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
-                            </span>
-                        </div>
-                        <div id="saveCoursepackModal" style="display:none" class="coursepack">
-                            <h4>Create New Coursepack</h4>
-                            <div class="indent desc">
-                                <span class="input-group" id="coursepackTitleGroup">
-                                    <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
-                                    <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
                                 </span>
                             </div>
-                            <span class="input-group-btn">
-                                <button id="f-btn-submit-addCoursepack" type="submit" class="btn btn-primary addCoursepackTitle" data-url="$nav-base/modules/lib/coursepack.xql">
-                                    <span class="glyphicon glyphicon-save"/>Save </button>
-                            </span>
+                            <div id="saveCoursepackModal" style="display:none" class="coursepack">
+                                <h4>Create New Coursepack</h4>
+                                <div class="indent desc">
+                                    <span class="input-group" id="coursepackTitleGroup">
+                                        <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
+                                        <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
+                                    </span>
+                                </div>
+                                <span class="input-group-btn">
+                                    <button id="f-btn-submit-addCoursepack" type="submit" class="btn btn-primary addCoursepackTitle" data-url="$nav-base/modules/lib/coursepack.xql">
+                                        <span class="glyphicon glyphicon-save"/>Save </button>
+                                </span>
+                            </div>
+                            <div id="responseBody"> </div>
                         </div>
-                        <div id="responseBody"> </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default modalClose" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default modalClose" data-dismiss="modal">Close</button>
-                </div>
-            </div>
             </form>
         </div>
     </div>
     <script>
         $( '#selectAll' ).click( function () {
-            $( '.result input[type="checkbox"]' ).prop('checked', this.checked)
+        $( '.result input[type="checkbox"]' ).prop('checked', this.checked)
         console.log('checked');
         })
     </script>

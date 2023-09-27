@@ -4,13 +4,21 @@ xquery version "3.1";
  : Used by ../app.xql and content-negotiation/content-negotiation.xql  
 :)
 
-module namespace data="http://LiC.org/data";
-import module namespace config="http://LiC.org/config" at "config.xqm";
+module namespace data="http://LiC.org/apps/data";
+import module namespace config="http://LiC.org/apps/config" at "config.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "facet.xqm";
+import module namespace sf="http://srophe.org/srophe/facets" at "facets.xql";
 import module namespace functx="http://www.functx.com";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace util="http://exist-db.org/xquery/util";
+
+declare variable $data:ft-query-options := map {
+    "default-operator": "and",
+    "phrase-slop": 0,
+    "leading-wildcard": "no",
+    "filter-rewrite": "yes"
+};
 
 (:~
  : Return document by id/tei:idno or document path
@@ -88,29 +96,60 @@ declare function data:search-coursepacks() {
  : Add sort options. 
 :)
 declare function data:search() {
-    let $facet-config-file := 'facet-def.xml'
-    let $filters := if(request:get-parameter('authorID', '')) then 
-                        concat("[descendant::tei:titleStmt/descendant::tei:author/tei:persName/tei:name[normalize-space(.) = '",request:get-parameter('authorID', ''),"']]")
-                    else()
-    let $queryExpr := concat(data:create-query(), $filters)                   
-    let $docs := 
-                if(request:get-parameter('narrow', '') = 'true' and request:get-parameter('target-texts', '') != '') then
-                        for $doc in request:get-parameter('target-texts', '')
-                        return doc($doc)
-                else ()                        
-    let $eval-string := 
-                if(request:get-parameter('narrow', '') = 'true' and request:get-parameter('target-texts', '') != '') then
-                    concat("$docs/tei:TEI",$queryExpr,facet:facet-filter(doc(concat($config:app-root,'/',$facet-config-file))))                       
-                else concat("collection('",$config:data-root,"')/tei:TEI",$queryExpr,facet:facet-filter(doc(concat($config:app-root,'/',$facet-config-file))))
+    let $params := 
+        for $p in request:get-parameter-names()
+        where request:get-parameter($p, '') != ''
+        return $p
+    let $field := request:get-parameter('field', '')
+    let $query := request:get-parameter('query', '')
+    let $query-string := data:clean-string($query)(:if (count(($fulltext-query, $date-query))) then string-join(($fulltext-query, $date-query), ' AND ') else ():)
+    let $query-configuration := 
+        map {
+            "fields": $sf:sortFields,
+            "facets": sf:facets(),
+            "query-string": $query-string
+        } 
+    let $query-options := 
+        map:merge((
+            $data:ft-query-options,
+            $query-configuration?fields,
+            $query-configuration?facets
+        )) 
+    let $hits := 
+        if($query-string != '') then 
+            if($field = 'title') then
+                collection($config:data-root)//tei:TEI[descendant::tei:titleStmt/tei:title[ft:query(., $query-string)]]
+            else if($field = 'author') then
+                (collection($config:data-root)//tei:TEI[descendant::tei:titleStmt/tei:author[ft:query(., $query-string)]], 
+                collection($config:data-root)//tei:TEI[descendant::tei:titleStmt/tei:editor[ft:query(., $query-string)]])
+            else if($field = 'annotation') then
+                collection($config:data-root)//tei:TEI[descendant::tei:note[ft:query(., $query-string)]]
+            else if(request:get-parameter('annotation', '') = 'true') then
+                (collection($config:data-root)//tei:TEI[descendant::tei:text[ft:query(., $query-string)]],
+                collection($config:data-root)//tei:TEI[descendant::tei:note[ft:query(., $query-string)]])
+            else 
+                (collection($config:data-root)//tei:TEI[ft:query(descendant::tei:text, $query-string)][ft:query(., (), $query-options)],
+                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:teiHeader, $query-string)][ft:query(., (), $query-options)]) 
+        else collection($config:data-root)//tei:TEI[ft:query(., (), $query-options)] 
+    (:let $hits := $hits[ft:query(., (), $query-options)]:)
+    let $sort := if(request:get-parameter('sort-element', '') != '') then
+                    request:get-parameter('sort-element', '')[1]
+                 else ()        
     return 
-        if(request:get-parameter('sort-element', '') != ('','relevance')) then 
-            for $hit in util:eval($eval-string)
-            order by data:filter-sort-string(data:add-sort-options($hit, request:get-parameter('sort-element', '')))
-            return $hit
+        if(request:get-parameter('view', '') = 'author') then $hits 
+        else if($query != '') then
+                for $hit in $hits
+                let $s :=
+                            if(contains($sort, 'author')) then ft:field($hit, "authorLastNameFirstName")[1]
+                            else if($sort = 'pubDate') then  ft:field($hit, "pubDate")[1]
+                            else if(contains($sort, 'title')) then ft:field($hit, "title")[1]
+                            else ft:score($hit)  
+                order by $s descending
+                return $hit        
         else 
-            for $hit in util:eval($eval-string)
-            order by ft:score($hit) descending
-            return $hit
+            for $hit in $hits
+            order by ft:field($hit, "title")[1]
+            return $hit     
 };    
 
 (:~   

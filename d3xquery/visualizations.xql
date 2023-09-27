@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-import module namespace config="http://LiC.org/config" at "../modules/config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../modules/config.xqm";
 import module namespace d3xquery="http://syriaca.org/d3xquery" at "d3xquery.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
