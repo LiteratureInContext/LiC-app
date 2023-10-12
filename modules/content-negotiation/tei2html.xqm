@@ -365,8 +365,16 @@ declare function tei2html:ref($node as element (tei:ref)) {
             <a href="#{string($node/@corresp)}" class="showFootnote">{tei2html:tei2html($node/node())}</a>
             <sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup>
         </span>
-    else if(starts-with($node/@target,'http')) then 
-        <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
+    else if(starts-with($node/@target,'http')) then
+    (:
+        if(contains($node/@target,'youtube')) then 
+            <div>
+                <iframe src="{concat(replace($node/@target,'/watch?v=','/embed/'),'?si=mb2wB_T-srxDzXpI')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" width="560" height="315"></iframe>
+                <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
+            </div>
+        else 
+        :)
+        <a href="{$node/@target}" target="_blank">{tei2html:tei2html($node/node())}</a>
     else tei2html:tei2html($node/node())
 };
 
