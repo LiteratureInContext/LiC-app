@@ -169,7 +169,7 @@ declare function tei2html:page-chunk($nodes as node()*){
                                          else concat($config:image-root,$id,'/',string($image/@facs))   
                              return 
                                       <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
-                                           <a href="{$src}"><img src="{$src}" width="100%"/></a>
+                                           <a href="{$src}"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>
                                            <span class="caption">Page {string($image/@n)}</span>
                                       </span>
                          else ()
@@ -336,6 +336,11 @@ return
         <a href="{$imgURL}">
             <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
             attribute src { $imgURL },
+            for $a in $node/@*
+            return 
+                attribute {local-name($a)} {$a},
+            (:if($node/@alt) then () 
+            else attribute alt { '' },,:)
             if($node/@width) then 
                 attribute width { $node/@width }
             else (),
