@@ -118,20 +118,17 @@ declare function data:search() {
     let $hits := 
         if($query-string != '') then 
             if($field = 'title') then
-                collection($config:data-root)//tei:TEI[descendant::tei:titleStmt/tei:title[ft:query(., $query-string)]]
+                collection($config:data-root)//tei:TEI[[ft:query(descendant::tei:titleStmt/tei:title, $query-string)]]
             else if($field = 'author') then
-                (collection($config:data-root)//tei:TEI[descendant::tei:titleStmt/tei:author[ft:query(., $query-string)]], 
-                collection($config:data-root)//tei:TEI[descendant::tei:titleStmt/tei:editor[ft:query(., $query-string)]])
+                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:titleStmt/tei:author, $query-string) or ft:query(descendant::tei:titleStmt/tei:editor, $query-string)]
             else if($field = 'annotation') then
-                collection($config:data-root)//tei:TEI[descendant::tei:note[ft:query(., $query-string)]]
+                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:note, $query-string)]
             else if(request:get-parameter('annotation', '') = 'true') then
-                (collection($config:data-root)//tei:TEI[descendant::tei:text[ft:query(., $query-string)]],
-                collection($config:data-root)//tei:TEI[descendant::tei:note[ft:query(., $query-string)]])
+                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:text, $query-string) or ft:query(descendant::tei:note, $query-string)]
             else 
-                (collection($config:data-root)//tei:TEI[ft:query(descendant::tei:text, $query-string)][ft:query(., (), $query-options)],
-                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:teiHeader, $query-string)][ft:query(., (), $query-options)]) 
+                (collection($config:data-root)//tei:TEI[ft:query(descendant::tei:text, $query-string) or ft:query(descendant::tei:teiHeader, $query-string)]) 
         else collection($config:data-root)//tei:TEI[ft:query(., (), $query-options)] 
-    (:let $hits := $hits[ft:query(., (), $query-options)]:)
+    let $hits := $hits[ft:query(., (), $query-options)]
     let $sort := if(request:get-parameter('sort-element', '') != '') then
                     request:get-parameter('sort-element', '')[1]
                  else ()        
