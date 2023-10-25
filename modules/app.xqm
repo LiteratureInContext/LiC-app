@@ -620,6 +620,7 @@ return
                                    
                 </div>
             </div>
+            <!-- WS, not working, need to add the map.invalidateSize somehwere for hide/show sections -->
         <div class="panel-collapse collapse left-align" id="teiViewLOD">
             {app:subset-lod($node, $model)}
         </div>
@@ -1319,16 +1320,16 @@ declare function app:map($node as node(), $model as map(*)) {
     let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else () 
     let $geojson := if(request:get-parameter('id', '') != '') then
                         doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
-                    else if(count($reference-data) = 1) then
-                        let $idno := $reference-data//tei:idno[1]
-                        return doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = $idno]
                     else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
-    let $subset := for $key in $reference-data//@key
+    let $subset := for $key in distinct-values($reference-data//@key)
                    return $geojson//tei:place[tei:idno = concat('http://vocab.getty.edu/tgn/', $key)]
+    let $id := if(count($reference-data) = 1) then document-uri(root($reference-data)) else ()
     return 
         if(not(empty($subset))) then
-            (: This should just be a map of places, not work, should be able to pass in map type :)
-            <div>{maps:build-map($subset)}</div>
+            <div>{
+                if(not(empty($id))) then maps:build-map-work($subset, $id)
+                else maps:build-map-subset($subset)
+                }</div>
         else ()
 };
 

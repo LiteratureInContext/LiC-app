@@ -15,8 +15,8 @@ declare namespace util="http://exist-db.org/xquery/util";
 
 declare variable $data:ft-query-options := map {
     "default-operator": "and",
-    "phrase-slop": 0,
-    "leading-wildcard": "no",
+    "phrase-slop": 1,
+    "leading-wildcard": "yes",
     "filter-rewrite": "yes"
 };
 
@@ -118,7 +118,7 @@ declare function data:search() {
     let $hits := 
         if($query-string != '') then 
             if($field = 'title') then
-                collection($config:data-root)//tei:TEI[[ft:query(descendant::tei:titleStmt/tei:title, $query-string)]]
+                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:titleStmt/tei:title, $query-string)]
             else if($field = 'author') then
                 collection($config:data-root)//tei:TEI[ft:query(descendant::tei:titleStmt/tei:author, $query-string) or ft:query(descendant::tei:titleStmt/tei:editor, $query-string)]
             else if($field = 'annotation') then
@@ -127,12 +127,12 @@ declare function data:search() {
                 collection($config:data-root)//tei:TEI[ft:query(descendant::tei:text, $query-string) or ft:query(descendant::tei:note, $query-string)]
             else 
                 (collection($config:data-root)//tei:TEI[ft:query(descendant::tei:text, $query-string) or ft:query(descendant::tei:teiHeader, $query-string)]) 
-        else collection($config:data-root)//tei:TEI[ft:query(., (), $query-options)] 
+        else collection($config:data-root)//tei:TEI
     let $hits := $hits[ft:query(., (), $query-options)]
     let $sort := if(request:get-parameter('sort-element', '') != '') then
                     request:get-parameter('sort-element', '')[1]
                  else ()        
-    return 
+    return
         if(request:get-parameter('view', '') = 'author') then $hits 
         else if($query != '') then
                 for $hit in $hits
@@ -146,7 +146,7 @@ declare function data:search() {
         else 
             for $hit in $hits
             order by ft:field($hit, "title")[1]
-            return $hit     
+            return $hit          
 };    
 
 (:~   
