@@ -154,7 +154,7 @@ declare function timeline:get-date-published($data as node()*) as node()*{
                      else if($date/@to) then   
                         string($date/@to)
                      else ()
-    let $imprint-text := normalize-space(concat($author,if($author != '') then ', ' else (), $title,'. ',$date))
+    let $imprint-text := normalize-space(concat($author,if($author != '') then ', ' else (), $title,'. ',$dateText))
   return timeline:format-dates($start, $end,$imprint-text,(), $link)
         
 };
