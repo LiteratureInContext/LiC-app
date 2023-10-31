@@ -41,9 +41,10 @@ declare function sf:build-index(){
                        <facet dimension="{functx:words-to-camel-case($facet-grp)}" expression="sf:range(., {concat("'",$path[1],"'")}, {concat("'",$facet-grp,"'")})"/>                
                     else 
                         <facet dimension="{functx:words-to-camel-case($facet-grp)}" expression="{replace($f[1]/facet:group-by/facet:sub-path/text(),"&#34;","'")}"/>      
-            return 
+                return 
                 $facets
-            }              
+                }  
+                
                 <!-- Predetermined sort fields -->               
                 <field name="title" expression="sf:field(.,'title')"/>
                 <field name="author" expression="sf:field(., 'author')"/>
@@ -67,6 +68,7 @@ declare function sf:build-index(){
             <create qname="@target" type="xs:string"/>
             <create qname="@who" type="xs:string"/>
             <create qname="@ref" type="xs:string"/>
+            <create qname="@resp" type="xs:string"/>
             <create qname="@uri" type="xs:string"/>
             <create qname="@where" type="xs:string"/>
             <create qname="@active" type="xs:string"/>
@@ -216,12 +218,13 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
                     map:for-each($entry, function($label, $freq) {
                         let $label := normalize-space($label)
                         let $param-name := concat('facet-',$name)
-                        let $facet-param := concat($param-name,'=',$label)
+                        let $facet-param := concat($param-name,'=',encode-for-uri($label))
                         let $active := if(request:get-parameter($param-name, '') = $label) then 'active' else ()
                         let $url-params := 
                             if($active) then replace(replace(replace(request:get-query-string(),encode-for-uri($label),''),concat($param-name,'='),''),'&amp;&amp;','&amp;')
                             else if(request:get-parameter('start', '')) then '&amp;start=1'
-                            else concat($facet-param,'&amp;',request:get-query-string())
+                            else if(request:get-query-string() != '') then concat($facet-param,'&amp;',request:get-query-string())
+                            else $facet-param
                         return
                             <a href="?{$url-params}" class="facet-label btn btn-default {$active}">
                             {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
@@ -372,21 +375,21 @@ declare function sf:field-author($element as item()*, $name as xs:string){
 declare function sf:field-authorLastNameFirstName($element as item()*, $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return tei2html:persName-last-first($author)
+    return replace(tei2html:persName-last-first($author),' , ', ', ')
 };
 
 (: Author facet :)
 declare function sf:facet-authorLastNameFirstName($element as item()*, $facet-definition as item(), $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return tei2html:persName-last-first($author)
+    return replace(tei2html:persName-last-first($author),' , ', ', ')
 };
 
 (: Author facet :)
 declare function sf:facet-author($element as item()*, $facet-definition as item(), $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return tei2html:persName($author)
+    return normalize-space(replace(tei2html:persName-last-first($author),' , ', ', '))
 };
 
 (: Author facet :)
