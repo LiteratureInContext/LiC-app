@@ -292,9 +292,13 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .caption {display:block; font-size:small; text-align:center;}
 .footnote {display:none;}
 .footnote .tei-footnote-id {margin-bottom:1em;}
-.annotations .tei-graphic, .footnote .tei-graphic {
-    width:300px;
+.annotations .graphic, .footnote .graphic {
+    width:325px;
     float:right;
+    margin-left:1em;
+}
+.annotations .graphic img, .footnote .graphic img{
+    width:300px;
     margin-left:1em;
 }
 .footnoteRef.text{
