@@ -336,7 +336,7 @@ return
         (<a href="{$imgURL}">
             <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
             attribute src { $imgURL },
-            attribute alrt { $alt },
+            attribute alt { $alt },
             if($node/@width) then 
                 attribute width { $node/@width }
             else (),
