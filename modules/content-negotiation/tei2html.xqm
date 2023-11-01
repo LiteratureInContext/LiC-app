@@ -310,9 +310,7 @@ return
     <span class="tei-persName">{
       if($name/child::*) then 
         (
-            $name/descendant-or-self::tei:surname[1], 
-            ', ', 
-            $name/descendant-or-self::tei:forename[1], 
+            normalize-space($name/descendant-or-self::tei:surname[1]),', ',normalize-space($name/descendant-or-self::tei:forename[1]), 
             if($name/descendant-or-self::tei:addName) then 
                 for $addName in $name/descendant-or-self::tei:addName
                 return (', ',tei2html:tei2html($addName)) 
@@ -330,17 +328,15 @@ let $imgURL :=  if($node/@url) then
                    else if(starts-with($node/@url,'/')) then 
                         concat($config:image-root,$id,string($node/@url))
                    else concat($config:image-root,$id,'/',string($node/@url))
-                else ()                   
+                else () 
+let $alt :=    if($node/@alt) then string($node/@alt) else if($node/@title) then $node/@title else 'graphic'              
 return 
     if($imgURL) then 
-        <a href="{$imgURL}">
+    <span class="graphic">{
+        (<a href="{$imgURL}">
             <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
             attribute src { $imgURL },
-            for $a in $node/@*
-            return 
-                attribute {local-name($a)} {$a},
-            (:if($node/@alt) then () 
-            else attribute alt { '' },,:)
+            attribute alrt { $alt },
             if($node/@width) then 
                 attribute width { $node/@width }
             else (),
@@ -348,7 +344,17 @@ return
                 attribute style { $node/@style }
             else ()
             )}</img>
-        </a>
+        </a>,
+            if($node/@desc or $node/@source) then 
+                <div class="imgCaption">
+                {
+                    if($node/@source) then 
+                      <span class="imgSource">Source: <a href="{$node/@source}">{if($node/@desc) then string($node/@desc) else string($node/@source) }</a></span>  
+                    else ()
+                }
+                </div>
+            else ())}
+            </span>   
     else ()               
 };
 
