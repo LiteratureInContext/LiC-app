@@ -689,8 +689,15 @@ return
                                             (<div><h4>Selected Text</h4>,
                                             {tei2html:tei2html($text/child::*)}</div>)
                                       else()
-                    order by data:filter-sort-string(data:add-sort-options($work, request:get-parameter('sort-element', '')))
-                    group by $workID := $id 
+                    let $sort := 
+                        if(request:get-parameter('sort-element', '') = 'title') then 
+                            $title
+                        else if(request:get-parameter('sort-element', '') = 'author') then
+                            $work/descendant::tei:author[1]
+                        else if(request:get-parameter('sort-element', '') = 'date') then
+                            $work/descendant::tei:date[1]                            
+                        else $work/@num
+                    order by $sort
                     return  
                         <div class="result row">
                             <div class="col-md-1">
@@ -810,13 +817,14 @@ let $pagination-links :=
                         <li><a href="{concat($param-string,'1&amp;perpage=',$total-result-count)}">All</a></li>,
                         if($search-string != '') then
                             <li class="pull-right search-new"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
-                        else (), 
+                        else ()
+                        (:, 
                         if($model("hits")//@key) then 
                              <li class="pull-right"><a href="#" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
                                 <span data-toggle="tooltip" title="View Linked Data">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
                                 </span></a></li>
-                        else()
+                        else():)
                         )}
                 </ul>
                 else 
@@ -928,23 +936,39 @@ declare %templates:wrap function app:browse-works($node as node(), $model as map
 
 (:~
  : Simple browse works with sort options
- :)
-declare %templates:wrap function app:list-contributors($node as node(), $model as map(*)) {
-    let $contributors := doc(replace($config:data-root,'/data','/contributors') || '/editors.xml')//tei:person
-    let $hits := data:search()    
-    return          
-        map { "hits" :
-                    if(request:get-parameter('contributorID', '') != '') then 
+ if(request:get-parameter('contributorID', '') != '') then 
                         for $n in $contributors[@xml:id = request:get-parameter('contributorID', '')]
                         order by $n/descendant::tei:surname[1]
                         return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>
                     else 
                         for $n in $contributors
                         order by $n/descendant::tei:surname[1]
-                        return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>,
-               "records" : $hits                 
-                    
-            }  
+                        return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>
+ :)
+declare %templates:wrap function app:list-contributors($node as node(), $model as map(*)) {
+    let $contributors := 
+        if(doc-available(replace($config:data-root,'/data','/contributors') || '/editors.xml')) then 
+            doc(replace($config:data-root,'/data','/contributors') || '/editors.xml')//tei:person
+        else ()
+    let $contributors := 
+            for $n in $contributors
+            order by $n/descendant::tei:surname[1]
+            return $n
+        (:
+    let $contributorID := 
+        if($contributors != '') then 
+         if(request:get-parameter('contributorID', '') != '') then 
+             for $n in $contributors[@xml:id = request:get-parameter('contributorID', '')]
+             order by $n/descendant::tei:surname[1]
+             return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>
+         else 
+             for $n in $contributors
+             order by $n/descendant::tei:surname[1]
+             return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>
+        else ()  
+        :)          
+    return          
+        map { "hits" : $contributors}  
 };
 
 (:~
@@ -956,36 +980,48 @@ declare
     %templates:default("per-page", 10)
 function app:contributors($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
     let $per-page := if(not(empty($app:perpage))) then $app:perpage else $per-page
-    for $hit at $p in subsequence($model("hits"), $start, $per-page)
-    let $id := string($hit/@id)
-    let $annotations := $model("records")//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $id]
-    (: This slows down the query, and we do not use it:)
-    let $texts := $model("records")//tei:titleStmt/descendant::tei:name[@ref= 'editors.xml#' || $id] | $model("records")//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $id]
-    let $count-annotations := count($annotations)
-    let $count-texts := count($texts)
     return 
-        <div class="result row">
-            {
-            if(request:get-parameter('contributorID', '') != '') then
-                <div xmlns="http://www.w3.org/1999/xhtml"> 
-                    <span class="browse-author-name">{concat(string-join($hit/tei:person/tei:persName/tei:surname,' '),', ',string-join($hit/tei:person/tei:persName/tei:forename,' '))}</span> 
-                        {if($count-annotations gt 0) then
-                            concat(' (',$count-annotations,' annotations)')
+    <div>{
+        for $h at $p in subsequence($model("hits"), $start, $per-page)
+        let $id := string($h/@xml:id) 
+        let $annotations := collection($config:data-root)//tei:text/descendant::tei:note[@resp= 'editors.xml#' || $id]
+        let $texts := collection($config:data-root)//tei:titleStmt/descendant::tei:name[@ref= 'editors.xml#' || $id] | collection($config:data-root)//tei:teiHeader/descendant::tei:note[@resp= 'editors.xml#' || $id]
+        let $count-annotations := count($annotations)
+        let $count-texts := count($texts)
+        return 
+            <div class="result row" xmlns="http://www.w3.org/1999/xhtml">
+                <button class="getContributorAnnotations btn btn-link" 
+                    data-toggle="collapse" title="View annotations" data-target="#collapseContributor{$id}" data-contributor-id="{$id}" 
+                    data-original-title="View annotations">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
+                <span class="browse-author-name">{concat(string-join($h/descendant-or-self::tei:surname,' '),', ',string-join($h/descendant-or-self::tei:forename,' '))}</span>
+                {if($count-annotations gt 0 or $count-texts gt 0) then
+                            concat(' (',
+                                if($count-annotations gt 0) then 
+                                    concat($count-annotations,
+                                    if($count-annotations gt 1) then ' annotations' else ' annotation',
+                                    if($count-texts gt 0) then ', ' else ())
+                                else (),
+                                if($count-texts gt 0) then 
+                                    concat($count-texts, if($count-texts gt 1) then ' texts' else ' text')
+                                else (),
+                            ')')
                         else ()}
-                        <div class="contributor-desc">{(
-                            if($hit/tei:person/tei:occupation) then 
-                                (for $r at $p in $hit/tei:person/tei:occupation
-                                 return (tei2html:tei2html($r), if($p lt count($hit/tei:person/tei:occupation)) then ', ' else ()),
-                                 if($hit/tei:person/tei:affiliation[. != '']) then ', ' else ())
+                <div class="contributor-desc">{(
+                            if($h/tei:occupation) then 
+                                (for $r at $p in $h/tei:occupation
+                                 return (tei2html:tei2html($r), if($p lt count($h/tei:occupation)) then ', ' else ()),
+                                 if($h/tei:affiliation[. != '']) then ', ' else ())
                             else (),
-                            if($hit/tei:person/tei:affiliation) then 
-                                tei2html:tei2html($hit/tei:person/tei:affiliation)
+                            if($h/tei:affiliation) then 
+                                tei2html:tei2html($h/tei:affiliation)
                             else (),
-                           if($hit/tei:person/tei:note) then 
-                               <p>{ tei2html:tei2html($hit/tei:person/tei:note)}</p>
+                           if($h/tei:note) then 
+                               <p>{ tei2html:tei2html($h/tei:note)}</p>
                             else ()
-                            )}</div>
-                        <div class="indent">
+                )}</div>
+                <div class="collapse" id="collapseContributor{$id}">
+                <div class="indent">
                          <h3>Annotations</h3>
                          {
                              for $annotation at $p in $annotations
@@ -1030,41 +1066,8 @@ function app:contributors($node as node()*, $model as map(*), $start as xs:integ
                          }
                         </div>
                 </div>
-            else 
-                <div xmlns="http://www.w3.org/1999/xhtml" class="contributor">
-                    <button class="getContributorAnnotations btn btn-link" data-toggle="tooltip" title="View annotations" data-contributor-id="{$id}">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                    </button> 
-                    <span class="browse-author-name">{concat(string-join($hit/tei:person/tei:persName/tei:surname,' '),', ',string-join($hit/tei:person/tei:persName/tei:forename,' '))}</span> 
-                    {if($count-annotations gt 0 or $count-texts gt 0) then
-                            concat(' (',
-                                if($count-annotations gt 0) then 
-                                    concat($count-annotations,
-                                    if($count-annotations gt 1) then ' annotations' else ' annotation',
-                                    if($count-texts gt 0) then ', ' else ())
-                                else (),
-                                if($count-texts gt 0) then 
-                                    concat($count-texts, if($count-texts gt 1) then ' texts' else ' text')
-                                else (),
-                            ')')
-                        else ()}
-                    <div class="contributor-desc">{(
-                        if($hit/tei:person/tei:occupation) then 
-                            (for $r at $p in $hit/tei:person/tei:occupation
-                             return (tei2html:tei2html($r), if($p lt count($hit/tei:person/tei:occupation)) then ', ' else ()),
-                             if($hit/tei:person/tei:affiliation[. != '']) then ', ' else ())
-                        else (),
-                        if($hit/tei:person/tei:affiliation) then 
-                            tei2html:tei2html($hit/tei:person/tei:affiliation)
-                        else (),
-                       if($hit/tei:person/tei:note) then 
-                           <p>{ tei2html:tei2html($hit/tei:person/tei:note)}</p>
-                        else ()
-                        )}</div>
-                    <div class="contributorAnnotationsResults"></div>
-                </div>            
-            }
-        </div>  
+            </div>
+    }</div>    
 };
 
 (:~
@@ -1100,7 +1103,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
             for $hit at $p in subsequence($hits, $start, $per-page)
             let $id := document-uri(root($hit))
             let $title := $hit/descendant::tei:title[1]/text()
-            let $expanded := kwic:expand($hit)
+            let $expanded := if(request:get-parameter('query', '') != '') then kwic:expand($hit) else () 
             let $xmlId := $hit/@xml:id
             let $headnotes := if($xmlId != '') then
                                     collection($config:data-root || '/headnotes')//tei:relation[@active[matches(.,concat($xmlId,"(\W.*)?$"))]]
@@ -1127,6 +1130,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                           else ()}
                          </span>
                     </div>        
+
 };
 
 (:~ 
@@ -1181,36 +1185,6 @@ declare function app:search-string(){
             }
     </span>
 };
-
-(:
- : Display Timeline. Uses http://timeline.knightlab.com/
-
-declare function app:timeline($data as node()*, $title as xs:string*){
-(: Test for valid dates json:xml-to-json() May want to change some css styles for font:)
-if($data/descendant-or-self::tei:imprint/descendant::tei:date[@when or @to or @from or @notBefore or @notAfter]) then 
-    <div class="timeline">
-        <script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"/>
-        <script type="text/javascript">
-        <![CDATA[
-            $(document).ready(function() {
-                var parentWidth = $(".timeline").width();
-                createStoryJS({
-                    start:      'start_at_end',
-                    type:       'timeline',
-                    width:      "'" +parentWidth+"'",
-                    height:     '325',
-                    source:     ]]>{timeline:get-dates($data, $title)}<![CDATA[,
-                    embed_id:   'my-timeline'
-                    });
-                });
-                ]]>
-        </script>
-    <div id="my-timeline"/>
-    <p>*Timeline generated with <a href="http://timeline.knightlab.com/">http://timeline.knightlab.com/</a></p>
-    </div>
-else ()
-};
-:)
 
 (:
  : Display facets from HTML page 
