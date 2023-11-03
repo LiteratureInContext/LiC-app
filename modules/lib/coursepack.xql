@@ -65,6 +65,22 @@ declare function local:create-new-coursepack($data as item()*){
                return 
                (<work id="{$groupID}" num="{$n}">
                 <title>{$work?title[1]}</title>
+                {
+                    let $record := doc(xmldb:encode-uri($id))
+                    let $date := 
+                        if($record/descendant::tei:sourceDesc/descendant::tei:imprint/tei:date) then
+                            $record/descendant::tei:sourceDesc/descendant::tei:imprint[1]/tei:date[1]
+                        else $record/descendant::tei:publicationStmt[1]/tei:date[1]
+                    let $author :=
+                        if($record/descendant::tei:sourceDesc/descendant::tei:author) then
+                            $record/descendant::tei:sourceDesc/descendant::tei:author[1]
+                        else $record/descendant::descendant::tei:author[1]
+                    return 
+                        (
+                        <author>{$author}</author>,
+                        <date>{$date}</date>
+                        )
+                }
                 {for $text in $work?text
                     let $regex := fn:analyze-string($text,'id="([^"]*)"')
                     let $m1 := $regex//fn:match[1]/fn:group/text()
@@ -113,7 +129,22 @@ declare function local:update-coursepack($data as item()*){
                return 
                (<work id="{$groupID}" num="{$num}">
                 <title>{$work?title[1]}</title>
-                
+                {
+                    let $record := doc(xmldb:encode-uri($id))
+                    let $date := 
+                        if($record/descendant::tei:sourceDesc/descendant::tei:imprint/tei:date) then
+                            $record/descendant::tei:sourceDesc/descendant::tei:imprint[1]/tei:date[1]
+                        else $record/descendant::tei:publicationStmt[1]/tei:date[1]
+                    let $author :=
+                        if($record/descendant::tei:sourceDesc/descendant::tei:author) then
+                            $record/descendant::tei:sourceDesc/descendant::tei:author[1]
+                        else $record/descendant::descendant::tei:author[1]
+                    return 
+                        (
+                        <author>{$author}</author>,
+                        <date>{$date}</date>
+                        )
+                }
                 {
                     for $text in $work?text
                     let $regex := fn:analyze-string($text,'id="([^"]*)"')
