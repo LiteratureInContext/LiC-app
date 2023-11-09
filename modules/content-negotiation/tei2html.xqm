@@ -274,18 +274,12 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
             </small></h1>
             { 
             if($resps != '' and not(contains(document-uri(root($header)),'/data/headnotes'))) then 
-                <div>{
+                <div>{string-join(
                 for $n in $resps
-                return
-                    <span class="tei-resp">
-                        {
-                        string-join((for $resp in $n/descendant::tei:resp
-                        let $names := $resp/following-sibling::tei:name[preceding-sibling::tei:resp]
-                        return 
-                        concat($resp, ' by ', string-join($names,', '))
-                        ),'. ')}
-                    </span>
-                }</div>
+                for $resp in $n/descendant::tei:resp
+                let $names := $resp/following-sibling::tei:name[preceding-sibling::tei:resp]
+                return concat($resp, ' by ', string-join($names,', '))
+                ,'. ')}</div>
               else() 
             }
 
