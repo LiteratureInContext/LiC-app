@@ -237,7 +237,7 @@ declare function tei2html:get-page($nodes as node()*, $page as item()*){
 
 (: end chunk functions :)
 declare function tei2html:header($header as element(tei:teiHeader)) {
-    let $titleStmt := $header//tei:titleStmt
+    let $titleStmt := $header/tei:titleStmt
     let $pubStmt := $header//tei:publicationStmt
     let $sourceDesc := $header//tei:sourceDesc
     let $authors := $header//tei:titleStmt/tei:author
@@ -274,13 +274,18 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
             </small></h1>
             { 
             if($resps != '' and not(contains(document-uri(root($header)),'/data/headnotes'))) then 
-                <ul>{
+                <div>{
                 for $n in $resps
                 return
-                    <li class="list-unstyled">
-                        {concat($n/descendant::tei:resp, ' by ', string-join($n/descendant::tei:name,', '))}
-                    </li>
-                }</ul>
+                    <span class="tei-resp">
+                        {
+                        string-join((for $resp in $n/descendant::tei:resp
+                        let $names := $resp/following-sibling::tei:name[preceding-sibling::tei:resp]
+                        return 
+                        concat($resp, ' by ', string-join($names,', '))
+                        ),'. ')}
+                    </span>
+                }</div>
               else() 
             }
 
