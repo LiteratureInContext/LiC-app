@@ -237,7 +237,7 @@ declare function tei2html:get-page($nodes as node()*, $page as item()*){
 
 (: end chunk functions :)
 declare function tei2html:header($header as element(tei:teiHeader)) {
-    let $titleStmt := $header/tei:titleStmt
+    let $titleStmt := $header//tei:titleStmt
     let $pubStmt := $header//tei:publicationStmt
     let $sourceDesc := $header//tei:sourceDesc
     let $authors := $header//tei:titleStmt/tei:author
