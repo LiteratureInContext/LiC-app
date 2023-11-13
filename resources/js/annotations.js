@@ -1,9 +1,11 @@
 /* Annotation functions.*/
 $(document).ready(function () {
     
+    /* 
     $('.glyphicon').click(function () {
         $(this).toggleClass("glyphicon-plus-sign").toggleClass("glyphicon-minus-sign");
     });
+    */
     
     //Get contributor contribution, 1st 5         getContributorAnnotations
     $('.getContributorAnnotations').on('click', function(e){ // on change of state
@@ -98,21 +100,6 @@ $(document).ready(function () {
             }
         console.log('test dynamic content loading. TEST URL: ' + url);
         
-        /* 
-        var url = $(this).data('dynamicContent-url');
-        var current = $(this) 
-        var $annotationsResults = $(current).closest('.result').find('.nestedResults');
-        //If annotation results are empty load via ajax, otherwise toggle to show or hide div
-         if($annotationsResults.is(':empty')){
-              $.get(url, function(data) {
-                    $(current).closest('.result').find('.nestedResults').html(data);                 
-                }, "html"); 
-                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
-            } else {
-              $annotationsResults.toggle();
-              $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
-            }
-             */ 
     });
     
     $('.viewMore').on('click', function () {
@@ -123,4 +110,16 @@ $(document).ready(function () {
           $(this).text('View All');
        }
       });
+      
+  
+     $('.showHide').on('click', function () {
+        if($(this).find('.glyphicon').hasClass('glyphicon glyphicon-plus-sign'))
+            {
+               $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign'); 
+            }
+            else
+            {      
+                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign'); 
+            }
+        }); 
 });
