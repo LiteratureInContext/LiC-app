@@ -314,14 +314,16 @@ let $name :=
     else $nodes
 return 
     <span class="tei-persName">{
-      if($name/child::*) then 
-        (
+      if($name/child::*) then
+        let $formatedName := 
+            (
             normalize-space($name/descendant-or-self::tei:surname[1]),', ',normalize-space($name/descendant-or-self::tei:forename[1]), 
             if($name/descendant-or-self::tei:addName) then 
                 for $addName in $name/descendant-or-self::tei:addName
                 return (', ',tei2html:tei2html($addName)) 
             else ()
             )
+        return replace(normalize-space(string-join($formatedName,'')),' , ',', ')    
       else tei2html:tei2html($name/node())
     }</span>
 };
