@@ -222,8 +222,7 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
             <span class="facet-grp">
                 <span class="facet-title">{string($facet/@label)}</span>
                 <span class="facet-list">
-                {
-
+                {(
                     for $facet at $n in subsequence($sortedFacets,1,5)
                     let $label := string($facet/@label)
                     let $count := string($facet/@value)
@@ -259,8 +258,11 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
                                         {$label} <span class="count"> ({$count})</span> </a>
                         }
                     </div>,
-                    <a href="#" data-toggle="collapse" data-target="#view{$name}" class="facet-label btn btn-info viewMore">View All</a>,<br/>
-                    }
+                    if($count gt 5) then 
+                    <a href="#" data-toggle="collapse" data-target="#view{$name}" class="facet-label btn btn-info viewMore">View All</a>
+                    else (),
+                    <br/>
+                    )}
                 </span>
             </span>
         else () 
