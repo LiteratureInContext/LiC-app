@@ -49,6 +49,7 @@ declare function sf:build-index(){
                 <field name="title" expression="sf:field(.,'title')"/>
                 <field name="author" expression="sf:field(., 'author')"/>
                 <field name="authorLastNameFirstName" expression="sf:field(., 'authorLastNameFirstName')"/>
+                <field name="annotations" expression="sf:field(.,'annotations')"/>
                 <field name="pubDate" expression="sf:field(., 'pubDate')"/>
             </text>
             <text qname="tei:text">
@@ -209,31 +210,57 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
     let $name := string($facet/@name)
     let $count := if(request:get-parameter(concat('all-',$name), '') = 'on' ) then () else string($facet/facet:max-values/@show)
     let $f := ft:facets($result, $name, ())
+    let $sortedFacets :=  
+                        for $key at $p in map:keys($f)
+                        let $value := map:get($f, $key)
+                        order by $key ascending
+                        return 
+                            <facet label="{$key}" value="{$value}"/>
+    let $total := count($sortedFacets)                            
     return 
         if (map:size($f) > 0) then
             <span class="facet-grp">
                 <span class="facet-title">{string($facet/@label)}</span>
                 <span class="facet-list">
-                {array:for-each(sf:sort($f,$facet-definition/facet:order-by/text(),$facet-definition/facet:order-by/@direction), function($entry) {
-                    map:for-each($entry, function($label, $freq) {
-                        let $label := normalize-space($label)
+                {
+
+                    for $facet at $n in subsequence($sortedFacets,1,5)
+                    let $label := string($facet/@label)
+                    let $count := string($facet/@value)
+                    let $param-name := concat('facet-',$name)
+                    let $facet-param := concat($param-name,'=',encode-for-uri($label))
+                    let $active := if(request:get-parameter($param-name, '') = $label) then 'active' else ()
+                    let $url-params := 
+                                    if($active) then replace(replace(replace(request:get-query-string(),encode-for-uri($label),''),concat($param-name,'='),''),'&amp;&amp;','&amp;')
+                                    else if(request:get-parameter('start', '')) then '&amp;start=1'
+                                    else if(request:get-query-string() != '') then concat($facet-param,'&amp;',request:get-query-string())
+                                    else $facet-param
+                    return 
+                        <a href="?{$url-params}" class="facet-label btn btn-default {$active}" num="{$n}">
+                                    {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
+                                    {$label} <span class="count"> ({$count})</span> </a>,
+                                    
+                    <div id="view{$name}" class="collapse">
+                        {
+                        for $facet at $n in subsequence($sortedFacets,6,$total)
+                        let $label := string($facet/@label)
+                        let $count := string($facet/@value)
                         let $param-name := concat('facet-',$name)
                         let $facet-param := concat($param-name,'=',encode-for-uri($label))
                         let $active := if(request:get-parameter($param-name, '') = $label) then 'active' else ()
                         let $url-params := 
-                            if($active) then replace(replace(replace(request:get-query-string(),encode-for-uri($label),''),concat($param-name,'='),''),'&amp;&amp;','&amp;')
-                            else if(request:get-parameter('start', '')) then '&amp;start=1'
-                            else if(request:get-query-string() != '') then concat($facet-param,'&amp;',request:get-query-string())
-                            else $facet-param
-                        return
-                            <a href="?{$url-params}" class="facet-label btn btn-default {$active}">
-                            {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
-                            {$label} <span class="count"> ({$freq})</span> </a>
-                    })
-                })}
-                {if(map:size($f) = xs:integer($count)) then 
-                    <a href="?{request:get-query-string()}&amp;all-{$name}=on" class="facet-label btn btn-info"> View All </a>
-                 else ()}
+                                        if($active) then replace(replace(replace(request:get-query-string(),encode-for-uri($label),''),concat($param-name,'='),''),'&amp;&amp;','&amp;')
+                                        else if(request:get-parameter('start', '')) then '&amp;start=1'
+                                        else if(request:get-query-string() != '') then concat($facet-param,'&amp;',request:get-query-string())
+                                        else $facet-param
+                        return 
+                            <a href="?{$url-params}" class="facet-label btn btn-default {$active}" num="{$n}">
+                                        {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
+                                        {$label} <span class="count"> ({$count})</span> </a>
+                        }
+                    </div>,
+                    <a href="#" data-toggle="collapse" data-target="#view{$name}" class="facet-label btn btn-info viewMore">View All</a>,<br/>
+                    }
                 </span>
             </span>
         else () 
@@ -377,6 +404,12 @@ declare function sf:field-authorLastNameFirstName($element as item()*, $name as 
     for $author in $authors//tei:name
     return replace(tei2html:persName-last-first($author),' , ', ', ')
 };
+(: annotations field :)
+declare function sf:field-annotations($element as item()*, $name as xs:string){
+    $element//tei:text/descendant::tei:note
+};
+
+
 
 (: Author facet :)
 declare function sf:facet-authorLastNameFirstName($element as item()*, $facet-definition as item(), $name as xs:string){
@@ -402,6 +435,15 @@ declare function sf:facet-pubPlace($element as item()*, $facet-definition as ite
 declare function sf:field-pubDate($element as item()*, $name as xs:string){
     $element/ancestor-or-self::tei:TEI/descendant::tei:sourceDesc/tei:imprint/tei:date
 };
+
+(: headnotes field 
+declare function sf:field-headnotes($element as item()*, $name as xs:string){
+    let $id := root($element)/@xml:id
+    for $headnote in $element/descendant::tei:relation[@active[matches(.,concat($xmlId,"(\W.*)?$"))]]
+    return 
+};
+:)
+
 
 declare function sf:facet-controlled-labels($element as item()*, $facet-definition as item(), $name as xs:string){
     let $xpath := $facet-definition/facet:group-by/facet:sub-path/text() 
