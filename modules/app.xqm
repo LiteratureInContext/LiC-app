@@ -463,7 +463,7 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
                         </a>, '&#160;')  
                   else if($f = 'notes') then
-                        (<button class="btn btn-primary btn-xs" id="notesBtn" data-toggle="collapse" data-target="#teiViewNotes">
+                        (<button class="btn btn-primary btn-xs showHide" id="notesBtn" data-toggle="collapse" data-target="#teiViewNotes">
                             <span data-toggle="tooltip" title="View Notes">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Editorial Statements
                             </span></button>, '&#160;')   
@@ -473,7 +473,7 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                                 <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Citation
                             </span></button>, '&#160;')
                   else if($f = 'sources') then 
-                        (<button class="btn btn-primary btn-xs" id="sourcesBtn" data-toggle="collapse" data-target="#teiViewSources">
+                        (<button class="btn btn-primary btn-xs showHide" id="sourcesBtn" data-toggle="collapse" data-target="#teiViewSources">
                             <span data-toggle="tooltip" title="View Source Description">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Source Texts
                             </span></button>, '&#160;') 
@@ -490,7 +490,7 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                     else()         
                 else if($f = 'lod') then  
                     if($model("data")//@key) then 
-                         (<button class="btn btn-primary btn-xs" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
+                         (<button class="btn btn-primary btn-xs showHide" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
                             <span data-toggle="tooltip" title="View Linked Data">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
                             </span></button>, '&#160;')
@@ -616,15 +616,14 @@ return
                             <li><a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}.txt"  id="textBtn" title="Download Coursepack as plain text">Text</a></li>
                           </ul>
                         </div> 
-                </div>
-                                   
+                </div>               
                 </div>
             </div>
             <!-- WS, not working, need to add the map.invalidateSize somehwere for hide/show sections -->
         <div class="panel-collapse collapse left-align" id="teiViewLOD">
             {app:subset-lod($node, $model)}
         </div>
-        <div class="lic-well coursepack">
+        <div class="lic-well coursepack boxContainer">
                 <div class="coursepackToolbar search-box no-print">
                     <div class="form-group">
                         <input type="text" class="form-control" id="query" name="query" placeholder="Search Coursepack"/>
@@ -699,7 +698,7 @@ return
                         else $work/@num
                     order by $sort
                     return  
-                        <div class="result row">
+                        <div class="result row box" draggable="true">
                             <div class="col-md-1">
                              <button data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=deleteWork&amp;coursepackid={string($coursepacks/@id)}&amp;workid={$id}" class="removeWork btn btn-default btn-sm" data-toggle="tooltip" title="Delete Work from Coursepack">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
