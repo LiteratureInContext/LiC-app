@@ -114,4 +114,13 @@ $(document).ready(function () {
             }
              */ 
     });
+    
+    $('.viewMore').on('click', function () {
+        var text = $(this).text();
+        if(text === "View All"){
+          $(this).html('View Less');
+        } else{
+          $(this).text('View All');
+       }
+      });
 });
