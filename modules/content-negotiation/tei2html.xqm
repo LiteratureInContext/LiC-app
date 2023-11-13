@@ -345,6 +345,7 @@ return
             <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
             attribute src { $imgURL },
             attribute alt { $alt },
+            attribute title { $alt },
             if($node/@width) then 
                 attribute width { $node/@width }
             else (),
