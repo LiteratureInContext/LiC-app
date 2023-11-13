@@ -258,7 +258,7 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
                                         {$label} <span class="count"> ({$count})</span> </a>
                         }
                     </div>,
-                    if($count gt 5) then 
+                    if($total gt 5) then 
                     <a href="#" data-toggle="collapse" data-target="#view{$name}" class="facet-label btn btn-info viewMore">View All</a>
                     else (),
                     <br/>
