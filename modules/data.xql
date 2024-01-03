@@ -64,7 +64,7 @@ return
     else if(request:get-parameter('facet-author', '')) then
         for $hit in $results
         let $title := $hit/descendant::tei:title[1]/text()
-        let $id := document-uri($hit)
+        let $id := document-uri(root($hit))
         return 
             <div class="result row">
                 <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
