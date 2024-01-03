@@ -132,7 +132,11 @@ declare function timeline:get-date-published($data as node()*) as node()*{
     for $imprint in $data
     let $date := ($imprint/descendant::tei:imprint/tei:date[@timeline != ''], $imprint/descendant::tei:imprint/tei:date)[1]
     let $author := tei2html:persName($imprint/descendant::tei:author[1])
-    let $title := $imprint/descendant::tei:title[1]/text()
+    let $titlElement := $imprint/descendant::tei:title[1]
+    let $title := if($titlElement/parent::tei:monogr) then concat('&lt;em&gt;',$titlElement/text(),'&lt;/em&gt;')
+                  else if($titlElement/parent::tei:analytic and contains($titlElement,'"')) then 
+                    $titlElement/text()
+                  else concat('"',$titlElement/text(),'"')
     let $id := document-uri(root($imprint))
     let $link := concat($config:nav-base,'/work',substring-before(replace($id,$config:data-root,''),'.xml'))
     let $dateText :=    
@@ -154,7 +158,7 @@ declare function timeline:get-date-published($data as node()*) as node()*{
                      else if($date/@to) then   
                         string($date/@to)
                      else ()
-    let $imprint-text := normalize-space(concat($author,if($author != '') then ', ' else (), $title,'. ',$dateText))
+    let $imprint-text := normalize-space(concat($author,if($author != '') then ', ' else (), $title))
   return timeline:format-dates($start, $end,$imprint-text,(), $link)
         
 };
