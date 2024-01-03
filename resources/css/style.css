@@ -292,6 +292,15 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .caption {display:block; font-size:small; text-align:center;}
 .footnote {display:none;}
 .footnote .tei-footnote-id {margin-bottom:1em;}
+.graphic{
+    font-size:small;
+    text-align:center;
+    padding:.5em;
+    display:block;
+    width:325px;
+    float:right;
+    margin-left:1em;
+}
 .annotations .graphic, .footnote .graphic {
     width:325px;
     float:right;
@@ -336,6 +345,7 @@ sup.footnoteRef {
 .map-pop-desc {display:block;margin-left:.5em;}
 .map-related-title, .map-pop-relation {display:block; margin-left:1em; border-bottom:1px solid #eee;}
 /* Facets */
+.facet-title {font-weight:600;}
 .facet-label {
     margin-left:.5em;
     display:block;
@@ -429,4 +439,15 @@ svg {
 /* .slide-content img {border:2px solid white; width:40%;} */
 .slide-content .featuredImage img {width:60%;}
 .slide-content {font-size:.75em;}
+}
+
+.box {
+  border: 2px solid #ccc;
+  background-color: #eee;
+  border-radius: .5em;
+  padding: 10px;
+  cursor: move;
+}
+.box.over {
+  border: 2px dotted #ccc;
 }
