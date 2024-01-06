@@ -90,7 +90,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     if($node/@xml:id) then 
                        <span class="tei-footnote-id" id="{ string($node/@xml:id) }">{string($node/@xml:id)}</span>
                     else (),
-                    tei2html:tei2html($node/node()),
+                    <span class="TEST">{tei2html:tei2html($node/node())}</span>,
                     if($node/descendant::tei:ref[contains(@target,'youtube')]) then 
                         tei2html:youTube($node/descendant::tei:ref[contains(@target,'youtube')])
                     else (),
@@ -116,7 +116,9 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     tei2html:page-chunk($node)
                 else tei2html:tei2html($node/node()) 
             case element(tei:p) return 
-                <p xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
+                if($node/ancestor::tei:note[@target]) then 
+                    <span class="tei-p" xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</span>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
+                else <p xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
             case element(tei:rs) return (: create a new function for RSs to insert the content of specific variables; as is, content of the node is inserted as tooltip title. could use content of source attribute or link as the # ref :)
                <a href="#" data-toggle="tooltip" title="{tei2html:tei2html($node/node())}">{ tei2html:tei2html($node/node()) }</a>                
             case element(tei:sp) return 
