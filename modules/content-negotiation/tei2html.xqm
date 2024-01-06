@@ -340,7 +340,7 @@ let $imgURL :=  if($node/@url) then
 let $alt :=    if($node/@alt) then string($node/@alt) else if($node/@title) then $node/@title else 'graphic'              
 return 
     if($imgURL) then 
-        <div class="graphic">{
+        <span class="graphic">{
             (<a href="{$imgURL}">
                 <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
                 attribute src { $imgURL },
@@ -355,15 +355,15 @@ return
                 )}</img>
             </a>,
                 if($node/@desc or $node/@source) then 
-                    <div class="imgCaption">
+                    <span class="imgCaption">
                     {
                         if($node/@source) then 
                           <span class="imgSource">Source: <a href="{$node/@source}">{if($node/@desc) then string($node/@desc) else string($node/@source) }</a></span>  
                         else ()
                     }
-                    </div>
+                    </span>
                 else ())}
-        </div>   
+        </span>   
     else ()               
 };
 

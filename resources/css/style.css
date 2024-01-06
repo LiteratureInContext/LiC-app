@@ -294,9 +294,9 @@ form#search {margin-top:-1.5em; padding-top:0;}
 .footnote .tei-footnote-id {margin-bottom:1em;}
 .graphic{
     font-size:small;
-    text-align:center;
+    text-align:center !important;
     padding:.5em;
-    display:block;
+    display:block !important;
     width:325px;
     float:right;
     margin-left:1em;
