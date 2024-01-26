@@ -90,12 +90,19 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     if($node/@xml:id) then 
                        <span class="tei-footnote-id" id="{ string($node/@xml:id) }">{string($node/@xml:id)}</span>
                     else (),
-                    tei2html:tei2html($node/node()),
+                    <span class="TEST">{tei2html:tei2html($node/node())}</span>,
+                    if($node/descendant::tei:ref[contains(@target,'youtube')]) then 
+                        tei2html:youTube($node/descendant::tei:ref[contains(@target,'youtube')])
+                    else (),
                     if($node/@resp) then
                         <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($node/@resp,'#')}">{substring-after($node/@resp,'#')}</a>]</span>
                     else ()
                     )}</span>
-                else <span class="tei-{local-name($node)}">{ tei2html:tei2html($node/node()) }</span>
+                else <span class="tei-{local-name($node)}">{( tei2html:tei2html($node/node()),
+                    if($node/descendant::tei:ref[contains(@target,'youtube')]) then 
+                        tei2html:youTube($node/descendant::tei:ref[contains(@target,'youtube')])
+                    else ())
+                    }</span>
             case element(tei:pb) return 
                     <span class="tei-pb" data-num="{string($node/@n)}">{string($node/@n)}</span>
             case element(tei:persName) return 
@@ -109,7 +116,9 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     tei2html:page-chunk($node)
                 else tei2html:tei2html($node/node()) 
             case element(tei:p) return 
-                <p xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
+                if($node/ancestor::tei:note[@target]) then 
+                    <span class="tei-p" xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</span>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
+                else <p xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</p>  (: THIS IS WHERE THE ANCHORS ARE INSERTED! :)
             case element(tei:rs) return (: create a new function for RSs to insert the content of specific variables; as is, content of the node is inserted as tooltip title. could use content of source attribute or link as the # ref :)
                <a href="#" data-toggle="tooltip" title="{tei2html:tei2html($node/node())}">{ tei2html:tei2html($node/node()) }</a>                
             case element(tei:sp) return 
@@ -267,13 +276,12 @@ declare function tei2html:header($header as element(tei:teiHeader)) {
             </small></h1>
             { 
             if($resps != '' and not(contains(document-uri(root($header)),'/data/headnotes'))) then 
-                <ul>{
+                <div>{string-join(
                 for $n in $resps
-                return
-                    <li class="list-unstyled">
-                        {concat($n/descendant::tei:resp, ' by ', string-join($n/descendant::tei:name,', '))}
-                    </li>
-                }</ul>
+                for $resp in $n/descendant::tei:resp
+                let $names := $resp/following-sibling::tei:name[preceding-sibling::tei:resp]
+                return concat($resp, ' by ', string-join($names,', '))
+                ,'. ')}</div>
               else() 
             }
 
@@ -308,16 +316,16 @@ let $name :=
     else $nodes
 return 
     <span class="tei-persName">{
-      if($name/child::*) then 
-        (
-            $name/descendant-or-self::tei:surname[1], 
-            ', ', 
-            $name/descendant-or-self::tei:forename[1], 
+      if($name/child::*) then
+        let $formatedName := 
+            (
+            normalize-space($name/descendant-or-self::tei:surname[1]),', ',normalize-space($name/descendant-or-self::tei:forename[1]), 
             if($name/descendant-or-self::tei:addName) then 
                 for $addName in $name/descendant-or-self::tei:addName
                 return (', ',tei2html:tei2html($addName)) 
             else ()
             )
+        return replace(normalize-space(string-join($formatedName,'')),' , ',', ')    
       else tei2html:tei2html($name/node())
     }</span>
 };
@@ -330,25 +338,43 @@ let $imgURL :=  if($node/@url) then
                    else if(starts-with($node/@url,'/')) then 
                         concat($config:image-root,$id,string($node/@url))
                    else concat($config:image-root,$id,'/',string($node/@url))
-                else ()                   
+                else () 
+let $alt :=    if($node/@alt) then string($node/@alt) else if($node/@title) then $node/@title else 'graphic'
+let $type := if(ends-with($imgURL,'.mp3')) then 'audio' 
+             else 'image'
 return 
-    if($imgURL) then 
-        <a href="{$imgURL}">
-            <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
-            attribute src { $imgURL },
-            for $a in $node/@*
-            return 
-                attribute {local-name($a)} {$a},
-            (:if($node/@alt) then () 
-            else attribute alt { '' },,:)
-            if($node/@width) then 
-                attribute width { $node/@width }
-            else (),
-            if($node/@style) then 
-                attribute style { $node/@style }
-            else ()
-            )}</img>
-        </a>
+    if($imgURL) then
+        if($type = 'audio') then 
+            <div class="audio">
+                <audio controls="controls">
+                  <source src="{$imgURL}" type="audio/mpeg"/>
+                </audio>
+            </div>   
+        else 
+            <span class="graphic">{
+                (<a href="{$imgURL}">
+                    <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
+                    attribute src { $imgURL },
+                    attribute alt { $alt },
+                    attribute title { $alt },
+                    if($node/@width) then 
+                        attribute width { $node/@width }
+                    else (),
+                    if($node/@style) then 
+                        attribute style { $node/@style }
+                    else ()
+                    )}</img>
+                </a>,
+                    if($node/@desc or $node/@source) then 
+                        <span class="imgCaption">
+                        {
+                            if($node/@source) then 
+                              <span class="imgSource">Source: <a href="{$node/@source}">{if($node/@desc) then string($node/@desc) else string($node/@source) }</a></span>  
+                            else ()
+                        }
+                        </span>
+                    else ())}
+            </span>   
     else ()               
 };
 
@@ -364,6 +390,18 @@ declare function tei2html:hi($node as element (tei:hi)) {
     else <span class="tei-hi tei-{$node/@rend}">{tei2html:tei2html($node/node())}</span>
 };
 
+declare function tei2html:youTube($node as element (tei:ref)) {
+    <div class="embedVideo graphic" xmlns="http://www.w3.org/1999/xhtml">
+        {let $videoID := substring-after($node/@target,'v=')
+         let $embedURL := concat('https://www.youtube.com/embed/',$videoID)
+         return 
+            (<iframe src="{$embedURL}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" width="560" height="315"></iframe>,
+             <br/>,
+             <a href="{$node/@target}">{if($node[. != '']) then $node/text() else string($node/@target)}</a>
+             )
+        }
+    </div>
+};
 declare function tei2html:ref($node as element (tei:ref)) {
     if($node/@corresp) then
         <span class="footnoteRef text">
@@ -371,15 +409,7 @@ declare function tei2html:ref($node as element (tei:ref)) {
             <sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup>
         </span>
     else if(starts-with($node/@target,'http')) then
-    (:
-        if(contains($node/@target,'youtube')) then 
-            <div>
-                <iframe src="{concat(replace($node/@target,'/watch?v=','/embed/'),'?si=mb2wB_T-srxDzXpI')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" width="560" height="315"></iframe>
-                <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
-            </div>
-        else 
-        :)
-        <a href="{$node/@target}" target="_blank">{tei2html:tei2html($node/node())}</a>
+        <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
     else tei2html:tei2html($node/node())
 };
 
