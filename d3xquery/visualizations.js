@@ -176,9 +176,9 @@ function forcegraph(graph,rootURL,type) {
     }
     
      //Connecting linked nodes on click
-  node.on("mouseover", fade(.1));
-  node.on("mouseout", fade(1));
-        var linkedByIndex = {
+  node.on("click", fade(.1));
+  node.on("dbclick", fade(1));
+  var linkedByIndex = {
     };
         
   graph.links.forEach(function (d) {
