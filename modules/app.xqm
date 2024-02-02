@@ -773,8 +773,10 @@ let $current-page := xs:integer(($start + $perpage) div $perpage)
 (: get all parameters to pass to paging function, strip start parameter :)
 let $url-params := replace(replace(request:get-query-string(), '&amp;start=\d+', ''),'start=\d+','')
 let $param-string := if($url-params != '') then concat('?',$url-params,'&amp;start=') else '?start='        
+let $pageType := tokenize(request:get-uri(),'/')[last()]
 let $pagination-links := 
-    (<div class="row alpha-pages" xmlns="http://www.w3.org/1999/xhtml">  
+    (
+    <div class="row alpha-pages" xmlns="http://www.w3.org/1999/xhtml">  
             <div class="col-sm-5 search-string">
                     {if($search-string != '' and request:get-parameter('view', '') != 'author' and request:get-parameter('view', '') != 'title') then        
                         (<h3 class="hit-count paging">Search results:</h3>,
@@ -783,66 +785,109 @@ let $pagination-links :=
                     }
             </div>
             <div>
-                {if($search-string != '') then attribute class { "col-md-7" } else attribute class { "col-md-12" } }
                 {
-                if($total-result-count gt $perpage) then 
-                <ul class="pagination pull-right">
-                    {((: Show 'Previous' for all but the 1st page of results :)
-                        if ($current-page = 1) then ()
-                        else <li><a href="{concat($param-string, $perpage * ($current-page - 2)) }">Prev</a></li>,
-                        (: Show links to each page of results :)
-                        let $max-pages-to-show := 8
-                        let $padding := xs:integer(round($max-pages-to-show div 2))
-                        let $start-page := 
-                                      if ($current-page le ($padding + 1)) then
-                                          1
-                                      else $current-page - $padding
-                        let $end-page := 
-                                      if ($number-of-pages le ($current-page + $padding)) then
-                                          $number-of-pages
-                                      else $current-page + $padding - 1
-                        for $page in ($start-page to $end-page)
-                        let $newstart := 
-                                      if($page = 1) then 1 
-                                      else $perpage * ($page - 1)
-                        return 
-                            if ($newstart eq $start) then <li class="active"><a href="#" >{$page}</a></li>
-                             else <li><a href="{concat($param-string, $newstart)}">{$page}</a></li>,
-                        (: Shows 'Next' for all but the last page of results :)
-                        if ($start + $perpage ge $total-result-count) then ()
-                        else <li><a href="{concat($param-string, $start + $perpage)}">Next</a></li>,
-                        if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
-                        else(),
-                        <li><a href="{concat($param-string,'1&amp;perpage=',$total-result-count)}">All</a></li>,
-                        if($search-string != '') then
-                            <li class="pull-right search-new"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
-                        else ()
-                        (:, 
-                        if($model("hits")//@key) then 
-                             <li class="pull-right"><a href="#" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
-                                <span data-toggle="tooltip" title="View Linked Data">
-                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
-                                </span></a></li>
-                        else():)
-                        )}
-                </ul>
-                else 
-                <ul class="pagination pull-right">
-                {(
-                    if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
-                    else(),
-                    if($search-string != '') then   
-                        <li class="pull-right"><a href="{request:get-url()}"><span class="glyphicon glyphicon-search"/> New</a></li>
-                    else(), 
-                    if($model("hits")//@key) then 
-                         <li class="pull-right"><a href="#" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
-                            <span data-toggle="tooltip" title="View Linked Data">
-                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
-                            </span></a></li>
-                    else())}
-                </ul>
+                    if($pageType = 'contributors.html') then
+                        <ul class="pagination pull-right">
+                            {((: Show 'Previous' for all but the 1st page of results :)
+                                if ($current-page = 1) then ()
+                                else <li><a href="{concat($param-string, $perpage * ($current-page - 2)) }">Prev</a></li>,
+                                (: Show links to each page of results :)
+                                let $max-pages-to-show := 8
+                                let $padding := xs:integer(round($max-pages-to-show div 2))
+                                let $start-page := 
+                                              if ($current-page le ($padding + 1)) then
+                                                  1
+                                              else $current-page - $padding
+                                let $end-page := 
+                                              if ($number-of-pages le ($current-page + $padding)) then
+                                                  $number-of-pages
+                                              else $current-page + $padding - 1
+                                for $page in ($start-page to $end-page)
+                                let $newstart := 
+                                              if($page = 1) then 1 
+                                              else $perpage * ($page - 1)
+                                return 
+                                    if ($newstart eq $start) then <li class="active"><a href="#" >{$page}</a></li>
+                                     else <li><a href="{concat($param-string, $newstart)}">{$page}</a></li>,
+                                (: Shows 'Next' for all but the last page of results :)
+                                if ($start + $perpage ge $total-result-count) then ()
+                                else <li><a href="{concat($param-string, $start + $perpage)}">Next</a></li>,
+                                if($total-result-count = 1) then
+                                    <li class="pull-right search-new"><a href="contributors.html"><span class="glyphicon glyphicon-search"/>View All Contributors</a></li>
+                                else ()
+                                (:, 
+                                if($model("hits")//@key) then 
+                                     <li class="pull-right"><a href="#" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
+                                        <span data-toggle="tooltip" title="View Linked Data">
+                                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
+                                        </span></a></li>
+                                else():)
+                                )}
+                        </ul>
+                    else 
+                        <div>
+                            {if($search-string != '') then attribute class { "col-md-7" } else attribute class { "col-md-12" } }
+                            {
+                            if($total-result-count gt $perpage) then 
+                            <ul class="pagination pull-right">
+                                {((: Show 'Previous' for all but the 1st page of results :)
+                                    if ($current-page = 1) then ()
+                                    else <li><a href="{concat($param-string, $perpage * ($current-page - 2)) }">Prev</a></li>,
+                                    (: Show links to each page of results :)
+                                    let $max-pages-to-show := 8
+                                    let $padding := xs:integer(round($max-pages-to-show div 2))
+                                    let $start-page := 
+                                                  if ($current-page le ($padding + 1)) then
+                                                      1
+                                                  else $current-page - $padding
+                                    let $end-page := 
+                                                  if ($number-of-pages le ($current-page + $padding)) then
+                                                      $number-of-pages
+                                                  else $current-page + $padding - 1
+                                    for $page in ($start-page to $end-page)
+                                    let $newstart := 
+                                                  if($page = 1) then 1 
+                                                  else $perpage * ($page - 1)
+                                    return 
+                                        if ($newstart eq $start) then <li class="active"><a href="#" >{$page}</a></li>
+                                         else <li><a href="{concat($param-string, $newstart)}">{$page}</a></li>,
+                                    (: Shows 'Next' for all but the last page of results :)
+                                    if ($start + $perpage ge $total-result-count) then ()
+                                    else <li><a href="{concat($param-string, $start + $perpage)}">Next</a></li>,
+                                    if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
+                                    else(),
+                                    <li><a href="{concat($param-string,'1&amp;perpage=',$total-result-count)}">All</a></li>,
+                                    if($search-string != '') then
+                                        <li class="pull-right search-new"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
+                                    else ()
+                                    (:, 
+                                    if($model("hits")//@key) then 
+                                         <li class="pull-right"><a href="#" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
+                                            <span data-toggle="tooltip" title="View Linked Data">
+                                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
+                                            </span></a></li>
+                                    else():)
+                                    )}
+                            </ul>
+                            else 
+                            <ul class="pagination pull-right">
+                            {(
+                                if($sort-options != '') then data:sort-options($param-string, $start, $sort-options)
+                                else(),
+                                if($search-string != '') then   
+                                    <li class="pull-right"><a href="{request:get-url()}"><span class="glyphicon glyphicon-search"/> New</a></li>
+                                else(), 
+                                if($model("hits")//@key) then 
+                                     <li class="pull-right"><a href="#" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
+                                        <span data-toggle="tooltip" title="View Linked Data">
+                                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
+                                        </span></a></li>
+                                else())}
+                            </ul>
+                            }
+                        </div>
                 }
-               
+
             </div>
     </div>,
     if($search-string != '' and $total-result-count = 0) then 'No results, please try refining your search or reading our search tips.' 
@@ -949,23 +994,21 @@ declare %templates:wrap function app:list-contributors($node as node(), $model a
         if(doc-available(replace($config:data-root,'/data','/contributors') || '/editors.xml')) then 
             doc(replace($config:data-root,'/data','/contributors') || '/editors.xml')//tei:person
         else ()
+    (:
     let $contributors := 
             for $n in $contributors
             order by $n/descendant::tei:surname[1]
             return $n
-        (:
-    let $contributorID := 
-        if($contributors != '') then 
+        :)
+    let $contributors := 
          if(request:get-parameter('contributorID', '') != '') then 
              for $n in $contributors[@xml:id = request:get-parameter('contributorID', '')]
              order by $n/descendant::tei:surname[1]
-             return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>
+             return $n
          else 
              for $n in $contributors
              order by $n/descendant::tei:surname[1]
-             return <browse xmlns="http://www.w3.org/1999/xhtml" id="{$n/@xml:id}">{$n}</browse>
-        else ()  
-        :)          
+             return $n   
     return          
         map { "hits" : $contributors}  
 };
