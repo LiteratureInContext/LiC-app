@@ -101,8 +101,15 @@ declare function data:search() {
         where request:get-parameter($p, '') != ''
         return $p
     let $field := request:get-parameter('field', '')
-    let $query := request:get-parameter('query', '')
-    let $query-string := data:clean-string($query)(:if (count(($fulltext-query, $date-query))) then string-join(($fulltext-query, $date-query), ' AND ') else ():)
+    let $query := data:clean-string(request:get-parameter('query', ''))
+    let $query-string := 
+                    if($field = 'title') then
+                        concat("title:", $query)
+                    else if($field = 'author') then
+                        concat("author:", $query)
+                    else if($field = 'annotations') then
+                        concat( "annotations:", $query)   
+                    else $query
     let $query-configuration := 
         map {
             "fields": $sf:sortFields,
@@ -114,25 +121,19 @@ declare function data:search() {
             $data:ft-query-options,
             $query-configuration?fields,
             $query-configuration?facets
-        )) 
+        ))     
     let $hits := 
-        if($query-string != '') then 
-            if($field = 'title') then
-                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:titleStmt/tei:title, $query-string)]
-            else if($field = 'author') then
-                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:titleStmt/tei:author, $query-string) or ft:query(descendant::tei:titleStmt/tei:editor, $query-string)]
-            else if($field = 'annotation') then
-                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:note, $query-string)]
-            else if(request:get-parameter('annotation', '') = 'true') then
-                collection($config:data-root)//tei:TEI[ft:query(descendant::tei:text, $query-string) or ft:query(descendant::tei:note, $query-string)]
-            else 
-                (collection($config:data-root)//tei:TEI[ft:query(descendant::tei:text, $query-string) or ft:query(descendant::tei:teiHeader, $query-string)]) 
-        else collection($config:data-root)//tei:TEI
-    let $hits := $hits[ft:query(., (), $query-options)]
+        if($query != '') then 
+            collection($config:data-root)//tei:TEI[ft:query(.,  $query-string, $query-options)]
+        else collection($config:data-root)//tei:TEI[ft:query(., (), $query-options)]
+    let $hits := $hits (:
+                 if($query-string != '') then $hits[ft:query(., (), $query-options)]
+                 else $hits
+                 :)
     let $sort := if(request:get-parameter('sort-element', '') != '') then
                     request:get-parameter('sort-element', '')[1]
                  else ()        
-    return
+    return 
         if(request:get-parameter('view', '') = 'author') then $hits 
         else if($query != '') then
                 for $hit in $hits
@@ -141,12 +142,17 @@ declare function data:search() {
                             else if($sort = 'pubDate') then  ft:field($hit, "pubDate")[1]
                             else if(contains($sort, 'title')) then ft:field($hit, "title")[1]
                             else ft:score($hit)  
-                order by $s descending
+                order by $s ascending
                 return $hit        
         else 
             for $hit in $hits
-            order by ft:field($hit, "title")[1]
-            return $hit          
+            let $s :=
+                            if(contains($sort, 'author')) then ft:field($hit, "authorLastNameFirstName")[1]
+                            else if($sort = 'pubDate') then  ft:field($hit, "pubDate")[1]
+                            else if(contains($sort, 'title')) then ft:field($hit, "title")[1]
+                            else ft:field($hit, "title")[1]  
+            order by $s ascending
+            return $hit              
 };    
 
 (:~   
