@@ -385,7 +385,8 @@ declare function sf:build-sort-string($titlestring as xs:string?) as xs:string* 
 
 (: Title field :)
 declare function sf:field-title($element as item()*, $name as xs:string){
-    sf:build-sort-string($element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:title)
+    for $title in $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:title[1]
+    return sf:build-sort-string($title)
 };
 
 (: Title facet :)
