@@ -22,12 +22,14 @@
                                         <input type="password" name="password"/>
                                     </div>
                                 </div>
+                                <!--
                                 <div class="control-group">
                                     <div class="controls">
                                         <label class="checkbox">
                                             <input type="checkbox" name="duration" value="P14D"/> Remember me for 2 weeks </label>
                                     </div>
                                 </div>
+                                -->
                                 <div id="loginResponseBody">
                                     
                                 </div>
@@ -35,9 +37,15 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-sm btn btn-outline-dark" type="submit">Login</button>
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#newUserModal"><span class="bi bi-person"/> Create New User</button>
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#resetModal"><span class="bi bi-person"/> Reset password</button>
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
+                            <a data-toggle="modal" href="#newUserModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Create New User</a>
+                            <a data-toggle="modal" href="#resetModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Reset password</a>
+                            <!--
+                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#newUserModal"><span class="bi bi-person"/> Create New User</button>
+                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#resetModal"><span class="bi bi-person"/> Reset password</button>
+                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
+                            -->
+                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-dismiss="modal" aria-hidden="true">Close</button>
+                            <!--<button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal">Close</button>-->
                         </div>
                     </div><!-- /.modal-content -->
                 </form>
@@ -114,7 +122,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="submit">Create Account</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm btn btn-outline-dark" data-dismiss="modal" aria-hidden="true">Close</button>
                     </div>
                 </div>
                 
