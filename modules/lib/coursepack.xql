@@ -10,6 +10,8 @@ import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 import module namespace data="http://LiC.org/apps/data" at "data.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "../content-negotiation/tei2html.xqm";
 import module namespace functx="http://www.functx.com";
+(: For running commits to github, backing up courspacks :)
+import module namespace gitcommit="http://syriaca.org/srophe/gitcommit" at "gitCommit.xql";
 
 (: Import application modules. :)
 (:import module namespace tei2html="http://syriaca.org/tei2html" at "content-negotiation/tei2html.xqm";:)
@@ -19,6 +21,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 declare namespace http="http://expath.org/ns/http-client";
+
+(:let $save := gitcommit:run-commit($post-processed-xml, concat($github-path,$file-name), concat("User submitted content for ",$file-name)):)
 
 
 (:Add an id to each node so it can be used by the data:get-fragment-from-doc function. For selected texts:)
@@ -41,6 +45,22 @@ declare function local:addID($nodes as node()*) as item()* {
 declare variable $local:user {
     if(request:get-attribute($config:login-domain || ".user")) then request:get-attribute($config:login-domain || ".user") 
     else sm:id()/sm:id/sm:real/sm:username/string(.)
+};
+
+declare variable $local:github-path {
+    if(request:get-parameter('githubPath','') != '') then request:get-parameter('githubPath','') else 'coursepacks/'
+};
+
+declare variable $local:github-repo {
+    if(request:get-parameter('githubRepo','') != '') then request:get-parameter('githubRepo','') else 'blogs'
+};
+
+declare variable $local:github-owner {
+    if(request:get-parameter('githubOwner','') != '') then request:get-parameter('githubOwner','') else 'wsalesky'
+};
+
+declare variable $local:github-branch {
+    if(request:get-parameter('githubBranch','') != '') then request:get-parameter('githubBranch','') else 'master'
 };
 
 (:~
@@ -74,7 +94,7 @@ declare function local:create-new-coursepack($data as item()*){
                     let $author :=
                         if($record/descendant::tei:sourceDesc/descendant::tei:author) then
                             $record/descendant::tei:sourceDesc/descendant::tei:author[1]
-                        else $record/descendant::descendant::tei:author[1]
+                        else $record/descendant::tei:author[1]
                     return 
                         (
                         <author>{$author}</author>,
@@ -99,7 +119,9 @@ declare function local:create-new-coursepack($data as item()*){
         </coursepack>
     return 
         try { 
-            (xmldb:store(xmldb:encode-uri($config:app-root || '/coursepacks'), xmldb:encode-uri(concat($id[1],'.xml')), $newcoursepack),
+            (
+            xmldb:store(xmldb:encode-uri($config:app-root || '/coursepacks'), xmldb:encode-uri(concat($id[1],'.xml')), $newcoursepack),
+            gitcommit:run-commit($newcoursepack, concat($local:github-path,$id), concat("User submitted content for ",$id)),
             'Saved!')
         } catch * {
             (response:set-status-code( 500 ),
@@ -130,7 +152,7 @@ declare function local:update-coursepack($data as item()*){
                (<work id="{$groupID}" num="{$num}">
                 <title>{$work?title[1]}</title>
                 {
-                    let $record := doc(xmldb:encode-uri($id))
+                    let $record := doc(xmldb:encode-uri($groupID))
                     let $date := 
                         if($record/descendant::tei:sourceDesc/descendant::tei:imprint/tei:date) then
                             $record/descendant::tei:sourceDesc/descendant::tei:imprint[1]/tei:date[1]
@@ -138,7 +160,7 @@ declare function local:update-coursepack($data as item()*){
                     let $author :=
                         if($record/descendant::tei:sourceDesc/descendant::tei:author) then
                             $record/descendant::tei:sourceDesc/descendant::tei:author[1]
-                        else $record/descendant::descendant::tei:author[1]
+                        else $record/descendant::tei:author[1]
                     return 
                         (
                         <author>{$author}</author>,
@@ -171,7 +193,8 @@ declare function local:update-coursepack($data as item()*){
                )
     return 
         try { 
-            (update insert $insertWorks into $coursepack, 
+            (update insert $insertWorks into $coursepack,
+            gitcommit:run-commit($coursepack, concat($local:github-path,$coursepackID), concat("User submitted content for ",$coursepackID)),
             <response>
                 <coursepack id="{$coursepackID}"/>
                 <works>{$insertWorks}</works>
