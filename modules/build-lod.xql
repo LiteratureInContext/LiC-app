@@ -68,7 +68,7 @@ declare function local:specific-coords($rec as node()*){
 (: Get external data if available :)
 declare function local:get-external-person-data($type, $id){
     let $base-url := if($type = 'lcnaf') then 'http://id.loc.gov/authorities/names/' else () 
-    let $url := xs:anyURI(concat($base-url,$id,'.madsxml.xml'))        	
+    let $url := xs:anyURI(concat($base-url,replace($id,'\s+',''),'.madsxml.xml'))        	
     let $request := 
             hc:send-request(
                 <http:request http-version="1.1"  href="{$url}" method="get">
@@ -107,8 +107,8 @@ declare function local:make-place($nodes as node()*){
 
 (:lat long:)
 declare function local:make-person($nodes as node()*){
-  let $personsCntl := collection($config:data-root)//tei:persName[@key]
-  let $persons := collection($config:data-root)//tei:persName[not(@key)]
+  let $personsCntl := collection($config:data-root)//tei:persName[@key][not(ancestor::tei:editor)]
+  let $persons := collection($config:data-root)//tei:persName[not(@key)][not(ancestor::tei:editor)]
   return
   (for $p1 in $personsCntl
   group by $facet-grp := $p1/@key
