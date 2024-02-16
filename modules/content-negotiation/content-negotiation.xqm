@@ -62,7 +62,7 @@ declare function cntneg:content-negotiation($data as item()*, $content-type as x
                     cntneg:determine-extension($content-type)
                  else 'html'
     let $file-name := if(contains($page,'.')) then substring-before($page,'.') else $page                 
-    let $flag := cntneg:determine-type-flag($type)
+    let $flag := if($content-type != '') then $content-type else cntneg:determine-type-flag($type)
     let $works := 
                 if($data/descendant-or-self::*:coursepack) then 
                     if($flag = 'tei' or $flag = 'xml' or $flag = 'txt') then
@@ -95,7 +95,6 @@ declare function cntneg:content-negotiation($data as item()*, $content-type as x
                 let $pdf := xslfo:render(tei2fo:main($works/tei:TEI), "application/pdf", ())
                 return
                 response:stream-binary($pdf, "media-type=application/pdf", $file-name || ".pdf")
-               
         else if($flag = 'epub') then
              (
                 response:set-header("Content-Disposition", concat("attachment; filename=", concat($file-name, '.epub'))),
@@ -109,6 +108,17 @@ declare function cntneg:content-negotiation($data as item()*, $content-type as x
             (response:set-header("Content-Type", "text/plain; charset=utf-8"),
              response:set-header("Access-Control-Allow-Origin", "text/plain; charset=utf-8"),
              tei2txt:tei2txt($works))
+        else if($flag = 'jsonld') then 
+            (response:set-header("Content-Type", "application/ld+json; charset=utf-8"),
+            response:set-header("Access-Control-Allow-Origin", "application/json; charset=utf-8"),
+            jsonld:jsonld($data))
+        else if($flag = 'json') then 
+            (response:set-header("Content-Type", "application/json; charset=utf-8"),
+            response:set-header("Access-Control-Allow-Origin", "application/json; charset=utf-8"),
+            serialize($data, 
+                <output:serialization-parameters>
+                    <output:method>json</output:method>
+                </output:serialization-parameters>))
         (: Output as html using existdb templating module or tei2html.xqm :)
         else
             (response:set-header("Content-Type", "text/html; charset=utf-8"),
