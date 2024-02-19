@@ -1148,7 +1148,8 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
             let $expanded := if(request:get-parameter('query', '') != '') then kwic:expand($hit) else () 
             let $xmlId := $hit/@xml:id
             let $headnotes := if($xmlId != '') then
-                                    collection($config:data-root || '/headnotes')//tei:relation[@active[matches(.,concat($xmlId,"(\W.*)?$"))]]
+                                    (:collection($config:data-root || '/headnotes')//tei:relation[@active[matches(.,concat($xmlId,"(\W.*)?$"))]]:)
+                                    collection($config:data-root || '/headnotes')//tei:relation[@active[. = concat('#',$xmlId)]] 
                                else ()
             where $title != ''                                    
             return
