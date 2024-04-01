@@ -424,7 +424,7 @@ declare function sf:facet-authorLastNameFirstName($element as item()*, $facet-de
 declare function sf:facet-author($element as item()*, $facet-definition as item(), $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return normalize-space(replace(tei2html:persName-last-first($author),' , ', ', '))
+    return tei2html:persName($author)
 };
 
 (: Author facet :)

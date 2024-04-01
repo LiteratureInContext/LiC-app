@@ -25,11 +25,18 @@ declare function local:create-user($data as item()*) as xs:string? {
     let $fullName := $data?fullName
     let $password := $data?password
     return
-        (sm:create-account($user, $password, 'lic', 'admin'),
-        sm:set-umask($user, 18),
-        sm:set-account-metadata($user, $metadata-fullname-key, $fullName),
-        $user
-        )
+        if(matches($user,'^[a-zA-Z0-9]+$')) then 
+            if(matches($fullName,'^[a-zA-Z0-9]+$') ) then 
+                if(matches($password,'(!\S*\s)')) then 
+                    (
+                    sm:create-account($user, $password, 'lic', 'admin'),
+                    sm:set-umask($user, 18),
+                    sm:set-account-metadata($user, $metadata-fullname-key, $fullName),
+                    $user
+                    )
+                else 'Error: Bad Password, try again. (No spaces in Passwords)'
+            else 'Error: Unacceptable Characters in Full Name, alphanumeric characters only'
+        else 'Error: Unacceptable Characters in Username,  alphanumeric characters only'
 };
 
 (: Reset existing password :)
@@ -85,9 +92,15 @@ return
                 <message><div>Username already exists, please select a different username {$userName}.</div></message>
             </response>)
    else if($user != '') then 
-      try {
         let $newUser := local:create-user($json-data)
         return 
+        if(starts-with($newUser),'Error: ') then 
+            (response:set-status-code( 500 ),
+            util:declare-option("exist:serialize", "method=json media-type=application/json"),
+            <response status="fail" xmlns="http://www.w3.org/1999/xhtml" message="No user data available">
+                <message>{$newUser}</message>
+            </response>)
+        else 
             (
             response:set-status-code( 200 ),
             util:declare-option("exist:serialize", "method=json media-type=application/json"),
@@ -96,16 +109,3 @@ return
             </response>,
             login:set-user("org.exist.login", (), true())
             )
-        } catch * {
-            (response:set-status-code( 500 ),
-            util:declare-option("exist:serialize", "method=json media-type=application/json"),
-            <response status="fail" xmlns="http://www.w3.org/1999/xhtml" message="Failed to create user {$err:code}: {$err:description}">
-                <message>Failed to create user: <error>Caught error {$err:code}: {$err:description}</error></message>
-            </response>)
-        }
-    else  
-        (response:set-status-code( 500 ),
-            util:declare-option("exist:serialize", "method=json media-type=application/json"),
-            <response status="fail" xmlns="http://www.w3.org/1999/xhtml" message="No user data available">
-                <message>No user data available</message>
-            </response>)
