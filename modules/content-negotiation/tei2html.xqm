@@ -76,7 +76,11 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     if($node//tei:date) then $node//tei:date else <abbr title="no date of publication">n.d.</abbr>,
                     if($node/following-sibling::tei:biblScope[@unit='series']) then ', ' else (),
                     if($node//tei:extent/@type = "online") then (' ',<a href="{$node//tei:extent}" class="tei-extent-link"><span class="glyphicon glyphicon-book"></span> View </a>) else $node//tei:extent,
-                    if($node//tei:note) then <span class="tei-note">{tei2html:tei2html($node//tei:note)}</span> else ()
+                    if($node//tei:note) then 
+                        if($node//tei:note[@type="sidenote"]) then 
+                            <span class="tei-note tei-sidenote">{tei2html:tei2html($node//tei:note)}</span>
+                        else <span class="tei-note">{tei2html:tei2html($node//tei:note)}</span> 
+                   else ()
             }</span>
             case element(tei:note) return 
                 if($node/@target) then 
@@ -85,12 +89,14 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                             if($node/@type != '') then string($node/@type) 
                             else (), 
                             if($node/@place != '') then string($node/@place) 
+                            else (),
+                            if($node/@type="sidenote") then 'tei-sidenote'
                             else ())}">
                     {(
                     if($node/@xml:id) then 
-                       <span class="tei-footnote-id" id="{ string($node/@xml:id) }">{string($node/@xml:id)}</span>
+                       <span class="tei-footnote-id {if($node/@type="sidenote") then 'tei-sidenote' else ()}" id="{ string($node/@xml:id) }">{string($node/@xml:id)}</span>
                     else (),
-                    <span class="TEST">{tei2html:tei2html($node/node())}</span>,
+                    <span>{tei2html:tei2html($node/node())}</span>,
                     if($node/descendant::tei:ref[contains(@target,'youtube')]) then 
                         tei2html:youTube($node/descendant::tei:ref[contains(@target,'youtube')])
                     else (),
@@ -98,7 +104,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                         <span class="tei-resp"> - [<a href="{$config:nav-base}/contributors.html?contributorID={substring-after($node/@resp,'#')}">{substring-after($node/@resp,'#')}</a>]</span>
                     else ()
                     )}</span>
-                else <span class="tei-{local-name($node)}">{( tei2html:tei2html($node/node()),
+                else <span class="tei-{local-name($node)} {if($node/@type="sidenote") then ' tei-sidenote' else ()}">{( tei2html:tei2html($node/node()),
                     if($node/descendant::tei:ref[contains(@target,'youtube')]) then 
                         tei2html:youTube($node/descendant::tei:ref[contains(@target,'youtube')])
                     else ())
@@ -395,10 +401,18 @@ declare function tei2html:youTube($node as element (tei:ref)) {
         {let $videoID := substring-after($node/@target,'v=')
          let $embedURL := concat('https://www.youtube.com/embed/',$videoID)
          return 
-            (<iframe src="{$embedURL}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" width="560" height="315"></iframe>,
+         (: Does not work for youtub, but may work for plain mp4 files 
+            <video width="320" height="240" controls="controls">
+              <source src="{$embedURL}" type="video/mp4"/>
+            </video>
+         :)
+            (
+            <br/>,
+            <iframe src="{$embedURL}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" width="560" height="315"></iframe>,
              <br/>,
              <a href="{$node/@target}">{if($node[. != '']) then $node/text() else string($node/@target)}</a>
              )
+             
         }
     </div>
 };

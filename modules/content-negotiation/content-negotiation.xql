@@ -32,6 +32,23 @@ let $data :=
         else data:get-coursepacks()
     else if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
         data:get-document()
+    else if(request:get-parameter('query', '') != '') then
+        let $hits := data:search()
+        let $start := if(request:get-parameter('start', 1)) then request:get-parameter('start', 1) else 1
+        let $perpage := if(request:get-parameter('perpage', 10)) then request:get-parameter('perpage', 10) else 10
+        return 
+             <results total="{count($hits)}">
+             {
+                for $h at $p in subsequence($hits, $start, $perpage)
+                let $id := document-uri(root($h))
+                return 
+                    <result>
+                        {$h/descendant::tei:idno}
+                        {$h/descendant::tei:title}
+                        <uri>{$config:nav-base}/work{substring-before(replace($id,$config:data-root,''),'.xml')}</uri>
+                    </result>
+             
+             }</results>    
     else ()
 let $format := if(request:get-parameter('format', '') != '') then request:get-parameter('format', '') else 'xml'    
 return  
