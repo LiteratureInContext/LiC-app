@@ -24,7 +24,6 @@ declare variable $logout := request:get-parameter("logout", ());
 
 let $logout := request:get-parameter("logout", ())
 return
-
 if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{request:get-uri()}/"/>
@@ -124,6 +123,39 @@ else if($exist:resource = 'coursepack') then (
         </error-handler>
     </dispatch>   
     )
+else if(contains($exist:path, "/api/")) then
+(
+    if(contains($exist:path, "/work/")) then
+        let $document := substring-after($exist:path,'/work/')
+        let $format := request:get-parameter('format', '')
+        let $id := if(contains($document,'.')) then substring-before($document,'.') else $document
+        return 
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">        
+                <forward url="{$exist:controller}/modules/content-negotiation/content-negotiation.xql">
+                    <add-parameter name="doc" value="{$id}"/>
+                </forward>
+            </dispatch>
+    else if(contains($exist:path, "/coursepack/") or $exist:resource = 'coursepack') then 
+        let $document := substring-after($exist:path,'/coursepack/')
+        let $id := if(ends-with($document,('.html','/html'))) then
+                        replace($document,'/html|.html','')
+                   else if(ends-with($document,('.xml','.tei','.pdf','.epub','.json','.atom','.rdf','.ttl','.txt'))) then
+                        replace($document,'.xml|.tei|.pdf|.epub|.json|.atom|.rdf|.ttl|.txt','')
+                   else $document
+        let $document := substring-after($exist:path,'/coursepack/')
+        return 
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">        
+                <forward url="{$exist:controller}/modules/content-negotiation/content-negotiation.xql">
+                    <add-parameter name="coursepack" value="true"/>
+                    <add-parameter name="id" value="{$id}"/>
+                </forward>
+            </dispatch>
+    else if(contains($exist:path, "/search/")) then
+            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">        
+                <forward url="{$exist:controller}/modules/content-negotiation/content-negotiation.xql"></forward>
+            </dispatch>
+    else ()
+)
 else if(contains($exist:path, "/coursepack/") or $exist:resource = 'coursepack') then 
 (
     let $document := substring-after($exist:path,'/coursepack/')
@@ -142,7 +174,6 @@ else if(contains($exist:path, "/coursepack/") or $exist:resource = 'coursepack')
                 <add-parameter name="coursepack" value="true"/>
                 <add-parameter name="id" value="{$id}"/>
                 <add-parameter name="format" value="{$format}"/>
-                <set-header name="Cache-Control" value="no-cache"/>
             </forward>
         </dispatch>
     else 
@@ -196,7 +227,6 @@ else if (ends-with($exist:resource, ".html")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <view>
             <forward url="{$exist:controller}/modules/view.xq">
-                <set-header name="Cache-Control" value="no-cache"/>
             </forward>
         </view>
 		<error-handler>

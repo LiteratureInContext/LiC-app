@@ -128,6 +128,16 @@ function forcegraph(graph,rootURL,type) {
     
     simulation.force("link").links(graph.links);
     
+    var zoom_handler = d3.zoom().on("zoom", zoom_actions);
+
+    zoom_handler(svg);  
+    
+    //Zoom functions 
+    function zoom_actions(){
+        node.attr("transform", d3.event.transform)
+        link.attr("transform", d3.event.transform)
+    }
+    
     function ticked() {
         link.attr("x1", function (d) {
             return d.source.x;
@@ -144,12 +154,14 @@ function forcegraph(graph,rootURL,type) {
         }).attr("cy", function (d) {
             return d.y = Math.max(radius, Math.min(height - radius, d.y));
         });
+        
     }
     
     function dragstarted(d) {
         if (! d3.event.active) simulation.alphaTarget(0.3).restart();
         d.fx = d.x;
         d.fy = d.y;
+
     }
     
     function dragged(d) {
@@ -162,6 +174,48 @@ function forcegraph(graph,rootURL,type) {
         d.fx = null;
         d.fy = null;
     }
+    
+     //Connecting linked nodes on click
+  node.on("click", fade(.1));
+  node.on("dbclick", fade(1));
+  var linkedByIndex = {
+    };
+        
+  graph.links.forEach(function (d) {
+        linkedByIndex[d.source.index + "," + d.target.index] = 1;
+    });
+        
+  function isConnected(a, b) {
+        return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
+    }
+        
+  function neighboring(a, b) {
+    return graph.links.some(function (d) {
+            return (d.source === a && d.target === b) || (d.source === b && d.target === a) ? d.type: d.type;
+        });
+    }
+        
+ //Highlight related
+  function fade(opacity) {
+    return function (d) {
+        node.style("stroke-opacity", function (o) {
+            thisOpacity = isConnected(d, o) ? 1: opacity;
+            this.setAttribute('fill-opacity', thisOpacity);
+                return thisOpacity;
+                return isConnected(d, o);
+        });
+                
+    link.style("stroke-opacity", opacity).style("stroke-opacity", function (o) {
+        return o.source === d || o.target === d ? 1: opacity;
+    });
+                
+    edgelabels.style("fill-opacity", opacity).style("fill-opacity", function (o) {
+            return o.source === d || o.target === d ? 1: opacity;
+        });
+    };
+  };
+        
+
 };
 
 //Force Graph functions
