@@ -138,7 +138,7 @@ declare function data:search() {
         else if($query != '') then
                 for $hit in $hits
                 let $s :=
-                            if(contains($sort, 'author')) then ft:field($hit, "authorLastNameFirstName")[1]
+                            if(contains($sort, 'author')) then ft:field($hit, "author")[1]
                             else if($sort = 'pubDate') then  ft:field($hit, "pubDate")[1]
                             else if(contains($sort, 'title')) then ft:field($hit, "title")[1]
                             else ft:score($hit)  
@@ -147,7 +147,7 @@ declare function data:search() {
         else 
             for $hit in $hits
             let $s :=
-                            if(contains($sort, 'author')) then ft:field($hit, "authorLastNameFirstName")[1]
+                            if(contains($sort, 'author')) then ft:field($hit, "author")[1]
                             else if($sort = 'pubDate') then  ft:field($hit, "pubDate")[1]
                             else if(contains($sort, 'title')) then ft:field($hit, "title")[1]
                             else ft:field($hit, "title")[1]  
