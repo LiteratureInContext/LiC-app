@@ -382,6 +382,47 @@ declare function sf:build-sort-string($titlestring as xs:string?) as xs:string* 
     return $s2
 };
 
+declare function sf:persName($nodes as node()*) {
+let $name := 
+    if($nodes/descendant-or-self::tei:name) then $nodes/descendant-or-self::tei:name
+    else if($nodes/descendant-or-self::tei:persName) then $nodes/descendant-or-self::tei:persName 
+    else $nodes
+return 
+    if($name/@reg) then string($name/@reg)
+    else if($name/child::*) then 
+            (
+                let $last := count($name/child::*[not(self::tei:addName)]) 
+                for $part at $i in $name/child::*[not(self::tei:addName)]
+                order by $part/@sort ascending, string-join($part/descendant-or-self::text(),' ') descending
+                return 
+                    (
+                        $part/text(), 
+                        if ($i != $last) then ' ' else (),
+                        if($name/tei:addName) then (', ',$name/tei:addName/text()) else ()
+                    )
+            )
+        else $name/text()
+};
+
+(: tei persName display last name/first name/add name:)
+declare function sf:persName-last-first($nodes as node()*) {
+let $name := 
+    if($nodes/descendant-or-self::tei:name) then $nodes/descendant-or-self::tei:name[1]
+    else if($nodes/descendant-or-self::tei:persName) then $nodes/descendant-or-self::tei:persName[1] 
+    else $nodes
+return 
+      if($name/child::*) then
+        let $formatedName := 
+            (
+            normalize-space($name/descendant-or-self::tei:surname[1]),', ',normalize-space($name/descendant-or-self::tei:forename[1]), 
+            if($name/descendant-or-self::tei:addName) then 
+                for $addName in $name/descendant-or-self::tei:addName
+                return (', ',$addName/text()) 
+            else ()
+            )
+        return replace(normalize-space(string-join($formatedName,'')),' , ',', ')    
+      else $name/text()
+};
 
 (: Title field :)
 declare function sf:field-title($element as item()*, $name as xs:string){
@@ -397,14 +438,14 @@ declare function sf:facet-title($element as item()*, $facet-definition as item()
 declare function sf:field-author($element as item()*, $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return tei2html:persName($author)
+    return sf:persName($author)
 };
 
 (: Author field :)
 declare function sf:field-authorLastNameFirstName($element as item()*, $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return replace(tei2html:persName-last-first($author),' , ', ', ')
+    return replace(sf:persName-last-first($author),' , ', ', ')
 };
 (: annotations field :)
 declare function sf:field-annotations($element as item()*, $name as xs:string){
@@ -417,14 +458,14 @@ declare function sf:field-annotations($element as item()*, $name as xs:string){
 declare function sf:facet-authorLastNameFirstName($element as item()*, $facet-definition as item(), $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return replace(tei2html:persName-last-first($author),' , ', ', ')
+    return replace(sf:persName-last-first($author),' , ', ', ')
 };
 
 (: Author facet :)
 declare function sf:facet-author($element as item()*, $facet-definition as item(), $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return tei2html:persName($author)
+    return sf:persName($author)
 };
 
 (: Author facet :)
@@ -435,7 +476,7 @@ declare function sf:facet-pubPlace($element as item()*, $facet-definition as ite
 
 (: Publication field :)
 declare function sf:field-pubDate($element as item()*, $name as xs:string){
-    $element/ancestor-or-self::tei:TEI/descendant::tei:sourceDesc/tei:imprint/tei:date
+    string($element/ancestor-or-self::tei:TEI/descendant::tei:biblStruct/descendant::tei:imprint/tei:date/@when)
 };
 
 (: headnotes field 
