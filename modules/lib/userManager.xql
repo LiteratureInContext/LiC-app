@@ -6,7 +6,7 @@ Login module/User manager for manuForma application.
 xquery version "3.1";
 
 import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
-import module namespace config="http://LiC.org/apps/config" at "config.xqm";
+import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 import module namespace sm = "http://exist-db.org/xquery/securitymanager";
 (: Import eXist modules:)
 import module namespace xmldb = "http://exist-db.org/xquery/xmldb";
@@ -27,14 +27,12 @@ declare function local:create-user($data as item()*) as xs:string? {
     return
         if(matches($user,'^[a-zA-Z0-9]+$')) then 
             if(matches($fullName,'^[a-zA-Z0-9]+$') ) then 
-                if(matches($password,'(!\S*\s)')) then 
-                    (
+                (
                     sm:create-account($user, $password, 'lic', 'admin'),
                     sm:set-umask($user, 18),
                     sm:set-account-metadata($user, $metadata-fullname-key, $fullName),
                     $user
                     )
-                else 'Error: Bad Password, try again. (No spaces in Passwords)'
             else 'Error: Unacceptable Characters in Full Name, alphanumeric characters only'
         else 'Error: Unacceptable Characters in Username,  alphanumeric characters only'
 };
@@ -94,18 +92,24 @@ return
    else if($user != '') then 
         let $newUser := local:create-user($json-data)
         return 
-        if(starts-with($newUser),'Error: ') then 
-            (response:set-status-code( 500 ),
-            util:declare-option("exist:serialize", "method=json media-type=application/json"),
-            <response status="fail" xmlns="http://www.w3.org/1999/xhtml" message="No user data available">
-                <message>{$newUser}</message>
-            </response>)
-        else 
-            (
-            response:set-status-code( 200 ),
-            util:declare-option("exist:serialize", "method=json media-type=application/json"),
-            <response status="success" xmlns="http://www.w3.org/1999/xhtml" message="success">
-                <message><div>New user {$userName} has been created. userParam: {request:get-parameter('user', '')}</div></message>
-            </response>,
-            login:set-user("org.exist.login", (), true())
-            )
+            if(starts-with($newUser,'Error: ')) then 
+                (response:set-status-code( 500 ),
+                util:declare-option("exist:serialize", "method=json media-type=application/json"),
+                <response status="fail" xmlns="http://www.w3.org/1999/xhtml" message="No user data available {$newUser}">
+                    <message>{$newUser}</message>
+                </response>)
+            else 
+                (
+                response:set-status-code( 200 ),
+                util:declare-option("exist:serialize", "method=json media-type=application/json"),
+                <response status="success" xmlns="http://www.w3.org/1999/xhtml" message="success">
+                    <message><div>New user {$userName} has been created. userParam: {request:get-parameter('user', '')}</div></message>
+                </response>,
+                login:set-user("org.exist.login", (), true())
+                )
+    else 
+        (response:set-status-code( 500 ),
+                util:declare-option("exist:serialize", "method=json media-type=application/json"),
+                <response status="fail" xmlns="http://www.w3.org/1999/xhtml" message="Failed to login, undetermined">
+                    <message>Failed to login</message>
+                </response>)               
