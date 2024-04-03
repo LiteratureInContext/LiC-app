@@ -67,7 +67,8 @@ $("#newUserForm").submit(function( event ) {
   $.post(url, JSON.stringify(data), function(data) {
    var message = $(data).attr('message')
    if(message == 'success') {
-      $('#responseBody').html(message);
+      alert('Success! Please log in');
+      $('#newUserModal').modal('hide');
    } else {
       alert('This username already exists.');
       $(form)[0].reset();
@@ -89,7 +90,8 @@ $("#resetForm").submit(function( event ) {
   $.post(url, JSON.stringify(data), function(data) {
    var message = $(data).attr('message')
    if(message == 'success') {
-      $('#resetResponseBody').html(message);
+      alert('Password has been reset. Please log in.');
+      $('#resetModal').modal('hide');
    } else {
       alert('Error');
       $(form)[0].reset();
