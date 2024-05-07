@@ -136,7 +136,7 @@ declare function data:search() {
     return 
         if(request:get-parameter('view', '') = 'author') then $hits 
         else if($query != '') then
-                for $hit in $hits
+                for $hit in $hits[not(starts-with(@xml:id,'headnotes'))]
                 let $s :=
                             if(contains($sort, 'author')) then ft:field($hit, "author")[1]
                             else if($sort = 'pubDate') then  ft:field($hit, "pubDate")[1]
@@ -145,7 +145,7 @@ declare function data:search() {
                 order by $s ascending
                 return $hit        
         else 
-            for $hit in $hits
+            for $hit in $hits[not(starts-with(@xml:id,'headnotes'))]
             let $s :=
                             if(contains($sort, 'author')) then ft:field($hit, "author")[1]
                             else if($sort = 'pubDate') then  ft:field($hit, "pubDate")[1]
