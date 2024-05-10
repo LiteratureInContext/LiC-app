@@ -1354,13 +1354,27 @@ declare function app:map($node as node(), $model as map(*)) {
  : List all the persNames mentioned
  :)
 declare function app:persons() {
-    <div>
-        <div>
-        <h2>Persons</h2>
-        <p>Persons referenced in the collection. </p>
-        {   let $persNames := if(request:get-parameter('id', '') != '') then 
+let $persNames := if(request:get-parameter('id', '') != '') then 
                                 doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person[tei:idno = request:get-parameter('id', '')]
                               else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/persNames.xml')))//tei:person
+let $active := if(request:get-parameter('alpha', '') != '') then request:get-parameter('alpha', '') else ()
+return 
+    <div>
+        <h2>Persons</h2>
+        <p>Persons referenced in the collection. </p>
+        <div class="browse-alpha tabbable" xmlns="http://www.w3.org/1999/xhtml">
+            <ul class="list-inline pagination">
+            { 
+                for $letter in tokenize('A B C D E F G H I J K L M N O P Q R S T U V W X Y Z', ' ')
+                let $disabled := if(starts-with($persNames/descendant::tei:persName/descendant::tei:surname,$letter)) then 'false' else 'true'
+                return
+                    <li>{if($disabled = 'true') then attribute class {"disabled"} else if($active = $letter) then attribute class {"active"} else ()}<a href="?view=persName&amp;alpha={$letter}">{$letter}</a></li>
+            }
+            </ul>
+        </div>
+        <div>
+            {
+            (: Get results :)
             for $person at $i in $persNames
             let $name :=  if($person/descendant::mads:name) then 
                                 string-join($person/descendant::mads:name/mads:namePart,', ')
@@ -1372,19 +1386,18 @@ declare function app:persons() {
             let $idno := replace($person/tei:idno,'\s|.|,|;', ' ')
             let $related := $person/descendant::tei:relation
             order by $sort-name
+            where starts-with($sort-name,$active)
             return 
-                  <div style="border-bottom:1px solid #eee;">
-                    <button class="btn btn-link" 
-                    data-toggle="collapse" data-target="{concat('#name',$i,'Show')}">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                    </button> 
+                <div style="border-bottom:1px solid #eee;">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="{concat('#name',$i,'Show')}"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button> 
                     {normalize-space($name)} ({count($person/descendant::tei:relation)} associated work{if(count($related) gt 1) then 's' else()})
                     {
                     if($person/tei:persName/@type = ('lcnaf','lccn')) then 
                         <a href="http://id.loc.gov/authorities/names/{$person/tei:idno}" alt="Go to Library of Congress authority record"><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-toggle="tooltip" title="Go to Library of Congress authority record"></span></a>
                     else if($person/tei:persName/@type = 'orcid') then 
                         <a href="https://orcid.org/{$person/tei:idno}" alt="Go to authority record"><span class="glyphicon glyphicon-new-window" aria-hidden="true" data-toggle="tooltip" title="Go to authority record"></span></a>
-                    else ()}
+                    else ()
+                    }
                     <div class="panel-collapse collapse {if(count($persNames) = 1) then 'in' else()} left-align" id="{concat('name',$i,'Show')}">{
                         for $r in $related
                         group by $type := $r/@type
@@ -1400,7 +1413,8 @@ declare function app:persons() {
                             </div>
                     }</div>
                 </div>
-        }</div>
+            }
+        </div>
     </div>
 };
 
