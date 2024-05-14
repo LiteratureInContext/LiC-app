@@ -123,9 +123,11 @@ declare function data:search() {
             $query-configuration?facets
         ))     
     let $hits := 
-        if($query != '') then 
-            collection($config:data-root)//tei:TEI[ft:query(.,  $query-string, $query-options)]
-        else collection($config:data-root)//tei:TEI[ft:query(., (), $query-options)]
+        if($query != '') then
+            if(request:get-parameter('headnotes', '') = 'true') then
+                collection($config:data-root || '/headnotes')//tei:TEI[ft:query(.,  $query-string, $query-options)]
+            else collection($config:data-root)//tei:TEI[not(starts-with(@xml:id,'headnote'))][ft:query(.,  $query-string, $query-options)]
+        else collection($config:data-root)//tei:TEI[not(starts-with(@xml:id,'headnote'))][ft:query(., (), $query-options)]
     let $hits := $hits (:
                  if($query-string != '') then $hits[ft:query(., (), $query-options)]
                  else $hits

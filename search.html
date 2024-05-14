@@ -35,14 +35,12 @@
                                 <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Selected">
                                     <input type="checkbox" name="narrow" value="true"/> Search Selected
                                 </label>
+                                <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Headnotes">
+                                    <input type="checkbox" name="headnotes" value="true" class="headnotes"/> Search Headnotes
+                                </label>
                                 <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
                                     <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
                                 </label>
-                                <!--
-                                <button id="f-btn-search2" type="submit" class="btn btn-primary pull-right btn-sm">
-                                    <span class="glyphicon glyphicon-search"/> Search
-                                </button>
-                                -->
                             </div>
                         </div>
                         <div class="filter">
@@ -57,9 +55,11 @@
                     <div id="content">
                         <!-- Call paging and sort functions. Additional sort functions can be called via the data-template-sort-options. -->
                         <div data-template="app:pageination" data-template-sort-options="title,author,pubDate"/>
+                        <!--
                         <div class="panel-collapse collapse left-align" id="teiViewLOD">
                             <div data-template="app:subset-lod"/>
                         </div>
+                        -->
                         <!-- Create/add to coursepacks -->
                         <div class="coursepackToolbar">
                             <div class="form-group">
