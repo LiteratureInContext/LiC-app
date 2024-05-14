@@ -2,15 +2,15 @@
 /* Global vars */
 var chartDiv = document.getElementById("result");
 var color = d3.scaleOrdinal(d3.schemeCategory20);
-var width = 1020;
+var width = 1920;
 //var height = (isNaN(parseInt(chartDiv.clientHeight))) ? 300 : chartDiv.clientHeight;;
 
 if (isNaN(parseInt(chartDiv.clientHeight))){
-    var height = 300;
+    var height = 400;
 } else if(chartDiv.clientHeight > 50){
     var height = chartDiv.clientHeight;
 } else {
-    var height = 300;
+    var height = 400;
 }
 
 
