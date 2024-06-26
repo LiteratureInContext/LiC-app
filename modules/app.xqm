@@ -488,13 +488,15 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Page Images
                              </a>, '&#160;') 
                     else()         
-                else if($f = 'lod') then  
-                    if($model("data")//@key) then 
-                         (<button class="btn btn-primary btn-xs showHide" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
-                            <span data-toggle="tooltip" title="View Linked Data">
-                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
-                            </span></button>, '&#160;')
-                    else ()        
+                else if($f = 'lod') then 
+                    let $lodcount := count(distinct-values($model("data")//@key))
+                    return 
+                        if($lodcount gt 6) then 
+                             (<button class="btn btn-primary btn-xs showHide" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
+                                <span data-toggle="tooltip" title="View Linked Data">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
+                                </span></button>, '&#160;')
+                        else ()        
                 else () 
             }
             { 
@@ -1283,20 +1285,37 @@ function app:lod($node as node(), $model as map(*)) {
 declare 
     %templates:wrap
 function app:subset-lod($node as node(), $model as map(*)) { 
-    let $map := app:map($node, $model)
-    let $graph := app:network($node, $model)
-    return 
-        if(not(empty($map))) then 
-            <div>
-                 <h2>Linked Data: <small>Places related to this work.</small></h2>
-                 {$map}
-             </div> 
-        else if(not(empty($graph))) then
-            <div>
-                 <h2>Linked Data: <small>Persons related to this work.</small></h2>
-                 {$graph}
-             </div> 
-        else ()
+let $map := app:map($node, $model)
+let $graph := app:network($node, $model)
+return 
+    <div class="container">
+        <div class="page-header">
+          <h1>Linked Data</h1>
+          <p>Explore the collection using linked open data.</p>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading panel-heading-nav">
+            <ul class="nav nav-tabs">
+              <li role="presentation" class="active">
+                <a href="#one" aria-controls="one" role="tab" data-toggle="tab">Places</a>
+              </li>
+              <li role="presentation">
+                <a href="#two" aria-controls="two" role="tab" data-toggle="tab">Relationships</a>
+              </li>
+            </ul>
+          </div>
+          <div class="panel-body">
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane fade in active" id="one">
+                {$map}
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="two">
+                {$graph} 
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
 };
 
 (:~
