@@ -449,11 +449,14 @@ declare function tei2html:annotations($node as node()*) {
 };
 
 declare %private function tei2html:get-id($node as element()) {
-    if($node/@xml:id) then
+   (: if($node/@xml:id) then
         string($node/@xml:id)
     else if($node/@exist:id) then
         string($node/@exist:id)
-    else generate-id($node)
+    else if($node/@id) then
+        string($node/@id)     
+    else util:node-id($node)
+    :)concat('nodeID',substring(string(util:node-id($node)),2))
 };
 
 (:
@@ -725,9 +728,8 @@ declare function tei2html:person($nodes as node()*) {
                 else concat('&amp;',$param, '=',request:get-parameter($param, '')),'')
 :)
 declare function tei2html:output-kwic($nodes as node()*, $id as xs:string*){
-    let $results := <results xmlns="http://www.w3.org/1999/xhtml">{tei2html:kwic-format($nodes)}</results>
-    let $count := count($results//*:match)
-    for $node at $p in subsequence($results//*:match,1,8)
+    let $results := $nodes
+    for $node at $p in subsequence($results//*:match,1,5)
     let $prev := $node/preceding-sibling::text()[1]
     let $next := $node/following-sibling::text()[1]
     let $prevString := 
@@ -736,17 +738,22 @@ declare function tei2html:output-kwic($nodes as node()*, $id as xs:string*){
         else $prev
     let $nextString := 
         if(string-length($next) lt 100 ) then () 
-        else concat(substring($next,1,100),'... ')        
-    let $link := concat($config:nav-base,'/work',substring-before(replace($id,$config:data-root,''),'.xml'),'#',string($node/@id))
-    (:concat($config:nav-base,'/',tokenize($id,'/')[last()],'#',$node/@n):)
+        else concat(substring($next,1,100),'... ')  
+    
+    (:let $searchID := tei2html:get-id($node/parent::*[1]/parent::*[1])
+    let $workPath := concat($config:nav-base,'/work',substring-before(replace($id,$config:data-root,''),'.xml'))
+    let $link := concat($workPath,'?searchTerm=',$node/text())
+    :)
     return 
-        <span>{$prevString}&#160;<span class="match"><a href="{$link}">{$node/text()}</a></span>&#160;{$nextString}</span>
+        <span>{$prevString}&#160;<span class="match">{$node/text()}</span>&#160;{$nextString}</span>
+     (: <span>{$prevString}&#160;<span class="match"><a href="{$link}">{$node/text()}</a></span>&#160;{$nextString}</span>:)
 };
 
 (:~
  : Strips results to just text and matches. 
  : Note, could pass though tei2html:tei2html() to hide hidden content (choice/orig)
 :)
+(:
 declare function tei2html:kwic-format($nodes as node()*){
     for $node in $nodes
     return 
@@ -754,8 +761,9 @@ declare function tei2html:kwic-format($nodes as node()*){
             case text() return $node
             case comment() return ()
             case element(exist:match) return 
-                <match xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node)}">
+                <match xmlns="http://www.w3.org/1999/xhtml" id="{tei2html:get-id($node/parent::element()[1])}">
                     { $node/node() }
                 </match>
             default return tei2html:kwic-format($node/node())                
 };
+:)
