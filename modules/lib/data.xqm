@@ -126,7 +126,7 @@ declare function data:search() {
         if($query != '') then
             if(request:get-parameter('headnotes', '') = 'true') then
                 collection($config:data-root || '/headnotes')//tei:TEI[ft:query(.,  $query-string, $query-options)]
-            else collection($config:data-root)//tei:TEI[not(starts-with(@xml:id,'headnote'))][ft:query(.,  $query-string, $query-options)]
+            else collection($config:data-root)//tei:TEI[ft:query(.,  $query-string, $query-options)]
         else collection($config:data-root)//tei:TEI[not(starts-with(@xml:id,'headnote'))][ft:query(., (), $query-options)]
     let $hits := $hits (:
                  if($query-string != '') then $hits[ft:query(., (), $query-options)]
@@ -138,6 +138,7 @@ declare function data:search() {
     return 
         if(request:get-parameter('view', '') = 'author') then $hits 
         else if($query != '') then
+            if($sort != '') then 
                 for $hit in $hits
                 let $s :=
                             if(contains($sort, 'author')) then ft:field($hit, "author")[1]
@@ -145,7 +146,12 @@ declare function data:search() {
                             else if(contains($sort, 'title')) then ft:field($hit, "title")[1]
                             else ft:score($hit)  
                 order by $s ascending
-                return $hit        
+                return $hit
+            else 
+                for $hit in $hits
+                let $s := ft:score($hit)  
+                order by $s descending
+                return $hit
         else 
             for $hit in $hits
             let $s :=
