@@ -303,8 +303,17 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
  : @param $model a map containing arbitrary data - used to pass information between template calls
  :)
 (: Cludge for TEI stylesheets to only return child of html body, better handling will need to be developed.:)
+(:
+possible chunking options: 
+<pb n="142" facs="pageImages/Speckled-Band_0142.jpg"/>
+
+:)
 declare function app:display-work($node as node(), $model as map(*)) {
-     if(tei2html:tei2html($model("data")/tei:TEI)) then tei2html:tei2html($model("data")/tei:TEI) 
+     (: Chose to 'chunk' content:)
+    let $work := $model("data")/tei:TEI
+    let $paging := ''
+    return 
+     if($work) then tei2html:tei2html($work) 
      else <blockquote>No record found</blockquote>
 };
 
@@ -499,6 +508,14 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                         else ()        
                 else () 
             }
+            {
+                if($model("data")//tei:graphic[ends-with(@url,'.mp3')]) then 
+                    (<button class="btn btn-primary btn-xs showHide" id="LODBtn" data-toggle="collapse" data-target="#teiAudio">
+                        <span data-toggle="tooltip" title="View Linked Data">
+                            <span class="glyphicon glyphicon-headphones" aria-hidden="true"></span> Audio
+                      </span></button>, '&#160;')     
+                else ()
+            }
             { 
                 <div class="btn-group" data-toggle="tooltip"  title="Download Work Options">
                           <button type="button" class="btn btn-primary dropdown-toggle btn-xs"
@@ -534,6 +551,9 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
             }            
         </div>
     else ()
+};
+declare function app:audio($node as node(), $model as map(*)) {
+<div>TEST Audio</div>
 };
 
 (: Coursepack display functions :)
@@ -683,6 +703,9 @@ return
                  else 
                     for $work in $coursepacks//tei:TEI[descendant::tei:title[1]!='']
                     let $title := $work/descendant::tei:title[1]/text()
+                    let $author := if($work/descendant::tei:author/descendant-or-self::tei:surname) then 
+                                        $work/descendant::tei:author/descendant-or-self::tei:surname
+                                   else $work/descendant::tei:author
                     let $id := document-uri(root($work))
                     let $selection := if($coursepacks//work[@id = $id]/text) then
                                         for $text in $coursepacks//work[@id = $id]/text
@@ -694,7 +717,7 @@ return
                         if(request:get-parameter('sort-element', '') = 'title') then 
                             $title
                         else if(request:get-parameter('sort-element', '') = 'author') then
-                            $work/descendant::tei:author[1]
+                           $author[1]
                         else if(request:get-parameter('sort-element', '') = 'date') then
                             $work/descendant::tei:date[1]                            
                         else $work/@num
@@ -1146,6 +1169,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
         else 
             for $hit at $p in subsequence($hits, $start, $per-page)
             let $id := document-uri(root($hit))
+            let $score := ft:score($hit)
             let $title := $hit/descendant::tei:title[1]/text()
             let $expanded := if(request:get-parameter('query', '') != '') then kwic:expand($hit) else () 
             let $xmlId := $hit/@xml:id
@@ -1562,7 +1586,7 @@ declare function app:network() {
                     (<h2>Persons and Places Graph</h2>,<p>A linked data graph visualizing the people and places referenced in the collection.</p>) 
                 else <h2>Graph visualization</h2>
                 }
-                <div id="result" style="height:500px;"/>
+                <div id="result" style="min-height:500px;"/>
                 <script><![CDATA[
                     $(document).ready(function () {
                         //Start bubble chart here
@@ -1642,7 +1666,7 @@ declare function app:network($node as node(), $model as map(*)) {
         if(not(empty($subset))) then 
             <div id="LODResults">
                 <script src="https://d3js.org/d3.v4.min.js"></script>
-                <div id="result" style="max-height:300px;"/>
+                <div id="result" style="height:400px;"/>
                 <script><![CDATA[
                     $(document).ready(function () {
                         $('#LODBtn').click(function (e) {
