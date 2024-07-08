@@ -120,9 +120,10 @@ declare function local:create-new-coursepack($data as item()*){
     return 
         try { 
             (
-            xmldb:store(xmldb:encode-uri($config:app-root || '/coursepacks'), xmldb:encode-uri(concat($id[1],'.xml')), $newcoursepack),
-            gitcommit:run-commit($newcoursepack, concat($local:github-path,$id), concat("User submitted content for ",$id)),
-            'Saved!')
+            let $save := xmldb:store(xmldb:encode-uri($config:app-root || '/coursepacks'), xmldb:encode-uri(concat($id[1],'.xml')), $newcoursepack)
+                        (:gitcommit:run-commit($newcoursepack, concat($local:github-path,$id), concat("Created New coursepack ",$id)),:)
+            return 'Your coursepack has been created.' 
+            )
         } catch * {
             (response:set-status-code( 500 ),
             <response status="fail">
@@ -194,11 +195,11 @@ declare function local:update-coursepack($data as item()*){
     return 
         try { 
             (update insert $insertWorks into $coursepack,
-            gitcommit:run-commit($coursepack, concat($local:github-path,$coursepackID), concat("User submitted content for ",$coursepackID)),
+            gitcommit:run-commit($coursepack, concat($local:github-path,$coursepackID), concat("Updataed coursepack ",$coursepackID)),
             <response>
                 <coursepack id="{$coursepackID}"/>
                 <works>{$insertWorks}</works>
-                Updated!
+                Your Coursepack has been Updated!
             </response>)
         } catch * {
             (response:set-status-code( 500 ),
@@ -223,7 +224,7 @@ declare function local:update-notes($data as item()*, $coursepackID, $noteID){
         try { 
             (update value $note with $noteText/child::*, 
             <response status="success">
-                <message>Updated! {$noteText}</message>
+                <message>Your Coursepack has been Updated! {$noteText}</message>
             </response>)
         } catch * {
             (response:set-status-code( 500 ),
@@ -251,11 +252,11 @@ declare function local:create-new-coursepack-response($data as item()*){
                 <div class="bg-info hidden">{$response}</div>
                 <h4>Coursepack Title: {$coursepackTitle}</h4>
                 {$response}
-                <ul>{
+                <ul>{(:
                     for $work in $works?*
                     return 
                         <li>{$work?title[1]}</li>
-                 }</ul>
+                 :)''}</ul>
                  <a href="{$config:nav-base}/coursepack/{$coursepackID}">Go to Coursepack</a><br/>
                  <a href="{$config:nav-base}/coursepack.html">See all Coursepacks</a>
             </div>
@@ -272,7 +273,7 @@ declare function local:update-coursepack-response($data as item()*){
     let $coursepack := $json-data?coursepack
     let $works := $coursepack?1?('works')
     let $response := local:update-coursepack($json-data)
-    let $coursepackID := string($response/coursepack/@id)
+    let $coursepackID := $coursepack(1)('coursepackID')
     return 
         <response status="success" xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">

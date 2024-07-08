@@ -24,8 +24,9 @@
                         $('.results :checked').each(function() { 
                             coursepackworks.push({id: $(this).val() , title: $(this).data('title') });
                         });
-                    }).fail( function(jqXHR, textStatus, errorThrown) {
-                           console.log(errorThrown);
+                    }).fail( function(jqXHR, textStatus, errorThrown){
+                           alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
                     });
                  });
                  
@@ -39,11 +40,14 @@
                         $.post(url,JSON.stringify({ 'coursepack': coursepack }), function(data) {
                             $('#saveCoursepackModal').hide();
                             $('#responseBody').html(data);
-                        }).fail( function(jqXHR, textStatus, errorThrown) {
-                               console.log(textStatus);
-                       });
+                        })
+                        .fail( function(jqXHR, textStatus, errorThrown){
+                           alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
+                        });
                     }).fail( function(jqXHR, textStatus, errorThrown) {
-                           console.log(errorThrown);
+                            alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
                     });   
                  });
                  
@@ -57,9 +61,10 @@
                         $('.results :checked').each(function() { 
                             coursepackworks.push({id: $(this).val() , title: $(this).data('title') });
                         });
-                    }).fail( function(jqXHR, textStatus, errorThrown) {
-                           console.log(errorThrown);
-                    });                        
+                    }).fail( function(jqXHR, textStatus, errorThrown){
+                           alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
+                        });                       
                  });
                  
                 //Create new coursepack
@@ -74,12 +79,10 @@
                             $('#addToCoursepackModal').hide();
                             $('#responseBody').html(data);
                             //alert(data);
-                        }).fail( function(jqXHR, textStatus, errorThrown) {
-                               console.log(textStatus);
-                       });
-                   // }).fail( function(jqXHR, textStatus, errorThrown) {
-                   //        console.log(errorThrown);
-                   // });                       
+                        }).fail( function(jqXHR, textStatus, errorThrown){
+                           alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
+                        });
                  });
                 
                 //Delete coursepack
@@ -92,9 +95,10 @@
                         window.location = redirect;
                         //console.log(data);
                     });
-                  }).fail( function(jqXHR, textStatus, errorThrown) {
-                     console.log(textStatus);
-                  });  
+                  }).fail( function(jqXHR, textStatus, errorThrown){
+                           alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
+                        });  
                 }); 
 
                 //Delete work from coursepack
@@ -105,12 +109,14 @@
                         $.get(url, function(data) {
                            location.reload();
                             //console.log(data);
-                        }).fail( function(jqXHR, textStatus, errorThrown) {
-                            console.log(textStatus);
+                        }).fail( function(jqXHR, textStatus, errorThrown){
+                           alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
                         });
-                     }).fail( function(jqXHR, textStatus, errorThrown) {
-                            console.log(textStatus);
-                   });   
+                     }).fail( function(jqXHR, textStatus, errorThrown){
+                           alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
+                        });  
                 });
                 
                 //expand a single work
