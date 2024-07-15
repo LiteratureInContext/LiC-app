@@ -168,19 +168,37 @@ ul.coursepack {
     
 }
 .rangy-select {
+font-size:16px;
  position: fixed; 
  top: 125px; 
  left: 4px;
  border: 0;
  display:block; 
- 
+ height:90px;
+ width:90px;
+ overflow:hidden;
+ line-height: 90% !important;
  /* display: none;
+  * 
   * position: fixed; top: 125px; left: 0; border: 0; 
   position: sticky;
   top: 0;
    */ 
     
 }
+.rangy-select .lgIcon{
+    padding-top:8px;
+    font-size:24px !important;
+}
+.rangyBtnText{
+    text-align:center;
+    font-size:12px !important;
+}
+
+.rangyBtnIcon{
+    font-size:20px;
+}
+
 /* Browse Styles */
 .fixed.search-box  {
     position:fixed; margin:0 7em 1em 2em;
@@ -380,7 +398,7 @@ svg {
 .tei-annotation-show {}
 .tei-author {font-weight:500;}
 .tei-addrLine {display:block; margin-left:2em;}
-.tei-body {display:block; margin:1em;}
+.tei-body {display:block; margin:1em;padding:0 4em;}
 .tei-castList dl {display:block; margin-left:1em;}
 .tei-castList dt {font-weight:600; color:#444;}
 .tei-castList dd {margin-left:1em;}
@@ -422,6 +440,7 @@ svg {
 .tei-titleStmt .tei-title {display:block; font-size:large; font-weight:600; margin:1em; padding:1em;}
 .tei-titlePage { margin: 1em 0;}
 .tei-titlePart {font-weight:500; font-size:1.5em;}
+/* .tei-sidenote { display:block; float:left; width: 3em;} */
 .title-monograph {font-style:italic;}
 /* Styles for mobile */
 @media (max-width: 1000px) {
@@ -451,3 +470,176 @@ svg {
 .box.over {
   border: 2px dotted #ccc;
 }
+/* Documentation styles */
+.documentation div{
+      	font-family: Trebuchet MS, sans-serif;
+      	font-size: 15px;
+      	color: #444;
+      	margin-right: 24px;
+      }
+      
+.documentation       h1	{
+      	font-size: 25px;
+      }
+.documentation       h2	{
+      	font-size: 20px;
+      }
+.documentation       h3	{
+      	font-size: 16px;
+      	font-weight: bold;
+      }
+.documentation       hr	{
+      	height: 1px;
+      	border: 0;
+      	color: #ddd;
+      	background-color: #ddd;
+      }
+      
+.documentation       .app-desc {
+        clear: both;
+        margin-left: 20px;
+      }
+.documentation       .param-name {
+        width: 100%;
+      }
+.documentation       .license-info {
+        margin-left: 20px;
+      }
+      
+.documentation       .license-url {
+        margin-left: 20px;
+      }
+      
+.documentation       .model {
+        margin: 0 0 0px 20px;
+      }
+      
+.documentation       .method {
+        margin-left: 20px;
+      }
+      
+.documentation       .method-notes	{
+      	margin: 10px 0 20px 0;
+      	font-size: 90%;
+      	color: #555;
+      }
+      
+.documentation       pre {
+        padding: 10px;
+        margin-bottom: 2px;
+      }
+      
+.documentation       .http-method {
+       text-transform: uppercase;
+      }
+      
+.documentation       pre.get {
+        background-color: #0f6ab4;
+      }
+      
+.documentation       pre.post {
+        background-color: #10a54a;
+      }
+      
+.documentation       pre.put {
+        background-color: #c5862b;
+      }
+      
+.documentation       pre.delete {
+        background-color: #a41e22;
+      }
+      
+.documentation       .huge	{
+      	color: #fff;
+      }
+      
+.documentation       pre.example {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      
+.documentation       code {
+        white-space: pre;
+      }
+      
+.documentation       .nickname {
+        font-weight: bold;
+      }
+      
+.documentation       .method-path {
+        font-size: 1.5em;
+        background-color: #0f6ab4;
+      }
+      
+.documentation       .up {
+        float:right;
+      }
+      
+.documentation       .parameter {
+        width: 500px;
+      }
+      
+.documentation       .param {
+        width: 500px;
+        padding: 10px 0 0 20px;
+        font-weight: bold;
+      }
+      
+.documentation       .param-desc {
+        width: 700px;
+        padding: 0 0 0 20px;
+        color: #777;
+      }
+      
+.documentation       .param-type {
+        font-style: italic;
+      }
+      
+.documentation       .param-enum-header {
+      width: 700px;
+      padding: 0 0 0 60px;
+      color: #777;
+      font-weight: bold;
+      }
+      
+.documentation       .param-enum {
+      width: 700px;
+      padding: 0 0 0 80px;
+      color: #777;
+      font-style: italic;
+      }
+      
+.documentation       .field-label {
+        padding: 0;
+        margin: 0;
+        clear: both;
+      }
+      
+.documentation       .field-items	{
+      	padding: 0 0 15px 0;
+      	margin-bottom: 15px;
+      }
+      
+.documentation       .return-type {
+        clear: both;
+        padding-bottom: 10px;
+      }
+      
+.documentation       .param-header {
+        font-weight: bold;
+      }
+      
+.documentation       .method-tags {
+        text-align: right;
+      }
+      
+.documentation       .method-tag {
+        background: none repeat scroll 0% 0% #24A600;
+        border-radius: 3px;
+        padding: 2px 10px;
+        margin: 2px;
+        color: #FFF;
+        display: inline-block;
+        text-decoration: none;
+      }
