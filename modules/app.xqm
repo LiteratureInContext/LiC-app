@@ -544,8 +544,9 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                 data-workid="{document-uri(root($model("data")))}"
                 data-worktitle="{$model("data")//tei:TEI/descendant::tei:titleStmt/tei:title[1]}" 
                 title="Save selection/text to coursepack"> 
-                <span data-toggle="tooltip" title="Coursepack tools">
-                    <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
+                <span data-toggle="tooltip" title="Coursepack tools">Custom<br/>Anthology<br/>
+                    <span class="glyphicon glyphicon-plus-sign lgIcon" aria-hidden="true"></span>
+                    <!--<img src="{$config:nav-base}/resources/images/add2Coursepack.png" height="75px"/>-->
                 </span>
             </button>
             }            
@@ -1174,8 +1175,8 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
             let $expanded := if(request:get-parameter('query', '') != '') then kwic:expand($hit) else () 
             let $xmlId := $hit/@xml:id
             let $headnotes := if($xmlId != '') then
-                                    (:collection($config:data-root || '/headnotes')//tei:relation[@active[matches(.,concat($xmlId,"(\W.*)?$"))]]:)
-                                    collection($config:data-root || '/headnotes')//tei:relation[@active[. = concat('#',$xmlId)]] 
+                                    collection($config:data-root || '/headnotes')//tei:relation[@active[matches(.,concat('#',$xmlId,"(\W.*)?$"))]]
+                                    (:collection($config:data-root || '/headnotes')//tei:relation[@active[. = concat('#',$xmlId)]]:) 
                                else ()
             where $title != ''                                    
             return
