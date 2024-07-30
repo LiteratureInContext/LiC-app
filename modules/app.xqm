@@ -372,25 +372,25 @@ let $toc :=
         else ()
 let $currentSection := 
     if(count($sections) gt 3) then
-        if($sectionRequest = 'frontMatter') then tei2html:tei2html($work/descendant::tei:front)
-        else if($sectionRequest = 'backMatter') then tei2html:tei2html($work/descendant::tei:back)
+        if($sectionRequest = 'frontMatter') then $work/descendant::tei:front
+        else if($sectionRequest = 'backMatter') then $work/descendant::tei:back
         else if($sectionRequest != '') then
             if(request:get-parameter('n', '') != '') then 
                 if($work/descendant::tei:text/tei:body/child::tei:div[@type]) then 
-                    tei2html:tei2html($work/descendant::tei:div[@n = request:get-parameter('n', '')][@type = $sectionRequest])
+                    $work/descendant::tei:div[@n = request:get-parameter('n', '')][@type = $sectionRequest]
                 else if($work/descendant::tei:text/tei:body/child::*/child::tei:div[@type]) then 
-                    tei2html:tei2html($work/descendant::tei:div[@n = request:get-parameter('n', '')][@type = $sectionRequest])
+                    $work/descendant::tei:div[@n = request:get-parameter('n', '')][@type = $sectionRequest]
                 else (:tei2html:tei2html($work/descendant::tei:front):)'Exception1'
             else if(request:get-parameter('num', '') != '') then 
                 if($work/descendant::tei:text/tei:body/child::tei:div[@type]) then 
-                    tei2html:tei2html($work/descendant::tei:text/tei:body/child::tei:div[@type][request:get-parameter('num', '')][@type = $sectionRequest])
+                    $work/descendant::tei:text/tei:body/child::tei:div[@type][request:get-parameter('num', '')][@type = $sectionRequest]
                 else if($work/descendant::tei:text/tei:body/child::*/child::tei:div[@type]) then 
-                    tei2html:tei2html($work/descendant::tei:text/tei:body/child::*/child::tei:div[@type][request:get-parameter('num', '')][@type = $sectionRequest])
+                    $work/descendant::tei:text/tei:body/child::*/child::tei:div[@type][request:get-parameter('num', '')][@type = $sectionRequest]
                 else (:tei2html:tei2html($work/descendant::tei:front):)'Exception2'
             else 'Exception3'
-        else if($work/descendant::tei:front) then tei2html:tei2html($work/descendant::tei:front)
-        else tei2html:tei2html($work/descendant::tei:text/tei:body/child::tei:div[1])
-    else tei2html:tei2html($work/descendant::tei:text)
+        else if($work/descendant::tei:front) then $work/descendant::tei:front
+        else $work/descendant::tei:text/tei:body/child::tei:div[1]
+    else $work/descendant::tei:text
 let $paging := ''
 return 
     if($work) then 
@@ -399,7 +399,11 @@ return
             <div class="row">
                 <div class="col-md-2">{$toc}</div>
                 <div class="col-md-8">
-                    {(:tei2html:tei2html($currentSection):)$currentSection}
+                    {
+                    if(request:get-parameter('view', '') = 'pageImages') then
+                        tei2html:page-chunk($currentSection)
+                    else tei2html:tei2html($currentSection)
+                    }
                 </div>
             </div>
         else tei2html:tei2html($work/descendant::tei:text)
@@ -577,12 +581,22 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             </span></button>, '&#160;') 
                 else if($f = 'pageImages') then 
                     if($model("data")/descendant::tei:pb[@facs]) then 
+                        let $url-params := replace(request:get-query-string(), '&amp;view=pageImages', '')
+                        let $param-string := 
+                            if($url-params != '') then 
+                                if(request:get-parameter('view', '') = 'pageImages') then 
+                                    concat('?',replace(request:get-query-string(), '&amp;view=pageImages', ''))
+                                else concat('?',$url-params,'&amp;view=pageImages') 
+                            else if(request:get-parameter('view', '') = 'pageImages') then 
+                                    concat('?',replace(request:get-query-string(), '&amp;view=pageImages', ''))
+                            else '?view=pageImages'
+                        return 
                         if(request:get-parameter('view', '') = 'pageImages') then 
-                           (<a href="{request:get-uri()}" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to hide the page images.">
+                           (<a href="{$param-string}" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to hide the page images.">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> Page Images
                              </a>, '&#160;') 
                         else 
-                            (<a href="?view=pageImages" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
+                            (<a href="{$param-string}" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Page Images
                              </a>, '&#160;') 
                     else()         
