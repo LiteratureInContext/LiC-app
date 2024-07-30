@@ -309,12 +309,105 @@ possible chunking options:
 
 :)
 declare function app:display-work($node as node(), $model as map(*)) {
-     (: Chose to 'chunk' content:)
-    let $work := $model("data")/tei:TEI
-    let $paging := ''
-    return 
-     if($work) then tei2html:tei2html($work) 
-     else <blockquote>No record found</blockquote>
+(: Chose to 'chunk' content:)
+let $work := $model("data")/tei:TEI
+let $sectionRequest := request:get-parameter('section', '')
+let $sectionRequestNum := request:get-parameter('n', '')
+let $sections := $work/descendant::tei:text/tei:body/child::tei:div[@type] | $work/descendant::tei:text/tei:body/child::*/child::tei:div[@type]
+let $toc := 
+        if(count($sections) gt 3) then 
+                 <div class="stickyTOC">
+                    <ul>
+                        {(
+                        if($work/descendant::tei:front) then
+                            <li><a href="?section=frontMatter">Front Matter</a></li>
+                        else(),
+                        if($work/descendant::tei:text/tei:body/child::tei:div[@type]) then 
+                            for $s at $p in $work/descendant::tei:text/tei:body/child::tei:div[@type]
+                            let $head := if($s/tei:head) then $s/tei:head else if($s/child::*[1]/tei:head) then $s/child::*[1]/tei:head else concat(string($s/@type),' ',string($s/@n))
+                            return 
+                                <li><a href="?section={string($s/@type)}{if($s/@n != '') then concat('&amp;n=',string($s/@n)) else concat('&amp;num=',$p)}">{$head}</a></li>
+                        (:
+                            for $s at $p in $work/descendant::tei:body/child::tei:div[@type]
+                            return 
+                                <li><a href="?section={string($s/@type)}&amp;n={$p}">{string($s/@type)}&#160;{string($s/@n)}</a> 
+                                    {if($s/child::tei:div[@type]) then 
+                                        <ul>
+                                            {for $s1 at $n2 in $s/child::tei:div[@type]
+                                            let $id := generate-id(.)
+                                             return 
+                                                <li><a href="?section={string($s/@type)}&amp;n={$p}#{$id}">{string($s1/@type)}&#160;{string($s1/@n)}</a></li>
+                                            }
+                                        </ul>
+                                    else ()}
+                                </li>
+                                :)
+                        else if($work/descendant::tei:text/tei:body/child::*/child::tei:div[@type]) then 
+                            for $s at $p in $work/descendant::tei:text/tei:body/child::tei:div/child::tei:div[@type]
+                            let $head := if($s/tei:head) then $s/tei:head else if($s/child::*[1]/tei:head) then $s/child::*[1]/tei:head else concat(string($s/@type),' ',string($s/@n))
+                            return 
+                                <li><a href="?section={string($s/@type)}{if($s/@n != '') then concat('&amp;n=',string($s/@n)) else concat('&amp;num=',$p)}">{$head}</a></li>
+                        (:
+                            for $s at $p in $work/descendant::tei:body/child::tei:div/child::tei:div[@type]
+                            return 
+                                <li><a href="?section={string($s/@type)}&amp;n={$p}">{string($s/@type)}&#160;{string($s/@n)}</a> 
+                                    {if($s/child::tei:div[@type]) then 
+                                        <ul>
+                                            {for $s1 at $n2 in $s/child::tei:div[@type]
+                                            let $id := generate-id(.)
+                                             return 
+                                                <li><a href="?section={string($s/@type)}&amp;n={$p}#{$id}">{string($s1/@type)}&#160;{string($s1/@n)}</a></li>
+                                            }
+                                        </ul>
+                                    else ()}
+                                </li>
+                                :)
+                        else (),
+                        if($work/descendant::tei:back) then
+                            <li><a href="?section=backMatter">Back Matter</a></li>
+                        else()
+                        )}
+                    </ul>
+                 </div>
+        else ()
+let $currentSection := 
+    if(count($sections) gt 3) then
+        if($sectionRequest = 'frontMatter') then $work/descendant::tei:front
+        else if($sectionRequest = 'backMatter') then $work/descendant::tei:back
+        else if($sectionRequest != '') then
+            if(request:get-parameter('n', '') != '') then 
+                if($work/descendant::tei:text/tei:body/child::tei:div[@type]) then 
+                    $work/descendant::tei:div[@n = request:get-parameter('n', '')][@type = $sectionRequest]
+                else if($work/descendant::tei:text/tei:body/child::*/child::tei:div[@type]) then 
+                    $work/descendant::tei:div[@n = request:get-parameter('n', '')][@type = $sectionRequest]
+                else (:tei2html:tei2html($work/descendant::tei:front):)'Exception1'
+            else if(request:get-parameter('num', '') != '') then 
+                if($work/descendant::tei:text/tei:body/child::tei:div[@type]) then 
+                    $work/descendant::tei:text/tei:body/child::tei:div[@type][request:get-parameter('num', '')][@type = $sectionRequest]
+                else if($work/descendant::tei:text/tei:body/child::*/child::tei:div[@type]) then 
+                    $work/descendant::tei:text/tei:body/child::*/child::tei:div[@type][request:get-parameter('num', '')][@type = $sectionRequest]
+                else (:tei2html:tei2html($work/descendant::tei:front):)'Exception2'
+            else 'Exception3'
+        else if($work/descendant::tei:front) then $work/descendant::tei:front
+        else $work/descendant::tei:text/tei:body/child::tei:div[1]
+    else $work/descendant::tei:text
+let $paging := ''
+return 
+    if($work) then 
+        (:tei2html:tei2html($work):)
+        if($toc != '') then
+            <div class="row">
+                <div class="col-md-2">{$toc}</div>
+                <div class="col-md-8">
+                    {
+                    if(request:get-parameter('view', '') = 'pageImages') then
+                        tei2html:page-chunk($currentSection)
+                    else tei2html:tei2html($currentSection)
+                    }
+                </div>
+            </div>
+        else tei2html:tei2html($work/descendant::tei:text)
+    else <blockquote>No record found</blockquote>
 };
 
 (:~  
@@ -488,12 +581,22 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             </span></button>, '&#160;') 
                 else if($f = 'pageImages') then 
                     if($model("data")/descendant::tei:pb[@facs]) then 
+                        let $url-params := replace(request:get-query-string(), '&amp;view=pageImages', '')
+                        let $param-string := 
+                            if($url-params != '') then 
+                                if(request:get-parameter('view', '') = 'pageImages') then 
+                                    concat('?',replace(request:get-query-string(), '&amp;view=pageImages', ''))
+                                else concat('?',$url-params,'&amp;view=pageImages') 
+                            else if(request:get-parameter('view', '') = 'pageImages') then 
+                                    concat('?',replace(request:get-query-string(), '&amp;view=pageImages', ''))
+                            else '?view=pageImages'
+                        return 
                         if(request:get-parameter('view', '') = 'pageImages') then 
-                           (<a href="{request:get-uri()}" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to hide the page images.">
+                           (<a href="{$param-string}" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to hide the page images.">
                                 <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> Page Images
                              </a>, '&#160;') 
                         else 
-                            (<a href="?view=pageImages" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
+                            (<a href="{$param-string}" class="btn btn-primary btn-xs" id="pageImagesBtn" data-toggle="tooltip" title="Click to view the page images along side the text.">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Page Images
                              </a>, '&#160;') 
                     else()         
