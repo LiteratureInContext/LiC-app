@@ -26,7 +26,7 @@ declare function local:create-user($data as item()*) as xs:string? {
     let $password := $data?password
     return
         if(matches($user,'^[a-zA-Z0-9]+$')) then 
-            if(matches($fullName,'^[a-zA-Z0-9]+$') ) then 
+            if(matches($fullName,'^[\w ]+$') ) then  
                 (
                     sm:create-account($user, $password, 'lic', 'admin'),
                     sm:set-umask($user, 18),
