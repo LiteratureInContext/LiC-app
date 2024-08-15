@@ -115,6 +115,23 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                 tei2html:persName($node)
             case element(tei:ref) return
                tei2html:ref($node)    
+            case element(tei:table) return 
+                <table xmlns="http://www.w3.org/1999/xhtml">
+                    {
+                    let $cols := count($node/tei:rows[1]/tei:cell)
+                    let $rows := count($node/tei:row)
+                    for $row in $node/tei:row
+                    return 
+                    <tr>
+                        {
+                        for $cell in $row/tei:cell
+                        let $role := $cell/@role
+                        return <td>{if($role ='label') then attribute class {'tdLabel'} else()}{tei2html:tei2html($cell/node())}</td>
+                        }
+                    </tr>
+                    
+                    }
+                </table>
             case element(tei:title) return 
                 tei2html:title($node)
             case element(tei:text) return 
