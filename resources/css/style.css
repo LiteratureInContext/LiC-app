@@ -374,7 +374,8 @@ svg {
   vertical-align: middle; 
 }
 .headnoteInline .headnoteCheckbox {margin-top: 2px; margin-right: 8px;}
-
+td {padding-right:1em;}
+ .tdLabel{font-weight:bold;}
 /* .form-horizontal .checkbox, .form-horizontal .radio */
 /* TEI styles */
 .tei-annotation-show {}
