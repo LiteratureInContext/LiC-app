@@ -163,7 +163,8 @@
                     coursepackworks.push({id: workID , title: workTitle});
 
                     }
-                    $('#coursepackTools').toggle( "slide" );
+                   $('#coursepackTools').toggle( "slide" );
+                   /* $('#coursepackTools').animate({width: "toggle"});*/ 
                     $('#response').modal('show');
                     $('#saveCoursepackModal').hide();
                     $('#addToCoursepackModal').show();
@@ -186,6 +187,14 @@
                     e.preventDefault(e);
                     $('#coursepackTools').toggle( "slide" ); 
                  }); 
+                 
+                 $(".drawer-handle").click(function () {
+                        if (expanded = !expanded) {
+                            $(".drawer-content").animate({ "margin-left": 0 },    "slow");
+                        } else {
+                            $(".drawer-content").animate({ "margin-left": -200 }, "slow");
+                        }
+                    });
                  
                  //Clear modal response body
                  $('.modalClose').on('click', function(e){ // on change of state
