@@ -310,7 +310,7 @@ possible chunking options:
 :)
 declare function app:display-work($node as node(), $model as map(*)) {
      (: Chose to 'chunk' content:)
-    let $work := $model("data")/tei:TEI
+    let $work := $model("data")/tei:TEI/descendant::tei:text
     let $paging := ''
     return 
      if($work) then tei2html:tei2html($work) 
