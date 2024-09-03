@@ -1,6 +1,5 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="page-content">
-
             <div class="page-content indent">
                 <div data-template="app:get-work">
                     <div data-template="app:teiHeader"/>
@@ -27,9 +26,13 @@
                             <div class="panel-collapse collapse left-align" id="teiViewLOD">
                                 <div data-template="app:subset-lod"/>
                             </div>
+                            <div class="panel-collapse collapse left-align" id="teiAudio">
+                                <div data-template="app:audio"/>
+                            </div>
                         </div>
                         <!--<div data-template="app:lazy-load" data-template-paths="/descendant::tei:text"/>-->
-                        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:text"/>
+                        <!--<div data-template="app:display-nodes" data-template-paths="/descendant::tei:text"/>-->
+                        <div data-template="app:display-work"/>
                         <div data-template="app:footnotes"/>
                         <!--
                         <div class="row">

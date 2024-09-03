@@ -138,18 +138,15 @@
                      
                 });
                 
-                //Use Rangy to save selected HTML to coursepack
-                $('.rangy').on('click', function(e){ // on change of state
-                    e.preventDefault(e);
+                //rangy-select
+                $('.rangy-select').on('click', function(e){ // on change of state
+                   e.preventDefault(e);
                    a = rangy.getSelection()
-                   //If no selection add whole record
-                   if (a.rangeCount > 0) {
-                   //Get parent node if not selected. 
+                   if (a.rangeCount > 0) { 
                     b = a.getRangeAt(0)
                     b.setStartBefore(a.anchorNode.parentNode)
                     a.setSingleRange(b)
                     a.toHtml()
-                    
                     var selection = rangy.getSelection().toHtml(),
                         url = $(this).data('url'),
                         workID = $(this).data('workid'),
@@ -161,15 +158,45 @@
                         workID = $(this).data('workid'),
                         workTitle = $(this).data('worktitle'); 
                     coursepackworks.push({id: workID , title: workTitle});
-
                     }
                     $('#coursepackTools').toggle( "slide" );
                     $('#response').modal('show');
                     $('#saveCoursepackModal').hide();
                     $('#addToCoursepackModal').show();
+                   console.log("Yay, I selected something:[" + a + "]");
 
                 });
                 
+                //Use Rangy to save selected HTML to coursepack
+                /* 
+                $('.rangy').on('click', function(e){ // on change of state
+                   e.preventDefault(e);
+                   a = rangy.getSelection()
+                   if (a.rangeCount > 0) { 
+                    b = a.getRangeAt(0)
+                    b.setStartBefore(a.anchorNode.parentNode)
+                    a.setSingleRange(b)
+                    a.toHtml()
+                    var selection = rangy.getSelection().toHtml(),
+                        url = $(this).data('url'),
+                        workID = $(this).data('workid'),
+                        workTitle = $(this).data('worktitle'); 
+                    coursepackworks.push({id: workID , title: workTitle, text: a.toHtml()});
+                    }else {
+                    
+                    var url = $(this).data('url'),
+                        workID = $(this).data('workid'),
+                        workTitle = $(this).data('worktitle'); 
+                    coursepackworks.push({id: workID , title: workTitle});
+                    }
+                   $('#coursepackTools').toggle( "slide" );
+                    $('#response').modal('show');
+                    $('#saveCoursepackModal').hide();
+                    $('#addToCoursepackModal').show();
+                    console.log("Hello world!");
+
+                });
+                */
                 //test to trigger rangy popup
                 /* 
                 $('body').on( 'mouseup', function(){
@@ -181,11 +208,17 @@
                     }
                   });
                    */ 
-                  
+                   
+                 $(".modal").on("hidden.bs.modal", function(){
+                    coursepackworks.splice(0,coursepackworks.length);
+                 }) 
+                 
+                 /* 
                  $('#coursepackTools .close').on('click', function(e){ // on change of state
                     e.preventDefault(e);
                     $('#coursepackTools').toggle( "slide" ); 
                  }); 
+                 */
                  
                  //Clear modal response body
                  $('.modalClose').on('click', function(e){ // on change of state

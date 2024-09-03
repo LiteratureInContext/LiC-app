@@ -151,8 +151,8 @@ ul.coursepack {
 
 #coursepackTools {
    position: fixed; 
-   top: 135px; 
-   left: 50px;
+   top:100px;
+   left:0;
    border: 0;
    display:block; 
    display:none; 
@@ -169,10 +169,16 @@ ul.coursepack {
 }
 .rangy-select {
  position: fixed; 
- top: 125px; 
- left: 4px;
+ top:180px;
+ left:32px;
  border: 0;
  display:block; 
+ transform-origin: 0% 0%;
+  -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg) translateX(-50%);
  
  /* display: none;
   * position: fixed; top: 125px; left: 0; border: 0; 

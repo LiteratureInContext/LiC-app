@@ -310,7 +310,7 @@ possible chunking options:
 :)
 declare function app:display-work($node as node(), $model as map(*)) {
      (: Chose to 'chunk' content:)
-    let $work := $model("data")/tei:TEI
+    let $work := $model("data")/tei:TEI/descendant::tei:text
     let $paging := ''
     return 
      if($work) then tei2html:tei2html($work) 
@@ -540,12 +540,13 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                 </div>
             }
             {
-            <button id="rangy" class="rangy rangy-select btn btn-primary btn-lg" data-url="{$config:nav-base}/modules/lib/coursepack.xql" 
+            <button id="rangy" class="drawer-handle rangy rangy-select btn btn-primary" data-url="{$config:nav-base}/modules/lib/coursepack.xql" 
                 data-workid="{document-uri(root($model("data")))}"
                 data-worktitle="{$model("data")//tei:TEI/descendant::tei:titleStmt/tei:title[1]}" 
                 title="Save selection/text to coursepack"> 
-                <span data-toggle="tooltip" title="Coursepack tools">Custom<br/>Anthology<br/>
-                    <span class="glyphicon glyphicon-plus-sign lgIcon" aria-hidden="true"></span>
+                <span data-toggle="tooltip" title="Coursepack tools">
+                <span class="glyphicon glyphicon-plus-sign lgIcon" aria-hidden="true"></span> Custom Coursepack<br/>
+                    
                     <!--<img src="{$config:nav-base}/resources/images/add2Coursepack.png" height="75px"/>-->
                 </span>
             </button>

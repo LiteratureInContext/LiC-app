@@ -23,5 +23,5 @@ sm:chmod(xs:anyURI($target || '/modules/build-lod.xql'), "rwsr-xr-x"),
 sm:chmod(xs:anyURI($target || '/coursepacks'), "rwxrwxr-x"),
 sm:chgrp(xs:anyURI($target || '/coursepacks'), "lic"),
 (: create lic group for coursepack users :)
-sm:create-group('lic')
+if(sm:group-exists('lic')) then () else sm:create-group('lic')
 )
