@@ -213,19 +213,19 @@
                     coursepackworks.splice(0,coursepackworks.length);
                  }) 
                  
-                 /* 
                  $('#coursepackTools .close').on('click', function(e){ // on change of state
                     e.preventDefault(e);
                     $('#coursepackTools').toggle( "slide" ); 
                  }); 
-                 */
                  
                  //Clear modal response body
+                 /* 
                  $('.modalClose').on('click', function(e){ // on change of state
                     e.preventDefault(e);
                     $('#responseBody').empty(); 
                     $('#coursepackTitleGroup').show();
-                 }); 
+                 });
+                  */  
                  
                  //Hide footnotes. 
                  $('html').click(function() {
@@ -252,9 +252,10 @@
                 });
                 
                 //clear form when close modal
+                /* 
                 $('.modal').on('hidden.bs.modal', function(){
                     $(this).find('form').trigger('reset');
                 });
-                
+                */
             }); 
           
