@@ -540,17 +540,6 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                 </div>
             }
             {
-            <button id="rangyButton" class="rangy-select btn btn-primary" data-url="{$config:nav-base}/modules/lib/coursepack.xql" 
-                data-workid="{document-uri(root($model("data")))}"
-                data-worktitle="{$model("data")//tei:TEI/descendant::tei:titleStmt/tei:title[1]}" 
-                title="Save selection/text to coursepack"> 
-                <span data-toggle="tooltip" title="Coursepack tools">
-                <span class="glyphicon glyphicon-plus-sign lgIcon" aria-hidden="true"></span> Custom Coursepack TEST<br/>
-                </span>
-            </button>
-            }            
-        </div>
-        (:
             <button id="rangy" class="drawer-handle rangy rangy-select btn btn-primary" data-url="{$config:nav-base}/modules/lib/coursepack.xql" 
                 data-workid="{document-uri(root($model("data")))}"
                 data-worktitle="{$model("data")//tei:TEI/descendant::tei:titleStmt/tei:title[1]}" 
@@ -563,7 +552,6 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
             </button>
             }            
         </div>
-        :)
     else ()
 };
 declare function app:audio($node as node(), $model as map(*)) {
