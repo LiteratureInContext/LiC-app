@@ -110,7 +110,7 @@ declare function local:create-new-coursepack($data as item()*){
                     let $ms1 := $nodesIDs/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
                     let $ms2 := $nodesIDs/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
                     return 
-                       <text>{(:$work?text:)data:get-fragment-from-doc($nodesIDs, $ms1, $ms2, true(), true(),'')}</text>
+                       <text>{parse-xml-fragment($work?text)}</text>
                  }
                 </work> 
                 (:,local:update-work($workID, $id, $coursepackTitle, $coursepack(1)('coursepackDesc')):)
@@ -144,31 +144,11 @@ declare function local:update-coursepack($data as item()*){
     let $coursepackTitle := string($coursepack/@title)
     let $numWorks := count($coursepack//work)
     let $desc := $coursepack//desc/text()
-    let $insertWorks :=  
+    let $newWorks := 
                for $work at $n in $works?*
                let $workID := $work?id
                let $num := $n + $numWorks
-               group by $groupID := $workID
-               return 
-               (<work id="{$groupID}" num="{$num}">
-                <title>{$work?title[1]}</title>
-                {
-                    let $record := doc(xmldb:encode-uri($groupID))
-                    let $date := 
-                        if($record/descendant::tei:sourceDesc/descendant::tei:imprint/tei:date) then
-                            $record/descendant::tei:sourceDesc/descendant::tei:imprint[1]/tei:date[1]
-                        else $record/descendant::tei:publicationStmt[1]/tei:date[1]
-                    let $author :=
-                        if($record/descendant::tei:sourceDesc/descendant::tei:author) then
-                            $record/descendant::tei:sourceDesc/descendant::tei:author[1]
-                        else $record/descendant::tei:author[1]
-                    return 
-                        (
-                        <author>{$author}</author>,
-                        <date>{$date}</date>
-                        )
-                }
-                {
+               let $text := 
                     for $text in $work?text
                     let $regex := fn:analyze-string($text,'id="([^"]*)"')
                     let $m1 := $regex//fn:match[1]/fn:group/text()
@@ -178,27 +158,81 @@ declare function local:update-coursepack($data as item()*){
                     let $ms1 := $nodesIDs/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
                     let $ms2 := $nodesIDs/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
                     return 
-                       <text>{(:$work?text:)data:get-fragment-from-doc($nodesIDs, $ms1, $ms2, true(), true(),'')}</text>
-                (:   for $text in $work?text) 
+                       <text>{parse-xml-fragment($work?text)}</text>
+               let $workRec := 
+                    <work id="{$workID}" num="{$num}">
+                        <title>{$work?title[1]}</title>
+                        {
+                            let $record := doc(xmldb:encode-uri($workID))
+                            let $date := 
+                                if($record/descendant::tei:sourceDesc/descendant::tei:imprint/tei:date) then
+                                    $record/descendant::tei:sourceDesc/descendant::tei:imprint[1]/tei:date[1]
+                                else $record/descendant::tei:publicationStmt[1]/tei:date[1]
+                            let $author :=
+                                if($record/descendant::tei:sourceDesc/descendant::tei:author) then
+                                    $record/descendant::tei:sourceDesc/descendant::tei:author[1]
+                                else $record/descendant::tei:author[1]
+                            return 
+                                (
+                                <author>{$author}</author>,
+                                <date>{$date}</date>
+                                )
+                        }
+                        {$text}
+                     </work>
+               return
+                    if($coursepack//work[@id = $workID]) then ()
+                    else update insert $workRec into $coursepack
+    let $updateWorks := 
+               for $work at $n in $works?*
+               let $workID := $work?id
+               let $num := $n + $numWorks
+               let $coursepackWork := $coursepack//*[@id = $workID]
+               let $text := 
+                    for $text in $work?text
                     let $regex := fn:analyze-string($text,'id="([^"]*)"')
                     let $m1 := $regex//fn:match[1]/fn:group/text()
                     let $m2 := $regex//fn:match[last()]/fn:group/text()
-                    let $nodes := local:addID(doc(xmldb:encode-uri($workID))//tei:TEI)
-                    let $ms1 := $nodes/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
-                    let $ms2 := $nodes/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
-                    return
-                    <text>{(:$work?text:)data:get-fragment-from-doc($nodes, $ms1, $ms2, true(), true(),'')}</text>
-                :) }
-                </work> 
-               (:,local:update-work($workID, $coursepackID, $coursepackTitle, $desc):)
-               )
+                    let $nodes := doc(xs:anyURI(xmldb:encode-uri($workID[1])))
+                    let $nodesIDs := local:addID($nodes)
+                    let $ms1 := $nodesIDs/descendant::*[@id=$m1 or @xml:id=$m1 or @exist:id=$m1] 
+                    let $ms2 := $nodesIDs/descendant::*[@id=$m2 or @xml:id=$m2 or @exist:id=$m2] 
+                    return 
+                       <text>{parse-xml-fragment($work?text)}</text>
+               let $workRec := 
+                    <work id="{$workID}" num="{$num}">
+                        <title>{$work?title[1]}</title>
+                        {
+                            let $record := doc(xmldb:encode-uri($workID))
+                            let $date := 
+                                if($record/descendant::tei:sourceDesc/descendant::tei:imprint/tei:date) then
+                                    $record/descendant::tei:sourceDesc/descendant::tei:imprint[1]/tei:date[1]
+                                else $record/descendant::tei:publicationStmt[1]/tei:date[1]
+                            let $author :=
+                                if($record/descendant::tei:sourceDesc/descendant::tei:author) then
+                                    $record/descendant::tei:sourceDesc/descendant::tei:author[1]
+                                else $record/descendant::tei:author[1]
+                            return 
+                                (
+                                <author>{$author}</author>,
+                                <date>{$date}</date>
+                                )
+                        }
+                        {$text}
+                        </work>
+               return 
+                    if($coursepack//work[@id = $workID]) then 
+                        if($text != '') then
+                            update insert $text into $coursepack//work[@id = $workID]
+                        else ()
+                    else update insert $workRec into $coursepack
     return 
         try { 
-            (update insert $insertWorks into $coursepack,
-            gitcommit:run-commit($coursepack, concat($local:github-path,$coursepackID), concat("Updataed coursepack ",$coursepackID)),
+            ($newWorks, $updateWorks (:,
+            gitcommit:run-commit($coursepack, concat($local:github-path,$coursepackID), concat("Updataed coursepack ",$coursepackID)):),
             <response>
                 <coursepack id="{$coursepackID}"/>
-                <works>{$insertWorks}</works>
+                <works>{$newWorks, $updateWorks}</works>
                 Your Coursepack has been Updated!
             </response>)
         } catch * {
