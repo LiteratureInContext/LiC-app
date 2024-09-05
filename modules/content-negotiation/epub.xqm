@@ -366,7 +366,7 @@ declare function epub:toc-ncx-entry($urn, $title, $text) {
                     </navLabel>
                     <content src="table-of-contents.html"/>
                 </navPoint>
-                {epub:toc-ncx-div($text//tei:body, 2)}
+                {epub:toc-ncx-div($text//tei:text, 2)}
             </navMap>
         </ncx>
     return 
