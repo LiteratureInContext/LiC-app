@@ -61,10 +61,12 @@ else if ($exist:path = "/admin") then (
     login:set-user("org.exist.login", (), true()),
     let $user := request:get-attribute("org.exist.login.user")
     let $route := request:get-parameter("route","")
+    let $path := request:get-header("Referer")(:console.log(window.location.pathname);:)
     return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-         <redirect url="index.html"/>
-         <set-header name="Cache-Control" value="no-cache"/>
+         <redirect url="{$path}">
+            <set-header name="Cache-Control" value="no-cache"/>
+         </redirect>
        </dispatch>
 )         
 (: Check user credentials :)
