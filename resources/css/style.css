@@ -303,9 +303,14 @@ form#search {margin-top:-1.5em; padding-top:0;}
     text-align:center !important;
     padding:.5em;
     display:block !important;
-    width:325px;
-    float:right;
+    min-width:325px;
+    /*  float:right; */
     margin-left:1em;
+}
+.imgCaption {
+    display:block;
+    clear:both;
+    text-align:center !important;
 }
 .annotations .graphic, .footnote .graphic {
     width:325px;
