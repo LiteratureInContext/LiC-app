@@ -147,23 +147,25 @@
                     b.setStartBefore(a.anchorNode.parentNode)
                     a.setSingleRange(b)
                     a.toHtml()
-                    var selection = rangy.getSelection().toHtml(),
+                    //var result = new XMLSerializer().serializeToString(a.toHtml());
+                   var selection = rangy.getSelection().toHtml(),
                         url = $(this).data('url'),
                         workID = $(this).data('workid'),
                         workTitle = $(this).data('worktitle'); 
                     coursepackworks.push({id: workID , title: workTitle, text: a.toHtml()});
+                    console.log("Yay, I selected something:[" + a.toHtml() + "]");
                     }else {
-                    
-                    var url = $(this).data('url'),
-                        workID = $(this).data('workid'),
-                        workTitle = $(this).data('worktitle'); 
-                    coursepackworks.push({id: workID , title: workTitle});
+                        var url = $(this).data('url'),
+                            workID = $(this).data('workid'),
+                            workTitle = $(this).data('worktitle'); 
+                        coursepackworks.push({id: workID , title: workTitle});
                     }
                     $('#coursepackTools').toggle( "slide" );
                     $('#response').modal('show');
                     $('#saveCoursepackModal').hide();
                     $('#addToCoursepackModal').show();
-                   console.log("Yay, I selected something:[" + a + "]");
+                   
+                   console.log("coursepack:[" + coursepackworks + "]");
 
                 });
                 
