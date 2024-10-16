@@ -720,8 +720,10 @@ return
                             $title
                         else if(request:get-parameter('sort-element', '') = 'author') then
                            $author[1]
+                        else if(request:get-parameter('sort-element', '') = 'pubDate') then
+                            $work/descendant::tei:date[1]
                         else if(request:get-parameter('sort-element', '') = 'date') then
-                            $work/descendant::tei:date[1]                            
+                            $work/descendant::tei:date[1]    
                         else $work/@num
                     order by $sort
                     return  
