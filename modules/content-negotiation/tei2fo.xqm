@@ -160,7 +160,7 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                         (
                         <fo:basic-link internal-destination="{
                             if($p gt 1) then 
-                                concat('work',$p,'-',string($node/@corresp)) 
+                               concat('work',$p,'-',string($node/@corresp)) 
                             else string($node/@corresp
                             )
                             }">
@@ -223,9 +223,7 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
 (: Get or generate ids:)
 declare %private function tei2fo:get-id($node as element(), $p) {
     if($node/@xml:id) then
-        if($p gt 1) then concat('work',$p,'-',$node/@xml:id) else $node/@xml:id
-    else if($node/@exist:id) then
-        if($p gt 1) then concat('work',$p,'-',$node/@exist:id) else $node/@exist:id
+        if($p gt 1) then concat('work',$p,'-',$node/@xml:id) else string($node/@xml:id)
     else generate-id($node)
 };
 
@@ -310,8 +308,7 @@ declare function tei2fo:titlepage($data as node()*)   {
                     let $authors := $data//tei:titleStmt/tei:author
                     let $author-full-names :=
                         for $author in $authors
-                        return
-                            concat($author//tei:forename[1], ' ', $author//tei:surname[1])
+                        return concat($author/descendant::tei:forename[1], ' ', $author/descendant::tei:surname[1])
                     let $name-count := count($authors)
                     return
                     concat('By ',
@@ -327,9 +324,9 @@ declare function tei2fo:titlepage($data as node()*)   {
             <fo:block text-align="center" font-size="12pt" font-style="italic" space-before="4em" space-after="2em">
             {   
                 if($data/descendant-or-self::coursepack) then ()
-                else 
+                else (:WS:NOTE COME BACK TO THIS:)
                     for $n in $data/descendant::tei:teiHeader/descendant::tei:respStmt
-                    return concat($n/descendant::tei:resp, ' by ', string-join($n/descendant::tei:name,', ')) 
+                    return concat($n/descendant::tei:resp, ' by ', string-join($n/descendant::tei:name[1]/text(),', '))
             }
             </fo:block>
         </fo:flow>                   
@@ -344,7 +341,10 @@ declare function tei2fo:table-of-contents($data as node()*) {
             if($data/descendant-or-self::coursepack) then 
                 for $toc at $p in $data//tei:TEI[descendant::tei:titleStmt/tei:title[1] != '']
                 let $id := document-uri(root($toc))
-                let $title := if($data//work[@id = $id]/text) then concat('Selections from',$toc/descendant::tei:titleStmt/tei:title[1]/text()) else $toc/descendant::tei:titleStmt/tei:title[1]/text()
+                let $title := 
+                if($data//work[@id = $id]/text) then 
+                    concat('Selections from',$toc[1]/descendant::tei:titleStmt[1]/tei:title[1]/text())
+                else $toc/descendant::tei:titleStmt/tei:title[1]/text()
                 group by $workID := $id
                 return 
                     <fo:block space-after="0.15in">
@@ -411,7 +411,7 @@ declare function tei2fo:main($data as node()*) {
                                         let $authors := $work//tei:titleStmt/tei:author
                                         let $author-full-names :=
                                             for $author in $authors
-                                            return concat($author//tei:forename[1], ' ', $author//tei:surname[1])
+                                            return concat($author/descendant::tei:forename[1], ' ', $author/descendant::tei:surname[1])
                                         let $name-count := count($authors)
                                         return concat('By ', if ($name-count le 2) then string-join($author-full-names, ' and ') else concat(string-join($author-full-names[position() = (1 to last() - 1)], ', '),', and ',$author-full-names[last()]))                                          
                                     }</fo:block>
