@@ -1335,7 +1335,7 @@ return
           <div class="panel-body">
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane fade in active" id="one">
-                {$map}
+               {$map}
               </div>
               <div role="tabpanel" class="tab-pane fade" id="two">
                 {$graph} 
@@ -1378,11 +1378,13 @@ declare function app:map() {
 };
 
 (:~
- : Create map of subset of places mentioned in collection.  
+ : Create map of subset of places mentioned in collection.
 :)
 declare function app:map($node as node(), $model as map(*)) {
-    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else () 
-    let $geojson := if(request:get-parameter('id', '') != '') then
+    let $reference-data := if(not(empty($model("data")))) then $model("data") else if(not(empty($model("hits")))) then $model("hits") else if(not(empty($model("coursepack")))) then $model("coursepack") else () 
+    let $geojson := if(contains(request:get-uri(),'/coursepack/')) then 
+                        doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
+                    else if(request:get-parameter('id', '') != '') then
                         doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))//tei:place[tei:idno = request:get-parameter('id', '')]
                     else doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/placeNames.xml')))
     let $subset := for $key in distinct-values($reference-data//@key)
@@ -1394,7 +1396,7 @@ declare function app:map($node as node(), $model as map(*)) {
                 if(not(empty($id))) then maps:build-map-work($subset, $id)
                 else maps:build-map-subset($subset)
                 }</div>
-        else ()
+        else <div>ID: {request:get-parameter('id', '')}</div>
 };
 
 (:~
@@ -1670,7 +1672,7 @@ declare function app:network($node as node(), $model as map(*)) {
         if(not(empty($subset))) then 
             <div id="LODResults">
                 <script src="https://d3js.org/d3.v4.min.js"></script>
-                <div id="result" style="height:400px;"/>
+                <div id="result" style="min-height:500px;"/>
                 <script><![CDATA[
                     $(document).ready(function () {
                         $('#LODBtn').click(function (e) {

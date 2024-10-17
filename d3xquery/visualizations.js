@@ -2,18 +2,25 @@
 /* Global vars */
 var chartDiv = document.getElementById("result");
 var color = d3.scaleOrdinal(d3.schemeCategory20);
-var width = 1920;
+//var width = 1920;
 //var height = (isNaN(parseInt(chartDiv.clientHeight))) ? 300 : chartDiv.clientHeight;;
-
+ 
 if (isNaN(parseInt(chartDiv.clientHeight))){
-    var height = 400;
+    var height = 500;
 } else if(chartDiv.clientHeight > 50){
     var height = chartDiv.clientHeight;
 } else {
-    var height = 400;
+    var height = 500;
 }
 
-
+ 
+if (isNaN(parseInt(chartDiv.clientWidth))){
+    var width = 1020;
+} else if(chartDiv.clientWidth > 50){
+    var width = chartDiv.clientWidth;
+} else {
+    var width = 1020;
+}
 function responsivefy(svg) {
     // get container + svg aspect ratio
     var container = d3.select(svg.node().parentNode),
