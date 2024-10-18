@@ -606,13 +606,18 @@ return
             </div>
         </div>
     else if(request:get-parameter('id', '') != '') then 
-        <form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search">
+        (<form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search">
             <div class="row">
                 <div class="col-md-6"><h1>{string($model("coursepack")/@title)}</h1>
                     <p class="desc">{$coursepacks/*:desc}</p>
                 </div>
                 <div class="col-md-6">
                 <div class="coursepackToolbar">
+                    {(: edit coursepack :)
+                        if(sm:has-access(document-uri($coursepacks),'rw-')) then 
+                            <button type="button" class="toolbar btn btn-primary" data-toggle="modal" data-target="#editCoursePack" title="Edit Coursepack"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button>
+                        else ()
+                    }
                     <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-primary deleteCoursepack" data-toggle="tooltip" title="Delete Coursepack"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
                         {
                             if(request:get-parameter('view', '') = 'expanded') then 
@@ -643,6 +648,7 @@ return
                 </div>               
                 </div>
             </div>
+            
             <!-- WS, not working, need to add the map.invalidateSize somehwere for hide/show sections -->
         <div class="panel-collapse collapse left-align" id="teiViewLOD">
             {app:subset-lod($node, $model)}
@@ -764,7 +770,53 @@ return
                         </div> 
                  }      
         </div>
-        </form>
+        </form>,
+        <div class="modal fade" id="editCoursePack" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                            <h4 class="pull-left" id="modalLabel">Edit Coursepack</h4>
+                        </div>
+                        <div class="modal-body">
+                           <div id="response">
+                            <form action="{$config:nav-base}/modules/lib/coursepack.xql" method="post" id="editCoursepackForm" role="form">
+                                {
+                                    let $title := string($coursepacks/@title)
+                                    let $desc := $coursepacks/desc/text()
+                                    return 
+                                        <div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="title">Title:</label><br/>
+                                                    <input type="text" class="form-control" name="title" id="title" value="{$title}"></input>
+                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">        
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="desc">Description:</label><br/>
+                                                    <textarea class="form-control" rows="10" name="desc" id="desc">{$desc}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="coursepackid" name="coursepackid" value="{request:get-parameter('id', '')}"/>
+                                    </div>
+                                }
+                               <button type="submit" class="btn btn-default">Submit</button>
+                            </form>
+                           </div> 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+        
     else        
         <div>
             <h1>Available Coursepacks</h1>

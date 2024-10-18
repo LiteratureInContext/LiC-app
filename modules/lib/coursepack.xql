@@ -349,6 +349,36 @@ declare function local:delete-work-response(){
 };
 
 (:~ 
+ : Create HTML response to create-new-coursepack request  
+ : @param $data works and coursepack information passed from JavaScript post
+ :)
+declare function local:editCoursepack($data){
+    let $coursepackID := request:get-parameter('coursepackid', '')
+    let $newTitle := request:get-parameter('title', '')
+    let $newDesc := request:get-parameter('desc', '')
+    let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
+    let $title := $coursepack/@title
+    let $desc := $coursepack/*:desc[@id="coursepackNotes"]
+    return 
+        try { 
+            ( if($newTitle != '') then 
+                   update value $title with $newTitle
+              else (),
+              if($newDesc != '') then
+                update value $desc with $newDesc
+              else (),
+                <response status="success">
+                    <message>Updated.</message>
+                </response>)
+            } catch * {
+                (response:set-status-code( 500 ),
+                <response status="fail">
+                    <message>Failed to Delete coursepack {$coursepackID} : {concat($err:code, ": ", $err:description)}</message>
+                </response>)
+            }
+};
+
+(:~ 
  : Check current user credentials against resource  
  : @param $user user id
  : @param $data json data
@@ -357,7 +387,9 @@ declare function local:authenticate($data as item()*){
     let $action := request:get-parameter('action', '')
     return 
         if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then 
-            if($action = ('update','delete','deleteWork')) then
+            if(request:get-parameter('editCoursepack', '') != 'true' ) then
+                local:editCoursepack($data)
+            else if($action = ('update','delete','deleteWork')) then
                 if(request:get-parameter('content', '') = 'notes') then
                             if(not(empty($data))) then
                                 let $coursepackID := request:get-parameter('coursepackid', '')
@@ -435,7 +467,7 @@ declare function local:authenticate($data as item()*){
 (:~
  : Get and process post data.
 :)
-let $post-data := 
+let $post-data :=
                 if(request:get-parameter('target-texts', '') != '') then string-join(request:get-parameter('target-texts', ''),',')
                 else if(request:get-parameter('coursepack', '') != '') then request:get-parameter('coursepack', '')
                 else if(not(empty(request:get-data()))) then request:get-data()
