@@ -13,7 +13,24 @@
                         }
                     }
                 });
-                
+                //Update title and desc
+                $('#editCoursepackForm').submit(function(e){ // on change of state
+                    e.preventDefault(e);
+                    //action
+                    //JSON.stringify({ 'coursepack': coursepack })
+                    var url = $(this).attr('action');
+                    var formData = $(this).serialize();
+                    $.get(url, formData)
+                        .done(function( data ) {
+                          alert( "Coursepack Updated");
+                          location.reload();
+                        })
+                        .fail(function(xhr, status, error) {
+                            alert(error);
+                            console.error(error);
+                        });
+                 });
+                 
                 //Create new coursepack
                 $('.createCoursepack').on('click', function(e){ // on change of state
                     e.preventDefault(e);
