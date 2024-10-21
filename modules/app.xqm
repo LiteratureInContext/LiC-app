@@ -595,6 +595,7 @@ declare function app:display-coursepack-title($node as node(), $model as map(*))
 :)
 declare function app:display-coursepacks($node as node(), $model as map(*)){
 let $coursepacks := $model("coursepack")
+let $title := $model("coursepack")/@title
 let $hits := $model("hits")
 return 
     if(empty($coursepacks)) then
@@ -614,9 +615,9 @@ return
                 <div class="col-md-6">
                 <div class="coursepackToolbar">
                     {(: edit coursepack :)
-                        if(sm:has-access(document-uri($coursepacks),'rw-')) then 
+                        if(sm:has-access(document-uri(root($title)),'rw')) then 
                             <button type="button" class="toolbar btn btn-primary" data-toggle="modal" data-target="#editCoursePack" title="Edit Coursepack"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button>
-                        else ()
+                        else <div>{document-uri(root($title))}</div>
                     }
                     <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-primary deleteCoursepack" data-toggle="tooltip" title="Delete Coursepack"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
                         {

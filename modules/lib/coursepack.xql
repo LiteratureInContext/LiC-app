@@ -387,7 +387,7 @@ declare function local:authenticate($data as item()*){
     let $action := request:get-parameter('action', '')
     return 
         if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then 
-            if(request:get-parameter('editCoursepack', '') != 'true' ) then
+            if(request:get-parameter('coursepackid', '') != '' ) then
                 local:editCoursepack($data)
             else if($action = ('update','delete','deleteWork')) then
                 if(request:get-parameter('content', '') = 'notes') then
