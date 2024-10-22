@@ -617,7 +617,7 @@ return
                     {(: edit coursepack :)
                         if(sm:has-access(document-uri(root($title)),'rw')) then 
                             <button type="button" class="toolbar btn btn-primary" data-toggle="modal" data-target="#editCoursePack" title="Edit Coursepack"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button>
-                        else <div>{document-uri(root($title))}</div>
+                        else ()
                     }
                     <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-primary deleteCoursepack" data-toggle="tooltip" title="Delete Coursepack"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
                         {
