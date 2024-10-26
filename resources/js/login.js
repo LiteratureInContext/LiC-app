@@ -103,7 +103,7 @@ $("#resetForm").submit(function( event ) {
 });
 
 //loginModal
-/* 
+
 $('#logout').click(function(event) {
   event.preventDefault();
   var url = $(this).attr('href');
@@ -111,7 +111,7 @@ $('#logout').click(function(event) {
     window.location.reload()
  });
 });
-*/
+
 /* 
 $('.authenticate').click(function(event) {
   event.preventDefault();
