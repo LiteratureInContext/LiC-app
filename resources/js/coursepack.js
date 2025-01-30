@@ -122,10 +122,20 @@
                 $('.removeWork').on('click', function(e){ // on change of state
                     e.preventDefault(e);
                     var url = $(this).data('url')
-                    $.get('userInfo', function(data) {
-                        $.get(url, function(data) {
+                    //alert('This will remove this work from your coursepack');
+                        $.get(url, function(data) { 
                            location.reload();
-                            //console.log(data);
+                           //console.log(data);
+                        }).fail( function(jqXHR, textStatus, errorThrown){
+                           alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
+                        });
+                    //alert('test');
+                    /* 
+                    $.get('userInfo', function(data) {
+                         
+                        $.get(url, function(data) { 
+                           location.reload();
                         }).fail( function(jqXHR, textStatus, errorThrown){
                            alert('Error: You need to be logged in to use this feature');
                            console.log(jqXHR.textStatus);
@@ -133,7 +143,8 @@
                      }).fail( function(jqXHR, textStatus, errorThrown){
                            alert('Error: You need to be logged in to use this feature');
                            console.log(jqXHR.textStatus);
-                        });  
+                        });
+                         */   
                 });
                 
                 //expand a single work

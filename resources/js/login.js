@@ -103,7 +103,7 @@ $("#resetForm").submit(function( event ) {
 });
 
 //loginModal
-
+ 
 $('#logout').click(function(event) {
   event.preventDefault();
   var url = $(this).attr('href');

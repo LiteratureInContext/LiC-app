@@ -1,57 +1,20 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <!-- Form for search and coursepack functions.  -->
-    <div class="page-content search" data-template="app:search-works">
+    <div data-template="app:search-works">
         <h1>Search Literature in Context </h1>   
         <div class="lic-well">
             <form action="search.html" class="form form-horizontal">
             <div class="row">
-                <div class="col-md-4 col-md-push-8">
+                <div class="col-md-3 left-col-border">
                     <!-- Form for search and coursepack functions.  -->
-                    <div class="search-box">
-                        <h3>Search Literature in Context</h3>
-                        <div class="indent">
-                            <!-- Search query goes here -->
-                            <div class="form-group">
-                                <span class="input-group">
-                                    <input name="query" type="search" class="form-control" placeholder="Search String"/>
-                                    <span class="input-group-btn">
-                                        <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                            <span class="glyphicon glyphicon-search"/>
-                                        </button>
-                                    </span>
-                                </span>
-                            </div>
-                            <!-- Search fields, defaults to keyword -->
-                            <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Field">
-                                <select name="field" class="form-control">
-                                    <option value="keyword" selected="selected">Keyword anywhere</option>
-                                    <option value="annotation">Keyword in annotations</option>
-                                    <option value="title">Title</option>
-                                    <option value="author">Author</option>
-                                </select>
-                            </div>
-                            <!-- Limit search to selected works -->
-                            <div class="checkboxes">
-                                <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Selected">
-                                    <input type="checkbox" name="narrow" value="true"/> Search Selected
-                                </label>
-                                <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Headnotes">
-                                    <input type="checkbox" name="headnotes" value="true" class="headnotes"/> Search Headnotes
-                                </label>
-                                <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
-                                    <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
-                                </label>
-                            </div>
-                        </div>
                         <div class="filter">
                             <h3>Filter Results</h3>
                             <div class="indent">
                                 <div data-template="app:display-facets"/>
                             </div>    
                         </div>
-                    </div>
                 </div>
-                <div class="col-md-8 col-md-pull-4 left-col-border">
+                <div class="col-md-9 ">
                     <div id="content">
                         <!-- Call paging and sort functions. Additional sort functions can be called via the data-template-sort-options. -->
                         <div data-template="app:pageination" data-template-sort-options="title,author,pubDate"/>
@@ -67,12 +30,12 @@
                                     <input type="checkbox" class="toggle-button" id="selectAll"/> Select All                                        
                                 </span>
                                 <!--
-                                    <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">
+                                    <button class="btn btn-dark createCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">
                                         <span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
                                     -->    
-                                <button class="btn btn-primary addToCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">
+                                <button class="btn btn-outline-secondary addToCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">
                                     <span class="glyphicon glyphicon-plus-sign"/> Add Selected to Coursepack</button>
-                                <a href="coursepack.html" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="View all coursepacks">
+                                <a href="coursepack.html" class="btn btn-outline-secondary" data-toggle="tooltip" data-placement="left" title="View all coursepacks">
                                     <span class="glyphicon glyphicon-th-list"/> View All Coursepacks</a>
                             </div>
                         </div>
@@ -106,9 +69,9 @@
                                     </select>
                                 </div>
                                 <span>
-                                    <button id="f-btn-submit-addSelected" type="submit" class="btn btn-primary saveToCoursepack coursepackAdmin" data-url="$nav-base/modules/lib/coursepack.xql">
+                                    <button id="f-btn-submit-addSelected" type="submit" class="btn btn-outline-secondary saveToCoursepack coursepackAdmin" data-url="$nav-base/modules/lib/coursepack.xql">
                                         <span class="glyphicon glyphicon-save"/>Save </button>  
-                                    <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" title="Create a new coursepack" data-url="$nav-base/modules/lib/coursepack.xql">
+                                    <button class="btn btn-outline-secondary createCoursepack coursepackAdmin" data-toggle="tooltip" title="Create a new coursepack" data-url="$nav-base/modules/lib/coursepack.xql">
                                         <span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
                                 </span>
                             </div>
@@ -121,7 +84,7 @@
                                     </span>
                                 </div>
                                 <span class="input-group-btn">
-                                    <button id="f-btn-submit-addCoursepack" type="submit" class="btn btn-primary addCoursepackTitle" data-url="$nav-base/modules/lib/coursepack.xql">
+                                    <button id="f-btn-submit-addCoursepack" type="submit" class="btn btn-outline-secondary addCoursepackTitle" data-url="$nav-base/modules/lib/coursepack.xql">
                                         <span class="glyphicon glyphicon-save"/>Save </button>
                                 </span>
                             </div>

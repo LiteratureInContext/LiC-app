@@ -1,0 +1,81 @@
+<coursepack id="ENGL8380EighteenthCenturyProseFiction7" title="ENGL 8380--Eighteenth-Century Prose Fiction" user="johnobrienfall2024">
+    <instructor>johnobrienfall2024</instructor>
+    <desc id="coursepackNotes">This is the coursepack for Eighteenth-Century Prose fiction, fall 2024 at the University of Virginia.</desc>
+    <work id="/db/apps/LiC-data/data/Behn/behn-oroonoko.xml" num="1">
+        <title>Oroonoko, or, The Royal Slave: A True History</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Defoe/defoe-crusoe.xml" num="2">
+        <title>Robinson Crusoe</title>
+        <author>
+            <author xmlns="http://www.tei-c.org/ns/1.0">
+                     <persName type="lcnaf" key="n79053974">
+                        <name>
+                           <forename>Daniel</forename>
+                           <surname>Defoe</surname>
+                        </name>
+                     </persName>
+                  </author>
+        </author>
+        <date>
+            <date xmlns="http://www.tei-c.org/ns/1.0" when="1719-04-25">1719</date>
+        </date>
+    </work>
+    <work id="/db/apps/LiC-data/data/Johnson/johnson-rambler-4.xml" num="4">
+        <title>The Rambler No. 4</title>
+        <author>
+            <author xmlns="http://www.tei-c.org/ns/1.0">
+
+                            <name>
+                                <forename>Samuel</forename>
+                                <surname>Johnson</surname>
+                            </name>
+
+                        </author>
+        </author>
+        <date>
+            <date xmlns="http://www.tei-c.org/ns/1.0" when="1751">c.1751</date>
+        </date>
+    </work>
+    <work id="/db/apps/LiC-data/data/Walpole/walpole-castle.xml" num="5">
+        <title>The Castle of Otranto</title>
+        <author>
+            <author xmlns="http://www.tei-c.org/ns/1.0">
+                     <forename>Horace</forename>
+                     <surname>Walpole</surname>
+                  </author>
+        </author>
+        <date>
+            <date xmlns="http://www.tei-c.org/ns/1.0" when="1764">1765 [1764]</date>
+        </date>
+    </work>
+    <work id="/db/apps/LiC-data/data/Austen/austen-northanger-abbey.xml" num="6">
+        <title>Northanger Abbey</title>
+        <author>
+            <author xmlns="http://www.tei-c.org/ns/1.0">
+        <persName type="lcnaf" key="n79032879">
+          <forename>Jane</forename>
+          <surname>Austen</surname>
+        </persName>
+      </author>
+        </author>
+        <date>
+            <date xmlns="http://www.tei-c.org/ns/1.0" when="1817">1817</date>
+        </date>
+    </work>
+    <work id="/db/apps/LiC-data/data/Haywood/haywood-love-excess.xml" num="6">
+        <title>Love in Excess</title>
+        <author>
+            <author xmlns="http://www.tei-c.org/ns/1.0">
+                     <name ref="haywood.xml">
+                        <forename>Eliza</forename>
+                        <surname>Haywood</surname>
+                     </name>
+                  </author>
+        </author>
+        <date>
+            <date xmlns="http://www.tei-c.org/ns/1.0" when="1722" timeline="1719">1722</date>
+        </date>
+    </work>
+</coursepack>

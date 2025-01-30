@@ -293,13 +293,14 @@ declare function data:filter-sort-string($string as node()*) as xs:string* {
 declare function data:sort-options($param-string as xs:string?, $start as xs:integer?, $options as xs:string*){
 <li xmlns="http://www.w3.org/1999/xhtml">
     <div class="btn-group">
-        <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Sort <span class="caret"/></button>
+        <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="true">Sort <span class="caret"/></button>
             <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
                 {
                     for $option in tokenize($options,',')
                     return 
                     <li role="presentation">
-                        <a role="menuitem" tabindex="-1" href="{concat(replace($param-string,'&amp;sort-element=(\w+)', ''),$start,'&amp;sort-element=',$option)}" id="rel">
+                        <a class="dropdown-item" role="menuitem" tabindex="-1" href="{concat(replace($param-string,'&amp;sort-element=(\w+)', ''),$start,'&amp;sort-element=',$option)}" id="rel">
                             {
                                 if($option = 'pubDate' or $option = 'persDate') then 'Date'
                                 else if($option = 'pubPlace') then 'Place of publication'

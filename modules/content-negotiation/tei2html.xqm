@@ -137,6 +137,12 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(tei:text) return 
                 if($node/descendant::tei:pb[@facs] and request:get-parameter('view', '') = 'pageImages') then
                     tei2html:page-chunk($node)
+                (: Data is not regular enough for this to work. 
+                else if($node/tei:body/tei:div[@type]) then
+                   if(count($node/tei:body/tei:div[@type]) gt 1) then 
+                        tei2html:generatedTOC($node)
+                    else tei2html:tei2html($node/node())   
+                 :)   
                 else tei2html:tei2html($node/node()) 
             case element(tei:p) return 
                 if($node/ancestor::tei:note[@target]) then 
@@ -157,6 +163,84 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element() return
                 <span class="tei-{local-name($node)} {if($node/@n) then ' tei-n' else ()}" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</span>                
             default return tei2html:tei2html($node/node())
+};
+
+(: Counts direct children of the div element :)
+(:?section=chapter&num=1:)
+declare function tei2html:generatedTOC($nodes as node()*){
+    let $toc := 'test'
+    let $content :=
+        if(request:get-parameter('section', '') = 'frontMatter') then
+            let $front := $nodes/descendant::tei:front
+            return tei2html:tei2html($front)
+        else if(request:get-parameter('section', '') = 'backMatter') then
+            let $front := $nodes/descendant::tei:back
+            return tei2html:tei2html($front)    
+       else if(request:get-parameter('section', '') != '' and request:get-parameter('n', '') != '') then 
+            let $c := $nodes/descendant::*[@type = request:get-parameter('section', '')][@n = request:get-parameter('n', '')]
+            return 
+                if($c != '') then
+                    tei2html:tei2html($c)
+                else ()
+        else ()
+    return 
+        <div class="row">
+            <div class="col-md-2">
+                <div class="stickyTOC">
+                    <ul>{(
+                            if($nodes/tei:front) then
+                                <li><a href="?section=frontMatter">Front Matter</a></li>
+                            else(),
+                            if($nodes/tei:body/tei:div[@type][@n]) then 
+                                for $s at $p in $nodes/tei:body/tei:div[@type][@n]
+                                let $head := if($s/tei:head) then $s/tei:head else if($s/child::*[1]/tei:head) then $s/child::*[1]/tei:head else concat(string($s/@type),' ',string($s/@n))
+                                return 
+                                    <li>
+                                    <a href="?section={string($s/@type)}{concat('&amp;n=',string($s/@n))}">{$head}</a>
+                                        {
+                                        if($s/tei:div[@type][@n]) then
+                                          <ul>{
+                                            for $sub at $p in $s/tei:div[@type][@n]
+                                            let $head := if($sub/tei:head) then $sub/tei:head else if($sub/child::*[1]/tei:head) then $sub/child::*[1]/tei:head else concat(string($sub/@type),' ',string($sub/@n))
+                                            return 
+                                                <li><a href="?section={string($sub/@type)}{concat('&amp;n=',string($sub/@n))}">{$head}</a></li>
+                                          }</ul>  
+                                        else ()
+                                        }
+                                    </li>
+                            else if($nodes/tei:body/tei:div/tei:div[@type][@n]) then 
+                                for $s at $p in $nodes/tei:body/tei:div/tei:div[@type][@n]
+                                let $head := if($s/tei:head) then $s/tei:head else if($s/child::*[1]/tei:head) then $s/child::*[1]/tei:head else concat(string($s/@type),' ',string($s/@n))
+                                return 
+                                    <li>
+                                        <a href="?section={string($s/@type)}{concat('&amp;n=',string($s/@n))}">{$head}</a>
+                                    {
+                                    if($s/tei:div[@type][@n]) then
+                                          <ul>{
+                                            for $sub at $p in $s/tei:div[@type][@n]
+                                            let $head := if($sub/tei:head) then $sub/tei:head else if($sub/child::*[1]/tei:head) then $sub/child::*[1]/tei:head else concat(string($sub/@type),' ',string($sub/@n))
+                                            return 
+                                              <li><a href="?section={string($sub/@type)}{concat('&amp;n=',string($sub/@n))}">{$head}</a></li>
+                                          }</ul>  
+                                        else ()
+                                    }    
+                                    </li>
+                            else (),
+                            if($nodes/descendant::tei:back) then
+                                <li><a href="?section=backMatter">Back Matter</a></li>
+                            else()
+                            )}
+                    </ul>
+                </div>
+            </div>    
+            <div class="col-md-8">
+                {
+                if($content) then
+                    $content
+                else tei2html:tei2html($nodes)
+                }
+            </div>
+        </div>
 };
 
 (:

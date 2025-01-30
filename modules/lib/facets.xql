@@ -259,7 +259,7 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
                         }
                     </div>,
                     if($total gt 5) then 
-                    <a href="#" data-toggle="collapse" data-target="#view{$name}" class="facet-label btn btn-info viewMore">View All</a>
+                    <a href="#" data-toggle="collapse" data-target="#view{$name}" class="facet-label btn btn-outline-secondary viewMore">View All</a>
                     else (),
                     <br/>
                     )}

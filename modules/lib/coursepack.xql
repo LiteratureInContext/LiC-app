@@ -385,14 +385,17 @@ declare function local:editCoursepack($data){
  :)
 declare function local:authenticate($data as item()*){
     let $action := request:get-parameter('action', '')
+    let $coursepackID := request:get-parameter('coursepackid', '')
+    let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
+    let $path := document-uri(root($coursepack))
     return 
-        if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then 
+        (:if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then:)
+        if(sm:has-access($path, 'rw-') ) then 
             if(request:get-parameter('coursepackid', '') != '' ) then
                 local:editCoursepack($data)
             else if($action = ('update','delete','deleteWork')) then
                 if(request:get-parameter('content', '') = 'notes') then
                             if(not(empty($data))) then
-                                let $coursepackID := request:get-parameter('coursepackid', '')
                                 let $noteID := request:get-parameter('noteid', '')
                                 return 
                                      (response:set-header("Content-Type", "text/html"),
@@ -461,7 +464,8 @@ declare function local:authenticate($data as item()*){
                 response:set-status-code( 401 ),
                         <response status="fail">
                             <message>You must be logged in to use this feature.</message>
-                        </response>)        
+                        </response>)     
+
 };
 
 (:~

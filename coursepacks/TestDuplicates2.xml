@@ -1,0 +1,13 @@
+<coursepack id="TestDuplicates2" title="Test Duplicates" user="winonaLiC22">
+    <instructor>winonaLiC22</instructor>
+    
+<work id="/db/apps/LiC-data/data/Stuart/Stuart-Articles_of_Peace.xml" num="1"><title> 
+                    Articles of Peace Between the Most Serene and Mighty Prince Charles II and Several Indian Kings and Queens ["The Treaty of Middle Plantation"]
+                </title><author><author xmlns="http://www.tei-c.org/ns/1.0">
+                            <forename>Charles</forename>
+                            <surname>Stuart</surname>
+                        </author></author><date><date xmlns="http://www.tei-c.org/ns/1.0" when="1677">1677</date></date><text><span class="tei-titlePart " id="nodeID.5.2.4.2.2">ARTICLES <br/> OF <br/> PEACE <br/> Between <br/> The Most Serene
+                        and Mighty PRINCE <br/> CHARLES II. <br/>
+                    </span>
+                    <span class="tei-titlePart " id="nodeID.5.2.4.2.4">By the Grace of God, <br/> King of England, Scotland, France and
+                        Ireland,</span></text></work></coursepack>
