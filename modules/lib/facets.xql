@@ -236,7 +236,7 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
                                     else $facet-param
                     return 
                         <a href="?{$url-params}" class="facet-label btn btn-default {$active}" num="{$n}">
-                                    {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
+                                    {if($active) then (<i class="bi bi-x-circle"></i>,' ' ) else ()}
                                     {$label} <span class="count"> ({$count})</span> </a>,
                                     
                     <div id="view{$name}" class="collapse">
@@ -254,7 +254,7 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
                                         else $facet-param
                         return 
                             <a href="?{$url-params}" class="facet-label btn btn-default {$active}" num="{$n}">
-                                        {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
+                                        {if($active) then (<i class="bi bi-x-circle"></i>,' ' ) else ()}
                                         {$label} <span class="count"> ({$count})</span> </a>
                         }
                     </div>,
