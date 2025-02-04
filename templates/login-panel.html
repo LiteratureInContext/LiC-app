@@ -5,8 +5,7 @@
                 <form action="$nav-base/admin" method="post" class="form-horizontal" id="loginForm">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Login</h4>
+                            <h4 class="modal-titlet">Login   </h4>
                         </div>
                         <div class="modal-body">
                             <div class="container" id="loginResponse">
@@ -37,14 +36,14 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-sm btn btn-outline-dark" type="submit">Login</button>
-                            <a data-toggle="modal" href="#newUserModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Create New User</a>
-                            <a data-toggle="modal" href="#resetModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Reset password</a>
+                            <a data-bs-toggle="modal" href="#newUserModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Create New User</a>
+                            <a data-bs-toggle="modal" href="#resetModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Reset password</a>
                             <!--
                             <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#newUserModal"><span class="bi bi-person"/> Create New User</button>
                             <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#resetModal"><span class="bi bi-person"/> Reset password</button>
                             <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
                             -->
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-dismiss="modal" aria-hidden="true">Close</button>
+                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal" aria-hidden="true">Close</button>
                             <!--<button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal">Close</button>-->
                         </div>
                     </div><!-- /.modal-content -->
@@ -58,7 +57,6 @@
                 <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="resetForm">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h4 class="modal-title">Reset password</h4>
                         </div>
                         <div class="modal-body">
@@ -95,7 +93,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="newUserModalLabel">Create an Account</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                        <button type="button" class="float-end btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                     </div>
                     <div class="modal-body">
                         <div id="formBody"> 
@@ -122,7 +120,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="submit">Create Account</button>
-                        <button type="button" class="btn btn-sm btn btn-outline-dark" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal" aria-hidden="true">Close</button>
                     </div>
                 </div>
                 
