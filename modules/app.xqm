@@ -303,11 +303,31 @@ possible chunking options:
 
 :)
 declare function app:display-work($node as node(), $model as map(*)) {
-     (: Chose to 'chunk' content section:)
+     (: to 'chunk' content section:)
     let $work := $model("data")/tei:TEI/descendant::tei:text
     return 
-     if($work) then tei2html:tei2html($work) 
-     else <blockquote>No record found</blockquote>
+        if($work) then tei2html:tei2html($work) 
+        else <blockquote>No record found</blockquote>
+};
+
+(: Page images :)
+declare function app:pageImages($node as node(), $model as map(*)) {
+    (:if($data/descendant::tei:pb[@facs]) then 
+                             for $image in $data/descendant::tei:pb[@facs]
+                             let $src := 
+                                         if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
+                                             string($image/@facs) 
+                                         else concat($config:image-root,$id,'/',string($image/@facs))   
+                             return 
+                                      <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
+                                           <a href="{$src}"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>
+                                           <span class="caption">Page {string($image/@n)}</span>
+                                      </span>
+                         else ()
+                         :)
+if($node/descendant::tei:pb[@facs]) then 
+    <div>TEST</div>
+else <blockquote>No images</blockquote>
 };
 
 (:~  
@@ -608,6 +628,7 @@ declare function app:display-coursepack-title($node as node(), $model as map(*))
 declare function app:display-coursepacks($node as node(), $model as map(*)){
 let $coursepacks := $model("coursepack")
 let $title := $model("coursepack")/@title
+let $desc := $coursepacks/*:desc
 let $hits := $model("hits")
 return 
     if(empty($coursepacks)) then
@@ -621,7 +642,7 @@ return
     else if(request:get-parameter('id', '') != '') then 
         (<form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search">
             <h1>{string($model("coursepack")/@title)}</h1>
-            <p class="desc">{$coursepacks/*:desc}</p>
+            <p class="desc">{$desc}</p>
             <div class="row">
                 <div class="col-md-12">
                     <div class="coursepackToolbar">
@@ -655,10 +676,13 @@ return
                     }
                         {(: edit coursepack :)
                             if(sm:has-access(document-uri(root($title)),'rw')) then 
-                                <button type="button" class="toolbar btn btn-outline-secondary" data-bs-toggle="modal" data-target="#editCoursePack" title="Edit Coursepack"><i class="bi bi-pencil"></i> Edit</button>
+                               ( 
+                               <button type="button" class="toolbar btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editCoursePack" title="Edit Coursepack"><i class="bi bi-pencil"></i> Edit</button>,
+                               <button type="button" class="deleteCoursepack toolbar btn btn-outline-secondary" data-bs-toggle="tooltip" title="Delete Coursepack" data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}"><i class="bi bi-trash"></i> Delete</button>
+                               )
                             else ()
                         }
-                        <a href="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}" class="toolbar btn btn-outline-secondary" data-bs-toggle="tooltip" title="Delete Coursepack"><i class="bi bi-trash"></i> </a> 
+ 
                             {
                                 if(request:get-parameter('view', '') = 'expanded') then 
                                     <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=list" class="toolbar btn btn-outline-secondary" data-bs-toggle="tooltip" title="List Coursepack Works"><i class="bi bi-list-task"></i> List Works </a>
@@ -693,7 +717,8 @@ return
                                 <option value="title">Title</option>
                                 <option value="author">Author</option>
                             </select>
-                            <button class="toolbar btn btn-secondary" type="submit" id="button-addon1">Search</button>
+                            <button class="toolbar btn btn-secondary" type="submit">Search</button>
+                            <button class="toolbar btn btn-outline-secondary" type="submit">Clear</button>
                         </div>
                     </div>               
                 </div>
@@ -779,19 +804,15 @@ return
         </div>
         </form>,
         <div class="modal fade" id="editCoursePack" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <form action="{$config:nav-base}/modules/lib/coursepack.xql" method="post" id="editCoursepackForm" role="form">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
                             <h4 class="pull-left" id="modalLabel">Edit Coursepack</h4>
                         </div>
                         <div class="modal-body">
                            <div id="response">
-                            <form action="{$config:nav-base}/modules/lib/coursepack.xql" method="post" id="editCoursepackForm" role="form">
                                 {
-                                    let $title := string($coursepacks/@title)
-                                    let $desc := $coursepacks/desc/text()
-                                    return 
                                         <div>
                                         <div class="row">
                                             <div class="col-12">
@@ -805,22 +826,22 @@ return
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="desc">Description:</label><br/>
-                                                    <textarea class="form-control" rows="10" name="desc" id="desc">{$desc}</textarea>
+                                                    <textarea class="form-control" rows="10" name="desc" id="desc">{$desc//text()}</textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <input type="hidden" id="coursepackid" name="coursepackid" value="{request:get-parameter('id', '')}"/>
+                                        <input type="hidden" name="action" value="edit"/>
                                     </div>
                                 }
-                               <button type="submit" class="btn btn-default">Submit</button>
-                            </form>
                            </div> 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-outline-secondary">Submit</button><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
         )
         
