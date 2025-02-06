@@ -333,19 +333,21 @@ declare function local:delete-work-response(){
     let $coursepackID := request:get-parameter('coursepackid', '')
     let $workID := request:get-parameter('workid', '')
     let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
+    for $work in $coursepack//work[@id = $workID]
     return 
-        try { 
-            (for $work in $coursepack//work[@id = $workID]
-             return update delete $work,
+        try{
+            let $delete := update delete $work
+            return 
+            (response:set-status-code( 200 ),
                 <response status="success">
                     <message>Work removed.</message>
                 </response>)
-            } catch * {
-                (response:set-status-code( 500 ),
+        }catch *{
+            (response:set-status-code( 500 ),
                 <response status="fail">
                     <message>Failed to Delete coursepack {$coursepackID} : {concat($err:code, ": ", $err:description)}</message>
                 </response>)
-            }
+        }          
 };
 
 (:~ 
@@ -389,7 +391,22 @@ declare function local:authenticate($data as item()*){
     let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
     let $path := document-uri(root($coursepack))
     return 
+        if($action = 'deleteWork') then
+            (response:set-header("Content-Type", "text/html"),
+                <output:serialization-parameters>
+                    <output:method value='html5'/>
+                    <output:media-type value='text/html'/>
+                </output:serialization-parameters>,
+                <div>{local:delete-work-response()}</div>)  
+        else if($action = 'delete') then
+            (response:set-header("Content-Type", "text/html"),
+                <output:serialization-parameters>
+                    <output:method value='html5'/>
+                    <output:media-type value='text/html'/>
+                </output:serialization-parameters>, local:delete-coursepack-response())
+        else 'not testing this'
         (:if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then:)
+        (:
         if(sm:has-access($path, 'rw-') ) then 
             if(request:get-parameter('coursepackid', '') != '' ) then
                 local:editCoursepack($data)
@@ -464,7 +481,8 @@ declare function local:authenticate($data as item()*){
                 response:set-status-code( 401 ),
                         <response status="fail">
                             <message>You must be logged in to use this feature.</message>
-                        </response>)     
+                        </response>)  
+                        :)
 
 };
 

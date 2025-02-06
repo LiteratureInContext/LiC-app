@@ -1,0 +1,37 @@
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <blockquote>
+        <h4 style="color:red;">That username does not exist, please create an account.</h4>
+    </blockquote>
+    <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="newUserForm">
+
+                <h5 class="modal-title" id="newUserModalLabel">Create an Account</h5>
+            <hr/>
+            <div class="blockquote">
+                <div id="formBody"> 
+                    <div class="mb-3">
+                        <label for="user" class="form-label">User name</label>
+                        <input type="text" class="form-control" name="user" required="required"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Full name</label>
+                        <input type="text" class="form-control" name="fullName"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input id="password" type="password" class="form-control" name="password" required="required"/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="passwordConfirm" class="form-label">Confirm Password</label>
+                        <input id="passwordConfirm" type="password" class="form-control" name="passwordConfirm" required="required"/>
+                    </div>
+                </div>                        
+                <div id="responseBody">
+                    
+                </div>                        
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">Create Account</button>
+            </div>
+        
+    </form>
+</div>

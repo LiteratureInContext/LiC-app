@@ -17,6 +17,7 @@ jQuery.validator.addMethod( 'passwordMatch', function(value, element) {
 
 }, "Your Passwords Must Match");
 
+
 $('#newUserForm').validate({
     // rules
     rules: {
@@ -55,6 +56,39 @@ function ConvertFormToJSON(form){
     
     return json;
 }  
+/* 
+$('#loginForm').submit(function(event) {
+      event.preventDefault(); // Prevent the default form submission
+      var form = $(this);
+      var login = $(this).attr('action');
+      var check = $(this).data('url')
+      var inputValue = $('#user').val();
+      var dynamicCheck = checkDynamicData(inputValue, check);
+      
+      if (dynamicCheck) {
+        //$(this).submit();
+        console.log('success1');
+      } else {
+        console.log('fail1');
+        //alert('Submission failed: Invalid input value.');
+        // $('#myInput').val('');
+      }
+      //console.log(dynamicCheck);
+    });
+
+    // Simulate dynamic data check function
+    function checkDynamicData(value,url) {
+      $.get(url, { user: value}, function(data) {
+            return true;
+            console.log(data);
+        }).fail( function(jqXHR, textStatus, errorThrown) {
+            return false;
+            console.log(data);
+            //alert('User does not exist, please try again, or create an account');
+            //console.log(textStatus);
+        });
+    }
+*/
 
 $("#newUserForm").submit(function( event ) {
   event.preventDefault();

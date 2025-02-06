@@ -2,7 +2,7 @@
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" data-template="app:fix-links">
-                <form action="$nav-base/admin" method="post" class="form-horizontal" id="loginForm">
+                <form action="$nav-base/admin" method="POST" class="form-horizontal" id="loginForm" data-url="$nav-base/modules/lib/userManager.xql?action=checkUser">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-titlet">Login   </h4>
@@ -12,7 +12,7 @@
                                 <div class="control-group">
                                     <label class="control-label" for="user">User:</label>
                                     <div class="controls">
-                                        <input type="text" name="user" required="required"/>
+                                        <input type="text" id="user" name="user" required="required"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -38,13 +38,7 @@
                             <button class="btn btn-sm btn btn-outline-dark" type="submit">Login</button>
                             <a data-bs-toggle="modal" href="#newUserModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Create New User</a>
                             <a data-bs-toggle="modal" href="#resetModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Reset password</a>
-                            <!--
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#newUserModal"><span class="bi bi-person"/> Create New User</button>
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#resetModal"><span class="bi bi-person"/> Reset password</button>
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
-                            -->
                             <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal" aria-hidden="true">Close</button>
-                            <!--<button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal">Close</button>-->
                         </div>
                     </div><!-- /.modal-content -->
                 </form>

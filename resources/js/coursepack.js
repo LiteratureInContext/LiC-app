@@ -103,9 +103,33 @@
                  });
                 
                 //Delete coursepack
-                $('.deleteCoursepack').click(function(event) {
-                  event.preventDefault();
+                $('.deleteCoursepack').click(function(e) {
+                  e.preventDefault();
                   var url = $(this).attr('href');
+                  $.ajax({
+                    url: url,
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    data: data,
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    beforeSend:function(){
+                            return confirm("Are you sure?");
+                         },
+                    success: function (r) {
+                       if (r.d == "OK") {
+                           alert('Coursepack deleted');
+                           var redirect = $(data).find('#url').text()
+                           window.location.href = redirect;
+                       }},
+                    error: function (xhr) {
+                        alert('Error: You need to be logged in to use this feature');
+                        console.log(jqXHR.textStatus);
+                    }
+                   });
+                  /* 
                   $.get('userInfo', function(data) {
                     $.get(url, function(data) {
                         var redirect = $(data).find('#url').text()
@@ -116,6 +140,7 @@
                            alert('Error: You need to be logged in to use this feature');
                            console.log(jqXHR.textStatus);
                         });  
+                         */ 
                 }); 
 
                 //Delete work from coursepack
@@ -124,8 +149,9 @@
                     var url = $(this).data('url')
                     //alert('This will remove this work from your coursepack');
                         $.get(url, function(data) { 
+                           alert('Success: Work has been removed');
                            location.reload();
-                           //console.log(data);
+                           console.log(data);
                         }).fail( function(jqXHR, textStatus, errorThrown){
                            alert('Error: You need to be logged in to use this feature');
                            console.log(jqXHR.textStatus);
