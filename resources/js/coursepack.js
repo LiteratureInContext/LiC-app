@@ -129,18 +129,6 @@
                         console.log(jqXHR.textStatus);
                     }
                    });
-                  /* 
-                  $.get('userInfo', function(data) {
-                    $.get(url, function(data) {
-                        var redirect = $(data).find('#url').text()
-                        window.location = redirect;
-                        //console.log(data);
-                    });
-                  }).fail( function(jqXHR, textStatus, errorThrown){
-                           alert('Error: You need to be logged in to use this feature');
-                           console.log(jqXHR.textStatus);
-                        });  
-                         */ 
                 }); 
 
                 //Delete work from coursepack
@@ -155,22 +143,7 @@
                         }).fail( function(jqXHR, textStatus, errorThrown){
                            alert('Error: You need to be logged in to use this feature');
                            console.log(jqXHR.textStatus);
-                        });
-                    //alert('test');
-                    /* 
-                    $.get('userInfo', function(data) {
-                         
-                        $.get(url, function(data) { 
-                           location.reload();
-                        }).fail( function(jqXHR, textStatus, errorThrown){
-                           alert('Error: You need to be logged in to use this feature');
-                           console.log(jqXHR.textStatus);
-                        });
-                     }).fail( function(jqXHR, textStatus, errorThrown){
-                           alert('Error: You need to be logged in to use this feature');
-                           console.log(jqXHR.textStatus);
-                        });
-                         */   
+                        });  
                 });
                 
                 //expand a single work
@@ -274,15 +247,6 @@
                     $('#coursepackTools').toggle( "slide" ); 
                  }); 
                  
-                 //Clear modal response body
-                 /* 
-                 $('.modalClose').on('click', function(e){ // on change of state
-                    e.preventDefault(e);
-                    $('#responseBody').empty(); 
-                    $('#coursepackTitleGroup').show();
-                 });
-                  */  
-                 
                  //Hide footnotes. 
                  $('html').click(function() {
                     $('#footnoteDisplay').hide();
@@ -308,10 +272,11 @@
                 });
                 
                 //clear form when close modal
-                /* 
+                
                 $('.modal').on('hidden.bs.modal', function(){
-                    $(this).find('form').trigger('reset');
+                    //$(this).find('form').trigger('reset');
+                    $("#responseBody").html("");
                 });
-                */
+                
             }); 
           

@@ -391,7 +391,17 @@ declare function local:authenticate($data as item()*){
     let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
     let $path := document-uri(root($coursepack))
     return 
-        if($action = 'deleteWork') then
+        if(request:get-parameter('content', '') = 'notes') then
+                            if(not(empty($data))) then
+                                let $noteID := request:get-parameter('noteid', '')
+                                return 
+                                     (response:set-header("Content-Type", "text/html"),
+                                     <output:serialization-parameters>
+                                         <output:method value='html5'/>
+                                         <output:media-type value='text/html'/>
+                                     </output:serialization-parameters>, local:update-notes-response($data, $coursepackID, $noteID))  
+                             else 'no data'
+        else if($action = 'deleteWork') then
             (response:set-header("Content-Type", "text/html"),
                 <output:serialization-parameters>
                     <output:method value='html5'/>
@@ -404,7 +414,19 @@ declare function local:authenticate($data as item()*){
                     <output:method value='html5'/>
                     <output:media-type value='text/html'/>
                 </output:serialization-parameters>, local:delete-coursepack-response())
-        else 'not testing this'
+        else if($action = 'update') then
+            (response:set-header("Content-Type", "text/html"),
+                                <output:serialization-parameters>
+                                    <output:method value='html5'/>
+                                    <output:media-type value='text/html'/>
+                                </output:serialization-parameters>, local:update-coursepack-response($data)) 
+        
+        else
+                (response:set-header("Content-Type", "text/html"),
+                <output:serialization-parameters>
+                    <output:method value='html5'/>
+                    <output:media-type value='text/html'/>
+                </output:serialization-parameters>, local:create-new-coursepack-response($data))
         (:if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then:)
         (:
         if(sm:has-access($path, 'rw-') ) then 
