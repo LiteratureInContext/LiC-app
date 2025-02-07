@@ -246,9 +246,8 @@ declare function local:create-new-coursepack-response($data as item()*){
     return 
         <response xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info hidden">{$response}</div>
                 <h4>Coursepack Title: {$coursepackTitle}</h4>
-                {$response}
+                <div class="indent">{$response}</div>
                 <ul>{(:
                     for $work in $works?*
                     return 
@@ -274,7 +273,7 @@ declare function local:update-coursepack-response($data as item()*){
     return 
         <response status="success" xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info hidden">{$response}</div>
+                <!--<div class="bg-warning-subtle hidden">{$response}</div>-->
                 <h4>Coursepack Updated</h4>
                 <ul>{
                     for $work in $works?*
@@ -297,7 +296,7 @@ declare function local:update-notes-response($data as item()*, $coursepackID, $n
     return 
         <response status="success" xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info hidden">{$response}</div>
+                <!--<div class="bg-warning-subtle hidden">{$response}</div>-->
                 <h4>Coursepack Updated</h4>
             </div>
         </response>
