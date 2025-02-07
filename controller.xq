@@ -60,26 +60,33 @@ else if ($exist:resource eq 'login') then
      
 else if ($exist:path = "/admin") then (
     login:set-user("org.exist.login", (), true()),
-    let $user := request:get-attribute("org.exist.login.user")
+     let $user:= 
+        if(request:get-parameter("user","") != '') then request:get-parameter("user","")
+        else if(request:get-attribute("org.exist.login.user")) then request:get-attribute("org.exist.login.user")
+        else sm:id()/sm:id/sm:real/sm:username/string(.)
     let $route := request:get-parameter("route","")
     let $path := request:get-header("Referer")
     let $logout := request:get-parameter("logout",())
     return
-    if($user and sm:list-users() = $user) then
-        if($exist:path = "/admin") then
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <redirect url="index.html"/>
-             </dispatch>
-        else 
-            <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <redirect url="{$path}">
-                   <set-header name="Cache-Control" value="no-cache"/>
-                </redirect>
-           </dispatch>
+        if($user and (sm:list-users() = $user) and not(matches($user,'[gG]uest'))) then
+            if($exist:path = "/admin") then
+                <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                    <redirect url="index.html">
+                        <set-header name="Cache-Control" value="no-cache"/>
+                    </redirect>
+                 </dispatch>
+            else 
+                <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                    <redirect url="{$path}">
+                       <set-header name="Cache-Control" value="no-cache"/>
+                    </redirect>
+               </dispatch>
     else if($logout = "true") then 
        if($exist:path = "/admin") then
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <redirect url="index.html"/>
+                <redirect url="index.html">
+                        <set-header name="Cache-Control" value="no-cache"/>
+                    </redirect>
              </dispatch>
         else 
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -87,7 +94,7 @@ else if ($exist:path = "/admin") then (
                    <set-header name="Cache-Control" value="no-cache"/>
                 </redirect>
            </dispatch>
-    else  
+    else 
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{$exist:controller}/newUser.html">
             <set-header name="Cache-Control" value="no-cache"/>
