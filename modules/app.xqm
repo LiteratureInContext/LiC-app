@@ -310,26 +310,6 @@ declare function app:display-work($node as node(), $model as map(*)) {
         else <blockquote>No record found</blockquote>
 };
 
-(: Page images :)
-declare function app:pageImages($node as node(), $model as map(*)) {
-    (:if($data/descendant::tei:pb[@facs]) then 
-                             for $image in $data/descendant::tei:pb[@facs]
-                             let $src := 
-                                         if(starts-with($image/@facs,'https://') or starts-with($image/@facs,'http://')) then 
-                                             string($image/@facs) 
-                                         else concat($config:image-root,$id,'/',string($image/@facs))   
-                             return 
-                                      <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
-                                           <a href="{$src}"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>
-                                           <span class="caption">Page {string($image/@n)}</span>
-                                      </span>
-                         else ()
-                         :)
-if($node/descendant::tei:pb[@facs]) then 
-    <div>TEST</div>
-else <blockquote>No images</blockquote>
-};
-
 (:~  
  : Display any TEI nodes passed to the function via the paths parameter
  : Used by templating module, defaults to tei:body if no nodes are passed. 
@@ -470,6 +450,49 @@ declare function app:page-images($node as node(), $model as map(*)){
     else ()  
 }; 
 
+(: Page images  w-100:)
+declare function app:pageImages($node as node(), $model as map(*)) {
+if($model("data")/descendant::tei:pb[@facs]) then 
+    let $pages :=  $model("data")/descendant::tei:pb[@facs]
+    let $count := count($pages)
+    return 
+    <div id="carouselExampleIndicators" class="carousel slide carousel-dark" data-bs-interval="false">
+        <div class="carousel-indicators">
+            {
+                for $img at $p in $pages
+                return 
+                    if($p = 1) then 
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    else <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{$p - 1}" aria-label="Slide {$p}"></button>
+            }
+        </div>
+        <div class="carousel-inner">
+            {
+                let $id := string($model("data")//tei:TEI/@xml:id)
+                for $img at $p in $pages
+                let $src := 
+                    if(starts-with($img/@facs,'https://') or starts-with($img/@facs,'http://')) then string($img/@facs) 
+                    else concat($config:image-root,$id,'/',string($img/@facs))
+                return 
+                <div class="carousel-item {if($p = 1) then 'active' else ''} container">
+                    <img class="d-block  img-fluid" src="{$src}" alt="Page {string($img/@n)}"/>
+                    <div class="carousel-caption d-none d-md-block">
+                  </div>
+                </div>
+            }
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+        </a>
+    </div>
+else <blockquote>No images</blockquote>
+};
+
 (:~ 
  : Menu for different Data formats and sharing options
  : Available options are: TEI/XML, PDF, EPUB, Text, Print. 
@@ -501,14 +524,13 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             </span></button>, '&#160;') 
                 else if($f = 'pageImages') then 
                     if($model("data")/descendant::tei:pb[@facs]) then 
-                        if(request:get-parameter('view', '') = 'pageImages') then 
-                           (<a href="{request:get-uri()}" class="btn btn-outline-secondary btn-xs" id="pageImagesBtn" data-bs-toggle="tooltip" title="Click to hide the page images.">
+                         ((:
+                           <a href="{request:get-uri()}" class="btn btn-outline-secondary btn-xs" id="pageImagesBtn" data-bs-toggle="tooltip" title="Click to hide the page images.">
                                 <i class="bi bi-dash-circle"></i> Page Images
-                             </a>, '&#160;') 
-                        else 
-                            (<a href="?view=pageImages" class="btn btn-outline-secondary btn-xs" id="pageImagesBtn" data-bs-toggle="tooltip" title="Click to view the page images along side the text.">
+                             </a>:)
+                             <button type="button" class="btn btn-outline-secondary btn-xs showHide" data-bs-toggle="modal" data-bs-target="#teiPageImages">
                                 <i class="bi bi-plus-circle"></i> Page Images
-                             </a>, '&#160;') 
+                            </button>, '&#160;') 
                     else()         
                 else if($f = 'lod') then 
                     let $lodcount := count(distinct-values($model("data")//@key))
