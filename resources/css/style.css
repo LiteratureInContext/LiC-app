@@ -287,6 +287,14 @@ svg {
 .headnoteInline .headnoteCheckbox {margin-top: 2px; margin-right: 8px;}
 td {padding-right:1em;}
  .tdLabel{font-weight:bold;}
+
+#carouselPageImages  {height:80%;}
+/*#carouselPageImages img { height:80% !important; width:auto; }*/
+.carousel { overflow: hidden; padding: 0 8rem 8rem 8rem; }
+.carousel-caption { top: 100%; }
+.carousel-inner { overflow: visible; }
+.carousel-control-next, .carousel-control-prev, .carousel-indicators { bottom: 4rem; }
+
 /* .form-horizontal .checkbox, .form-horizontal .radio */
 /* TEI styles */
 .tei-annotation-show {}
