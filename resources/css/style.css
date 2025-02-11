@@ -11,6 +11,7 @@
 /* Base font */
 body {
   font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
+  font-size: 16px;
 }
 
 /* Navbar */
@@ -19,10 +20,11 @@ body {
 .text-bg-dark {background-color: #C1503E !important; } 
 .navbar-brand {margin-right: 4em;}
 .navbar-brand a{text-decoration:none;}
-.navbar-title {font-size:34px; color:black; font-weight:600; font-style:italic; letter-spacing: 1px;}
-.navbar-subtitle {font-size: 16px; color:white;}
+.navbar-title {font-size:2.125em; color:black; font-weight:600; font-style:italic; letter-spacing: 1px;}
+.navbar-subtitle {font-size: 1em; color:white;}
 .header-secondary {background-color: #f9f6ee; !important; }
 
+.font-size button{padding-left:6px; padding-right:6px;}
 /* Footer */
 footer .banner {
     min-height:50px; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A;
