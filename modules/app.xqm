@@ -88,7 +88,7 @@ declare function app:username-login($node as node(), $model as map(*)) {
             </ul>
         else 
             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#loginModal">
-              Login
+              <i class="bi bi-person"></i> Login
             </button>                
 };
 
@@ -1404,6 +1404,33 @@ return
           <h1>Linked Data</h1>
           <p>Explore the collection using linked open data.</p>
         </div>
+        <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Map
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              {$map}
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Relationships
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              {$graph}
+            </div>
+          </div>
+        </div>
+      </div>
+        <!--
         <div class="panel panel-default">
           <div class="panel-heading panel-heading-nav">
             <ul class="nav nav-tabs">
@@ -1417,7 +1444,7 @@ return
           </div>
           <div class="panel-body">
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane fade in active" id="one">
+              <div role="tabpanel" class="tab-pane fade show" id="one">
                {$map}
               </div>
               <div role="tabpanel" class="tab-pane fade" id="two">
@@ -1426,6 +1453,7 @@ return
             </div>
           </div>
         </div>
+        -->
     </div>
 };
 
