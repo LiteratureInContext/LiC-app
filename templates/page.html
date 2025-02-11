@@ -82,13 +82,22 @@
                                 <li><a class="dropdown-item" href="$nav-base/join.html">Join us</a></li>
                             </ul>
                         </li>
+                        
+                        <li>
+                            <div class="btn-toolbar mb-3 font-size" role="toolbar" aria-label="Change font size">
+                                <div class="btn-group me-2" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-light" id="fontMinus">-</button>
+                                    <button type="button" class="btn btn-light" id="fontNormal">A</button>
+                                    <button type="button" class="btn btn-light" id="fontPlus">+</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span data-template="app:userinfo">
+                                <div data-template="app:username-login"/>
+                            </span> 
+                        </li>
                     </ul>
-                    
-                    <div class="text-end">
-                        <span data-template="app:userinfo">
-                            <div data-template="app:username-login"/>
-                        </span> 
-                    </div>
                 </div>
             </div>
         </header>

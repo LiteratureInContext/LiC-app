@@ -160,5 +160,26 @@ $('.authenticate').click(function(event) {
 }); 
 
 */
+/* 
+ * function adjustFontSize(amount) {
+    const textElement = document.getElementById("text");
+    const currentSize = parseFloat(window.getComputedStyle(textElement).fontSize);
+    textElement.style.fontSize = (currentSize + amount) + "px";
+  }
+ * 
+ */
+$('#fontPlus').click(function(event) {
+  event.preventDefault();
+  $("body *").css('font-size','+=1');
+});
+$('#fontMinus').click(function(event) {
+  event.preventDefault();
+  $("body *").css('font-size','-=1');
+});
+$('#fontNormal').click(function(event) {
+  event.preventDefault();
+  window.location.reload()
+});
+
 });
 
