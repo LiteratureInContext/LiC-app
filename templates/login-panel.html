@@ -21,6 +21,14 @@
                                         <input type="password" name="password"/>
                                     </div>
                                 </div>
+                                <!-- window.location.href -->
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                    const url = window.location.href;
+                                    document.getElementById('currentPage').value = url;
+                                    });
+                                </script>
+                                <input type="hidden" id="currentPage" name="currentPage"/>
                                 <!--
                                 <div class="control-group">
                                     <div class="controls">

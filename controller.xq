@@ -67,9 +67,17 @@ else if ($exist:path = "/admin") then (
     let $route := request:get-parameter("route","")
     let $path := request:get-header("Referer")
     let $logout := request:get-parameter("logout",())
+    let $currentPage := request:get-parameter("currentPage","")
     return
         if($user and (sm:list-users() = $user) and not(matches($user,'[gG]uest'))) then
             if($exist:path = "/admin") then
+                if($currentPage != '') then
+                    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+                        <redirect url="{$currentPage}">
+                            <set-header name="Cache-Control" value="no-cache"/>
+                        </redirect>
+                     </dispatch>
+                else 
                 <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
                     <redirect url="index.html">
                         <set-header name="Cache-Control" value="no-cache"/>
@@ -109,7 +117,7 @@ else if ($exist:path = "/admin") then (
                 <forward url="{$exist:controller}/error-page.html" method="get"/>
                 <forward url="{$exist:controller}/modules/view.xq"/>
             </error-handler>
-        </dispatch>   
+        </dispatch>      
 )         
 (: Check user credentials :)
 else if ($exist:resource = "userInfo") then( 
