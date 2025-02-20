@@ -180,6 +180,20 @@ $('#fontNormal').click(function(event) {
   event.preventDefault();
   window.location.reload()
 });
+$('#sansSerif').click(function(event) {
+  event.preventDefault();
+  $("body *").css('font-family','sans-serif');
+  $("#serif").css('font-family','serif');
+});
+$('#serif').click(function(event) {
+  event.preventDefault();
+  $("body *").css('font-family','serif');
+  $("#sansSerif").css('font-family','sans-serif');
+});
+$('#fontFamilyReset').click(function(event) {
+  event.preventDefault();
+  window.location.reload()
+});
 
 });
 

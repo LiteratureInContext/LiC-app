@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.Default.css"/>
         <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.bundle.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>
+        <script type="text/javascript" src="$nav-base/resources/js/jquery-ui.min.js"/>
         <!--
         <script type="text/javascript" src="$nav-base/resources/js/lightslider.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
@@ -84,6 +85,27 @@
                         </li>
                         
                         <li>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                            <div class="btn-group me-2" role="group" aria-label="First group">
+                                                <button type="button" class="btn btn-outline-secondary" id="fontMinus">-</button>
+                                                <button type="button" class="btn btn-outline-secondary" id="fontNormal">A</button>
+                                                <button type="button" class="btn btn-outline-secondary" id="fontPlus">+</button>
+                                            </div>
+                                        
+                                    </li>
+                                    <li><hr/></li>
+                                    <li>
+                                        <div class="btn-group me-2" role="group" aria-label="First group">
+                                        <button type="button" class="btn btn-outline-secondary" id="serif" style="font-family: serif !important;
+                                            font-size: 16px;">A</button><button type="button" class="btn btn-outline-secondary" id="fontFamilyReset">/</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="sansSerif" style="font-family: sans-serif;
+                                            font-size: 16px;">A</button></div>
+                                    </li>
+                                    
+                                </ul>
+                            <!--
                             <div class="btn-toolbar mb-3 font-size" role="toolbar" aria-label="Change font size">
                                 <div class="btn-group me-2" role="group" aria-label="First group">
                                     <button type="button" class="btn btn-light" id="fontMinus">-</button>
@@ -91,8 +113,9 @@
                                     <button type="button" class="btn btn-light" id="fontPlus">+</button>
                                 </div>
                             </div>
+                            -->
                         </li>
-                        <li>
+                        <li class="nav-item dropdown">
                             <span data-template="app:userinfo">
                                 <div data-template="app:username-login"/>
                             </span> 
