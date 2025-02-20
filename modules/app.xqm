@@ -73,7 +73,6 @@ declare function app:username-login($node as node(), $model as map(*)) {
         if ($user and not(matches($user,'[gG]uest'))) then
             <ul class="nav navbar-nav">
                 <li>
-                    <p class="navbar-btn">
                        <div class="dropdown">
                         <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person"></i> {$userName} 
@@ -83,7 +82,6 @@ declare function app:username-login($node as node(), $model as map(*)) {
                           <li><a class="dropdown-item" href="{$config:nav-base}/admin?logout=true" id="logout">Logout</a></li>
                         </ul>
                       </div>
-                    </p>
                 </li>
             </ul>
         else 
@@ -200,6 +198,7 @@ declare %private function app:parse-href($href as xs:string) {
 };
 
 (:~
+ : @depreciated, used for the old design
  : Dynamically build featured items on homepage carousel
  : Takes options specified in repo-config and fetches appropriate content, or prints out HTML
 :)
@@ -662,7 +661,11 @@ return
             </div>
         </div>
     else if(request:get-parameter('id', '') != '') then 
-        (<form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search">
+        (
+        let $editAccess := if(sm:has-access(document-uri(root($model("coursepack")/@title)),'rw')) then true() else false()
+        return 
+        <form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search">
+            <div class="droppable">
             <h1>{string($model("coursepack")/@title)}</h1>
             <p class="desc">{$desc}</p>
             <div class="row">
@@ -697,7 +700,7 @@ return
                         
                     }
                         {(: edit coursepack :)
-                            if(sm:has-access(document-uri(root($title)),'rw')) then 
+                            if($editAccess = true()) then 
                                ( 
                                <button type="button" class="toolbar btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editCoursePack" title="Edit Coursepack"><i class="bi bi-pencil"></i> Edit</button>,
                                <button type="button" class="deleteCoursepack toolbar btn btn-outline-secondary" data-bs-toggle="tooltip" title="Delete Coursepack" data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=delete&amp;coursepackid={string($coursepacks/@id)}"><i class="bi bi-trash"></i> Delete</button>
@@ -760,7 +763,7 @@ return
                  else if(data:create-query() != '') then
                      <div>No results.</div>
                  else 
-                    for $work in $coursepacks//tei:TEI[descendant::tei:title[1]!='']
+                    for $work at $p in $coursepacks//tei:TEI[descendant::tei:title[1]!='']
                     let $title := $work/descendant::tei:title[1]/text()
                     let $author := if($work/descendant::tei:author/descendant-or-self::tei:surname) then 
                                         $work/descendant::tei:author/descendant-or-self::tei:surname
@@ -784,12 +787,17 @@ return
                         else $work/@num
                     order by $sort
                     return  
-                        <div class="container result">
+                        <div class="container result {if($editAccess = true()) then 'draggable rounded border border-secondary' else ()}">
+                            {if($editAccess = true()) then attribute id {concat("draggable",$p)} else ()}
                             <div class="row">
                               <div class="col-1">
-                                <button data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=deleteWork&amp;coursepackid={string($coursepacks/@id)}&amp;workid={$id}" class="removeWork btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Delete Work from Coursepack">
-                                    <i class="bi bi-trash"></i> 
-                                </button>
+                                {
+                                    if($editAccess = true()) then
+                                        <button data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=deleteWork&amp;coursepackid={string($coursepacks/@id)}&amp;workid={$id}" class="removeWork btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Delete Work from Coursepack">
+                                            <i class="bi bi-trash"></i> 
+                                        </button>
+                                    else ()
+                                }
                                 <button data-url="{$config:nav-base}/modules/data.xql?id={string($coursepacks/@id)}&amp;view=expand&amp;workid={$id}" class="expand btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Expand Work to see text">
                                    <i class="bi bi-plus-circle"></i> 
                                 </button>
@@ -824,6 +832,7 @@ return
                           </div>
                  }      
         </div>
+            </div>
         </form>,
         <div class="modal fade" id="editCoursePack" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
                 <form action="{$config:nav-base}/modules/lib/coursepack.xql" method="post" id="editCoursepackForm" role="form">
