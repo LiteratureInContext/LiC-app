@@ -174,7 +174,7 @@ $('#fontPlus').click(function(event) {
 });
 $('#fontMinus').click(function(event) {
   event.preventDefault();
-  $("body *").css('font-size','-=1');
+  $("body *").css('font-size','-=2');
 });
 $('#fontNormal').click(function(event) {
   event.preventDefault();

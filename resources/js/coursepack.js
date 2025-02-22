@@ -283,5 +283,28 @@
                     $("#responseBody").html("");
                 });
                 
+                //Drag and drop for coursepack organization.
+                //Need to update jquery to make this work. 
+                $('.draggable').draggable();
+                
+                /* 
+                $(".draggable").sortable({
+                    connectWith: ".draggable",
+                    cursor: "move",
+                    helper: "clone",
+                    items: "> div",
+                    stop: function(event, ui) {
+                      var $item = ui.item;
+                      var eventLabel = $item.text();
+                      var newDay = $item.parent().attr("id");
+                      
+                      console.log($item[0].id, eventLabel, newDay);
+                
+                      // Here's where am ajax call will go
+                      
+                    }
+                  }).disableSelection();
+                */
+                
             }); 
           

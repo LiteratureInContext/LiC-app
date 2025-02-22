@@ -753,7 +753,8 @@ return
             <div class="collapse left-align" id="teiViewLOD">
                 {app:subset-lod($node, $model)}
             </div>
-            <div class="lic-well coursepack boxContainer">
+            <div class="lic-well coursepack boxContainer  
+            {if($editAccess = true()) then 'connectedSortable draggable' else ()}" data-update-url="{$config:nav-base}/modules/lib/coursepack.xql?action=reorderWork&amp;coursepackid={request:get-parameter('id', '')}">
                  {
                  if($hits != '') then
                      (<hr/>,
@@ -762,15 +763,16 @@ return
                      app:show-hits($node, $model, 1, 10))
                  else if(data:create-query() != '') then
                      <div>No results.</div>
-                 else 
-                    for $work at $p in $coursepacks//tei:TEI[descendant::tei:title[1]!='']
-                    let $title := $work/descendant::tei:title[1]/text()
-                    let $author := if($work/descendant::tei:author/descendant-or-self::tei:surname) then 
-                                        $work/descendant::tei:author/descendant-or-self::tei:surname
-                                   else $work/descendant::tei:author
-                    let $id := document-uri(root($work))
-                    let $selection := if($coursepacks//work[@id = $id]/text) then
-                                        for $text in $coursepacks//work[@id = $id]/text
+                 else                      
+                    for $work at $p in $coursepacks/*:work
+                    let $recID := $work/@id
+                    let $tei := doc(string($recID))
+                    let $title := $tei/descendant::tei:title[1]/text()
+                    let $author := if($tei/descendant::tei:author/descendant-or-self::tei:surname) then 
+                                        $tei/descendant::tei:author/descendant-or-self::tei:surname
+                                       else $tei/descendant::tei:author
+                    let $selection := if($work//text) then
+                                        for $text in $work//work/text
                                         return 
                                             (<div><h4>Selected Text</h4>,
                                             {tei2html:tei2html($text/child::*)}</div>)
@@ -784,21 +786,23 @@ return
                             $work/descendant::tei:date[1]
                         else if(request:get-parameter('sort-element', '') = 'date') then
                             $work/descendant::tei:date[1]    
-                        else $work/@num
-                    order by $sort
-                    return  
-                        <div class="container result {if($editAccess = true()) then 'draggable rounded border border-secondary' else ()}">
-                            {if($editAccess = true()) then attribute id {concat("draggable",$p)} else ()}
+                        else if($work/@num) then string($work/@num)
+                        else $p
+                    order by $sort ascending                                      
+                    return 
+                        <div class="container result {if($editAccess = true()) then ' ui-state-default rounded border border-secondary' else ()}">
+                            {attribute id {$recID}}
+                            {attribute position {$p}}
                             <div class="row">
                               <div class="col-1">
                                 {
                                     if($editAccess = true()) then
-                                        <button data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=deleteWork&amp;coursepackid={string($coursepacks/@id)}&amp;workid={$id}" class="removeWork btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Delete Work from Coursepack">
+                                        <button data-url="{$config:nav-base}/modules/lib/coursepack.xql?action=deleteWork&amp;coursepackid={string($coursepacks/@id)}&amp;workid={$recID}" class="removeWork btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Delete Work from Coursepack">
                                             <i class="bi bi-trash"></i> 
                                         </button>
                                     else ()
                                 }
-                                <button data-url="{$config:nav-base}/modules/data.xql?id={string($coursepacks/@id)}&amp;view=expand&amp;workid={$id}" class="expand btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Expand Work to see text">
+                                <button data-url="{$config:nav-base}/modules/data.xql?id={string($coursepacks/@id)}&amp;view=expand&amp;workid={$recID}" class="expand btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Expand Work to see text">
                                    <i class="bi bi-plus-circle"></i> 
                                 </button>
                               </div>
@@ -806,14 +810,14 @@ return
                                 {(
                                 if($selection != '') then
                                     (<h4 class="selections-from">Selections from: </h4>, 
-                                    tei2html:summary-view($work, (), $id[1]),
+                                    tei2html:summary-view($tei, (), $recID[1]),
                                     if(request:get-parameter('view', '') = 'expanded') then 
                                        <div class="selected-text">{$selection}</div> 
                                     else ())
                                 else if(request:get-parameter('view', '') = 'expanded') then
-                                    (tei2html:header($work/descendant::tei:teiHeader),
-                                    tei2html:tei2html($work/descendant::tei:text),
-                                    let $notes := $work/descendant::tei:note[@target]
+                                    (tei2html:header($tei/descendant::tei:teiHeader),
+                                    tei2html:tei2html($tei/descendant::tei:text),
+                                    let $notes := $tei/descendant::tei:note[@target]
                                     return
                                         if($notes != '') then 
                                             <div class="footnote show-print">
@@ -824,12 +828,13 @@ return
                                             </div>
                                         else ()
                                     )
-                                else tei2html:summary-view($work, (), $id[1])
+                                else tei2html:summary-view($tei, (), $recID[1])
                                 )}
                                 <div class="expandedText"></div>
                               </div>
                             </div>
                           </div>
+
                  }      
         </div>
             </div>
