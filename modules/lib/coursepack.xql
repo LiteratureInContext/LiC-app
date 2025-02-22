@@ -380,6 +380,28 @@ declare function local:editCoursepack($data){
 };
 
 (:~ 
+ : Create HTML response to create-new-coursepack request  
+ : @param $data works and coursepack information passed from JavaScript post
+ :)
+declare function local:reorderWorks($data, $coursepack){
+   let $payload := util:base64-decode($data)
+   let $json-data := parse-json($payload)
+   for $work at $p in $json-data?workOrder?*
+   let $cw := $coursepack//work[@id = $work] 
+   let $num := $cw/@num
+   return 
+        try {
+           update value $num with $p
+        } catch * {
+                    (response:set-status-code( 500 ),
+                    <response status="fail">
+                        <message>Error : {concat($err:code, ": ", $err:description)}</message>
+                    </response>)
+                }
+    
+};
+
+(:~ 
  : Check current user credentials against resource  
  : @param $user user id
  : @param $data json data
@@ -427,6 +449,12 @@ declare function local:authenticate($data as item()*){
                                     <output:method value='html5'/>
                                     <output:media-type value='text/html'/>
                                 </output:serialization-parameters>, local:editCoursepack($data)) 
+       else if($action = 'reorderWork') then
+                (response:set-header("Content-Type", "text/html"),
+                                <output:serialization-parameters>
+                                    <output:method value='html5'/>
+                                    <output:media-type value='text/html'/>
+                                </output:serialization-parameters>, local:reorderWorks($data, $coursepack)) 
        else
             (response:set-header("Content-Type", "text/html"),
                 <output:serialization-parameters>
@@ -516,6 +544,7 @@ declare function local:authenticate($data as item()*){
 
 (:~
  : Get and process post data.
+ ?action=reorderWork
 :)
 let $post-data :=
                 if(request:get-parameter('target-texts', '') != '') then string-join(request:get-parameter('target-texts', ''),',')

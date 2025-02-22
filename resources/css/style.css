@@ -103,6 +103,7 @@ ul.coursepack {
   list-style-type: none;
 }
 
+.draggable {}
 .expandedText {margin-left:1.5em;}
 
 .workToolbar {

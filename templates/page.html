@@ -15,8 +15,12 @@
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.Default.css"/>
         <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.bundle.min.js"/>
-        <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>
-        <script type="text/javascript" src="$nav-base/resources/js/jquery-ui.min.js"/>
+<!--        <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>-->
+<!--        <script type="text/javascript" src="$nav-base/resources/js/jquery-ui.min.js"/>-->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"/>
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+        
         <!--
         <script type="text/javascript" src="$nav-base/resources/js/lightslider.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
@@ -29,7 +33,46 @@
             $(document).ready(function() {
                 $('.dropdown-toggle').dropdown()
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
-                $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'}); 
+                $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'});
+                
+                //Sort drag and drop for coursepacks
+                  $( ".draggable, #sortable1" )
+                    .sortable({
+                        connectWith: ".connectedSortable"
+                    })
+                   .on("sortupdate", function( event, ui ) {
+                        var url = $(this).data('update-url')
+                        $.post(url,JSON.stringify({ 'workOrder': $('.draggable').sortable('toArray') }), function(data) {
+                            console.log(data);
+                            //alert(data);
+                        }).fail( function(jqXHR, textStatus, errorThrown){
+                           //alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
+                        });
+                        /*
+                        $.post(url,JSON.stringify({ 'coursepack': coursepack }), function(data) {
+                            $('#saveCoursepackModal').hide();
+                            $('#responseBody').html(data);
+                        })
+                        .fail( function(jqXHR, textStatus, errorThrown){
+                           alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
+                        });
+                        */
+                        /*
+                        console.log($.map($(this).find('div'), function(el) {
+                            return el.id + ' = ' + $(el).index();
+                        }));
+                        */
+                       /*
+                       finalPos =  ui.item.index() + 1; // when using a 1-based index  	
+                       console.log('new: ' + newIndex + ' old: '  + oldIndex);
+                       */
+                        
+                       
+                      
+                    })
+                  .disableSelection();
             });
         </script>
     </head>
@@ -85,7 +128,7 @@
                         </li>
                         
                         <li>
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear"></i></a>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear"/></a>
                                 <ul class="dropdown-menu">
                                     <li>
                                             <div class="btn-group me-2" role="group" aria-label="First group">
@@ -98,10 +141,8 @@
                                     <li><hr/></li>
                                     <li>
                                         <div class="btn-group me-2" role="group" aria-label="First group">
-                                        <button type="button" class="btn btn-outline-secondary" id="serif" style="font-family: serif !important;
-                                            font-size: 16px;">A</button><button type="button" class="btn btn-outline-secondary" id="fontFamilyReset">/</button>
-                                        <button type="button" class="btn btn-outline-secondary" id="sansSerif" style="font-family: sans-serif;
-                                            font-size: 16px;">A</button></div>
+                                        <button type="button" class="btn btn-outline-secondary" id="serif" style="font-family: serif !important;                                             font-size: 16px;">A</button><button type="button" class="btn btn-outline-secondary" id="fontFamilyReset">/</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="sansSerif" style="font-family: sans-serif;                                             font-size: 16px;">A</button></div>
                                     </li>
                                     
                                 </ul>
