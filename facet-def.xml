@@ -6,6 +6,7 @@
         <max-values show="5">40</max-values>
         <order-by direction="ascending">value</order-by>
     </facet-definition>
+    <!--
     <facet-definition name="placePub" label="Place of Publication">
         <group-by function="pubPlace">
             <sub-path>descendant::tei:sourceDesc/descendant::tei:imprint/tei:pubPlace</sub-path>
@@ -13,6 +14,7 @@
         <max-values show="5">10</max-values>
         <order-by direction="ascending">value</order-by>
     </facet-definition>
+    -->
     <!--
     <facet-definition name="pubDate" label="Publication Date">
         <group-by>
