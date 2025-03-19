@@ -6,7 +6,6 @@
     light yellow: #E8E3DD
     Neutral/grey: #777
     New color; rust red: #C1503E
-     * 
 */
 
 /* Base font */
@@ -16,7 +15,7 @@ body {
 }
 .homepageImage {
     width: calc(100vw - 20px);
-  margin-left: calc(-50vw + 50% + 10px);
+    margin-left: calc(-50vw + 50% + 10px);
 }
 /* Navbar */
 .mainNav {color:black;}
