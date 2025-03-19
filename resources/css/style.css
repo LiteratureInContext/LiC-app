@@ -13,7 +13,10 @@ body {
   font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
   font-size: 16px;
 }
-
+.homepageImage {
+    width: calc(100vw - 20px);
+    margin-left: calc(-50vw + 50% + 10px);
+}
 /* Navbar */
 .mainNav {color:black;}
 .nav-link {color:black !important; font-weight:600;}
@@ -23,6 +26,7 @@ body {
 .navbar-title {font-size:2.125em; color:black; font-weight:600; font-style:italic; letter-spacing: 1px;}
 .navbar-subtitle {font-size: 1em; color:white;}
 .header-secondary {background-color: #f9f6ee; !important; }
+.homePageCenter {font-size:large; margin:2em; text-align:center;}
 
 .font-size button{padding-left:6px; padding-right:6px;}
 /* Footer */
@@ -45,7 +49,11 @@ footer {text-align:center;}
 h1 {
     font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
     }
-h2, h3, h4 {
+h2 {
+    font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
+    color: #C1503E
+    }    
+h3, h4 {
     font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
     color: #777;
 }
