@@ -6,6 +6,7 @@
     light yellow: #E8E3DD
     Neutral/grey: #777
     New color; rust red: #C1503E
+     * 
 */
 
 /* Base font */
@@ -27,6 +28,7 @@ body {
 .navbar-subtitle {font-size: 1em; color:white;}
 .header-secondary {background-color: #f9f6ee; !important; }
 .homePageCenter {font-size:large; margin:2em; text-align:center;}
+
 .font-size button{padding-left:6px; padding-right:6px;}
 /* Footer */
 footer .banner {
