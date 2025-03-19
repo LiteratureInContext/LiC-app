@@ -235,7 +235,7 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
                                     else if(request:get-query-string() != '') then concat($facet-param,'&amp;',request:get-query-string())
                                     else $facet-param
                     return 
-                        <a href="?{$url-params}" class="facet-label btn btn-default {$active}" num="{$n}">
+                        <a href="?{$url-params}" class="facet-label btn btn-outline-secondary {$active}" num="{$n}">
                                     {if($active) then (<i class="bi bi-x-circle"></i>,' ' ) else ()}
                                     {$label} <span class="count"> ({$count})</span> </a>,
                                     
@@ -253,7 +253,7 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
                                         else if(request:get-query-string() != '') then concat($facet-param,'&amp;',request:get-query-string())
                                         else $facet-param
                         return 
-                            <a href="?{$url-params}" class="facet-label btn btn-default {$active}" num="{$n}">
+                            <a href="?{$url-params}" class="facet-label btn btn-outline-secondary {$active}" num="{$n}">
                                         {if($active) then (<i class="bi bi-x-circle"></i>,' ' ) else ()}
                                         {$label} <span class="count"> ({$count})</span> </a>
                         }
