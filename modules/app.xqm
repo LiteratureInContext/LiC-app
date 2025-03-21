@@ -590,9 +590,17 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
 };
 declare function app:audio($node as node(), $model as map(*)) {
 <div class="audioFile" style="display:block; text-align: center; margin-top:12px; padding:12px;">
+<!--
     <audio controls="controls" style="position:sticky; top:20px;" class="audioFile">
       <source src="{$model("data")//tei:graphic[ends-with(@url,'.mp3')]/@url}" type="audio/mpeg"/>
     </audio>
+-->
+    
+    {
+        for $audio in $model("data")//tei:graphic[ends-with(@url,'.mp3')]
+        let $url := $audio/@url
+        return <div>{string($url)}</div>
+    }
     <script type="text/javascript">
         <![CDATA[
         $(window).scroll(function(e){ 

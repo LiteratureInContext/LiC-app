@@ -525,7 +525,11 @@ declare function tei2html:ref($node as element (tei:ref)) {
         </span>
     else if(starts-with($node/@target,'http')) then
         <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
-    else tei2html:tei2html($node/node())
+    else if(starts-with($node/@target,'#')) then 
+        <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
+    else 
+        <a href="{$config:nav-base}/modules/data.xql?recID={$node/@target}">{tei2html:tei2html($node/node())}</a>
+    (:tei2html:tei2html($node/node()):)
 };
 
 declare function tei2html:title($node as element (tei:title)) {
