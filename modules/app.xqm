@@ -198,82 +198,6 @@ declare %private function app:parse-href($href as xs:string) {
 };
 
 (:~
- : @depreciated, used for the old design
- : Dynamically build featured items on homepage carousel
- : Takes options specified in repo-config and fetches appropriate content, or prints out HTML
-:)
-declare function app:create-featured-slides($node as node(), $model as map(*)) {
-    let $featured := $config:get-config//repo:featured
-    for $slide in $featured/repo:slide
-    let $order := if($slide/@order != '') then xs:integer($slide/@order) else 100
-    let $imageURL := 
-        if(starts-with($slide/@imageURL,'http')) then string($slide/@imageURL) 
-        else if(starts-with($slide/@imageURL,'resources/')) then concat($config:nav-base,'/',string($slide/@imageURL))
-        else if(starts-with($slide/@imageURL,'/resources/')) then concat($config:nav-base,string($slide/@imageURL))
-        else string($slide/@imageURL)
-    let $image := if($imageURL != '') then 
-                    <img src="{$imageURL}" alt="{if($slide/@imageDesc != '') then string($slide/@imageDesc) else 'Featured image'}" width="{if($slide/@width != '') then string($slide/@width) else '80%'}"/>
-                  else ()
-    order by $order
-    return 
-        <li class="slide overlay">
-            <div class="slide-content">{
-                if($slide/@type = 'text') then
-                    $slide/child::*
-                else if($slide/@type = 'coursepack') then
-                    let $coursepackId := string($slide/@id)
-                    let $coursepack := doc($config:app-root || '/coursepacks/' || $coursepackId || '.xml' )
-                    return 
-                        <div class="row">
-                            <div class="coursepack {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
-                            <div class="featuredImage">{$image}</div>
-                            <h3>Featured Coursepack</h3>
-                            <h4>{string($coursepack/coursepack/@title)} ({count($coursepack//work)} works)</h4>
-                            <p>{$coursepack/coursepack/desc/text()}</p>
-                            <ol>{(
-                                for $w in subsequence($coursepack//work,1,5)
-                                return 
-                                <li>{$w/text()}</li>,
-                                if(count($coursepack//work) gt 5) then
-                                 <li> <a href="coursepack?id={$coursepackId}" data-toggle="tooltip" title="See all works">...</a>  </li>   
-                                else ()                                
-                            )}</ol>
-                            <div class="get-more"><br/><a href="coursepack?id={$coursepackId}">Go to coursepack <i class="bi bi-arrow-right-circle"></i></a></div>
-                           </div>
-                        </div>
-                else if($slide/@type = 'work') then
-                    let $workID := string($slide/@id)
-                    let $workPath := concat($config:data-root,'/', replace($workID,'/work/',''), '.xml')
-                    let $work := doc(xmldb:encode-uri($workPath))
-                    return 
-                        <div>
-                            <div class="work {if($imageURL != '') then 'col-md-8' else 'col-md-12'}">
-                            <div class="featuredImage">{$image}</div>
-                            <h3>Featured Work</h3>
-                            {tei2html:summary-view($work, (), $workPath)}
-                            </div>
-                        </div>
-                 else if($slide/@type = 'recentWork') then  
-                    let $works := 
-                        for $r in collection($config:data-root) 
-                        order by $r/descendant::tei:revisionDesc/tei:change[1]/@when
-                        return $r
-                    return    
-                    <div>
-                        <h3>Recently Published Works</h3>
-                        {
-                        for $w in subsequence($works,1,3)
-                        let $workPath := document-uri($w)
-                        return
-                            <div class="result">{tei2html:summary-view($w, (), $workPath)}</div>
-                        }  
-                   </div>
-                else $slide/child::*
-            }</div>
-        </li>
-};
-
-(:~
  : Select page view, record or html content
  : If no record is found redirect to 404
  : @param $node the HTML node with the attribute which triggered this call
@@ -589,28 +513,47 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
     else ()
 };
 declare function app:audio($node as node(), $model as map(*)) {
-<div class="audioFile" style="display:block; text-align: center; margin-top:12px; padding:12px;">
-<!--
-    <audio controls="controls" style="position:sticky; top:20px;" class="audioFile">
-      <source src="{$model("data")//tei:graphic[ends-with(@url,'.mp3')]/@url}" type="audio/mpeg"/>
-    </audio>
--->
-    
-    {
-        for $audio in $model("data")//tei:graphic[ends-with(@url,'.mp3')]
-        let $url := $audio/@url
-        return <div>{string($url)}</div>
-    }
+<div class="audioFileDiv" style="text-align: center; margin-top:12px; padding:8px;">
+    <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-interval="false">
+        <div class="carousel-indicators">
+            {
+                for $audio at $p in $model("data")//tei:graphic[ends-with(@url,'.mp3')]
+                return 
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{$p - 1}" class="{if($p = 1) then 'active' else 'normal'}" aria-current="true" aria-label="Slide {$p}"></button>
+            }
+        </div>
+        <div class="carousel-inner">
+            {
+                for $audio at $p in $model("data")//tei:graphic[ends-with(@url,'.mp3')]
+                let $url := $audio/@url
+                return 
+                      <div class="carousel-item {if($p = 1) then 'active' else ()}">
+                         <audio controls="controls" class="audioFile">
+                            <source src="{$url}" type="audio/mpeg"/>
+                         </audio>
+                      </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+    </div>
     <script type="text/javascript">
         <![CDATA[
         $(window).scroll(function(e){ 
-            var $el = $('.audioFile'); 
+            var $el = $('.audioFileDiv'); 
             var isPositionFixed = ($el.css('position') == 'fixed');
             if ($(this).scrollTop() > 400 && !isPositionFixed){ 
-              $el.css({'position': 'fixed', 'top': '10px', 'right': '10px'}); 
+              $el.css({'position': 'fixed', 'top': '20px', 'right': '45px', 'width' : '15%'}); 
+              //$('.audioFile').css({'display': 'block','margin-left' : '-150 !important','margin-right' : '0 !important'}); 
             }
             if ($(this).scrollTop() < 400 && isPositionFixed){
-              $el.css({'position': 'static', 'top': '0px'}); 
+              $el.css({'position': 'static', 'top': '0px', 'width' : '100%'}); 
             } 
           });
         ]]>
