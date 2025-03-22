@@ -513,8 +513,8 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
     else ()
 };
 declare function app:audio($node as node(), $model as map(*)) {
-<div class="audioFileDiv" style="text-align: center; margin-top:12px; padding:8px;">
-    <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-interval="false">
+<div id="audioFileDiv">
+    <div id="carouselExampleIndicators" class="carousel carousel-dark slide w-100" data-bs-interval="false">
         <div class="carousel-indicators">
             {
                 for $audio at $p in $model("data")//tei:graphic[ends-with(@url,'.mp3')]
@@ -528,7 +528,7 @@ declare function app:audio($node as node(), $model as map(*)) {
                 let $url := $audio/@url
                 return 
                       <div class="carousel-item {if($p = 1) then 'active' else ()}">
-                         <audio controls="controls" class="audioFile">
+                         <audio controls="controls" class="audioFile w-100">
                             <source src="{$url}" type="audio/mpeg"/>
                          </audio>
                       </div>
@@ -546,15 +546,23 @@ declare function app:audio($node as node(), $model as map(*)) {
     <script type="text/javascript">
         <![CDATA[
         $(window).scroll(function(e){ 
-            var $el = $('.audioFileDiv'); 
+            var distanceFromTop = $(this).scrollTop();
+              if (distanceFromTop >= 400) {
+                  $('#audioFileDiv').addClass('fixed');
+              } else {
+                  $('#audioFileDiv').removeClass('fixed');
+              }
+            /*
+            var $el = $('#audioFileDiv'); 
             var isPositionFixed = ($el.css('position') == 'fixed');
+            //$('#sticky').addClass('fixed');
             if ($(this).scrollTop() > 400 && !isPositionFixed){ 
-              $el.css({'position': 'fixed', 'top': '20px', 'right': '45px', 'width' : '15%'}); 
-              //$('.audioFile').css({'display': 'block','margin-left' : '-150 !important','margin-right' : '0 !important'}); 
+              $el.css({'position': 'fixed', 'top': '20px'});  
             }
             if ($(this).scrollTop() < 400 && isPositionFixed){
               $el.css({'position': 'static', 'top': '0px', 'width' : '100%'}); 
             } 
+           */ 
           });
         ]]>
     </script>
