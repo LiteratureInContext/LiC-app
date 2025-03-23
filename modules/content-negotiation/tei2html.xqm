@@ -285,7 +285,8 @@ declare function tei2html:page-chunk($nodes as node()*){
                                          else concat($config:image-root,$id,'/',string($image/@facs))   
                              return 
                                       <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
-                                           <a href="{$src}"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>
+                                          <!-- <a href="{$src}"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>-->
+                                          <a href="#" class="imageLink" xmlns="http://www.w3.org/1999/xhtml"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>
                                            <span class="caption">Page {string($image/@n)}</span>
                                       </span>
                          else ()
@@ -336,7 +337,7 @@ declare function tei2html:get-page($nodes as node()*, $page as item()*){
                                          else concat($config:image-root,$id,'/',string($image/@facs))   
                              return 
                                       <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
-                                           <a href="{$src}"><img src="{$src}" width="100%"/></a>
+                                           <a href="#" class="imageLink" xmlns="http://www.w3.org/1999/xhtml"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>
                                            <span class="caption">Page {string($image/@n)}</span>
                                       </span>
                          else ()
@@ -459,7 +460,8 @@ return
             </div>   
         else 
             <span class="graphic">{
-                (<a href="{$imgURL}">
+                (
+                <a href="{$imgURL}">
                     <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
                     attribute src { $imgURL },
                     attribute alt { $alt },

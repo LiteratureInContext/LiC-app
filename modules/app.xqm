@@ -379,14 +379,14 @@ if($model("data")/descendant::tei:pb[@facs]) then
     let $pages :=  $model("data")/descendant::tei:pb[@facs]
     let $count := count($pages)
     return 
-    <div id="carouselExampleIndicators" class="carousel slide carousel-dark" data-bs-interval="false">
+    <div id="pageImagesCarousel" class="carousel slide carousel-dark" data-bs-interval="false">
         <div class="carousel-indicators">
             {
                 for $img at $p in $pages
                 return 
                     if($p = 1) then 
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    else <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{$p - 1}" aria-label="Slide {$p}"></button>
+                        <button type="button" data-bs-target="#pageImagesCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    else <button type="button" data-bs-target="#pageImagesCarousel" data-bs-slide-to="{$p - 1}" aria-label="Slide {$p}"></button>
             }
         </div>
         <div class="carousel-inner">
@@ -404,11 +404,11 @@ if($model("data")/descendant::tei:pb[@facs]) then
                 </div>
             }
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+        <a class="carousel-control-prev" href="#pageImagesCarousel" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+        <a class="carousel-control-next" href="#pageImagesCarousel" role="button" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
         </a>
@@ -447,13 +447,22 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             </span></button>, '&#160;') 
                 else if($f = 'pageImages') then 
                     if($model("data")/descendant::tei:pb[@facs]) then 
-                         ((:
-                           <a href="{request:get-uri()}" class="btn btn-outline-secondary btn-xs" id="pageImagesBtn" data-bs-toggle="tooltip" title="Click to hide the page images.">
-                                <i class="bi bi-dash-circle"></i> Page Images
-                             </a>:)
+                         (
+                            if($model("data")/descendant::tei:pb[@facs]) then 
+                                if(request:get-parameter('view', '') = 'pageImages') then 
+                                   (<a href="{request:get-uri()}" class="btn btn-outline-secondary btn-xs" id="pageImagesBtn" data-bs-toggle="tooltip" title="Click to hide the page images.">
+                                        <i class="bi bi-plus-circle"></i> Page Images
+                                     </a>, '&#160;') 
+                                else 
+                                    (<a href="?view=pageImages" class="btn btn-outline-secondary btn-xs" id="pageImagesBtn" data-bs-toggle="tooltip" title="Click to view the page images along side the text.">
+                                        <i class="bi bi-dash-circle"></i> Page Images
+                                     </a>, '&#160;') 
+                            else()  
+                             (:
                              <button type="button" class="btn btn-outline-secondary btn-xs showHide" data-bs-toggle="modal" data-bs-target="#teiPageImages">
                                 <i class="bi bi-plus-circle"></i> Page Images
                             </button>, '&#160;') 
+                            :))
                     else()         
                 else if($f = 'lod') then 
                     let $lodcount := count(distinct-values($model("data")//@key))

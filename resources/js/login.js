@@ -208,8 +208,20 @@ $(window).scroll(function(e){
 //audioLink
 $('.audioLink').on('click', function() {
     $('#carouselAudio').carousel($('.audioLink').index(this));
-    //console.log('Take2::' + );
 });
 
+$('.imageLink').on('click', function() {
+    $('#pageImagesCarousel').carousel($('.imageLink').index(this));
+    console.log('Image number:: ' + $('.imageLink').index(this));
+});
+
+$('#content').on('click', '.imageLink', function() {
+    event.preventDefault();
+    var myModal = new bootstrap.Modal(document.getElementById('teiPageImages'))
+    myModal.show();
+    $('#pageImagesCarousel').carousel($('.imageLink').index(this));
+     
+});
+  
 });
 
