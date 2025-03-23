@@ -451,11 +451,11 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
                             if($model("data")/descendant::tei:pb[@facs]) then 
                                 if(request:get-parameter('view', '') = 'pageImages') then 
                                    (<a href="{request:get-uri()}" class="btn btn-outline-secondary btn-xs" id="pageImagesBtn" data-bs-toggle="tooltip" title="Click to hide the page images.">
-                                        <i class="bi bi-plus-circle"></i> Page Images
+                                        <i class="bi bi-dash-circle"></i> Page Images
                                      </a>, '&#160;') 
                                 else 
                                     (<a href="?view=pageImages" class="btn btn-outline-secondary btn-xs" id="pageImagesBtn" data-bs-toggle="tooltip" title="Click to view the page images along side the text.">
-                                        <i class="bi bi-dash-circle"></i> Page Images
+                                        <i class="bi bi-plus-circle"></i> Page Images
                                      </a>, '&#160;') 
                             else()  
                              (:
