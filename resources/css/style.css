@@ -391,6 +391,10 @@ td {padding-right:1em;}
 #audioFileDiv.fixed .carousel-inner {
     padding:1em !important;
 }
+.credit {
+    text-align:center;
+    font-size:small;
+}
 
 @media only screen and (max-width: 600px) {
     .page-content {margin: 1em}

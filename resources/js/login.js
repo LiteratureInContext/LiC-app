@@ -195,5 +195,21 @@ $('#fontFamilyReset').click(function(event) {
   window.location.reload()
 });
 
+//test audio links
+$(window).scroll(function(e){ 
+    var distanceFromTop = $(this).scrollTop();
+    if (distanceFromTop >= 400) {
+        $('#audioFileDiv').addClass('fixed');
+        //add conditional close btn
+    } else {
+        $('#audioFileDiv').removeClass('fixed');
+    }
+});
+//audioLink
+$('.audioLink').on('click', function() {
+    $('#carouselAudio').carousel($('.audioLink').index(this));
+    //console.log('Take2::' + );
+});
+
 });
 

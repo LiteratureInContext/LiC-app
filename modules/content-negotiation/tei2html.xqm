@@ -518,7 +518,11 @@ declare function tei2html:youTube($node as element (tei:ref)) {
     </div>
 };
 declare function tei2html:ref($node as element (tei:ref)) {
-    if($node/@corresp) then
+    if($node[contains(@target,'Audio')]) then
+        <button class="btn btn-outline-secondary btn-xs audioLink" xmlns="http://www.w3.org/1999/xhtml" data-bs-toggle="collapse" data-bs-target="#teiAudio">
+            <span data-bs-toggle="tooltip" title="Open Audio File"><i class="bi bi-headphones"></i> Audio</span>
+        </button>
+    else if($node/@corresp) then
         <span class="footnoteRef text">
             <a href="#{string($node/@corresp)}" class="showFootnote">{tei2html:tei2html($node/node())}</a>
             <sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup>

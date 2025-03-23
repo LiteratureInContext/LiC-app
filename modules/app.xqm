@@ -514,12 +514,13 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
 };
 declare function app:audio($node as node(), $model as map(*)) {
 <div id="audioFileDiv">
-    <div id="carouselExampleIndicators" class="carousel carousel-dark slide w-100" data-bs-interval="false">
+    <button class="btn btn-outline-secondary showHide float-end" id="hideAudio" data-bs-toggle="collapse" data-bs-target="#teiAudio">X</button>
+    <div id="carouselAudio" class="carousel carousel-dark slide w-100" data-bs-interval="false">
         <div class="carousel-indicators">
             {
                 for $audio at $p in $model("data")//tei:graphic[ends-with(@url,'.mp3')]
                 return 
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{$p - 1}" class="{if($p = 1) then 'active' else 'normal'}" aria-current="true" aria-label="Slide {$p}"></button>
+                    <button type="button" data-bs-target="#carouselAudio" data-bs-slide-to="{$p - 1}" class="{if($p = 1) then 'active' else 'normal'}" aria-current="true" aria-label="Slide {$p}"></button>
             }
         </div>
         <div class="carousel-inner">
@@ -531,41 +532,19 @@ declare function app:audio($node as node(), $model as map(*)) {
                          <audio controls="controls" class="audioFile w-100">
                             <source src="{$url}" type="audio/mpeg"/>
                          </audio>
+                         <p class="credit">{if($audio/following-sibling::text()) then $audio/following-sibling::text() else ()} [Audio File {$p}]</p>
                       </div>
             }
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAudio" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselAudio" data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <script type="text/javascript">
-        <![CDATA[
-        $(window).scroll(function(e){ 
-            var distanceFromTop = $(this).scrollTop();
-              if (distanceFromTop >= 400) {
-                  $('#audioFileDiv').addClass('fixed');
-              } else {
-                  $('#audioFileDiv').removeClass('fixed');
-              }
-            /*
-            var $el = $('#audioFileDiv'); 
-            var isPositionFixed = ($el.css('position') == 'fixed');
-            //$('#sticky').addClass('fixed');
-            if ($(this).scrollTop() > 400 && !isPositionFixed){ 
-              $el.css({'position': 'fixed', 'top': '20px'});  
-            }
-            if ($(this).scrollTop() < 400 && isPositionFixed){
-              $el.css({'position': 'static', 'top': '0px', 'width' : '100%'}); 
-            } 
-           */ 
-          });
-        ]]>
-    </script>
 </div>
 
 };
