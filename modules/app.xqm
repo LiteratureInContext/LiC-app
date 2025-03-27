@@ -36,8 +36,8 @@ declare namespace mads = "http://www.loc.gov/mads/v2";
 (: LiC application functions below :)
 
 (: Global Variables :)
-declare variable $app:start {request:get-parameter('start', 1) cast as xs:integer};
-declare variable $app:perpage {request:get-parameter('perpage', 25) cast as xs:integer};
+declare variable $app:start {request:get-parameter('start', 1)[1] cast as xs:integer};
+declare variable $app:perpage {request:get-parameter('perpage', 25)[1] cast as xs:integer};
 
 declare function app:if-attribute-set($node as node(), $model as map(*), $attribute as xs:string) {
     let $isSet :=
