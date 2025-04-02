@@ -10,6 +10,8 @@ import module namespace tei2html="http://syriaca.org/tei2html" at "content-negot
 import module namespace http="http://expath.org/ns/http-client";
 
 import module namespace functx="http://www.functx.com";
+import module namespace timeline="http://LiC.org/apps/timeline" at "lib/timeline.xqm";
+
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace mads = "http://www.loc.gov/mads/v2";
 declare namespace json = "http://www.json.org";
@@ -178,6 +180,10 @@ declare function local:make-record($nodes as node()*){
     </TEI>
 };
 
+declare function local:buildTimeline(){
+    timeline:get-publication-dates()
+};
+
 (: 
  Actions needed by script
  1. Create: create new geojson record from TGN SPARQL endpoint
@@ -192,6 +198,9 @@ if(request:get-parameter('action', '') = 'create') then
         else if(request:get-parameter('content', '') = 'person') then
             let $f := local:make-record(())
             return xmldb:store(concat($config:app-root,'/resources/lodHelpers'), xmldb:encode-uri('persNames.xml'), $f)
+        else if(request:get-parameter('content', '') = 'timeline') then 
+            let $f := local:buildTimeline()
+            return xmldb:store(concat($config:app-root,'/resources/lodHelpers'), xmldb:encode-uri('timeline.json'), $f)
         else ()
     } catch *{
         <response status="fail">
