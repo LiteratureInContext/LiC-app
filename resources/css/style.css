@@ -79,6 +79,7 @@ hr.lic-line { border-top: 2px solid #A18C6A; }
 
 /* Search and browse results */
 form#search {margin-top:-1.5em; padding-top:0;}
+.lic-well .result {background-color:white !important;}
 .result {display:block; border-bottom:1px solid #ccc; margin:1em; padding: 1em;}
 .result .get-more {margin:.5em;}
 .nestedResults .result {border-top:1px solid #ccc; border-bottom:none;}

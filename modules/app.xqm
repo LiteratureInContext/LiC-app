@@ -718,11 +718,11 @@ return
                     let $author := if($tei/descendant::tei:author/descendant-or-self::tei:surname) then 
                                         $tei/descendant::tei:author/descendant-or-self::tei:surname
                                        else $tei/descendant::tei:author
-                    let $selection := if($work//text) then
-                                        for $text in $work//work/text
+                    let $selection := if($work/descendant::*:text) then
+                                        for $text in $work/descendant::*:text
                                         return 
-                                            (<div><h4>Selected Text</h4>,
-                                            {tei2html:tei2html($text/child::*)}</div>)
+                                            (<div><h4>Selected Text T2</h4>,
+                                            {$text/child::*}</div>)
                                       else()
                     let $sort := 
                         if(request:get-parameter('sort-element', '') = 'title') then 
@@ -754,12 +754,16 @@ return
                                 </button>
                               </div>
                               <div class="col">
-                                {(
+                                {tei2html:summary-view($tei, (), $recID[1])}
+                                {(''
+                                (:
                                 if($selection != '') then
                                     (<h4 class="selections-from">Selections from: </h4>, 
                                     tei2html:summary-view($tei, (), $recID[1]),
                                     if(request:get-parameter('view', '') = 'expanded') then 
-                                       <div class="selected-text">{$selection}</div> 
+                                       <div class="selected-text">
+                                       <div>TEST3</div>{$selection}
+                                       </div> 
                                     else ())
                                 else if(request:get-parameter('view', '') = 'expanded') then
                                     (tei2html:header($tei/descendant::tei:teiHeader),
@@ -768,6 +772,7 @@ return
                                     return
                                         if($notes != '') then 
                                             <div class="footnote show-print">
+                                            <div>TEST4</div>
                                                 <h3>Footnotes</h3>
                                                 {for $n in $notes
                                                  return <div class="tei-footnote"><span class="tei-footnote-id">{string($n/@target)}</span>{tei2html:tei2html($n/node())}</div>
@@ -776,7 +781,7 @@ return
                                         else ()
                                     )
                                 else tei2html:summary-view($tei, (), $recID[1])
-                                )}
+                                :))}
                                 <div class="expandedText"></div>
                               </div>
                             </div>
@@ -942,13 +947,6 @@ let $pagination-links :=
                                     if($search-string != '') then
                                         <li class="page-item pull-right search-new"><a class="page-link" href="search.html"><i class="bi bi-search"></i> New</a></li>
                                     else ()
-                                    (:, 
-                                    if($model("hits")//@key) then 
-                                         <li class="pull-right"><a href="#" id="LODBtn" data-toggle="collapse" data-target="#teiViewLOD">
-                                            <span data-toggle="tooltip" title="View Linked Data">
-                                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Linked Data
-                                            </span></a></li>
-                                    else():)
                                     )}
                             </ul>
                             else 

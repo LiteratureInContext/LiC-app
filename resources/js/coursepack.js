@@ -162,10 +162,10 @@
                          $.get(url, function(data) {
                                $(current).closest('.row').find('.expandedText').html(data);
                            }, "html"); 
-                           $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                           $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
                        } else {
                          $expandedText.toggle();
-                         $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                         $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
                        } 
                      
                 });

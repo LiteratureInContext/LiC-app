@@ -128,10 +128,7 @@ declare function data:search() {
                 collection($config:data-root || '/headnotes')//tei:TEI[ft:query(.,  $query-string, $query-options)]
             else collection($config:data-root)//tei:TEI[ft:query(.,  $query-string, $query-options)]
         else collection($config:data-root)//tei:TEI[not(starts-with(@xml:id,'headnote'))][ft:query(., (), $query-options)]
-    let $hits := $hits (:
-                 if($query-string != '') then $hits[ft:query(., (), $query-options)]
-                 else $hits
-                 :)
+    let $hits := $hits 
     let $sort := if(request:get-parameter('sort-element', '') != '') then
                     request:get-parameter('sort-element', '')[1]
                  else ()        
