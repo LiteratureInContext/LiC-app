@@ -41,7 +41,7 @@ let $results :=
                         return 
                             <div>
                                  <h4>Selected Text</h4>
-                                 {tei2html:tei2html($text)}
+                                 {$text}
                             </div>
                     else 
                         let $work := doc(xmldb:encode-uri($workid))

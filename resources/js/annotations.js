@@ -18,10 +18,10 @@ $(document).ready(function () {
               $.get('modules/lib/annotations.xql', { contributorID: contributorID}, function(data) {
                     $(current).closest('.contributor').find('.contributorAnnotationsResults').html(data);
                 }, "html"); 
-                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             } else {
               $annotationsResults.toggle();
-              $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+              $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             }   
     });
     
@@ -37,10 +37,10 @@ $(document).ready(function () {
               $.get('modules/lib/annotations.xql', { doc: workID, contributorID: contributorID}, function(data) {
                     $(current).closest('.annotations').find('.annotationsResults').html(data);                 
                 }, "html"); 
-                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             } else {
               $annotationsResults.toggle();
-              $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+              $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             }
     });  
     
@@ -56,10 +56,10 @@ $(document).ready(function () {
               $.get('modules/lib/annotations.xql', {type: 'text', doc: workID, contributorID: contributorID}, function(data) {
                     $(current).closest('.annotations').find('.textAnnotationsResults').html(data);                 
                 }, "html"); 
-                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             } else {
               $annotationsResults.toggle();
-              $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+              $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             }
     }); 
     
@@ -77,10 +77,10 @@ $(document).ready(function () {
               $.get('modules/lib/browse.xql', {type: 'search', doc: workID, contributorID: contributorID, authorID: authorID}, function(data) {
                     $(current).closest('.result').find('.nestedResults').html(data);                 
                 }, "html"); 
-                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             } else {
               $annotationsResults.toggle();
-              $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+              $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             }
     });    
 
@@ -93,10 +93,10 @@ $(document).ready(function () {
               $.get(url, function(data) {
                     $(current).closest('.result').find('.nestedResults').html(data);                 
                 }, "html"); 
-                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             } else {
               $annotationsResults.toggle();
-              $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+              $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
             }
         console.log('test dynamic content loading. TEST URL: ' + url);
         
@@ -115,11 +115,11 @@ $(document).ready(function () {
      $('.showHide').on('click', function () {
         if($(this).find('.glyphicon').hasClass('glyphicon glyphicon-plus-sign'))
             {
-               $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign'); 
+               $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle'); 
             }
             else
             {      
-                $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign'); 
+                $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle'); 
             }
         }); 
 });
