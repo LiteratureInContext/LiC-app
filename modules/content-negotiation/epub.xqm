@@ -17,7 +17,7 @@ module namespace epub = "http://exist-db.org/xquery/epub";
 import module namespace compression = "http://exist-db.org/xquery/compression";
 import module namespace tei2html="http://syriaca.org/tei2html" at "tei2html.xqm";
 import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
-
+declare namespace html="http://www.w3.org/1999/xhtml";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 declare function epub:epub($id as xs:string, $work as item()*) {
@@ -299,11 +299,15 @@ declare function epub:title-xhtml-body-coursepack($fileDesc as item()*) {
 
     @param $text the tei:text element for the file, which contains the divs to be processed into the EPUB
     @return the serialized XHTML page, wrapped in an entry element
+    
+    NOTE: this is where footnotes need to be grabbed, but are not. 
 :)
 declare function epub:body-xhtml-entries($doc) {                    
         for $div at $p in $doc//tei:body/tei:div
         let $title := if($div/tei:head) then $div/tei:head/descendant-or-self::*[not(self::tei:ref) and not(self::tei:note)]/text() else if($div/@n)  then string($div/@n) else if($div/@xml:id) then string($div/@xml:id) else 'Entry' 
-        let $body := tei2html:tei2html($div)
+        let $footnotes := $doc/descendant::tei:note[@target]
+        let $tei := <TEI xmlns="http://www.tei-c.org/ns/1.0">{($div,$footnotes)}</TEI>
+        let $body := tei2html:tei2html($tei)
         let $body-xhtml:= epub:assemble-xhtml($title, epub:fix-namespaces($body))
         let $id := if($div/@xml:id) then $div/@xml:id else if($div/@n)  then string($div/@n) else concat('n',$p)
         return
@@ -511,13 +515,39 @@ declare function epub:assemble-xhtml($title, $body) {
         </body>
     </html>
 };
-
+(:footnote
+<span class="footnoteRef text"><a href="#moroccoCase" class="showFootnote">neat
+    morocco case</a><sup class="tei-ref footnoteRef show-print">moroccoCase</sup></span>
+    
+    
+    <a href="chapter.xhtml#myNote" epub:type="noteref">1</a></p>
+    
+    <aside id="myNote" epub:type="footnote"><p style="direction:rtl">Text in popup</p></aside>
+    
+    
+    <span class="tei-footnote-id " id="moroccoCase">
+:)
 declare function epub:fix-namespaces($node as node()*) {
     typeswitch ($node)
         case element() return
-            element { QName("http://www.w3.org/1999/xhtml", local-name($node)) } {
-                $node/@*, for $child in $node/node() return epub:fix-namespaces($child)
-            }
+            if(local-name($node) = 'span') then 
+                if(contains($node/@class,'footnoteRef')) then 
+                    for $ref in $node/*:a
+                    return ('&#160;', <a xmlns="http://www.w3.org/1999/xhtml" href="{$ref/@href}" epub:type="noteref">{$ref//text()}</a>)
+                else if(contains($node/@class,'footnote')) then 
+                    let $id := $node/*/@id[1]
+                    return 
+                    <aside xmlns="http://www.w3.org/1999/xhtml" id="{$id}" epub:type="footnote">
+                        {for $child in $node/child::*[not(@class="tei-footnote-id ")] return epub:fix-namespaces($child)}
+                    </aside>
+                else 
+                    element { QName("http://www.w3.org/1999/xhtml", local-name($node)) } {
+                        $node/@*, for $child in $node/node() return epub:fix-namespaces($child)
+                    }
+            else 
+                element { QName("http://www.w3.org/1999/xhtml", local-name($node)) } {
+                    $node/@*, for $child in $node/node() return epub:fix-namespaces($child)
+                }
         default return
             $node
 };
