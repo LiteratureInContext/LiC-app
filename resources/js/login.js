@@ -146,53 +146,68 @@ $('#logout').click(function(event) {
  });
 });
 
-/* 
-$('.authenticate').click(function(event) {
-  event.preventDefault();
-  var url = $(this).attr('href');
-  $.get('userInfo', function(data) {
-    $.get(url, function(data) {
-        window.location = url;
-    });
-  }).fail( function(jqXHR, textStatus, errorThrown) {
-     console.log(textStatus);
-  });  
-}); 
+// Function to set font size and save to localStorage
+function setFontSize(size) {
+    $('body').css('font-size', size + 'px');
+    localStorage.setItem('fontSize', size);
+}
 
-*/
-/* 
- * function adjustFontSize(amount) {
-    const textElement = document.getElementById("text");
-    const currentSize = parseFloat(window.getComputedStyle(textElement).fontSize);
-    textElement.style.fontSize = (currentSize + amount) + "px";
-  }
- * 
- */
+// Check if font size is stored in localStorage
+if (localStorage.getItem('fontSize')) {
+    var savedFontSize = localStorage.getItem('fontSize');
+    setFontSize(savedFontSize);
+}
+
+//Set fontFamily  
+function setFontFamily(family) {
+    $('body').css('font-family', family);
+    localStorage.setItem('fontFamily', family);
+}
+
+    // Check if font size is stored in localStorage
+if (localStorage.getItem('fontFamily')) {
+    var savedFontFamily = localStorage.getItem('fontFamily');
+    setFontSize(savedFontFamily);
+    console.log(savedFontFamily);
+}
+
 $('#fontPlus').click(function(event) {
   event.preventDefault();
-  $("body *").css('font-size','+=1');
+  var currentSize = parseInt($('body').css('font-size'));
+  setFontSize(currentSize + 2);
+  //$("body *").css('font-size','+=2');
 });
+
 $('#fontMinus').click(function(event) {
   event.preventDefault();
-  $("body *").css('font-size','-=2');
+  var currentSize = parseInt($('body').css('font-size'));
+  setFontSize(currentSize - 2);
+  //$("body *").css('font-size','-=2');
 });
+
 $('#fontNormal').click(function(event) {
   event.preventDefault();
-  window.location.reload()
+  $("body").css('font-size','16px');
 });
+
 $('#sansSerif').click(function(event) {
   event.preventDefault();
   $("body *").css('font-family','sans-serif');
   $("#serif").css('font-family','serif');
+  setFontFamily('sans-serif');
 });
+
 $('#serif').click(function(event) {
   event.preventDefault();
   $("body *").css('font-family','serif');
   $("#sansSerif").css('font-family','sans-serif');
+  setFontFamily('serif');
 });
+
 $('#fontFamilyReset').click(function(event) {
   event.preventDefault();
-  window.location.reload()
+  $("body *").css('font-family','serif');
+  $("#sansSerif").css('font-family','sans-serif');
 });
 
 //test audio links
