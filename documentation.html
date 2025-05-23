@@ -1,6 +1,25 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="page-content ">
         <h1>Documentation</h1>
-        <p>Place holder content</p>
+        <div class="indent">
+            <div data-template="app:get-wiki" data-template-wiki-uri="https://github.com/LiteratureInContext/LiC-data/wiki">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div data-template="app:wiki-page-content"/>
+                    </div>
+                    <div class="col-md-4">                        
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Documentation</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div data-template="app:wiki-menu" data-template-wiki-uri="https://github.com/LiteratureInContext/LiC-data/wiki"/>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>    
+        </div>
     </div>
 </div>
