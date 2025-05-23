@@ -82,7 +82,7 @@ return
 };
 
 
-declare function timeline:format-dates($start as xs:string*, $end as xs:string*, $headline as xs:string*, $text as xs:string*, $link as xs:string*){
+declare function timeline:format-dates($start as xs:string*, $end as xs:string*, $headline as xs:string*, $text as xs:string*, $media as element()*, $link as xs:string*){
     if($start != '' or $end != '') then 
         <json:value json:array="true">
             {(
@@ -105,8 +105,16 @@ declare function timeline:format-dates($start as xs:string*, $end as xs:string*,
                     else (),
                     if($text != '') then 
                        <text>{$text}<![CDATA[ <a href="]]>{$link}<![CDATA["><i class="bi bi-arrow-right-circle"></i></a>]]></text> 
-                   else () }
-                 </text>
+                   else ()
+                   }
+                 </text>,
+                 if($media[@source != '']) then 
+                       <media>
+                            <url>{string($media/@source)}</url>
+                            <caption>{string($media/@alt)}</caption>
+                            <thumbnail>{string($media/@source)}</thumbnail>
+                       </media> 
+                else ()
                 )}
         </json:value>
     else ()
@@ -125,12 +133,13 @@ declare function timeline:get-date-published($data as node()*) as node()*{
                   else if($titlElement/parent::tei:analytic and contains($titlElement,'"')) then 
                     $titlElement/text()
                   else concat('"',$titlElement/text(),'"')
+    let $media := if($imprint/ancestor::tei:TEI/descendant::tei:graphic[@type='timeline']) then $imprint/ancestor::tei:TEI/descendant::tei:graphic[@type='timeline'] else()   
     let $id := document-uri(root($imprint))
     let $link := concat($config:nav-base,'/work',substring-before(replace($id,$config:data-root,''),'.xml'))
     let $dateText :=    
                 if($date[@timeline != '']) then string($date/@timeline)
                 else tei2html:tei2html($date)
-    let $start := 
+    let $startString := 
                     if($date[@timeline != '']) then
                         string($date/@timeline)
                      else if($date/@when) then
@@ -138,7 +147,8 @@ declare function timeline:get-date-published($data as node()*) as node()*{
                      else if($date/@from) then   
                         string($date/@from)
                      else ()
-    let $end := 
+    let $start := if(matches($startString,'\d{4}')) then $startString else ()
+    let $endString := 
                      if($date[@timeline != '']) then
                         string($date/@timeline)
                      else if($date/@when) then
@@ -146,7 +156,8 @@ declare function timeline:get-date-published($data as node()*) as node()*{
                      else if($date/@to) then   
                         string($date/@to)
                      else ()
+    let $end := if(matches($endString,'\d{4}')) then $endString else ()                     
     let $imprint-text := normalize-space(concat($author,if($author != '') then ', ' else (), $title))
-  return timeline:format-dates($start, $end,$imprint-text,(), $link)
+  return timeline:format-dates($start, $end,$imprint-text,(), $media, $link)
         
 };
