@@ -1808,7 +1808,7 @@ declare function app:wiki-rest-request($wiki-uri as xs:string?){
  : Pulls github wiki data H1.  
 :)
 declare function app:wiki-page-title($node, $model){
-    $model("hits")//html:h1[contains(@class,'gh-header-title')]
+    $model("hits")//html:h1[1]
 };
 (:~
  : Pulls github wiki content.  
@@ -1848,9 +1848,11 @@ declare function app:wiki-menu($node, $model, $wiki-uri){
             {
                 for $links in $wiki-data//html:div[@class='wiki-rightbar']/descendant::html:ul/html:li/descendant::html:a[not(@aria-label="Please reload this page")]
                 return 
-                <li>
-                    {app:wiki-links($links, $wiki-uri)}
-                </li>
+                    if($links/descendant-or-self::text() = 'Home') then () 
+                    else 
+                        <li>
+                            {app:wiki-links($links, $wiki-uri)}
+                        </li>
             }
         </ul>
 };
@@ -1861,15 +1863,17 @@ declare function app:wiki-menu($node, $model, $wiki-uri){
 :)
 declare function app:wiki-links($nodes as node()*, $wiki) {
     for $node in $nodes
+    let $page := tokenize(request:get-url(),'/')[last()]
     return 
         typeswitch($node)
             case element(html:a) return
                 let $wiki-path := substring-after($wiki,'https://github.com')
-                let $href := concat($config:nav-base, replace($node/@href, $wiki-path, "/documentation.html?wiki-page="),'&amp;wiki-uri=', $wiki)
+                let $pagePath := concat('/',$page,'?wiki-page=')
+                let $href := concat($config:nav-base, replace($node/@href, $wiki-path, $pagePath),'&amp;wiki-uri=', $wiki)
                 return
-                    <a href="{$href}">
-                        {$node/@* except $node/@href, $node/node()}
-                    </a>
+                        <a href="{$href}">
+                            {$node/@* except $node/@href, $node/node()}
+                        </a>
             case element() return
                 element { node-name($node) } {
                     $node/@*, app:wiki-links($node/node(), $wiki)
