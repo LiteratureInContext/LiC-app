@@ -1,10 +1,32 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="page-content ">
-        <h1>Assignment Samples</h1>
+            <div data-template="app:get-wiki" data-template-wiki-uri="https://github.com/LiteratureInContext/LiC-assignments/wiki/Assignment-Sample:-Digital-Edition">
+                <h1 data-template="app:wiki-page-title">Assignment Samples</h1>
+                <div class="indent">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div data-template="app:wiki-page-content"/>
+                    </div>
+                    <div class="col-md-4">                        
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Documentation</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div data-template="app:wiki-menu" data-template-wiki-uri="https://github.com/LiteratureInContext/LiC-assignments/wiki"/>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>    
+            </div>
+        <!--
         <ul>
             <li><a href="reports/examples/DigitalEditionAssignmentSample.pdf">Sample Digital Edition Assignment</a></li>
             <li><a href="reports/examples/AnnotationAssignmentSample.pdf">Sample Annotation Assignment</a></li>
             <li><a href="reports/examples/GeographicTaggingAssignment.pdf">Sample Geotagging Assignment</a></li>
         </ul>
+        -->
     </div>
 </div>
