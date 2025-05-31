@@ -1808,7 +1808,7 @@ declare function app:wiki-rest-request($wiki-uri as xs:string?){
  : Pulls github wiki data H1.  
 :)
 declare function app:wiki-page-title($node, $model){
-    $model("hits")//html:h1[1]
+    $model("hits")/descendant::html:h1[1]
 };
 (:~
  : Pulls github wiki content.  
@@ -1858,6 +1858,28 @@ declare function app:wiki-menu($node, $model, $wiki-uri){
 };
 
 (:~
+ : Pull github wiki data into Syriaca.org documentation pages. 
+ : Grabs wiki menus to add to Syraica.org pages
+ : @param $wiki pulls content from specified wiki or wiki page. 
+:)
+declare function app:wiki-menu-new($node, $model, $wiki-menu){
+    let $wiki-data := app:wiki-rest-request($wiki-menu)
+    let $menu := app:wiki-links($wiki-data//html:div[@class='wiki-rightbar']/descendant::html:ul/html, $wiki-menu)
+    return 
+        <ul>
+            {
+                for $links in $wiki-data//html:div[@class='wiki-rightbar']/descendant::html:ul/html:li/descendant::html:a[not(@aria-label="Please reload this page")]
+                return 
+                    if($links/descendant-or-self::text() = 'Home') then () 
+                    else 
+                        <li>
+                            {app:wiki-links($links, $wiki-menu)}
+                        </li>
+            }
+        </ul>
+};
+
+(:~
  : Typeswitch to processes wiki menu links for use with Syriaca.org documentation pages. 
  : @param $wiki pulls content from specified wiki or wiki page. 
 :)
@@ -1868,7 +1890,7 @@ declare function app:wiki-links($nodes as node()*, $wiki) {
         typeswitch($node)
             case element(html:a) return
                 let $wiki-path := substring-after($wiki,'https://github.com')
-                let $pagePath := concat('/',$page,'?wiki-page=')
+                let $pagePath := (:concat('/',$page,'?wiki-page='):)'/wiki.html?wiki-page='
                 let $href := concat($config:nav-base, replace($node/@href, $wiki-path, $pagePath),'&amp;wiki-uri=', $wiki)
                 return
                         <a href="{$href}">
