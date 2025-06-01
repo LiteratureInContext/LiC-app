@@ -1,5 +1,5 @@
 xquery version "3.1";
-(: For dynamically loading browse and search functions.  :)
+(: For dynamically loading browse and search functions.   :)
 
 (: Import application modules. :)
 import module namespace config="http://LiC.org/apps/config" at "../config.xqm";

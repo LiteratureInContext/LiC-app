@@ -1,7 +1,7 @@
 xquery version "3.1";
 
 (:~ 
- : POC: eXist-db module to commit content to github reop via github API 
+ : POC: eXist-db module to commit content to github reop via github API  
  : Code creates a new branch off of the master branch, commits updated content to new branch and then submits a pull request when complete. 
  : Intended use is for online data submission, using GitHub for review/approval process.
  :

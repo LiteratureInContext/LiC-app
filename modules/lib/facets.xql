@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-module namespace sf = "http://srophe.org/srophe/facets";
+module namespace sf = "http://srophe.org/srophe/facets"; 
 import module namespace functx="http://www.functx.com";
 import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "../content-negotiation/tei2html.xqm";

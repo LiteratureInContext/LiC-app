@@ -1,7 +1,7 @@
 xquery version "3.1";
 (:~ 
  : Creates and manages course packs.
- : Create new coursepacks
+ : Create new coursepacks 
  : Add to existing coursepacks
 :)
 
