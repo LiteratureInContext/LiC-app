@@ -1,7 +1,7 @@
 xquery version "3.1";
 
 (:~
- : A set of helper functions to access the application context from
+ : A set of helper functions to access the application context from 
  : within a module.
  :)
 

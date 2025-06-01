@@ -1,6 +1,6 @@
 xquery version "3.1";
 (:~  
- : Basic data interactions, returns raw data for use in other modules  
+ : Basic data interactions, returns raw data for use in other modules   
  : Not a library module
 :)
 

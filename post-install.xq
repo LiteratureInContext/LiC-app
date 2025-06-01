@@ -5,7 +5,7 @@ import module namespace sm = "http://exist-db.org/xquery/securitymanager";
 
 import module namespace xrest="http://exquery.org/ns/restxq/exist" at "java:org.exist.extensions.exquery.restxq.impl.xquery.exist.ExistRestXqModule";
 
-(: The following external variables are set by the repo:deploy function :)
+(: The following external variables are set by the repo:deploy function  :)
 
 (: file path pointing to the exist installation directory :)
 declare variable $home external;

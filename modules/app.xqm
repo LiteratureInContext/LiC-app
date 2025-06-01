@@ -2,7 +2,7 @@ xquery version "3.1";
 
 (:~ This is the default application library module of the lic app.
  :
- : @author Winona Salesky
+ : @author Winona Salesky 
  : @version 1.0.0
  : @see wsalesky.com
  :)
