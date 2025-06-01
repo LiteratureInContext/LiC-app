@@ -1,0 +1,48 @@
+<coursepack id="WomenFictionWriters4" title="Women Fiction Writers" user="ChrisR">
+    <instructor>Chris Ruotolo</instructor>
+    <work id="/db/apps/LiC-data/data/Haywood/haywood-love-excess.xml" num="5 14">
+        <title>Love in Excess</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/BronteE/bronte-wuthering.xml" num="3 12">
+        <title>Wuthering Heights</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Woolf/woolf-dalloway.xml" num="9 18">
+        <title>Mrs. Dalloway</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Rowson/rowson-charlotte1.xml" num="6 15">
+        <title>Charlotte. A tale of truth.</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Shelley/shelley-frankenstein-1818.xml" num="7 16">
+        <title>Frankenstein, or The Modern Prometheus</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Austen/austen-pride.xml" num="1 10">
+        <title>Pride and Prejudice</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/BronteC/bronte-jane-eyre.xml" num="2 11">
+        <title>Jane Eyre: An Autobiography</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Toomer/toomer-cane.xml" num="8 17">
+        <title>Cane</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Chopin/chopin-awakening.xml" num="4 13">
+        <title>The Awakening</title>
+        <author/>
+        <date/>
+    </work>
+</coursepack>

@@ -8,7 +8,7 @@ module namespace tei2html="http://syriaca.org/tei2html";
 import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 import module namespace data="http://LiC.org/apps/data" at "../lib/data.xqm";
 
-declare namespace html="http://purl.org/dc/elements/1.1/";
+declare namespace html="http://www.w3.org/1999/xhtml";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -75,7 +75,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     if($node//tei:date/preceding-sibling::*) then ', ' else (),
                     if($node//tei:date) then $node//tei:date else <abbr title="no date of publication">n.d.</abbr>,
                     if($node/following-sibling::tei:biblScope[@unit='series']) then ', ' else (),
-                    if($node//tei:extent/@type = "online") then (' ',<a href="{$node//tei:extent}" class="tei-extent-link"><span class="glyphicon glyphicon-book"></span> View </a>) else $node//tei:extent,
+                    if($node//tei:extent/@type = "online") then (' ',<a href="{$node//tei:extent}" class="tei-extent-link"><i class="bi bi-book"></i> View </a>) else $node//tei:extent,
                     if($node//tei:note) then 
                         if($node//tei:note[@type="sidenote"]) then 
                             <span class="tei-note tei-sidenote">{tei2html:tei2html($node//tei:note)}</span>
@@ -137,6 +137,12 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element(tei:text) return 
                 if($node/descendant::tei:pb[@facs] and request:get-parameter('view', '') = 'pageImages') then
                     tei2html:page-chunk($node)
+                (: Data is not regular enough for this to work. 
+                else if($node/tei:body/tei:div[@type]) then
+                   if(count($node/tei:body/tei:div[@type]) gt 1) then 
+                        tei2html:generatedTOC($node)
+                    else tei2html:tei2html($node/node())   
+                 :)   
                 else tei2html:tei2html($node/node()) 
             case element(tei:p) return 
                 if($node/ancestor::tei:note[@target]) then 
@@ -157,6 +163,84 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
             case element() return
                 <span class="tei-{local-name($node)} {if($node/@n) then ' tei-n' else ()}" id="{tei2html:get-id($node)}">{ tei2html:tei2html($node/node()) }</span>                
             default return tei2html:tei2html($node/node())
+};
+
+(: Counts direct children of the div element :)
+(:?section=chapter&num=1:)
+declare function tei2html:generatedTOC($nodes as node()*){
+    let $toc := 'test'
+    let $content :=
+        if(request:get-parameter('section', '') = 'frontMatter') then
+            let $front := $nodes/descendant::tei:front
+            return tei2html:tei2html($front)
+        else if(request:get-parameter('section', '') = 'backMatter') then
+            let $front := $nodes/descendant::tei:back
+            return tei2html:tei2html($front)    
+       else if(request:get-parameter('section', '') != '' and request:get-parameter('n', '') != '') then 
+            let $c := $nodes/descendant::*[@type = request:get-parameter('section', '')][@n = request:get-parameter('n', '')]
+            return 
+                if($c != '') then
+                    tei2html:tei2html($c)
+                else ()
+        else ()
+    return 
+        <div class="row">
+            <div class="col-md-2">
+                <div class="stickyTOC">
+                    <ul>{(
+                            if($nodes/tei:front) then
+                                <li><a href="?section=frontMatter">Front Matter</a></li>
+                            else(),
+                            if($nodes/tei:body/tei:div[@type][@n]) then 
+                                for $s at $p in $nodes/tei:body/tei:div[@type][@n]
+                                let $head := if($s/tei:head) then $s/tei:head else if($s/child::*[1]/tei:head) then $s/child::*[1]/tei:head else concat(string($s/@type),' ',string($s/@n))
+                                return 
+                                    <li>
+                                    <a href="?section={string($s/@type)}{concat('&amp;n=',string($s/@n))}">{$head}</a>
+                                        {
+                                        if($s/tei:div[@type][@n]) then
+                                          <ul>{
+                                            for $sub at $p in $s/tei:div[@type][@n]
+                                            let $head := if($sub/tei:head) then $sub/tei:head else if($sub/child::*[1]/tei:head) then $sub/child::*[1]/tei:head else concat(string($sub/@type),' ',string($sub/@n))
+                                            return 
+                                                <li><a href="?section={string($sub/@type)}{concat('&amp;n=',string($sub/@n))}">{$head}</a></li>
+                                          }</ul>  
+                                        else ()
+                                        }
+                                    </li>
+                            else if($nodes/tei:body/tei:div/tei:div[@type][@n]) then 
+                                for $s at $p in $nodes/tei:body/tei:div/tei:div[@type][@n]
+                                let $head := if($s/tei:head) then $s/tei:head else if($s/child::*[1]/tei:head) then $s/child::*[1]/tei:head else concat(string($s/@type),' ',string($s/@n))
+                                return 
+                                    <li>
+                                        <a href="?section={string($s/@type)}{concat('&amp;n=',string($s/@n))}">{$head}</a>
+                                    {
+                                    if($s/tei:div[@type][@n]) then
+                                          <ul>{
+                                            for $sub at $p in $s/tei:div[@type][@n]
+                                            let $head := if($sub/tei:head) then $sub/tei:head else if($sub/child::*[1]/tei:head) then $sub/child::*[1]/tei:head else concat(string($sub/@type),' ',string($sub/@n))
+                                            return 
+                                              <li><a href="?section={string($sub/@type)}{concat('&amp;n=',string($sub/@n))}">{$head}</a></li>
+                                          }</ul>  
+                                        else ()
+                                    }    
+                                    </li>
+                            else (),
+                            if($nodes/descendant::tei:back) then
+                                <li><a href="?section=backMatter">Back Matter</a></li>
+                            else()
+                            )}
+                    </ul>
+                </div>
+            </div>    
+            <div class="col-md-8">
+                {
+                if($content) then
+                    $content
+                else tei2html:tei2html($nodes)
+                }
+            </div>
+        </div>
 };
 
 (:
@@ -201,7 +285,8 @@ declare function tei2html:page-chunk($nodes as node()*){
                                          else concat($config:image-root,$id,'/',string($image/@facs))   
                              return 
                                       <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
-                                           <a href="{$src}"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>
+                                          <!-- <a href="{$src}"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>-->
+                                          <a href="#" class="imageLink" xmlns="http://www.w3.org/1999/xhtml"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>
                                            <span class="caption">Page {string($image/@n)}</span>
                                       </span>
                          else ()
@@ -252,7 +337,7 @@ declare function tei2html:get-page($nodes as node()*, $page as item()*){
                                          else concat($config:image-root,$id,'/',string($image/@facs))   
                              return 
                                       <span xmlns="http://www.w3.org/1999/xhtml" class="pageImage" data-pageNum="{string($image/@n)}">
-                                           <a href="{$src}"><img src="{$src}" width="100%"/></a>
+                                           <a href="#" class="imageLink" xmlns="http://www.w3.org/1999/xhtml"><img src="{$src}" width="100%" alt="Page {string($image/@n)}"/></a>
                                            <span class="caption">Page {string($image/@n)}</span>
                                       </span>
                          else ()
@@ -375,7 +460,8 @@ return
             </div>   
         else 
             <span class="graphic">{
-                (<a href="{$imgURL}">
+                (
+                <a href="{$imgURL}">
                     <img xmlns="http://www.w3.org/1999/xhtml" class="tei-graphic">{(
                     attribute src { $imgURL },
                     attribute alt { $alt },
@@ -434,14 +520,22 @@ declare function tei2html:youTube($node as element (tei:ref)) {
     </div>
 };
 declare function tei2html:ref($node as element (tei:ref)) {
-    if($node/@corresp) then
+    if($node[contains(@target,'Audio')]) then
+        <button class="btn btn-outline-secondary btn-xs audioLink" xmlns="http://www.w3.org/1999/xhtml" data-bs-toggle="collapse" data-bs-target="#teiAudio">
+            <span data-bs-toggle="tooltip" title="Open Audio File"><i class="bi bi-headphones"></i> Audio</span>
+        </button>
+    else if($node/@corresp) then
         <span class="footnoteRef text">
             <a href="#{string($node/@corresp)}" class="showFootnote">{tei2html:tei2html($node/node())}</a>
             <sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup>
         </span>
     else if(starts-with($node/@target,'http')) then
         <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
-    else tei2html:tei2html($node/node())
+    else if(starts-with($node/@target,'#')) then 
+        <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
+    else 
+        <a href="{$config:nav-base}/modules/data.xql?recID={$node/@target}">{tei2html:tei2html($node/node())}</a>
+    (:tei2html:tei2html($node/node()):)
 };
 
 declare function tei2html:title($node as element (tei:title)) {

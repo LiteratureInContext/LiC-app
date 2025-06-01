@@ -1,0 +1,45 @@
+<coursepack id="WomenPoets5" title="Women Poets" user="ChrisR">
+    <instructor>Chris Ruotolo</instructor>
+    <desc id="coursepackNotes">Coursepack featuring examples of poetry written by women from the 17th-19th century.</desc>
+    <work id="/db/apps/LiC-data/data/Bradstreet/bradstreet-prologue.xml" num="3 11">
+        <title>"The Prologue"</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Finch/finch-nightingale.xml" num="5 13">
+        <title>"To the Nightingale"</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Bradstreet/bradstreet-old-age.xml" num="2 10">
+        <title>"Old Age"</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Bradstreet/bradstreet-childhood.xml" num="1 9">
+        <title>"Childhood"</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Wheatley/wheatley-distress.xml" num="7 15">
+        <title>
+                   "NIOBE in Distress for her Children slain by APOLLO, from Ovid's Metamorphoses, Book VI. and from a view of the Painting of Mr. Richard Wilson" </title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Philips/philips-against-pleasure.xml" num="6 14">
+        <title>"Against Pleasure"</title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Wheatley/wheatley-imagination.xml" num="8 16">
+        <title>"On IMAGINATION" </title>
+        <author/>
+        <date/>
+    </work>
+    <work id="/db/apps/LiC-data/data/Chudleigh/chudleigh-ladies.xml" num="4 12">
+        <title>"To the Ladies"</title>
+        <author/>
+        <date/>
+    </work>
+</coursepack>

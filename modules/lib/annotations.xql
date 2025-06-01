@@ -27,16 +27,17 @@ declare function local:get-annotations($contributorID as xs:string?) {
             <div class="annotations">
                 <span class="title">
                     <button class="getAnnotated btn btn-link" data-toggle="tooltip" title="View annotations" data-work-id="{$workID}" data-contributor-id="{$contributorID}">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                        <i class="bi bi-plus-circle"></i> 
                     </button> 
-                    <a href="{$url}" class="link-to-work" data-toggle="tooltip" title="Go to work"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>&#160;
+                    <a href="{$url}" class="link-to-work" data-toggle="tooltip" title="Go to work">
+                    <i class="bi bi-book"></i></a>&#160;
                     {tei2html:tei2html($title)} ({count($annotation)} annotations)</span>
                     <div class="annotationsResults"></div>
             </div>,
         if(count($annotations) = 0) then
             <p>No annotations at this time</p>
         else if(count($annotations) gt 1) then
-            <div class="get-more"><br/><a href="contributors.html?contributorID={$contributorID}">See all annotations <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a></div>
+            <div class="get-more"><br/><a href="contributors.html?contributorID={$contributorID}">See all annotations <i class="bi bi-arrow-right-circle"></i></a></div>
         else()    
     )}
 </div>

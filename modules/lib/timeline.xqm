@@ -19,23 +19,21 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 :)
 declare function timeline:timeline(){ 
     <div class="timeline">
-        <script type="text/javascript" src="https://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"/>
+         <!-- 1 -->
+        <link title="timeline-styles" rel="stylesheet" 
+              href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css"/>
+
+        <!-- 2 -->
+        <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+
+        <div id='timeline-embed' style="width: 100%; height: 600px"></div>
+
+        <!-- 3 -->
         <script type="text/javascript">
-        <![CDATA[
-            $(document).ready(function() {
-                var parentWidth = $(".timeline").width();
-                createStoryJS({
-                    start:      'start_at_end',
-                    type:       'timeline',
-                    width:      "'" +parentWidth+"'",
-                    height:     '450',
-                    autolink:  'true',
-                    source:     ]]>{timeline:get-publication-dates()}<![CDATA[,
-                    embed_id:   'my-timeline'
-                    });
-                });
-                ]]>
+            timeline = new TL.Timeline('timeline-embed',
+            '{$config:nav-base}/resources/lodHelpers/timeline.json');
         </script>
+       
     <div id="my-timeline"/>
     <p>*Timeline generated with <a href="http://timeline.knightlab.com/">http://timeline.knightlab.com/</a></p>
     </div>     
@@ -48,16 +46,12 @@ declare function timeline:get-dates($data as node()*, $title as xs:string*){
 let $timeline-title := if($title != '') then $title else 'Timeline'
 let $dates := 
     <root>
-        <timeline>
-            <headline>{$timeline-title}</headline>
-            <type>default</type>
-            <asset>
-                <media>LiC.org</media>
-                <credit>LiC.org</credit>
-                <caption>Events for {$timeline-title}</caption>
-            </asset>
-            <date>{(timeline:get-date-published($data))}</date>
-        </timeline>
+        <title>
+            <text>
+                <headline>LiC Works by Publication Date</headline>
+            </text>
+        </title>
+        <events>{(timeline:get-date-published($data))}</events>
     </root>
 return
     serialize($dates, 
@@ -72,16 +66,12 @@ declare function timeline:get-publication-dates(){
 let $imprints := collection($config:data-root)//tei:sourceDesc[descendant::tei:date]
 let $dates := 
     <root>
-        <timeline>
-            <headline>Publication Dates</headline>
-            <type>default</type>
-            <asset>
-                <media>LiC.org</media>
-                <credit>LiC.org</credit>
-                <caption>Publication Dates</caption>
-            </asset>
-            <date>{(timeline:get-date-published($imprints))}</date>
-        </timeline>
+        <title>
+            <text>
+                <headline>LiC Works by Publication Date</headline>
+            </text>
+        </title>
+        <events>{(timeline:get-date-published($imprints))}</events>
     </root>
 return
     serialize($dates, 
@@ -92,33 +82,39 @@ return
 };
 
 
-declare function timeline:format-dates($start as xs:string*, $end as xs:string*, $headline as xs:string*, $text as xs:string*, $link as xs:string*){
+declare function timeline:format-dates($start as xs:string*, $end as xs:string*, $headline as xs:string*, $text as xs:string*, $media as element()*, $link as xs:string*){
     if($start != '' or $end != '') then 
         <json:value json:array="true">
             {(
                 if($start != '' or $end != '') then 
-                    <startDate>
+                    <start_date>
+                        <year>
                         {
-                            if(empty($start)) then $end
-                            else if(starts-with($start,'-')) then concat('-',tokenize($start,'-')[2])
-                            else replace($start,'-',',')
+                            if(empty($start)) then 
+                                if(contains($end,'-')) then substring-before($end,'-') else $end[1]
+                            else if(contains($start,'-')) then 
+                                substring-before($start,'-') 
+                            else $start[1]
                         }
-                    </startDate>
+                        </year>
+                    </start_date>
                  else (),
-                if($end != '') then 
-                    <endDate>
-                        {
-                            if(starts-with($end,'-')) then concat('-',tokenize($end,'-')[2])
-                            else replace($end,'-',',')
-                        }
-                    </endDate>
-                 else (),
-                 if($headline != '') then 
-                    <headline>{$headline} <![CDATA[ <a href="]]>{$link}<![CDATA["><span class="glyphicon glyphicon-circle-arrow-right"></span></a>]]></headline>
-                 else (),
-                 if($text != '') then 
-                    <text>{$text}<![CDATA[ <a href="]]>{$link}<![CDATA["><span class="glyphicon glyphicon-circle-arrow-right"></span></a>]]></text> 
-                else ()                 
+                 <text>{
+                    if($headline != '') then 
+                       <headline>{$headline} <![CDATA[ <a href="]]>{$link}<![CDATA["><i class="bi bi-arrow-right-circle"></i></a>]]></headline>
+                    else (),
+                    if($text != '') then 
+                       <text>{$text}<![CDATA[ <a href="]]>{$link}<![CDATA["><i class="bi bi-arrow-right-circle"></i></a>]]></text> 
+                   else ()
+                   }
+                 </text>,
+                 if($media[@source != '']) then 
+                       <media>
+                            <url>{string($media/@source)}</url>
+                            <caption>{string($media/@alt)}</caption>
+                            <thumbnail>{string($media/@source)}</thumbnail>
+                       </media> 
+                else ()
                 )}
         </json:value>
     else ()
@@ -137,12 +133,13 @@ declare function timeline:get-date-published($data as node()*) as node()*{
                   else if($titlElement/parent::tei:analytic and contains($titlElement,'"')) then 
                     $titlElement/text()
                   else concat('"',$titlElement/text(),'"')
+    let $media := if($imprint/ancestor::tei:TEI/descendant::tei:graphic[@type='timeline']) then $imprint/ancestor::tei:TEI/descendant::tei:graphic[@type='timeline'] else()   
     let $id := document-uri(root($imprint))
     let $link := concat($config:nav-base,'/work',substring-before(replace($id,$config:data-root,''),'.xml'))
     let $dateText :=    
                 if($date[@timeline != '']) then string($date/@timeline)
                 else tei2html:tei2html($date)
-    let $start := 
+    let $startString := 
                     if($date[@timeline != '']) then
                         string($date/@timeline)
                      else if($date/@when) then
@@ -150,7 +147,8 @@ declare function timeline:get-date-published($data as node()*) as node()*{
                      else if($date/@from) then   
                         string($date/@from)
                      else ()
-    let $end := 
+    let $start := if(matches($startString,'\d{4}')) then $startString else ()
+    let $endString := 
                      if($date[@timeline != '']) then
                         string($date/@timeline)
                      else if($date/@when) then
@@ -158,7 +156,8 @@ declare function timeline:get-date-published($data as node()*) as node()*{
                      else if($date/@to) then   
                         string($date/@to)
                      else ()
+    let $end := if(matches($endString,'\d{4}')) then $endString else ()                     
     let $imprint-text := normalize-space(concat($author,if($author != '') then ', ' else (), $title))
-  return timeline:format-dates($start, $end,$imprint-text,(), $link)
+  return timeline:format-dates($start, $end,$imprint-text,(), $media, $link)
         
 };

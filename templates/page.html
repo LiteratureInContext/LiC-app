@@ -5,163 +5,203 @@
         <meta data-template="config:app-meta"/>
         <link rel="shortcut icon" href="$nav-base/favicon.ico"/>
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" media="print" href="$nav-base/resources/css/print.css"/>
-        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/lightslider.css"/>
+<!--        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/lightslider.css"/>-->
         <!-- Leaflet -->
         <link rel="stylesheet" href="$nav-base/resources/leaflet/leaflet.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/leaflet.awesome-markers.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.Default.css"/>
-        <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>
-        <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.min.js"/>
+        <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.bundle.min.js"/>
+<!--        <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>-->
+<!--        <script type="text/javascript" src="$nav-base/resources/js/jquery-ui.min.js"/>-->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"/>
+        <script src="https://code.jquery.com/jquery-3.7.1.js"/>
+        <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"/>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"/>
+        <!--
         <script type="text/javascript" src="$nav-base/resources/js/lightslider.min.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/lightslider-functions.js"/>
+        -->
         <!-- hypothes.is -->
         <script type="text/javascript" src="https://hypothes.is/embed.js" async="async"/>
-        
         <!-- rangy -->
         <script type="text/javascript" src="$nav-base/resources/js/rangy-core.js"/>
-        
         <script>
             $(document).ready(function() {
+                $('.dropdown-toggle').dropdown()
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
-                $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'}); 
+                $('.form-group[data-toggle="tooltip"]').tooltip({container: 'body'});
+                
+                //Sort drag and drop for coursepacks
+                  $( ".draggable, #sortable1" )
+                    .sortable({
+                        connectWith: ".connectedSortable"
+                    })
+                   .on("sortupdate", function( event, ui ) {
+                        var url = $(this).data('update-url')
+                        $.post(url,JSON.stringify({ 'workOrder': $('.draggable').sortable('toArray') }), function(data) {
+                            console.log(data);
+                            //alert(data);
+                        }).fail( function(jqXHR, textStatus, errorThrown){
+                           //alert('Error: You need to be logged in to use this feature');
+                           console.log(jqXHR.textStatus);
+                        });
+                    })
+                  .disableSelection();
             });
         </script>
     </head>
     <body id="body">
-        <div class="nav-container">
-            <nav class="navbar navbar-default" role="navigation" data-template="app:fix-links">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"/>
-                        <span class="icon-bar"/>
-                        <span class="icon-bar"/>
-                    </button>
+        <header class="p-3 text-bg-dark mainNav" data-template="app:fix-links">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <span class="navbar-brand">
-                        <span class="logo">
-                            <img src="$nav-base/resources/images/logo.svg" alt="Literature in Context" height="35px"/>
-                        </span>
-                        <a data-template="config:app-title" class="navbar-title" href="$nav-base/index.html">App Title</a>
+                        <a href="$nav-base/index.html"><span class="navbar-title">Literature in Context</span><br/>
+                        <span class="navbar-subtitle">An Open Anthology of Literature in English, 1400-1925</span></a>
                     </span>
-                </div>
-                <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li id="about">
-                            <a href="$nav-base/about.html">About</a>
+                    
+                    <ul class="nav col-12 col-lg-auto me-auto mb-2 justify-content-right mb-md-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                The Collection
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="$nav-base/overview.html">Overview of Contents</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/search.html">Browse and Search</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/coursepack.html">Custom Coursepacks</a></li>
+                            </ul>
                         </li>
-                        <li id="works">
-                            <a href="$nav-base/browse.html">Titles &amp; Authors</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Data Visualizations
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="$nav-base/dataVisualizations.html?view=timeline">Timeline</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/dataVisualizations.html?view=map">Map</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/dataVisualizations.html?view=graph&amp;type=bubble&amp;data=all">People and Places</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/dataVisualizations.html?view=graph&amp;type=force&amp;data=all">Collection Graph</a></li>
+                            </ul>
                         </li>
-                        <li id="linkedData">
-                            <a href="$nav-base/lod.html">Linked Data</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                For Teachers
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="$nav-base/coursepack.html">Custom coursepacks</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/assignmentSamples.html">Assignment samples</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/documentation.html">Documentation</a></li>
+                            </ul>
                         </li>
-                        <li id="coursepacks">
-                            <a href="$nav-base/coursepack.html">Coursepacks</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">About</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="$nav-base/about.html">About</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/publications.html">News</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/contributors.html">Contributors</a></li>
+                                <li><a class="dropdown-item" href="$nav-base/join.html">Join us</a></li>
+                            </ul>
                         </li>
-                        <li id="templates">
-                            <a href="$nav-base/templates.html">Assignments &amp; Templates</a>
-                        </li>
-                        <li id="contributors">
-                            <a href="$nav-base/contributors.html">Contributors</a>
-                        </li>
-                    </ul>
-                    <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/search.html" method="get">
-                        <div class="input-group navbar-searchbox">
-                            <input type="text" class="form-control keyboard" placeholder="search full text" name="query"/>
-                            <input type="hidden" class="form-control keyboard" name="field" value="keyword"/>
-                            <div class="input-group-btn">
-                                <button class="btn btn-default" type="submit">
-                                    <span class="glyphicon glyphicon-search"/>
-                                </button>
+                        
+                        <li>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear"/></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                            <div class="btn-group me-2" role="group" aria-label="First group">
+                                                <button type="button" class="btn btn-outline-secondary" id="fontMinus">-</button>
+                                                <button type="button" class="btn btn-outline-secondary" id="fontNormal">A</button>
+                                                <button type="button" class="btn btn-outline-secondary" id="fontPlus">+</button>
+                                            </div>
+                                        
+                                    </li>
+                                    <li><hr/></li>
+                                    <li>
+                                        <div class="btn-group me-2" role="group" aria-label="First group">
+                                        <button type="button" class="btn btn-outline-secondary" id="serif" style="font-family: serif !important;                                             font-size: 16px;">A</button><button type="button" class="btn btn-outline-secondary" id="fontFamilyReset">/</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="sansSerif" style="font-family: sans-serif;                                             font-size: 16px;">A</button></div>
+                                    </li>
+                                    
+                                </ul>
+                            <!--
+                            <div class="btn-toolbar mb-3 font-size" role="toolbar" aria-label="Change font size">
+                                <div class="btn-group me-2" role="group" aria-label="First group">
+                                    <button type="button" class="btn btn-light" id="fontMinus">-</button>
+                                    <button type="button" class="btn btn-light" id="fontNormal">A</button>
+                                    <button type="button" class="btn btn-light" id="fontPlus">+</button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                    <ul class="nav navbar-nav">
-                        <li>
+                            -->
+                        </li>
+                        <li class="nav-item dropdown">
                             <span data-template="app:userinfo">
                                 <div data-template="app:username-login"/>
-                            </span>                            
+                            </span> 
                         </li>
                     </ul>
-                    <!--
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <span data-template="app:userinfo">
-                                <div data-template="app:username-login"/>
-                            </span>                            
-                        </li>
-                    </ul>
-                    -->
                 </div>
-            </nav>
-        </div>
-        <div id="content" class="mainContentArea"/>
-        <footer>
-            <div class="banner"/>
-            <ul class="funders">
-                <li>
-                    <img src="$nav-base/resources/images/NEH_h-logo_01_fullcolor.jpg" width="200px" alt="National Endowment for the Humanities (NEH)" class="funder"/>
-                </li>
-                <li>
-                    <img src="$nav-base/resources/images/marymount.logo.png" width="150px" alt="Marymount University" class="funder"/>
-                </li>
-                <li>
-                    <img src="$nav-base/resources/images/uva_primary_logo.jpg" width="150px" alt="The University of Virginia" class="funder"/>
-                </li>
-                <li>
-                    <img src="$nav-base/resources/images/viva.png" width="150px" alt="The University of Virginia" class="funder"/>
-                </li>
-                <li>
-                    <img src="$nav-base/resources/images/gmu.png" width="150px" alt="George Mason University" class="funder"/>
-                </li>
-            </ul>
-            
-            <div class="center copyright">
-                <ul class="center social-media list-inline">
-                    <li>
-                        <a href="http://twitter.com/LIC_anthology" data-toggle="tooltip" data-placement="top" title="LIC_anthology on X">
-                            <img alt="twitter" src="$nav-base/resources/images/x.png" class="social-media"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.facebook.com/open.anthology.of.literature" data-toggle="tooltip" data-placement="top" title="Open Anthology on Facebook">
-                            <img alt="facebook" src="$nav-base/resources/images/fb.png" class="social-media"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.instagram.com/lic.open.anthology" data-toggle="tooltip" data-placement="top" title="lic.open.anthology on Instagram">
-                            <img alt="instagram" src="$nav-base/resources/images/insta.png" class="social-media"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.github.com/LiteratureInContext" data-toggle="tooltip" data-placement="top" title="LiteratureInContext on GitHub">
-                            <img alt="github" src="$nav-base/resources/images/github.png" class="social-media"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="mailto:LIC.open.anthology@gmail.com" data-toggle="tooltip" data-placement="top" title="contact us at LIC.open.anthology@gmail.com">
-                            <img alt="email" src="$nav-base/resources/images/email.png" class="social-media"/> </a>
-                    </li>
-                </ul>
-                <p>
-                    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-                        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
-                    </a>
-                    <br/>Original content on this site created by its authors is licensed under a
-                    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY 4.0 International License</a>.
-                    That license does not apply to third-party material. <br/>
-                    Copyright information regarding third party material is noted in context wherever possible.</p>
             </div>
+        </header>
+        <!-- Search bar -->
+        <header class="py-3 mb-4 border-bottom header-secondary" data-template="app:fix-links">
+            <div class="container justify-content-center">
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search" action="$nav-base/search.html">
+                    <div class="input-group mb-3">
+                        <input name="query" type="text" class="form-control" placeholder="Search collection full text"/>
+                        <select name="field" class="form-select">
+                            <option value="keyword" selected="selected">Keyword anywhere</option>
+                            <option value="annotation">Keyword in annotations</option>
+                            <option value="title">Title</option>
+                            <option value="author">Author</option>
+                        </select>
+                        <button class="btn btn-secondary" type="submit" id="button-addon1">Search</button>
+                    </div>
+                </form>
+            </div>
+        </header>
+        <!-- Main content, loaded via xquery -->
+        <main class="container">
+            <div id="content" class="mainContentArea"/>
+        </main>
+    <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+        <ul class="center social-media list-inline">
             <!--
-            <a class="poweredby small" href="http://exist-db.org">
-                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
-            </a>
+            <li>
+                <a href="http://twitter.com/LIC_anthology" data-toggle="tooltip" data-placement="top" title="LIC_anthology on X">
+                    <img alt="twitter" src="$nav-base/resources/images/x.png" class="social-media"/>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.facebook.com/open.anthology.of.literature" data-toggle="tooltip" data-placement="top" title="Open Anthology on Facebook">
+                    <img alt="facebook" src="$nav-base/resources/images/fb.png" class="social-media"/>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/lic.open.anthology" data-toggle="tooltip" data-placement="top" title="lic.open.anthology on Instagram">
+                    <img alt="instagram" src="$nav-base/resources/images/insta.png" class="social-media"/>
+                </a>
+            </li>
             -->
-            
-        </footer>
+            <li>
+                <a href="https://www.github.com/LiteratureInContext" data-toggle="tooltip" data-placement="top" title="LiteratureInContext on GitHub">
+                    <img alt="github" src="$nav-base/resources/images/github.png" class="social-media"/>
+                </a>
+            </li>
+            <li>
+                <a href="mailto:LIC.open.anthology@gmail.com" data-toggle="tooltip" data-placement="top" title="contact us at LIC.open.anthology@gmail.com">
+                    <img alt="email" src="$nav-base/resources/images/email.png" class="social-media"/> </a>
+            </li>
+        </ul>
+        <p>
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+                <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
+            </a>
+            <br/>Original content on this site created by its authors is licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY 4.0 International License</a>.
+            That license does not apply to third-party material. <br/>
+            Copyright information regarding third party material is noted in context wherever possible.</p> 
+    </footer>
         <div data-template="templates:if-parameter-unset" data-template-param="org.exist-db.mysec.user">
             <div data-template="templates:include" data-template-path="templates/login-panel.html"/>
         </div>
@@ -170,18 +210,11 @@
         <script type="text/javascript" src="$nav-base/resources/js/coursepack.js"/>
         <script type="text/javascript" src="$nav-base/resources/js/annotations.js"/>
         <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-159152992-2"/>
-        
         <script>
               window.dataLayer = window.dataLayer || [];
-            
               function gtag(){dataLayer.push(arguments);}
-            
               gtag('js', new Date());
-            
-             
-            
               gtag('config', 'UA-159152992-2');
-            
-            </script>
+        </script>
     </body>
 </html>

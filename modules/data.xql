@@ -22,6 +22,10 @@ let $results :=
                 if(request:get-parameter('query', '') = 'geojson') then
                     doc(xmldb:encode-uri(concat($config:app-root,'/resources/lodHelpers/geojson.xml')))
                 else data:search()
+            else if(request:get-parameter('recID', '')) then
+                let $rec := collection($config:data-root)/tei:TEI[@xml:id=request:get-parameter('recID', '')][1]
+                let $recID := concat($config:nav-base,'/work',substring-before(replace(document-uri(root($rec)),$config:data-root,''),'.xml'))
+                return response:redirect-to(xs:anyURI($recID))   
             else if(request:get-parameter('facet-author', '')) then 
                 data:search()
             else if(request:get-parameter('getPage', '') != '') then 
@@ -37,7 +41,7 @@ let $results :=
                         return 
                             <div>
                                  <h4>Selected Text</h4>
-                                 {tei2html:tei2html($text)}
+                                 {$text}
                             </div>
                     else 
                         let $work := doc(xmldb:encode-uri($workid))

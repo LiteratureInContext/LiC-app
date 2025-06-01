@@ -17,8 +17,8 @@
                                     <span class="input-group">
                                         <input name="query" type="search" class="form-control" placeholder="Search full text"/>
                                         <span class="input-group-btn">
-                                            <button id="f-btn-search" type="submit" class="btn btn-primary">
-                                                <span class="glyphicon glyphicon-search"/>
+                                            <button id="f-btn-search" type="submit" class="btn btn-outline-secondary">
+                                                <i class="bi bi-search"></i>
                                             </button>
                                         </span>
                                     </span>
@@ -77,15 +77,11 @@
                                 <div class="form-group">
                                     <span class="pull-left">
                                         <input type="checkbox" class="toggle-button" id="selectAll"/> Select All                                        
-                                    </span>
-                                    <!--
-                                    <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Create a new coursepack">
-                                        <span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
-                                    -->    
-                                    <button class="btn btn-primary addToCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">
-                                        <span class="glyphicon glyphicon-plus-sign"/> Add Selected to Coursepack</button>
-                                    <a href="coursepack.html" class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="View all coursepacks">
-                                        <span class="glyphicon glyphicon-th-list"/> View All Coursepacks</a>
+                                    </span>  
+                                    <button class="btn btn-outline-secondary addToCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">
+                                        <i class="bi bi-plus-circle"></i>  Add Selected to Coursepack</button>
+                                    <a href="coursepack.html" class="btn btn-outline-secondary" data-toggle="tooltip" data-placement="left" title="View all coursepacks">
+                                        <i class="bi bi-list-task"></i>View All Coursepacks</a>
                                 </div>
                             </div>
                             <!-- Show results from xquery -->
@@ -103,7 +99,6 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="modalClose close" data-dismiss="modal">
-                            <span aria-hidden="true"> x </span>
                             <span class="sr-only">Close</span>
                         </button>
                     </div>
@@ -118,10 +113,10 @@
                                     </select>
                                 </div>
                                 <span>
-                                    <button id="f-btn-submit-addSelected" type="submit" class="btn btn-primary saveToCoursepack coursepackAdmin" data-url="$nav-base/modules/lib/coursepack.xql">
-                                        <span class="glyphicon glyphicon-save"/>Save </button>  
-                                    <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" title="Create a new coursepack" data-url="$nav-base/modules/lib/coursepack.xql">
-                                        <span class="glyphicon glyphicon-cog"/> Create Coursepack From Selected</button>
+                                    <button id="f-btn-submit-addSelected" type="submit" class="btn btn-outline-secondary saveToCoursepack coursepackAdmin" data-url="$nav-base/modules/lib/coursepack.xql">
+                                        <i class="bi bi-save"></i> Save </button>  
+                                    <button class="btn btn-outline-secondary createCoursepack coursepackAdmin" data-toggle="tooltip" title="Create a new coursepack" data-url="$nav-base/modules/lib/coursepack.xql">
+                                        <i class="bi bi-gear"></i> Create Coursepack From Selected</button>
                                 </span>
                             </div>
                             <div id="saveCoursepackModal" style="display:none" class="coursepack">
@@ -133,15 +128,15 @@
                                     </span>
                                 </div>
                                 <span class="input-group-btn">
-                                    <button id="f-btn-submit-addCoursepack" type="submit" class="btn btn-primary addCoursepackTitle" data-url="$nav-base/modules/lib/coursepack.xql">
-                                        <span class="glyphicon glyphicon-save"/>Save </button>
+                                    <button id="f-btn-submit-addCoursepack" type="submit" class="btn btn-outline-secondary addCoursepackTitle" data-url="$nav-base/modules/lib/coursepack.xql">
+                                        <i class="bi bi-save"></i>Save </button>
                                 </span>
                             </div>
                             <div id="responseBody"> </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default modalClose" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary modalClose" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </form>

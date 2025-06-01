@@ -33,7 +33,7 @@ return
 
     </div>,
     if($p = $perpage and count($hits) gt $perpage) then
-        <div class="get-more"><br/><a href="?authorID={$authorID}">All works <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a></div>
+        <div class="get-more"><br/><a href="?authorID={$authorID}">All works <i class="bi bi-arrow-right-circle"></i></a></div>
     else ()
     )
 (:

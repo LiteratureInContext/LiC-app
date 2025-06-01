@@ -47,6 +47,21 @@
                         -->
                         <!--<div data-template="app:display-work"/>-->
                     </div>
+                    <div class="modal fade" id="teiPageImages" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4>Page Images</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div data-template="app:pageImages"/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary modalClose" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
                 </div>
             </div>
             <!-- Floating footnotes display -->
@@ -57,8 +72,7 @@
     <!-- Modal for creating/adding to coursepacks -->
     <!-- Modal for creating coursepacks -->
     <div id="coursepackTools">
-        <button type="button" class="close">
-            <span aria-hidden="true"> x </span>
+        <button type="button" class="close btn btn-outline-secondary">
             <span class="sr-only">Close</span>
         </button>
         <br/>
@@ -72,12 +86,12 @@
                         <option data-template="app:select-coursepack"/>
                     </select>
                 </div>
-                <span>
-                    <button id="f-btn-submit-addSelected" type="submit" class="btn btn-primary saveToCoursepack coursepackAdmin" data-url="$nav-base/modules/lib/coursepack.xql">
+                <div class="pull-right">
+                    <button id="f-btn-submit-addSelected" type="submit" class="btn btn-secondary saveToCoursepack coursepackAdmin" data-url="$nav-base/modules/lib/coursepack.xql">
                         <span class="glyphicon glyphicon-save"/>Save </button>  
-                    <button class="btn btn-primary createCoursepack coursepackAdmin" data-toggle="tooltip" title="Create a new coursepack" data-url="$nav-base/modules/lib/coursepack.xql">
+                    <button class="btn btn-secondary createCoursepack coursepackAdmin" data-toggle="tooltip" title="Create a new coursepack" data-url="$nav-base/modules/lib/coursepack.xql">
                         <span class="glyphicon glyphicon-cog"/> Create a New Selected</button>
-                </span>
+                </div>
             </div>
             <div id="saveCoursepackModal" style="display:none" class="coursepack">
                 <h4>Create a New Coursepack</h4>
@@ -87,10 +101,12 @@
                         <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
                     </span>
                 </div>
-                <span class="input-group-btn">
-                    <button id="f-btn-submit-addCoursepack" type="submit" class="btn btn-primary addCoursepackTitle" data-url="$nav-base/modules/lib/coursepack.xql">
-                        <span class="glyphicon glyphicon-save"/>Save </button>
-                </span>
+                <div class="pull-right">
+                    <span class="input-group-btn">
+                        <button id="f-btn-submit-addCoursepack" type="submit" class="btn btn-secondary addCoursepackTitle" data-url="$nav-base/modules/lib/coursepack.xql">
+                            <i class="bi bi-save"/> Save </button>
+                    </span>
+                </div>
             </div>
             <div id="responseBody"> </div>
         </div>

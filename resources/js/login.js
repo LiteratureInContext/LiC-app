@@ -17,6 +17,7 @@ jQuery.validator.addMethod( 'passwordMatch', function(value, element) {
 
 }, "Your Passwords Must Match");
 
+
 $('#newUserForm').validate({
     // rules
     rules: {
@@ -55,6 +56,39 @@ function ConvertFormToJSON(form){
     
     return json;
 }  
+/* 
+$('#loginForm').submit(function(event) {
+      event.preventDefault(); // Prevent the default form submission
+      var form = $(this);
+      var login = $(this).attr('action');
+      var check = $(this).data('url')
+      var inputValue = $('#user').val();
+      var dynamicCheck = checkDynamicData(inputValue, check);
+      
+      if (dynamicCheck) {
+        //$(this).submit();
+        console.log('success1');
+      } else {
+        console.log('fail1');
+        //alert('Submission failed: Invalid input value.');
+        // $('#myInput').val('');
+      }
+      //console.log(dynamicCheck);
+    });
+
+    // Simulate dynamic data check function
+    function checkDynamicData(value,url) {
+      $.get(url, { user: value}, function(data) {
+            return true;
+            console.log(data);
+        }).fail( function(jqXHR, textStatus, errorThrown) {
+            return false;
+            console.log(data);
+            //alert('User does not exist, please try again, or create an account');
+            //console.log(textStatus);
+        });
+    }
+*/
 
 $("#newUserForm").submit(function( event ) {
   event.preventDefault();
@@ -112,19 +146,97 @@ $('#logout').click(function(event) {
  });
 });
 
-/* 
-$('.authenticate').click(function(event) {
-  event.preventDefault();
-  var url = $(this).attr('href');
-  $.get('userInfo', function(data) {
-    $.get(url, function(data) {
-        window.location = url;
-    });
-  }).fail( function(jqXHR, textStatus, errorThrown) {
-     console.log(textStatus);
-  });  
-}); 
+// Function to set font size and save to localStorage
+function setFontSize(size) {
+    $('body').css('font-size', size + 'px');
+    localStorage.setItem('fontSize', size);
+}
 
-*/
+// Check if font size is stored in localStorage
+if (localStorage.getItem('fontSize')) {
+    var savedFontSize = localStorage.getItem('fontSize');
+    setFontSize(savedFontSize);
+}
+
+//Set fontFamily  
+function setFontFamily(family) {
+    $('body').css('font-family', family);
+    localStorage.setItem('fontFamily', family);
+}
+
+    // Check if font size is stored in localStorage
+if (localStorage.getItem('fontFamily')) {
+    var savedFontFamily = localStorage.getItem('fontFamily');
+    setFontSize(savedFontFamily);
+    console.log(savedFontFamily);
+}
+
+$('#fontPlus').click(function(event) {
+  event.preventDefault();
+  var currentSize = parseInt($('body').css('font-size'));
+  setFontSize(currentSize + 2);
+  //$("body *").css('font-size','+=2');
+});
+
+$('#fontMinus').click(function(event) {
+  event.preventDefault();
+  var currentSize = parseInt($('body').css('font-size'));
+  setFontSize(currentSize - 2);
+  //$("body *").css('font-size','-=2');
+});
+
+$('#fontNormal').click(function(event) {
+  event.preventDefault();
+  $("body").css('font-size','16px');
+});
+
+$('#sansSerif').click(function(event) {
+  event.preventDefault();
+  $("body *").css('font-family','sans-serif');
+  $("#serif").css('font-family','serif');
+  setFontFamily('sans-serif');
+});
+
+$('#serif').click(function(event) {
+  event.preventDefault();
+  $("body *").css('font-family','serif');
+  $("#sansSerif").css('font-family','sans-serif');
+  setFontFamily('serif');
+});
+
+$('#fontFamilyReset').click(function(event) {
+  event.preventDefault();
+  $("body *").css('font-family','serif');
+  $("#sansSerif").css('font-family','sans-serif');
+});
+
+//test audio links
+$(window).scroll(function(e){ 
+    var distanceFromTop = $(this).scrollTop();
+    if (distanceFromTop >= 400) {
+        $('#audioFileDiv').addClass('fixed');
+        //add conditional close btn
+    } else {
+        $('#audioFileDiv').removeClass('fixed');
+    }
+});
+//audioLink
+$('.audioLink').on('click', function() {
+    $('#carouselAudio').carousel($('.audioLink').index(this));
+});
+
+$('.imageLink').on('click', function() {
+    $('#pageImagesCarousel').carousel($('.imageLink').index(this));
+    console.log('Image number:: ' + $('.imageLink').index(this));
+});
+
+$('#content').on('click', '.imageLink', function() {
+    event.preventDefault();
+    var myModal = new bootstrap.Modal(document.getElementById('teiPageImages'))
+    myModal.show();
+    $('#pageImagesCarousel').carousel($('.imageLink').index(this));
+     
+});
+  
 });
 

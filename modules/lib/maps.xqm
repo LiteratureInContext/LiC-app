@@ -64,7 +64,6 @@ declare function maps:build-map($nodes as node()*){
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">
-                                <span aria-hidden="true"> x </span>
                                 <span class="sr-only">Close</span>
                             </button>
                         </div>
@@ -73,7 +72,7 @@ declare function maps:build-map($nodes as node()*){
                         </div>
                         <div class="modal-footer">
                             <a class="btn" href="/documentation/faq.html" aria-hidden="true">See all FAQs</a>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -132,7 +131,6 @@ declare function maps:build-map-subset($nodes as node()*){
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">
-                                <span aria-hidden="true"> x </span>
                                 <span class="sr-only">Close</span>
                             </button>
                         </div>
@@ -141,7 +139,7 @@ declare function maps:build-map-subset($nodes as node()*){
                         </div>
                         <div class="modal-footer">
                             <a class="btn" href="/documentation/faq.html" aria-hidden="true">See all FAQs</a>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -200,7 +198,6 @@ declare function maps:build-map-work($nodes as node()*, $id){
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">
-                                <span aria-hidden="true"> x </span>
                                 <span class="sr-only">Close</span>
                             </button>
                         </div>
@@ -209,7 +206,7 @@ declare function maps:build-map-work($nodes as node()*, $id){
                         </div>
                         <div class="modal-footer">
                             <a class="btn" href="/documentation/faq.html" aria-hidden="true">See all FAQs</a>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>

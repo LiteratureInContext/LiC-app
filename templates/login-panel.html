@@ -2,18 +2,17 @@
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" data-template="app:fix-links">
-                <form action="$nav-base/admin" method="post" class="form-horizontal" id="loginForm">
+                <form action="$nav-base/admin" method="POST" class="form-horizontal" id="loginForm" data-url="$nav-base/modules/lib/userManager.xql?action=checkUser">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Login</h4>
+                            <h4 class="modal-titlet">Login   </h4>
                         </div>
                         <div class="modal-body">
                             <div class="container" id="loginResponse">
                                 <div class="control-group">
                                     <label class="control-label" for="user">User:</label>
                                     <div class="controls">
-                                        <input type="text" name="user" required="required"/>
+                                        <input type="text" id="user" name="user" required="required"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -22,6 +21,14 @@
                                         <input type="password" name="password"/>
                                     </div>
                                 </div>
+                                <!-- window.location.href -->
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                    const url = window.location.href;
+                                    document.getElementById('currentPage').value = url;
+                                    });
+                                </script>
+                                <input type="hidden" id="currentPage" name="currentPage"/>
                                 <!--
                                 <div class="control-group">
                                     <div class="controls">
@@ -37,15 +44,9 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-sm btn btn-outline-dark" type="submit">Login</button>
-                            <a data-toggle="modal" href="#newUserModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Create New User</a>
-                            <a data-toggle="modal" href="#resetModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Reset password</a>
-                            <!--
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#newUserModal"><span class="bi bi-person"/> Create New User</button>
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#resetModal"><span class="bi bi-person"/> Reset password</button>
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
-                            -->
-                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-dismiss="modal" aria-hidden="true">Close</button>
-                            <!--<button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal">Close</button>-->
+                            <a data-bs-toggle="modal" href="#newUserModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Create New User</a>
+                            <a data-bs-toggle="modal" href="#resetModal" class="btn btn-sm btn btn-primary"><span class="bi bi-person"/> Reset password</a>
+                            <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal" aria-hidden="true">Close</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </form>
@@ -58,7 +59,6 @@
                 <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="resetForm">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h4 class="modal-title">Reset password</h4>
                         </div>
                         <div class="modal-body">
@@ -95,7 +95,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="newUserModalLabel">Create an Account</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+                        <button type="button" class="float-end btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                     </div>
                     <div class="modal-body">
                         <div id="formBody"> 
@@ -122,7 +122,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="submit">Create Account</button>
-                        <button type="button" class="btn btn-sm btn btn-outline-dark" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button type="button" class="btn btn-sm btn btn-outline-dark" data-bs-dismiss="modal" aria-hidden="true">Close</button>
                     </div>
                 </div>
                 

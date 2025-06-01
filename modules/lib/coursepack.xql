@@ -246,9 +246,8 @@ declare function local:create-new-coursepack-response($data as item()*){
     return 
         <response xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info hidden">{$response}</div>
                 <h4>Coursepack Title: {$coursepackTitle}</h4>
-                {$response}
+                <div class="indent">{$response}</div>
                 <ul>{(:
                     for $work in $works?*
                     return 
@@ -274,7 +273,7 @@ declare function local:update-coursepack-response($data as item()*){
     return 
         <response status="success" xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info hidden">{$response}</div>
+                <!--<div class="bg-warning-subtle hidden">{$response}</div>-->
                 <h4>Coursepack Updated</h4>
                 <ul>{
                     for $work in $works?*
@@ -297,7 +296,7 @@ declare function local:update-notes-response($data as item()*, $coursepackID, $n
     return 
         <response status="success" xmlns="http://www.w3.org/1999/xhtml">
             <div class="coursepack">
-                <div class="bg-info hidden">{$response}</div>
+                <!--<div class="bg-warning-subtle hidden">{$response}</div>-->
                 <h4>Coursepack Updated</h4>
             </div>
         </response>
@@ -333,19 +332,21 @@ declare function local:delete-work-response(){
     let $coursepackID := request:get-parameter('coursepackid', '')
     let $workID := request:get-parameter('workid', '')
     let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
+    for $work in $coursepack//work[@id = $workID]
     return 
-        try { 
-            (for $work in $coursepack//work[@id = $workID]
-             return update delete $work,
+        try{
+            let $delete := update delete $work
+            return 
+            (response:set-status-code( 200 ),
                 <response status="success">
                     <message>Work removed.</message>
                 </response>)
-            } catch * {
-                (response:set-status-code( 500 ),
+        }catch *{
+            (response:set-status-code( 500 ),
                 <response status="fail">
                     <message>Failed to Delete coursepack {$coursepackID} : {concat($err:code, ": ", $err:description)}</message>
                 </response>)
-            }
+        }          
 };
 
 (:~ 
@@ -379,20 +380,95 @@ declare function local:editCoursepack($data){
 };
 
 (:~ 
+ : Create HTML response to create-new-coursepack request  
+ : @param $data works and coursepack information passed from JavaScript post
+ :)
+declare function local:reorderWorks($data, $coursepack){
+   let $payload := util:base64-decode($data)
+   let $json-data := parse-json($payload)
+   for $work at $p in $json-data?workOrder?*
+   let $cw := $coursepack//work[@id = $work] 
+   let $num := $cw/@num
+   return 
+        try {
+           update value $num with $p
+        } catch * {
+                    (response:set-status-code( 500 ),
+                    <response status="fail">
+                        <message>Error : {concat($err:code, ": ", $err:description)}</message>
+                    </response>)
+                }
+    
+};
+
+(:~ 
  : Check current user credentials against resource  
  : @param $user user id
  : @param $data json data
  :)
 declare function local:authenticate($data as item()*){
     let $action := request:get-parameter('action', '')
+    let $coursepackID := request:get-parameter('coursepackid', '')
+    let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
+    let $path := document-uri(root($coursepack))
     return 
-        if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then 
+        (:if(request:get-parameter('content', '') = 'notes') then
+                            if(not(empty($data))) then
+                                let $noteID := request:get-parameter('noteid', '')
+                                return 
+                                     (response:set-header("Content-Type", "text/html"),
+                                     <output:serialization-parameters>
+                                         <output:method value='html5'/>
+                                         <output:media-type value='text/html'/>
+                                     </output:serialization-parameters>, local:update-notes-response($data, $coursepackID, $noteID))  
+                             else 'no data'
+        :)                             
+        if($action = 'deleteWork') then
+            (response:set-header("Content-Type", "text/html"),
+                <output:serialization-parameters>
+                    <output:method value='html5'/>
+                    <output:media-type value='text/html'/>
+                </output:serialization-parameters>,
+                <div>{local:delete-work-response()}</div>)  
+        else if($action = 'delete') then
+            (response:set-header("Content-Type", "text/html"),
+                <output:serialization-parameters>
+                    <output:method value='html5'/>
+                    <output:media-type value='text/html'/>
+                </output:serialization-parameters>, local:delete-coursepack-response())
+        else if($action = 'update') then
+            (response:set-header("Content-Type", "text/html"),
+                                <output:serialization-parameters>
+                                    <output:method value='html5'/>
+                                    <output:media-type value='text/html'/>
+                                </output:serialization-parameters>, local:update-coursepack-response($data)) 
+        
+       else if($action = 'edit') then
+            (response:set-header("Content-Type", "text/html"),
+                                <output:serialization-parameters>
+                                    <output:method value='html5'/>
+                                    <output:media-type value='text/html'/>
+                                </output:serialization-parameters>, local:editCoursepack($data)) 
+       else if($action = 'reorderWork') then
+                (response:set-header("Content-Type", "text/html"),
+                                <output:serialization-parameters>
+                                    <output:method value='html5'/>
+                                    <output:media-type value='text/html'/>
+                                </output:serialization-parameters>, local:reorderWorks($data, $coursepack)) 
+       else
+            (response:set-header("Content-Type", "text/html"),
+                <output:serialization-parameters>
+                    <output:method value='html5'/>
+                    <output:media-type value='text/html'/>
+                </output:serialization-parameters>, local:create-new-coursepack-response($data))
+        (:if(sm:get-user-groups($local:user)  = 'lic' or 'dba') then:)
+        (:
+        if(sm:has-access($path, 'rw-') ) then 
             if(request:get-parameter('coursepackid', '') != '' ) then
                 local:editCoursepack($data)
             else if($action = ('update','delete','deleteWork')) then
                 if(request:get-parameter('content', '') = 'notes') then
                             if(not(empty($data))) then
-                                let $coursepackID := request:get-parameter('coursepackid', '')
                                 let $noteID := request:get-parameter('noteid', '')
                                 return 
                                      (response:set-header("Content-Type", "text/html"),
@@ -461,11 +537,14 @@ declare function local:authenticate($data as item()*){
                 response:set-status-code( 401 ),
                         <response status="fail">
                             <message>You must be logged in to use this feature.</message>
-                        </response>)        
+                        </response>)  
+                        :)
+
 };
 
 (:~
  : Get and process post data.
+ ?action=reorderWork
 :)
 let $post-data :=
                 if(request:get-parameter('target-texts', '') != '') then string-join(request:get-parameter('target-texts', ''),',')

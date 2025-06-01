@@ -87,7 +87,7 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                 else tei2fo:tei2fo($node/node(),$p)
             (: F :)                    
             case element(tei:front) return 
-                <fo:block page-break-after="always" border-bottom-style="1mm" border-top-style="1mm">
+                <fo:block page-break-after="always" border-bottom="1mm" border-top="1mm">
                     {$tei2fo:basic-block-element-attributes}
                     {tei2fo:tei2fo($node/node(),$p)}
                 </fo:block>

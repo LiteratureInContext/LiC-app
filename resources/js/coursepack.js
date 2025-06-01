@@ -103,34 +103,49 @@
                  });
                 
                 //Delete coursepack
-                $('.deleteCoursepack').click(function(event) {
-                  event.preventDefault();
-                  var url = $(this).attr('href');
-                  $.get('userInfo', function(data) {
-                    $.get(url, function(data) {
-                        var redirect = $(data).find('#url').text()
-                        window.location = redirect;
-                        //console.log(data);
-                    });
-                  }).fail( function(jqXHR, textStatus, errorThrown){
+                $('.deleteCoursepack').click(function(e) {
+                  e.preventDefault();
+                  var url = $(this).data('url');
+                  /* 
+                  $.get(url, function(data) { 
+                           alert('Coursepack deleted');
+                           location.reload();
+                           console.log(data);
+                        }).fail( function(jqXHR, textStatus, errorThrown){
                            alert('Error: You need to be logged in to use this feature');
                            console.log(jqXHR.textStatus);
-                        });  
+                        });
+                         */   
+                  $.ajax({
+                        url: url,
+                        beforeSend: function() {
+                            return confirm("Are you sure?");
+                        },
+                        success: function(data) {
+                           alert('Coursepack deleted');
+                          ;
+                        },
+                        complete: function() {
+                             location.reload();
+                           console.log(data)
+                        },
+                        error: function (xhr) {
+                            alert('Error: You need to be logged in to use this feature');
+                            console.log(xhr.statusText);
+                        }
+                        });                
                 }); 
 
                 //Delete work from coursepack
                 $('.removeWork').on('click', function(e){ // on change of state
                     e.preventDefault(e);
                     var url = $(this).data('url')
-                    $.get('userInfo', function(data) {
-                        $.get(url, function(data) {
+                    //alert('This will remove this work from your coursepack');
+                        $.get(url, function(data) { 
+                           alert('Success: Work has been removed');
                            location.reload();
-                            //console.log(data);
+                           console.log(data);
                         }).fail( function(jqXHR, textStatus, errorThrown){
-                           alert('Error: You need to be logged in to use this feature');
-                           console.log(jqXHR.textStatus);
-                        });
-                     }).fail( function(jqXHR, textStatus, errorThrown){
                            alert('Error: You need to be logged in to use this feature');
                            console.log(jqXHR.textStatus);
                         });  
@@ -147,10 +162,10 @@
                          $.get(url, function(data) {
                                $(current).closest('.row').find('.expandedText').html(data);
                            }, "html"); 
-                           $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                           $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
                        } else {
                          $expandedText.toggle();
-                         $(this).find('.glyphicon').toggleClass('glyphicon-plus-sign').toggleClass('glyphicon-minus-sign');
+                         $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
                        } 
                      
                 });
@@ -237,15 +252,6 @@
                     $('#coursepackTools').toggle( "slide" ); 
                  }); 
                  
-                 //Clear modal response body
-                 /* 
-                 $('.modalClose').on('click', function(e){ // on change of state
-                    e.preventDefault(e);
-                    $('#responseBody').empty(); 
-                    $('#coursepackTitleGroup').show();
-                 });
-                  */  
-                 
                  //Hide footnotes. 
                  $('html').click(function() {
                     $('#footnoteDisplay').hide();
@@ -271,10 +277,34 @@
                 });
                 
                 //clear form when close modal
-                /* 
+                
                 $('.modal').on('hidden.bs.modal', function(){
-                    $(this).find('form').trigger('reset');
+                    //$(this).find('form').trigger('reset');
+                    $("#responseBody").html("");
                 });
+                
+                //Drag and drop for coursepack organization.
+                //Need to update jquery to make this work. 
+                $('.draggable').draggable();
+                
+                /* 
+                $(".draggable").sortable({
+                    connectWith: ".draggable",
+                    cursor: "move",
+                    helper: "clone",
+                    items: "> div",
+                    stop: function(event, ui) {
+                      var $item = ui.item;
+                      var eventLabel = $item.text();
+                      var newDay = $item.parent().attr("id");
+                      
+                      console.log($item[0].id, eventLabel, newDay);
+                
+                      // Here's where am ajax call will go
+                      
+                    }
+                  }).disableSelection();
                 */
+                
             }); 
           
