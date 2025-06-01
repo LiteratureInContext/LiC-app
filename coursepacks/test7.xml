@@ -1,1 +1,9 @@
-<coursepack id="test7" title="test 22" user="winonaLiC22"><instructor>winonaLiC22</instructor><desc id="coursepackNotes">test 24</desc><work id="/db/apps/LiC-data/data/Doyle/doyle-speckled.xml" num="1 2"><title>"The Adventure of The Speckled Band"</title><author/><date/></work></coursepack>
+<coursepack id="test7" title="test 22" user="winonaLiC22">
+    <instructor>winonaLiC22</instructor>
+    <desc id="coursepackNotes">test 24</desc>
+    <work id="/db/apps/LiC-data/data/Doyle/doyle-speckled.xml" num="1 2">
+        <title>"The Adventure of The Speckled Band"</title>
+        <author/>
+        <date/>
+    </work>
+</coursepack>

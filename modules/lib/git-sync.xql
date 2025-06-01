@@ -21,6 +21,6 @@ return
     githubxq:execute-webhook($data, 
         '/db/apps/LiC',  
         'https://github.com/LiteratureInContext/LiC-app', 
-        'main', 
+        'development', 
         '', 
         '')

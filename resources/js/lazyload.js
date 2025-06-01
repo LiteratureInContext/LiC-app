@@ -1,8 +1,6 @@
 /* Annotation functions.*/
 $(document).ready(function () {
 
-console.log('We are going to have some fun today!');
-
 /* .lazyContent */
 const config = {
   root: null, // avoiding 'root' or setting it to 'null' sets it to default value: viewport

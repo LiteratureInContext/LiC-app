@@ -1,6 +1,7 @@
 <coursepack id="WomenPoets5" title="Women Poets" user="ChrisR">
     <instructor>Chris Ruotolo</instructor>
-    <desc id="coursepackNotes">Coursepack featuring examples of poetry written by women from the 17th-19th century.</desc>
+    <desc id="coursepackNotes">Coursepack featuring examples of poetry written by women from the
+        17th-19th century.</desc>
     <work id="/db/apps/LiC-data/data/Bradstreet/bradstreet-prologue.xml" num="3 11">
         <title>"The Prologue"</title>
         <author/>
@@ -16,14 +17,9 @@
         <author/>
         <date/>
     </work>
-    <work id="/db/apps/LiC-data/data/Bradstreet/bradstreet-childhood.xml" num="1 9">
-        <title>"Childhood"</title>
-        <author/>
-        <date/>
-    </work>
     <work id="/db/apps/LiC-data/data/Wheatley/wheatley-distress.xml" num="7 15">
-        <title>
-                   "NIOBE in Distress for her Children slain by APOLLO, from Ovid's Metamorphoses, Book VI. and from a view of the Painting of Mr. Richard Wilson" </title>
+        <title> "NIOBE in Distress for her Children slain by APOLLO, from Ovid's Metamorphoses, Book
+            VI. and from a view of the Painting of Mr. Richard Wilson" </title>
         <author/>
         <date/>
     </work>
@@ -42,4 +38,15 @@
         <author/>
         <date/>
     </work>
-</coursepack>
+<work id="/db/apps/LiC-data/data/Bradstreet/bradstreet-childhood.xml" num="8"><title>"Childhood"</title><author><author xmlns="http://www.tei-c.org/ns/1.0">
+                        <persName type="lcnaf" key="n79145303">
+                            <name>
+                                <forename>Anne</forename>
+                                <surname>Bradstreet</surname>
+                            </name>
+                        </persName>
+                    </author></author><date><date xmlns="http://www.tei-c.org/ns/1.0" when="1678">1678</date></date><text><span class="tei-l " id="nodeID.7.4.2.6.2"><span class="tei-line-number">1</span>Ah me! conceiv'd in sin, and born in sorrow,</span>
+                    <span class="tei-l " id="nodeID.7.4.2.6.4"><span class="tei-line-number">2</span>A nothing, here to day, but gone to morrow.</span>
+                    <span class="tei-l " id="nodeID.7.4.2.6.6"><span class="tei-line-number">3</span>Whose mean beginning, blushing cann't reveale,</span>
+                    <span class="tei-l " id="nodeID.7.4.2.6.8"><span class="tei-line-number">4</span>But night and darkenesse, must with shame conceal.</span>
+                    <span class="tei-l " id="nodeID.7.4.2.6.10"><span class="tei-line-number">5</span>My mothers <span class="footnoteRef text"><a href="#breeding" class="showFootnote">breeding sickness</a><sup class="tei-ref footnoteRef show-print">breeding</sup></span><span class="tei-note footnote                          "><span class="tei-footnote-id " id="breeding">breeding</span><span>Breeding sickness is referring to her pregnancy. Source: Oxford English Dictionary</span></span>, I will spare;</span></text></work></coursepack>

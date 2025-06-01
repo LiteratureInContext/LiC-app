@@ -789,7 +789,50 @@ return
 
                  }      
         </div>
-        </form>
+            </div>
+        </form>,
+        <div class="modal fade" id="editCoursePack" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <form action="{$config:nav-base}/modules/lib/coursepack.xql" method="post" id="editCoursepackForm" role="form">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="pull-left" id="modalLabel">Edit Coursepack</h4>
+                        </div>
+                        <div class="modal-body">
+                           <div id="response">
+                                {
+                                        <div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="title">Title:</label><br/>
+                                                    <input type="text" class="form-control" name="title" id="title" value="{$title}"></input>
+                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">        
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="desc">Description:</label><br/>
+                                                    <textarea class="form-control" rows="10" name="desc" id="desc">{$desc//text()}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="coursepackid" name="coursepackid" value="{request:get-parameter('id', '')}"/>
+                                        <input type="hidden" name="action" value="edit"/>
+                                    </div>
+                                }
+                           </div> 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-outline-secondary">Submit</button><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        )
+        
     else        
         <div>
             <h1>Available Coursepacks</h1>
@@ -1360,8 +1403,8 @@ return
           </div>
           <div class="panel-body">
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane fade in active" id="one">
-                {$map}
+              <div role="tabpanel" class="tab-pane fade show" id="one">
+               {$map}
               </div>
               <div role="tabpanel" class="tab-pane fade" id="two">
                 {$graph} 

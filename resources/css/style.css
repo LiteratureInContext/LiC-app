@@ -46,15 +46,10 @@ footer {text-align:center;}
 
 
 /* Typography */
-h1 {
-    font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
-    }
 h2 {
-    font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
     color: #C1503E
     }    
 h3, h4 {
-    font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif !important;
     color: #777;
 }
 
