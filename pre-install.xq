@@ -1,7 +1,7 @@
 xquery version "1.0";
 (:~ The pre-install runs before the actual install and deploy.
  :
- : @version 1.0.0
+ : @version 1.0.0  
  :)
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 

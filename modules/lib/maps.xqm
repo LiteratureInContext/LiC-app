@@ -6,7 +6,7 @@ module namespace maps = "http://LiC.org/apps/maps";
  : Module builds leafletjs maps and/or Google maps
  : Pulls geoJSON from http://syriaca.org/geojson module. 
  : 
- : @author Winona Salesky <wsalesky@gmail.com>
+ : @author Winona Salesky <wsalesky@gmail.com> 
  : @authored 2014-06-25
 :)
 import module namespace config="http://LiC.org/apps/config" at "../config.xqm";

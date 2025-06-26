@@ -1,6 +1,6 @@
 xquery version "3.1";
 (:~  
- : Basic data interactions, returns raw data for use in other modules  
+ : Basic data interactions, returns raw data for use in other modules   
  : Used by ../app.xql and content-negotiation/content-negotiation.xql  
 :)
 

@@ -1,6 +1,6 @@
 (:
 Login module/User manager for manuForma application.
-2022, Winona Salesky
+2022, Winona Salesky 
 :)
 
 xquery version "3.1";

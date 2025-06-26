@@ -1,5 +1,5 @@
 (:
-Login module/User manager for manuForma application.
+Login module/User manager for manuForma application. 
 2022, Winona Salesky
 :)
 

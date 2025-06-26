@@ -2,7 +2,7 @@ xquery version "3.1";
 
 (:~ 
  : Webhook endpoint for Srophe Web Application 
- : XQuery endpoint to respond to Github webhook requests.  
+ : XQuery endpoint to respond to Github webhook requests.   
  : 
  : Requirements
  :  - githubxq library : http://exist-db.org/lib/githubxq 

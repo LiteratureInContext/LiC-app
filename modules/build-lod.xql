@@ -2,7 +2,7 @@ xquery version "3.1";
 (:~  
  : Build GeoJSON file for all placeNames/@key  
  : NOTE: Save file to DB, rerun occasionally? When new data is added? 
- : Run on webhook activation, add new names, check for dups. 
+ : Run on webhook activation, add new names, check for dups.  
 :)
 
 import module namespace config="http://LiC.org/apps/config" at "config.xqm";

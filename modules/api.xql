@@ -1,7 +1,7 @@
 xquery version "3.1";
 (:~  
  : Basic data interactions, returns raw data for use in other modules  
- : Not a library module
+ : Not a library module 
 :)
 
 import module namespace config="http://LiC.org/apps/config" at "config.xqm";
