@@ -219,10 +219,11 @@ declare %templates:wrap function app:get-work($node as node(), $model as map(*))
 declare function app:page-title($node as node(), $model as map(*)){
 let $uri := request:get-uri()
 let $page := tokenize($uri,'/')[last()]
+let $tei := $model("data")/tei:TEI
 return 
     <title>{
-    if($node/descendant::tei:teiHeader/descendant::tei:title) then
-        $node/descendant::tei:teiHeader/descendant::tei:title 
+    if($tei/descendant::tei:teiHeader/descendant::tei:title) then
+        $tei/descendant::tei:teiHeader/descendant::tei:title[1]/text()     
     else if(replace($page,'.html','') = 'index') then $config:app-title
     else concat($config:app-title,': ',replace($page,'.html',''))
     }</title>
