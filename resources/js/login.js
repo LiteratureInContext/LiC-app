@@ -168,6 +168,7 @@ function setFontFamily(family) {
 if (localStorage.getItem('fontFamily')) {
     var savedFontFamily = localStorage.getItem('fontFamily');
     setFontSize(savedFontFamily);
+    console.log(savedFontFamily);
 }
 
 $('#fontPlus').click(function(event) {

@@ -204,14 +204,29 @@ declare %private function app:parse-href($href as xs:string) {
  : @param $model a map containing arbitrary data - used to pass information between template calls
  :)
 declare %templates:wrap function app:get-work($node as node(), $model as map(*)) {
-     if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
+    if(contains(request:get-uri(),'/coursepack/')) then
+        map {"coursepack" :  data:get-coursepacks()} 
+    else if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
         let $rec := data:get-document()
         return 
             if(empty($rec)) then 
                 if(not(empty(data:get-coursepacks()))) then <blockquote>No record found</blockquote>
                 else response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
             else map {"data" : $rec }
-    else <blockquote>No record found</blockquote>
+    else map {"hits" : 'Output plain HTML page'}
+};
+
+declare function app:page-title($node as node(), $model as map(*)){
+let $uri := request:get-uri()
+let $page := tokenize($uri,'/')[last()]
+let $tei := $model("data")/tei:TEI
+return 
+    <title>{
+    if($tei/descendant::tei:teiHeader/descendant::tei:title) then
+        $tei/descendant::tei:teiHeader/descendant::tei:title[1]/text()     
+    else if(replace($page,'.html','') = 'index') then $config:app-title
+    else concat($config:app-title,': ',replace($page,'.html',''))
+    }</title>
 };
 
 (:~

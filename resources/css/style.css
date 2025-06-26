@@ -5,7 +5,8 @@
     Yellow/gold: #A18C6A
     light yellow: #E8E3DD
     Neutral/grey: #777
-    New color; rust red: #C1503E
+    New color; rust red: #d46251
+
 */
 
 /* Base font */
@@ -20,7 +21,7 @@ body {
 /* Navbar */
 .mainNav {color:black;}
 .nav-link {color:black !important; font-weight:600;}
-.text-bg-dark {background-color: #C1503E !important; } 
+.text-bg-dark {background-color: #d46251 !important; } 
 .navbar-brand {margin-right: 4em;}
 .navbar-brand a{text-decoration:none;}
 .navbar-title {font-size:2.125em; color:black; font-weight:600; font-style:italic; letter-spacing: 1px;}
@@ -47,7 +48,7 @@ footer {text-align:center;}
 
 /* Typography */
 h2 {
-    color: #C1503E
+    color: #d46251
     }    
 h3, h4 {
     color: #777;

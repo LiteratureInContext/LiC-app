@@ -1,6 +1,13 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="page-content ">
-        <h1>About the Project</h1> 
+        <div data-template="app:get-wiki" data-template-wiki-uri="https://github.com/LiteratureInContext/LiC-about/wiki/About-the-Project">
+            <h1 data-template="app:wiki-page-title">About the Project</h1>
+            <div data-template="app:wiki-page-content"/>  
+        </div>
+    </div>
+    <!--
+    <div class="page-content ">
+        <h1>About the Project</h1>
         <div class="row" style="text-align:center; padding-top:4em; padding-bottom:2em;">
             <div class="col-md-6">
                 <h3 style="font-size:4em;">35,205</h3>
@@ -68,4 +75,5 @@
         </p>  
         
     </div>
+    -->
 </div>
