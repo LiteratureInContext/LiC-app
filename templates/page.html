@@ -56,7 +56,7 @@
         </script>
     </head>
     <body id="body">
-        <header class="p-3 text-bg-dark mainNav" data-template="app:fix-links">
+        <header class="p-3 text-bg-dark mainNav" data-template="app:fix-links" role="banner" id="bannerMain">
             <div class="container">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <span class="navbar-brand">
@@ -145,7 +145,7 @@
             </div>
         </header>
         <!-- Search bar -->
-        <header class="py-3 mb-4 border-bottom header-secondary" data-template="app:fix-links">
+        <header class="py-3 mb-4 border-bottom header-secondary" data-template="app:fix-links" role="search" id="bannerSearch">
             <div class="container justify-content-center">
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search" action="$nav-base/search.html">
                     <div class="input-group mb-3">
@@ -162,28 +162,11 @@
             </div>
         </header>
         <!-- Main content, loaded via xquery -->
-        <main class="container">
+        <main id="contentMain" class="container" role="main">
             <div id="content" class="mainContentArea"/>
         </main>
-        <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+        <footer class="py-5 text-center text-body-secondary bg-body-tertiary" role="footer" id="footer">
             <ul class="center social-media list-inline">
-                <!--
-            <li>
-                <a href="http://twitter.com/LIC_anthology" data-toggle="tooltip" data-placement="top" title="LIC_anthology on X">
-                    <img alt="twitter" src="$nav-base/resources/images/x.png" class="social-media"/>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.facebook.com/open.anthology.of.literature" data-toggle="tooltip" data-placement="top" title="Open Anthology on Facebook">
-                    <img alt="facebook" src="$nav-base/resources/images/fb.png" class="social-media"/>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.instagram.com/lic.open.anthology" data-toggle="tooltip" data-placement="top" title="lic.open.anthology on Instagram">
-                    <img alt="instagram" src="$nav-base/resources/images/insta.png" class="social-media"/>
-                </a>
-            </li>
-            -->
                 <li>
                     <a href="https://www.github.com/LiteratureInContext" data-toggle="tooltip" data-placement="top" title="LiteratureInContext on GitHub">
                         <img alt="github" src="$nav-base/resources/images/github.png" class="social-media"/>
