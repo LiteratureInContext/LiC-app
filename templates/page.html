@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" data-template="app:get-work">
     <head>
-<!--        <title>Literature in Context</title>-->
+        <!--        <title>Literature in Context</title>-->
         <title data-template="app:page-title">App Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
@@ -9,15 +9,15 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/style.css"/>
         <link rel="stylesheet" type="text/css" media="print" href="$nav-base/resources/css/print.css"/>
-<!--        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/lightslider.css"/>-->
+        <!--        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/lightslider.css"/>-->
         <!-- Leaflet -->
         <link rel="stylesheet" href="$nav-base/resources/leaflet/leaflet.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/leaflet.awesome-markers.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.css"/>
         <link rel="stylesheet" href="$nav-base/resources/leaflet/MarkerCluster.Default.css"/>
         <script type="text/javascript" src="$nav-base/resources/bootstrap/js/bootstrap.bundle.min.js"/>
-<!--        <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>-->
-<!--        <script type="text/javascript" src="$nav-base/resources/js/jquery-ui.min.js"/>-->
+        <!--        <script type="text/javascript" src="$nav-base/resources/js/jquery.min.js"/>-->
+        <!--        <script type="text/javascript" src="$nav-base/resources/js/jquery-ui.min.js"/>-->
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"/>
         <script src="https://code.jquery.com/jquery-3.7.1.js"/>
         <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"/>
@@ -56,12 +56,12 @@
         </script>
     </head>
     <body id="body">
-        <header class="p-3 text-bg-dark mainNav" data-template="app:fix-links" role="banner" id="bannerMain">
+        <header class="p-3 text-bg-dark mainNav" data-template="app:fix-links">
             <div class="container">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <span class="navbar-brand">
                         <a href="$nav-base/index.html"><span class="navbar-title">Literature in Context</span><br/>
-                        <span class="navbar-subtitle">An Open Anthology of Literature in English, 1400-1925</span></a>
+                            <span class="navbar-subtitle">An Open Anthology of Literature in English, 1400-1925</span></a>
                     </span>
                     
                     <ul class="nav col-12 col-lg-auto me-auto mb-2 justify-content-right mb-md-0">
@@ -108,23 +108,23 @@
                         
                         <li>
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear"/></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                            <div class="btn-group me-2" role="group" aria-label="First group">
-                                                <button type="button" class="btn btn-outline-secondary" id="fontMinus">-</button>
-                                                <button type="button" class="btn btn-outline-secondary" id="fontNormal">A</button>
-                                                <button type="button" class="btn btn-outline-secondary" id="fontPlus">+</button>
-                                            </div>
-                                        
-                                    </li>
-                                    <li><hr/></li>
-                                    <li>
-                                        <div class="btn-group me-2" role="group" aria-label="First group">
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="btn-group me-2" role="group" aria-label="First group">
+                                        <button type="button" class="btn btn-outline-secondary" id="fontMinus">-</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="fontNormal">A</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="fontPlus">+</button>
+                                    </div>
+                                    
+                                </li>
+                                <li><hr/></li>
+                                <li>
+                                    <div class="btn-group me-2" role="group" aria-label="First group">
                                         <button type="button" class="btn btn-outline-secondary" id="serif" style="font-family: serif !important;                                             font-size: 16px;">A</button><button type="button" class="btn btn-outline-secondary" id="fontFamilyReset">/</button>
                                         <button type="button" class="btn btn-outline-secondary" id="sansSerif" style="font-family: sans-serif;                                             font-size: 16px;">A</button></div>
-                                    </li>
-                                    
-                                </ul>
+                                </li>
+                                
+                            </ul>
                             <!--
                             <div class="btn-toolbar mb-3 font-size" role="toolbar" aria-label="Change font size">
                                 <div class="btn-group me-2" role="group" aria-label="First group">
@@ -145,7 +145,7 @@
             </div>
         </header>
         <!-- Search bar -->
-        <header class="py-3 mb-4 border-bottom header-secondary" data-template="app:fix-links" role="search" id="bannerSearch">
+        <header class="py-3 mb-4 border-bottom header-secondary" data-template="app:fix-links">
             <div class="container justify-content-center">
                 <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search" action="$nav-base/search.html">
                     <div class="input-group mb-3">
@@ -162,30 +162,47 @@
             </div>
         </header>
         <!-- Main content, loaded via xquery -->
-        <main id="contentMain" class="container" role="main">
+        <main class="container">
             <div id="content" class="mainContentArea"/>
         </main>
-    <footer class="py-5 text-center text-body-secondary bg-body-tertiary" role="footer" id="footer">
-        <ul class="center social-media list-inline">
+        <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
+            <ul class="center social-media list-inline">
+                <!--
             <li>
-                <a href="https://www.github.com/LiteratureInContext" data-toggle="tooltip" data-placement="top" title="LiteratureInContext on GitHub">
-                    <img alt="github" src="$nav-base/resources/images/github.png" class="social-media"/>
+                <a href="http://twitter.com/LIC_anthology" data-toggle="tooltip" data-placement="top" title="LIC_anthology on X">
+                    <img alt="twitter" src="$nav-base/resources/images/x.png" class="social-media"/>
                 </a>
             </li>
             <li>
-                <a href="mailto:LIC.open.anthology@gmail.com" data-toggle="tooltip" data-placement="top" title="contact us at LIC.open.anthology@gmail.com">
-                    <img alt="email" src="$nav-base/resources/images/email.png" class="social-media"/> </a>
+                <a href="https://www.facebook.com/open.anthology.of.literature" data-toggle="tooltip" data-placement="top" title="Open Anthology on Facebook">
+                    <img alt="facebook" src="$nav-base/resources/images/fb.png" class="social-media"/>
+                </a>
             </li>
-        </ul>
-        <p>
-            <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-                <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
-            </a>
-            <br/>Original content on this site created by its authors is licensed under a
-            <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY 4.0 International License</a>.
-            That license does not apply to third-party material. <br/>
-            Copyright information regarding third party material is noted in context wherever possible.</p> 
-    </footer>
+            <li>
+                <a href="https://www.instagram.com/lic.open.anthology" data-toggle="tooltip" data-placement="top" title="lic.open.anthology on Instagram">
+                    <img alt="instagram" src="$nav-base/resources/images/insta.png" class="social-media"/>
+                </a>
+            </li>
+            -->
+                <li>
+                    <a href="https://www.github.com/LiteratureInContext" data-toggle="tooltip" data-placement="top" title="LiteratureInContext on GitHub">
+                        <img alt="github" src="$nav-base/resources/images/github.png" class="social-media"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="mailto:LIC.open.anthology@gmail.com" data-toggle="tooltip" data-placement="top" title="contact us at LIC.open.anthology@gmail.com">
+                        <img alt="email" src="$nav-base/resources/images/email.png" class="social-media"/> </a>
+                </li>
+            </ul>
+            <p>
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
+                </a>
+                <br/>Original content on this site created by its authors is licensed under a
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY 4.0 International License</a>.
+                That license does not apply to third-party material. <br/>
+                Copyright information regarding third party material is noted in context wherever possible.</p> 
+        </footer>
         <div data-template="templates:if-parameter-unset" data-template-param="org.exist-db.mysec.user">
             <div data-template="templates:include" data-template-path="templates/login-panel.html"/>
         </div>
