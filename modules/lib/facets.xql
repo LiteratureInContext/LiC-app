@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-module namespace sf = "http://srophe.org/srophe/facets"; 
+module namespace sf = "http://srophe.org/srophe/facets";
 import module namespace functx="http://www.functx.com";
 import module namespace config="http://LiC.org/apps/config" at "../config.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "../content-negotiation/tei2html.xqm";
@@ -438,14 +438,18 @@ declare function sf:facet-title($element as item()*, $facet-definition as item()
 declare function sf:field-author($element as item()*, $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return sf:persName($author)
+    return 
+     if(contains(document-uri($author),'/headnotes')) then () 
+     else sf:persName($author)
 };
 
 (: Author field :)
 declare function sf:field-authorLastNameFirstName($element as item()*, $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return replace(sf:persName-last-first($author),' , ', ', ')
+    return 
+    if(contains(document-uri(root($author)),'/headnotes')) then () 
+    else replace(sf:persName-last-first($author),' , ', ', ')
 };
 (: annotations field :)
 declare function sf:field-annotations($element as item()*, $name as xs:string){
@@ -458,14 +462,18 @@ declare function sf:field-annotations($element as item()*, $name as xs:string){
 declare function sf:facet-authorLastNameFirstName($element as item()*, $facet-definition as item(), $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return replace(sf:persName-last-first($author),' , ', ', ')
+    return
+    if(contains(document-uri(root($author)),'/headnotes')) then () 
+    else replace(sf:persName-last-first($author),' , ', ', ')
 };
 
 (: Author facet :)
 declare function sf:facet-author($element as item()*, $facet-definition as item(), $name as xs:string){
     let $authors := $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:author
     for $author in $authors//tei:name
-    return sf:persName($author)
+    return 
+    if(contains(document-uri($author),'/headnotes')) then () 
+    else sf:persName($author)
 };
 
 (: Author facet :)
