@@ -230,8 +230,8 @@ a.dropdown-item {padding-left:1em !important;}
     font-size:inherit;
     text-decoration:underline;
 }
-sup.footnoteRef{display:none;}
 sup.footnoteRef {
+    display:none;
     font-size: .75em;
     line-height: 0.5em;
     vertical-align: baseline;
