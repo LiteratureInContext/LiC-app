@@ -475,6 +475,6 @@ declare function local:authenticate($data as item()*){
 let $post-data :=
                 if(request:get-parameter('target-texts', '') != '') then string-join(request:get-parameter('target-texts', ''),',')
                 else if(request:get-parameter('coursepack', '') != '') then request:get-parameter('coursepack', '')
-                else if(not(empty(request:get-data()))) then request:get-data()
-                else ()
+                (:else if(not(empty(request:get-data()))) then request:get-data():)
+                else request:get-data()
 return local:authenticate($post-data)                      
