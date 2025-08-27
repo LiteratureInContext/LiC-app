@@ -406,7 +406,7 @@ declare function local:reorderWorks($data, $coursepack){
  : @param $user user id
  : @param $data json data
  :)
-declare function local:authenticate($data*){
+declare function local:authenticate($data){
     let $action := request:get-parameter('action', '')
     let $coursepackID := request:get-parameter('coursepackid', '')
     let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
