@@ -425,6 +425,17 @@ declare function local:authenticate($data as item()*){
                     <output:method value='html5'/>
                     <output:media-type value='text/html'/>
                 </output:serialization-parameters>, local:delete-coursepack-response())
+        else if($data) then 
+             (response:set-header("Content-Type", "text/html"),
+                <output:serialization-parameters>
+                    <output:method value='html5'/>
+                    <output:media-type value='text/html'/>
+                </output:serialization-parameters>,
+                <response status="success" xmlns="http://www.w3.org/1999/xhtml"> 
+                TESTING 22
+                {$data}
+                </response>
+                )
         else if($action = 'update') then
             (response:set-header("Content-Type", "text/html"),
                                 <output:serialization-parameters>
