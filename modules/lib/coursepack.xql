@@ -406,7 +406,7 @@ declare function local:reorderWorks($data, $coursepack){
  : @param $user user id
  : @param $data json data
  :)
-declare function local:authenticate($data as item()*){
+declare function local:authenticate($data*){
     let $action := request:get-parameter('action', '')
     let $coursepackID := request:get-parameter('coursepackid', '')
     let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
@@ -425,7 +425,8 @@ declare function local:authenticate($data as item()*){
                     <output:method value='html5'/>
                     <output:media-type value='text/html'/>
                 </output:serialization-parameters>, local:delete-coursepack-response())
-        else if($data) then 
+       (:
+       else if($data) then 
              (response:set-header("Content-Type", "text/html"),
                 <output:serialization-parameters>
                     <output:method value='html5'/>
@@ -436,6 +437,7 @@ declare function local:authenticate($data as item()*){
                 {$data}
                 </response>
                 )
+        :)        
         else if($action = 'update') then
             (response:set-header("Content-Type", "text/html"),
                                 <output:serialization-parameters>
@@ -460,12 +462,7 @@ declare function local:authenticate($data as item()*){
                 <output:serialization-parameters>
                     <output:method value='html5'/>
                     <output:media-type value='text/html'/>
-                </output:serialization-parameters>,
-                <response status="success" xmlns="http://www.w3.org/1999/xhtml"> 
-                TESTING 
-                {$data}
-                </response>
-                (:local:create-new-coursepack-response($data):) )
+                </output:serialization-parameters>,local:create-new-coursepack-response($data))
 };
 
 (:~
@@ -475,6 +472,5 @@ declare function local:authenticate($data as item()*){
 let $post-data :=
                 if(request:get-parameter('target-texts', '') != '') then string-join(request:get-parameter('target-texts', ''),',')
                 else if(request:get-parameter('coursepack', '') != '') then request:get-parameter('coursepack', '')
-                (:else if(not(empty(request:get-data()))) then request:get-data():)
                 else request:get-data()
 return local:authenticate($post-data)                      
