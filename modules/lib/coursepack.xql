@@ -450,7 +450,9 @@ declare function local:authenticate($data as item()*){
                     <output:method value='html5'/>
                     <output:media-type value='text/html'/>
                 </output:serialization-parameters>,
-                <response status="success" xmlns="http://www.w3.org/1999/xhtml"> TESTING
+                <response status="success" xmlns="http://www.w3.org/1999/xhtml"> 
+                TESTING 
+                {$data}
                 </response>
                 (:local:create-new-coursepack-response($data):) )
 };
