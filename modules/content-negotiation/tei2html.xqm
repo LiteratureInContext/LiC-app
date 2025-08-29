@@ -525,10 +525,7 @@ declare function tei2html:ref($node as element (tei:ref)) {
             <span data-bs-toggle="tooltip" title="Open Audio File"><i class="bi bi-headphones"></i> Audio</span>
         </button>
     else if($node/@corresp) then
-        <span class="footnoteRef text">
-            <a href="#{string($node/@corresp)}" class="showFootnote">{tei2html:tei2html($node/node())}</a>
-            <sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup>
-        </span>
+        <span class="footnoteRef text"><a href="#{string($node/@corresp)}" class="showFootnote">{tei2html:tei2html($node/node())}</a><sup class="tei-ref footnoteRef show-print">{string($node/@corresp)}</sup></span>
     else if(starts-with($node/@target,'http')) then
         <a href="{$node/@target}">{tei2html:tei2html($node/node())}</a>
     else if(starts-with($node/@target,'#')) then 
