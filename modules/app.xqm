@@ -675,13 +675,13 @@ return
                                 else 
                                     <a href="{$config:nav-base}/coursepack/{string($coursepacks/@id)}?view=expanded" class="toolbar btn btn-outline-secondary" data-bs-toggle="tooltip" title="Expand Coursepack Works to see text"><i class="bi bi-plus-circle"></i> Expand Works </a>
                             }
-                            {if($model("hits")//@key or $model("coursepack")//@key) then 
+                            {(:if($model("hits")//@key or $model("coursepack")//@key) then 
                                  (<a class="toolbar btn btn-outline-secondary" id="LODBtn" data-bs-toggle="collapse" data-bs-target="#teiViewLOD">
                                      <span data-bs-toggle="tooltip" title="View Linked Data">
                                          <i class="bi bi-plus-circle"></i> Linked Data
                                      </span></a>, '&#160;')
                                  else () 
-                             }
+                             :)''}
                             <a href="javascript:window.print();" type="button" id="printBtn"  class="toolbar btn btn-outline-secondary" data-bs-toggle="tooltip" title="Print Coursepack"><i class="bi bi-printer"></i> Print</a>
                             <div class="btn-group" data-bs-toggle="tooltip"  title="Download Coursepack Option">
                                 <button class="toolbar btn btn-outline-secondary dropdown-toggle" type="button" id="downloadMenu" data-bs-toggle="dropdown" aria-expanded="false">
