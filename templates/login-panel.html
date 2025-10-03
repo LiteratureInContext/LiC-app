@@ -10,15 +10,15 @@
                         <div class="modal-body">
                             <div class="container" id="loginResponse">
                                 <div class="control-group">
-                                    <label class="control-label" for="user">User:</label>
+                                    <label class="control-label">User:</label>
                                     <div class="controls">
-                                        <input type="text" id="user" name="user" required="required" title="User name"/>
+                                        <input type="text" name="user" required="required" aria-label="User name"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="password">Password:</label>
+                                    <label class="control-label">Password:</label>
                                     <div class="controls">
-                                        <input type="password" name="password" title="Password"/>
+                                        <input type="password" name="password" aria-label="Password"/>
                                     </div>
                                 </div>
                                 <!-- window.location.href -->
@@ -28,15 +28,7 @@
                                     document.getElementById('currentPage').value = url;
                                     });
                                 </script>
-                                <input type="hidden" id="currentPage" name="currentPage"/>
-                                <!--
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <label class="checkbox">
-                                            <input type="checkbox" name="duration" value="P14D"/> Remember me for 2 weeks </label>
-                                    </div>
-                                </div>
-                                -->
+                                <input type="hidden" id="currentPage" name="currentPage" aria-label="Current page"/>
                                 <div id="loginResponseBody">
                                     
                                 </div>
@@ -65,18 +57,18 @@
                             <div class="container" id="resetResponse">
                                 <div id="formBody"> 
                                 <div class="mb-3">
-                                    <label for="user" class="form-label">User name</label>
-                                    <input type="text" class="form-control" name="user" required="required" title="User Name"/>
+                                    <label class="form-label">User name</label>
+                                    <input type="text" class="form-control" name="user" required="required" aria-label="User Name"/>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">New Password</label>
-                                    <input id="resetPassword" type="password" class="form-control" name="password" required="required" title="Password"/>
+                                    <label class="form-label">New Password</label>
+                                    <input id="resetPassword" type="password" class="form-control" name="password" required="required" aria-label="Password"/>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="passwordConfirm" class="form-label">Confirm New Password</label>
-                                    <input type="password" class="form-control" name="passwordConfirm" id="resetPasswordConfirm" required="required" title="Confirm Password"/>
+                                    <label class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control" name="passwordConfirm" id="resetPasswordConfirm" required="required" aria-label="Confirm Password"/>
                                 </div>
-                                <input type="hidden" class="form-control" name="reset" value="true" title="Reset form control"/>
+                                    <input type="hidden" class="form-control" name="reset" value="true" aria-label="Reset form control"/>
                                 <div id="resetResponseBody"/> 
                                 </div>
                             </div>  
@@ -100,20 +92,20 @@
                     <div class="modal-body">
                         <div id="formBody2"> 
                             <div class="mb-3">
-                                <label for="user" class="form-label">User name</label>
-                                <input type="text" class="form-control" name="user" required="required" title="New user name"/>
+                                <label class="form-label">User name</label>
+                                <input type="text" class="form-control" name="user" required="required" aria-label="New user name"/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Full name</label>
-                                <input type="text" class="form-control" name="fullName" title="Full Name"/>
+                                <input type="text" class="form-control" name="fullName" aria-label="Full Name"/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Password</label>
-                                <input id="password" type="password" class="form-control" name="password" required="required" title="Password"/>
+                                <input id="password" type="password" class="form-control" name="password" required="required" aria-label="Password"/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Confirm Password</label>
-                                <input id="passwordConfirm" type="password" class="form-control" name="passwordConfirm" required="required" title="Confirm password"/>
+                                <input id="passwordConfirm" type="password" class="form-control" name="passwordConfirm" required="required" aria-label="Confirm password"/>
                             </div>
                         </div>                        
                         <div id="responseBody">
