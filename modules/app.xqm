@@ -625,7 +625,7 @@ return
         (
         let $editAccess := if(sm:has-access(document-uri(root($model("coursepack")/@title)),'rw')) then true() else false()
         return 
-        <form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search">
+        <form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search" title="Search coursepacks">
             <div class="droppable">
             <h1>{string($model("coursepack")/@title)}</h1>
             <p class="desc">{$desc}</p>
@@ -696,8 +696,8 @@ return
                             </div> 
                     
                         <div class="input-group mb-3" style="padding-top:12px;">
-                            <input name="query" type="text" class="form-control" placeholder="Search coursepack text"/>
-                            <select name="field" class="form-select">
+                            <input name="query" type="text" class="form-control" placeholder="Search coursepack text" title="Search coursepack text"/>
+                            <select name="field" class="form-select" title="Restrict search options">
                                 <option value="keyword" selected="">Keyword anywhere</option>
                                 <option value="annotation">Keyword in annotations</option>
                                 <option value="title">Title</option>
@@ -806,7 +806,7 @@ return
             </div>
         </form>,
         <div class="modal fade" id="editCoursePack" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                <form action="{$config:nav-base}/modules/lib/coursepack.xql" method="post" id="editCoursepackForm" role="form">
+                <form action="{$config:nav-base}/modules/lib/coursepack.xql" method="post" id="editCoursepackForm" role="form" title="Edit Coursepack">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -820,7 +820,7 @@ return
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="title">Title:</label><br/>
-                                                    <input type="text" class="form-control" name="title" id="title" value="{$title}"></input>
+                                                    <input type="text" class="form-control" name="title" id="title" value="{$title}" title="Title"></input>
                                                  </div>
                                             </div>
                                         </div>
@@ -828,12 +828,12 @@ return
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="desc">Description:</label><br/>
-                                                    <textarea class="form-control" rows="10" name="desc" id="desc">{$desc//text()}</textarea>
+                                                    <textarea class="form-control" rows="10" name="desc" id="desc" title="Description">{$desc//text()}</textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" id="coursepackid" name="coursepackid" value="{request:get-parameter('id', '')}"/>
-                                        <input type="hidden" name="action" value="edit"/>
+                                        <input type="hidden" id="coursepackid" name="coursepackid" value="{request:get-parameter('id', '')}" title="Coursepack ID"/>
+                                        <input type="hidden" name="action" value="edit" title="Edit"/>
                                     </div>
                                 }
                            </div> 
