@@ -3,7 +3,7 @@
     <div data-template="app:search-works">
         <h1>Search Literature in Context </h1>   
         <div class="lic-well">
-            <form action="search.html" class="form form-horizontal">
+            <form action="search.html" class="form form-horizontal" title="Search works">
             <div class="row">
                 <div class="col-md-3 left-col-border">
                     <!-- Form for search and coursepack functions.  -->
@@ -27,7 +27,7 @@
                         <div class="coursepackToolbar">
                             <div class="form-group">
                                 <span class="pull-left">
-                                    <input type="checkbox" class="toggle-button" id="selectAll"/> Select All                                        
+                                    <input type="checkbox" class="toggle-button" id="selectAll" title="Select all works"/> Select All                                        
                                 </span>
                                 <button class="btn btn-outline-secondary addToCoursepack coursepackAdmin" data-bs-toggle="tooltip" data-bs-placement="left" title="Add works to an existing coursepack">
                                     <i class="bi bi-plus-circle"></i>  Add Selected to Coursepack</button>
@@ -46,7 +46,7 @@
     <!-- Modal for creating coursepacks -->
     <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="coursepackCreation">
+            <form id="coursepackCreation" title="Create a new coursepack">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4>Add to Coursepack</h4>
@@ -57,7 +57,7 @@
 
                                 <div class="indent desc">
                                     <label>Select Coursepack</label>
-                                    <select name="addToCoursepackID" id="addToCoursepackID">
+                                    <select name="addToCoursepackID" id="addToCoursepackID" title="Add selected to coursepack">
                                         <option data-template="app:select-coursepack"/>
                                     </select>
                                 </div>
@@ -73,12 +73,12 @@
                                 <h4>Create New Coursepack</h4>
                                 <div class="indent desc">
                                     <span class="input-group" id="coursepackTitleGroup">
-                                        <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/><br/>
+                                        <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title" title="Coursepack title"/><br/>
                                     </span>
                                 </div>
                                 <div class="indent desc">
-                                    <span class="input-group" id="coursepackTitleGroup">
-                                        <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
+                                    <span class="input-group" id="coursepackTitleGroupDesc">
+                                        <textarea id="coursepackDesc" name="coursepackDesc" class="form-control" placeholder="Coursepack Description" title="Coursepack Description"/>
                                     </span>
                                 </div>
                                 <span class="input-group-btn">
