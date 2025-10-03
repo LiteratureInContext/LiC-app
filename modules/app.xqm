@@ -625,7 +625,7 @@ return
         (
         let $editAccess := if(sm:has-access(document-uri(root($model("coursepack")/@title)),'rw')) then true() else false()
         return 
-        <form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search" title="Search coursepacks">
+        <form class="form-inline coursepack" method="get" action="{string($coursepacks/@id)}" id="search" aria-label="Search coursepacks">
             <div class="droppable">
             <h1>{string($model("coursepack")/@title)}</h1>
             <p class="desc">{$desc}</p>
@@ -806,7 +806,7 @@ return
             </div>
         </form>,
         <div class="modal fade" id="editCoursePack" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                <form action="{$config:nav-base}/modules/lib/coursepack.xql" method="post" id="editCoursepackForm" role="form" title="Edit Coursepack">
+                <form action="{$config:nav-base}/modules/lib/coursepack.xql" method="post" id="editCoursepackForm" role="form" aria-label="Edit Coursepack">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

@@ -107,7 +107,7 @@
                         </li>
                         
                         <li>
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear"/></a>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-gear" title="Advanced options"/></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <div class="btn-group me-2" role="group" aria-label="First group">
@@ -120,8 +120,8 @@
                                 <li><hr/></li>
                                 <li>
                                     <div class="btn-group me-2" role="group" aria-label="First group">
-                                        <button type="button" class="btn btn-outline-secondary" id="serif" style="font-family: serif !important;                                             font-size: 16px;">A</button><button type="button" class="btn btn-outline-secondary" id="fontFamilyReset">/</button>
-                                        <button type="button" class="btn btn-outline-secondary" id="sansSerif" style="font-family: sans-serif;                                             font-size: 16px;">A</button></div>
+                                        <button type="button" class="btn btn-outline-secondary" id="serif" style="font-family: serif !important; font-size: 16px;">A</button><button type="button" class="btn btn-outline-secondary" id="fontFamilyReset">/</button>
+                                        <button type="button" class="btn btn-outline-secondary" id="sansSerif" style="font-family: sans-serif; font-size: 16px;">A</button></div>
                                 </li>
                                 
                             </ul>
@@ -147,10 +147,10 @@
         <!-- Search bar -->
         <header class="py-3 mb-4 border-bottom header-secondary" data-template="app:fix-links" role="search" id="bannerSearch">
             <div class="container justify-content-center">
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search" action="$nav-base/search.html" title="Search form">
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search" action="$nav-base/search.html" aria-label="Search form">
                     <div class="input-group mb-3">
-                        <input name="query" type="text" class="form-control" placeholder="Search collection full text" title="Search collection full text"/>
-                        <select name="field" class="form-select" title="Restrict search options">
+                        <input name="query" type="text" class="form-control" placeholder="Search collection full text" aria-label="Search collection full text"/>
+                        <select name="field" class="form-select" aria-label="Restrict search options">
                             <option value="keyword" selected="selected">Keyword anywhere</option>
                             <option value="annotation">Keyword in annotations</option>
                             <option value="title">Title</option>
