@@ -2,7 +2,7 @@
     <blockquote>
         <h4 style="color:red;">That username does not exist, please create an account.</h4>
     </blockquote>
-    <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="newUserForm">
+    <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="newUserForm" title="Create a new user account">
 
                 <h5 class="modal-title" id="newUserModalLabel">Create an Account</h5>
             <hr/>
@@ -10,19 +10,19 @@
                 <div id="formBody"> 
                     <div class="mb-3">
                         <label for="user" class="form-label">User name</label>
-                        <input type="text" class="form-control" name="user" required="required"/>
+                        <input type="text" class="form-control" name="user" required="required" title="User name"/>
                     </div>
                     <div class="mb-3">
                         <label for="fullName" class="form-label">Full name</label>
-                        <input type="text" class="form-control" name="fullName"/>
+                        <input type="text" class="form-control" name="fullName" title="Full name"/>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input id="password" type="password" class="form-control" name="password" required="required"/>
+                        <input id="password" type="password" class="form-control" name="password" required="required" title="password"/>
                     </div>
                     <div class="mb-3">
                         <label for="passwordConfirm" class="form-label">Confirm Password</label>
-                        <input id="passwordConfirm" type="password" class="form-control" name="passwordConfirm" required="required"/>
+                        <input id="passwordConfirm" type="password" class="form-control" name="passwordConfirm" required="required" title="Confirm password"/>
                     </div>
                 </div>                        
                 <div id="responseBody">

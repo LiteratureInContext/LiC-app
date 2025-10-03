@@ -2,7 +2,7 @@
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content" data-template="app:fix-links">
-                <form action="$nav-base/admin" method="POST" class="form-horizontal" id="loginForm" data-url="$nav-base/modules/lib/userManager.xql?action=checkUser">
+                <form action="$nav-base/admin" method="POST" class="form-horizontal" id="loginForm" data-url="$nav-base/modules/lib/userManager.xql?action=checkUser" title="Login panel">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-titlet">Login   </h4>
@@ -12,13 +12,13 @@
                                 <div class="control-group">
                                     <label class="control-label" for="user">User:</label>
                                     <div class="controls">
-                                        <input type="text" id="user" name="user" required="required"/>
+                                        <input type="text" id="user" name="user" required="required" title="User name"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="password">Password:</label>
                                     <div class="controls">
-                                        <input type="password" name="password"/>
+                                        <input type="password" name="password" title="Password"/>
                                     </div>
                                 </div>
                                 <!-- window.location.href -->
@@ -56,7 +56,7 @@
     <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="resetForm">
+                <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="resetForm" title="Reset user login form">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Reset password</h4>
@@ -66,17 +66,17 @@
                                 <div id="formBody"> 
                                 <div class="mb-3">
                                     <label for="user" class="form-label">User name</label>
-                                    <input type="text" class="form-control" name="user" required="required"/>
+                                    <input type="text" class="form-control" name="user" required="required" title="User Name"/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">New Password</label>
-                                    <input id="resetPassword" type="password" class="form-control" name="password" required="required"/>
+                                    <input id="resetPassword" type="password" class="form-control" name="password" required="required" title="Password"/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="passwordConfirm" class="form-label">Confirm New Password</label>
-                                    <input type="password" class="form-control" name="passwordConfirm" id="resetPasswordConfirm" required="required"/>
+                                    <input type="password" class="form-control" name="passwordConfirm" id="resetPasswordConfirm" required="required" title="Confirm Password"/>
                                 </div>
-                                <input type="hidden" class="form-control" name="reset" value="true"/>
+                                <input type="hidden" class="form-control" name="reset" value="true" title="Reset form control"/>
                                 <div id="resetResponseBody"/> 
                                 </div>
                             </div>  
@@ -91,7 +91,7 @@
     </div>
     <div class="modal fade" id="newUserModal" tabindex="-1" aria-labelledby="newUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="newUserForm">
+            <form method="POST" action="$nav-base/modules/lib/userManager.xql" class="form-horizontal" id="newUserForm" title="Create a new user form">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="newUserModalLabel">Create an Account</h5>
@@ -101,19 +101,19 @@
                         <div id="formBody"> 
                             <div class="mb-3">
                                 <label for="user" class="form-label">User name</label>
-                                <input type="text" class="form-control" name="user" required="required"/>
+                                <input type="text" class="form-control" name="user" required="required" title="New user name"/>
                             </div>
                             <div class="mb-3">
                                 <label for="fullName" class="form-label">Full name</label>
-                                <input type="text" class="form-control" name="fullName"/>
+                                <input type="text" class="form-control" name="fullName" title="Full Name"/>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input id="password" type="password" class="form-control" name="password" required="required"/>
+                                <input id="password" type="password" class="form-control" name="password" required="required" title="Password"/>
                             </div>
                             <div class="mb-3">
                                 <label for="passwordConfirm" class="form-label">Confirm Password</label>
-                                <input id="passwordConfirm" type="password" class="form-control" name="passwordConfirm" required="required"/>
+                                <input id="passwordConfirm" type="password" class="form-control" name="passwordConfirm" required="required" title="Confirm password"/>
                             </div>
                         </div>                        
                         <div id="responseBody">

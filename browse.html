@@ -1,7 +1,7 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <!-- Home page also acts as simple browse page for all works -->
     <!-- Search form -->
-    <form action="search.html" class="form form-horizontal page-content browse search">
+    <form action="search.html" class="form form-horizontal page-content browse search" title="Browse works">
         <!-- Access xquery for all works -->
         <div data-template="app:browse-works">
             <h1>List of Works</h1>
@@ -15,7 +15,7 @@
                                 <!-- Search query goes here -->
                                 <div class="form-group">
                                     <span class="input-group">
-                                        <input name="query" type="search" class="form-control" placeholder="Search full text"/>
+                                        <input name="query" type="search" class="form-control" placeholder="Search full text" title="Search full text"/>
                                         <span class="input-group-btn">
                                             <button id="f-btn-search" type="submit" class="btn btn-outline-secondary">
                                                 <i class="bi bi-search"></i>
@@ -26,7 +26,7 @@
                                 </div>
                                 <!-- Search fields, defaults to keyword -->
                                 <div class="form-group" data-toggle="tooltip" data-placement="left" title="Search Field">
-                                    <select name="field" class="form-control">
+                                    <select name="field" class="form-control" title="Restrict search">
                                         <option value="keyword" selected="selected">Keyword anywhere</option>
                                         <option value="annotation">Keyword in annotations</option>
                                         <option value="title">Title</option>
@@ -76,7 +76,7 @@
                             <div class="coursepackToolbar">
                                 <div class="form-group">
                                     <span class="pull-left">
-                                        <input type="checkbox" class="toggle-button" id="selectAll"/> Select All                                        
+                                        <input type="checkbox" class="toggle-button" id="selectAll" title="Select all"/> Select All                                        
                                     </span>  
                                     <button class="btn btn-outline-secondary addToCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">
                                         <i class="bi bi-plus-circle"></i>  Add Selected to Coursepack</button>
