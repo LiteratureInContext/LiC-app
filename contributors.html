@@ -1,7 +1,7 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <!-- Home page also acts as simple browse page for all works -->
     <!-- Search form -->
-    <form action="search.html" class="form form-horizontal page-content browse" tabindex="Search">
+    <form action="search.html" class="form form-horizontal page-content browse" tabindex="Search" aria-label="Search contributors">
         <!-- Access xquery for all works -->
         <div data-template="app:list-contributors" class="contributors">
             <h1>Contributors</h1>
@@ -40,7 +40,7 @@
                             </span>
                             </div>
                             <span class="input-group-btn">
-                                <button id="f-btn-search" type="submit" class="btn btn-outline-secondary addCoursepackTitle">
+                                <button id="f-btn-search1" type="submit" class="btn btn-outline-secondary addCoursepackTitle">
                                     <i class="bi bi-save"></i>Save </button>
                             </span>
                                 
@@ -49,12 +49,12 @@
                             <h4>Add to Coursepack</h4>
                             <div class="indent desc">
                             <label>Select Coursepack</label>
-                            <select name="addToCoursepackID" id="addToCoursepackID" title="Select Coursepack">
+                            <select name="addToCoursepackID" id="addToCoursepackID" title="Select Coursepack" aria-label="Select Coursepack">
                                 <option data-template="app:select-coursepack"/>
                             </select>
                             </div>
                             <span class="input-group-btn">
-                                <button id="f-btn-search" type="submit" class="btn btn-primary saveToCoursepack">
+                                <button id="f-btn-search2" type="submit" class="btn btn-primary saveToCoursepack">
                                     <i class="bi bi-save"></i>Save </button>
                             </span>
                         </div>

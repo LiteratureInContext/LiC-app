@@ -1,7 +1,7 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <!-- Home page also acts as simple browse page for all works -->
     <!-- Search form -->
-    <form action="search.html" class="form form-horizontal page-content browse search" title="Browse works">
+    <form action="search.html" class="form form-horizontal page-content browse search" aria-label="Browse works">
         <!-- Access xquery for all works -->
         <div data-template="app:browse-works">
             <h1>List of Works</h1>
@@ -95,7 +95,7 @@
     <!-- Modal for creating coursepacks -->
     <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="coursepackCreation">
+            <form id="coursepackCreation" aria-label="Create coursepack">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="modalClose close" data-dismiss="modal">
@@ -108,7 +108,7 @@
                                 <h4>Add to Coursepack</h4>
                                 <div class="indent desc">
                                     <label>Select Coursepack</label>
-                                    <select name="addToCoursepackID" id="addToCoursepackID">
+                                    <select name="addToCoursepackID" id="addToCoursepackID" aria-label="Select coursepack">
                                         <option data-template="app:select-coursepack"/>
                                     </select>
                                 </div>
@@ -123,8 +123,8 @@
                                 <h4>Create New Coursepack</h4>
                                 <div class="indent desc">
                                     <span class="input-group" id="coursepackTitleGroup">
-                                        <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title"/>
-                                        <textarea id="coursepackDesc" name="coursepackDesc" type="text" class="form-control" placeholder="Coursepack Description"/>
+                                        <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title" title="Coursepack Title"/>
+                                        <textarea id="coursepackDesc" name="coursepackDesc" class="form-control" placeholder="Coursepack Description" title="Coursepack Description"/>
                                     </span>
                                 </div>
                                 <span class="input-group-btn">
