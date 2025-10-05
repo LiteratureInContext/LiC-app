@@ -735,7 +735,7 @@ return
                     let $selection := if($work/descendant::*:text) then
                                         for $text in $work/descendant::*:text
                                         return 
-                                            (<div><h4>Selected Text T2</h4>,
+                                            (<div><h4>Selected Text</h4>,
                                             {$text/child::*}</div>)
                                       else()
                     let $sort := 
@@ -820,7 +820,7 @@ return
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="title">Title:</label><br/>
-                                                    <input type="text" class="form-control" name="title" id="title" value="{$title}" title="Title"></input>
+                                                    <input type="text" class="form-control" name="title" id="title" value="{$title}" aria-label="Title"></input>
                                                  </div>
                                             </div>
                                         </div>
@@ -828,12 +828,12 @@ return
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="desc">Description:</label><br/>
-                                                    <textarea class="form-control" rows="10" name="desc" id="desc" title="Description">{$desc//text()}</textarea>
+                                                    <textarea class="form-control" rows="10" name="desc" id="desc" aria-label="Description">{$desc//text()}</textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" id="coursepackid" name="coursepackid" value="{request:get-parameter('id', '')}" title="Coursepack ID"/>
-                                        <input type="hidden" name="action" value="edit" title="Edit"/>
+                                        <input type="hidden" id="coursepackid" name="coursepackid" value="{request:get-parameter('id', '')}" aria-label="Coursepack ID"/>
+                                        <input type="hidden" name="action" value="edit" aria-label="Edit"/>
                                     </div>
                                 }
                            </div> 
@@ -854,10 +854,12 @@ return
                 {
                 for $coursepack in $coursepacks
                 return 
-                    <div class="indent result">
-                        <h4><a href="{$config:nav-base}/coursepack/{string($coursepack/child::*/@id)}">{string($coursepack/child::*/@title)}</a></h4>
-                        <p class="desc">{$coursepack/child::*/desc/text()}</p>
-                    </div>          
+                    if(string($coursepack/child::*/@title) != '') then 
+                     <div class="indent result">
+                         <h4><a href="{$config:nav-base}/coursepack/{string($coursepack/child::*/@id)}">{string($coursepack/child::*/@title)}</a></h4>
+                         <p class="desc">{$coursepack/child::*/desc/text()}</p>
+                     </div>   
+                    else ()    
                 }
             </div>
         </div>
