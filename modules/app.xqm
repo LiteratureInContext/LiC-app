@@ -719,7 +719,7 @@ return
                  {
                  if($hits != '') then
                      (<hr/>,
-                      <span style="margin-left:3em;"><input type="checkbox" class="toggle-button" id="selectAll" /> Select All</span>,
+                      <span style="margin-left:3em;"><input type="checkbox" class="toggle-button" id="selectAll" aria-label="Select All"/> Select All</span>,
                      <hr/>,
                      app:show-hits($node, $model, 1, 10))
                  else if(data:create-query() != '') then
@@ -1249,7 +1249,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
             where $title != ''                                    
             return
                     <div class="result row">
-                        <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
+                        <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}" aria-label="{$title}"/></span>
                         <span class="col-md-11">
                         {(tei2html:summary-view($hit, (), $id[1])) }
                         {if($expanded//exist:match) then  
@@ -1262,7 +1262,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                             let $title := $root/descendant::tei:title[1]/text()
                             return 
                             <div class="headnoteInline">
-                              <input type="checkbox" name="target-texts" class="coursepack headnoteCheckbox" value="{$hID}" data-title="{$title}"/>
+                              <input type="checkbox" name="target-texts" class="coursepack headnoteCheckbox" value="{$hID}" data-title="{$title}" aria-label="{$title}"/>
                               <span class="HeadnoteLabel">{(tei2html:summary-view($root, (), $hID[1])) }</span>
                             </div>
                           else ()}
