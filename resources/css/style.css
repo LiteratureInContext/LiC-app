@@ -395,6 +395,7 @@ td {padding-right:1em;}
 }
 .carousel-control-next, .carousel-control-prev, .carousel-indicators {
     bottom: 0rem; 
+    color:black;
 }
 
 @media only screen and (max-width: 600px) {
