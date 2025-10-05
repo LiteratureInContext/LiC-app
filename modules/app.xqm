@@ -696,8 +696,8 @@ return
                             </div> 
                     
                         <div class="input-group mb-3" style="padding-top:12px;">
-                            <input name="query" type="text" class="form-control" placeholder="Search coursepack text" title="Search coursepack text"/>
-                            <select name="field" class="form-select" title="Restrict search options">
+                            <input name="query" type="text" class="form-control" placeholder="Search coursepack text" aria-label="Search coursepack text"/>
+                            <select name="field" class="form-select" aria-label="Restrict search options">
                                 <option value="keyword" selected="">Keyword anywhere</option>
                                 <option value="annotation">Keyword in annotations</option>
                                 <option value="title">Title</option>
