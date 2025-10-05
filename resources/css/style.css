@@ -32,6 +32,7 @@ body {
 
 .font-size button{padding-left:6px; padding-right:6px;}
 /* Footer */
+footer {color:black;}
 footer .banner {
     min-height:50px; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A;
     background-image: url(../images/banner.png);
