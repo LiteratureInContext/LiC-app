@@ -696,8 +696,8 @@ return
                             </div> 
                     
                         <div class="input-group mb-3" style="padding-top:12px;">
-                            <input name="query" type="text" class="form-control" placeholder="Search coursepack text" title="Search coursepack text"/>
-                            <select name="field" class="form-select" title="Restrict search options">
+                            <input name="query" type="text" class="form-control" placeholder="Search coursepack text" aria-label="Search coursepack text"/>
+                            <select name="field" class="form-select" aria-label="Restrict search options">
                                 <option value="keyword" selected="">Keyword anywhere</option>
                                 <option value="annotation">Keyword in annotations</option>
                                 <option value="title">Title</option>
@@ -719,7 +719,7 @@ return
                  {
                  if($hits != '') then
                      (<hr/>,
-                      <span style="margin-left:3em;"><input type="checkbox" class="toggle-button" id="selectAll" /> Select All</span>,
+                      <span style="margin-left:3em;"><input type="checkbox" class="toggle-button" id="selectAll" aria-label="Select All"/> Select All</span>,
                      <hr/>,
                      app:show-hits($node, $model, 1, 10))
                  else if(data:create-query() != '') then
@@ -735,7 +735,7 @@ return
                     let $selection := if($work/descendant::*:text) then
                                         for $text in $work/descendant::*:text
                                         return 
-                                            (<div><h4>Selected Text T2</h4>,
+                                            (<div><h4>Selected Text</h4>,
                                             {$text/child::*}</div>)
                                       else()
                     let $sort := 
@@ -820,7 +820,7 @@ return
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="title">Title:</label><br/>
-                                                    <input type="text" class="form-control" name="title" id="title" value="{$title}" title="Title"></input>
+                                                    <input type="text" class="form-control" name="title" id="title" value="{$title}" aria-label="Title"></input>
                                                  </div>
                                             </div>
                                         </div>
@@ -828,12 +828,12 @@ return
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="desc">Description:</label><br/>
-                                                    <textarea class="form-control" rows="10" name="desc" id="desc" title="Description">{$desc//text()}</textarea>
+                                                    <textarea class="form-control" rows="10" name="desc" id="desc" aria-label="Description">{$desc//text()}</textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" id="coursepackid" name="coursepackid" value="{request:get-parameter('id', '')}" title="Coursepack ID"/>
-                                        <input type="hidden" name="action" value="edit" title="Edit"/>
+                                        <input type="hidden" id="coursepackid" name="coursepackid" value="{request:get-parameter('id', '')}" aria-label="Coursepack ID"/>
+                                        <input type="hidden" name="action" value="edit" aria-label="Edit"/>
                                     </div>
                                 }
                            </div> 
@@ -854,10 +854,12 @@ return
                 {
                 for $coursepack in $coursepacks
                 return 
-                    <div class="indent result">
-                        <h4><a href="{$config:nav-base}/coursepack/{string($coursepack/child::*/@id)}">{string($coursepack/child::*/@title)}</a></h4>
-                        <p class="desc">{$coursepack/child::*/desc/text()}</p>
-                    </div>          
+                    if(string($coursepack/child::*/@title) != '') then 
+                     <div class="indent result">
+                         <h4><a href="{$config:nav-base}/coursepack/{string($coursepack/child::*/@id)}">{string($coursepack/child::*/@title)}</a></h4>
+                         <p class="desc">{$coursepack/child::*/desc/text()}</p>
+                     </div>   
+                    else ()    
                 }
             </div>
         </div>
@@ -1249,7 +1251,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
             where $title != ''                                    
             return
                     <div class="result row">
-                        <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
+                        <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}" aria-label="{$title}"/></span>
                         <span class="col-md-11">
                         {(tei2html:summary-view($hit, (), $id[1])) }
                         {if($expanded//exist:match) then  
@@ -1262,7 +1264,7 @@ function app:show-hits($node as node()*, $model as map(*), $start as xs:integer,
                             let $title := $root/descendant::tei:title[1]/text()
                             return 
                             <div class="headnoteInline">
-                              <input type="checkbox" name="target-texts" class="coursepack headnoteCheckbox" value="{$hID}" data-title="{$title}"/>
+                              <input type="checkbox" name="target-texts" class="coursepack headnoteCheckbox" value="{$hID}" data-title="{$title}" aria-label="{$title}"/>
                               <span class="HeadnoteLabel">{(tei2html:summary-view($root, (), $hID[1])) }</span>
                             </div>
                           else ()}

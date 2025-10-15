@@ -15,7 +15,7 @@
                                 <!-- Search query goes here -->
                                 <div class="form-group">
                                     <span class="input-group">
-                                        <input name="query" type="search" class="form-control" placeholder="Search full text" title="Search full text"/>
+                                        <input name="query" type="search" class="form-control" placeholder="Search full text" aria-label="Search full text"/>
                                         <span class="input-group-btn">
                                             <button id="f-btn-search" type="submit" class="btn btn-outline-secondary">
                                                 <i class="bi bi-search"></i>
@@ -35,10 +35,10 @@
                                 </div>
                                 <!-- Limit search to selected works -->
                                 <div class="checkboxes">
-                                    <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Selected">
-                                        <input type="checkbox" name="narrow" value="true"/> Search Selected
+                                    <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" aria-label="Search Selected">
+                                        <input type="checkbox" name="narrow" value="true" /> Search Selected
                                     </label>
-                                    <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" title="Search Annotations">
+                                    <label class="checkbox-inline" data-toggle="tooltip" data-placement="left" aria-label="Search Annotations">
                                         <input type="checkbox" name="annotation" value="true" class="annotation"/> Include Annotations
                                     </label>
                                 </div>
@@ -76,7 +76,7 @@
                             <div class="coursepackToolbar">
                                 <div class="form-group">
                                     <span class="pull-left">
-                                        <input type="checkbox" class="toggle-button" id="selectAll" title="Select all"/> Select All                                        
+                                        <input type="checkbox" class="toggle-button" id="selectAll" aria-label="Select All"/> Select All                                        
                                     </span>  
                                     <button class="btn btn-outline-secondary addToCoursepack coursepackAdmin" data-toggle="tooltip" data-placement="left" title="Add works to an existing coursepack">
                                         <i class="bi bi-plus-circle"></i>  Add Selected to Coursepack</button>
@@ -93,7 +93,7 @@
         </div>
     </form>
     <!-- Modal for creating coursepacks -->
-    <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
+    <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-label="Coursepack Creation" aria-hidden="true">
         <div class="modal-dialog">
             <form id="coursepackCreation" aria-label="Create coursepack">
                 <div class="modal-content">
@@ -123,8 +123,8 @@
                                 <h4>Create New Coursepack</h4>
                                 <div class="indent desc">
                                     <span class="input-group" id="coursepackTitleGroup">
-                                        <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title" title="Coursepack Title"/>
-                                        <textarea id="coursepackDesc" name="coursepackDesc" class="form-control" placeholder="Coursepack Description" title="Coursepack Description"/>
+                                        <input id="coursepackTitle" name="coursepackTitle" type="text" class="form-control" placeholder="Coursepack Title" aria-label="Coursepack Title"/>
+                                        <textarea id="coursepackDesc" name="coursepackDesc" class="form-control" placeholder="Coursepack Description" aria-label="Coursepack Description"/>
                                     </span>
                                 </div>
                                 <span class="input-group-btn">

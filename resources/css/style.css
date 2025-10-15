@@ -6,6 +6,8 @@
     light yellow: #E8E3DD
     Neutral/grey: #777
     New color; rust red: #d46251
+     * cc6600
+     * 
 */
 
 /* Base font */
@@ -20,16 +22,17 @@ body {
 /* Navbar */
 .mainNav {color:black;}
 .nav-link {color:black !important; font-weight:600;}
-.text-bg-dark {background-color: #d46251 !important; } 
+.text-bg-dark {background-color: #cc9966 !important; } 
 .navbar-brand {margin-right: 4em;}
 .navbar-brand a{text-decoration:none;}
 .navbar-title {font-size:2.125em; color:black; font-weight:600; font-style:italic; letter-spacing: 1px;}
-.navbar-subtitle {font-size: 1em; color:white;}
+.navbar-subtitle {font-size: 1em; color:black;}
 .header-secondary {background-color: #f9f6ee; !important; }
 .homePageCenter {font-size:large; margin:2em; text-align:center;}
 
 .font-size button{padding-left:6px; padding-right:6px;}
 /* Footer */
+footer {color:black;}
 footer .banner {
     min-height:50px; border-top: 2px solid #A18C6A; border-bottom: 2px solid #A18C6A;
     background-image: url(../images/banner.png);
@@ -54,7 +57,7 @@ h3, h4 {
 }
 
 a {
-    color: #337ab7;
+/*    color: #337ab7;*/
     text-decoration: none;
 }
 
@@ -393,6 +396,7 @@ td {padding-right:1em;}
 }
 .carousel-control-next, .carousel-control-prev, .carousel-indicators {
     bottom: 0rem; 
+    color:black;
 }
 
 @media only screen and (max-width: 600px) {

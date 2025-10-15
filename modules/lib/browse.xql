@@ -24,7 +24,7 @@ let $title := $hit/descendant::tei:title[1]/text()
 let $expanded := kwic:expand($hit)
 return 
     (<div class="result row">
-        <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
+        <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}" aria-label="{$title}"/></span>
         <span class="col-md-11">{(tei2html:summary-view($hit, (), $id[1])) }
             {if($expanded//exist:match) then  
                 <span class="result-kwic">{tei2html:output-kwic($expanded, $id)}</span>

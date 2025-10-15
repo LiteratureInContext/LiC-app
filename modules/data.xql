@@ -71,7 +71,7 @@ return
         let $id := document-uri(root($hit))
         return 
             <div class="result row">
-                <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}"/></span>
+                <span class="checkbox col-md-1"><input type="checkbox" name="target-texts" class="coursepack" value="{$id}" data-title="{$title}" aria-label="{$title}"/></span>
                     <span class="col-md-11">
                         {(tei2html:summary-view($hit, (), $id[1])) }
                     </span>
