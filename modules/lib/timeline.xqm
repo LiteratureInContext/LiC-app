@@ -110,7 +110,13 @@ declare function timeline:format-dates($start as xs:string*, $end as xs:string*,
                  </text>,
                  if($media[@source != '']) then 
                        <media>
-                            <url>{string($media/@source)}</url>
+                            <url>{
+                            let $src := 
+                                         if(starts-with($media/@url,'https://') or starts-with($media/@url,'http://')) then 
+                                             string($media/@url) 
+                                         else concat($config:image-root,$id,'/',string($media/@url))  
+                             return $src
+                            }</url>
                             <caption>{string($media/@alt)}</caption>
                             <thumbnail>{string($media/@source)}</thumbnail>
                        </media> 
