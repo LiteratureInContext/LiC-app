@@ -108,7 +108,7 @@ declare function timeline:format-dates($start as xs:string*, $end as xs:string*,
                    else ()
                    }
                  </text>,
-                 if($media[@source != '']) then 
+                 if($media[@url != '']) then 
                        <media>
                             <url>{
                             let $src := 
