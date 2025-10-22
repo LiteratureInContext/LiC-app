@@ -6,6 +6,7 @@
     light yellow: #E8E3DD
     Neutral/grey: #777
     New color; rust red: #d46251
+     * #D46251
      * cc6600
      * 
 */
@@ -20,13 +21,22 @@ body {
     margin-left: calc(-50vw + 50% + 10px);
 }
 /* Navbar */
-.mainNav {color:black;}
-.nav-link {color:black !important; font-weight:600;}
-.text-bg-dark {background-color: #cc9966 !important; } 
+.mainNav {color:white;}
+/* 
+.mainNav a:hover{color:white;}
+.mainNav a:link {color:white;}
+.mainNav a:visited {color:white;}
+.mainNav a:hover {color:white;}
+.mainNav a:active {color:white;} 
+*/
+
+.nav-link {color:white; font-weight:600;}
+a.nav-link:link, a.nav-link:hover, a.nav-link:visited, a.nav-link:active {color:white !important;}
+.text-bg-dark {background-color: #a7513e !important; color:white;} 
 .navbar-brand {margin-right: 4em;}
 .navbar-brand a{text-decoration:none;}
-.navbar-title {font-size:2.125em; color:black; font-weight:600; font-style:italic; letter-spacing: 1px;}
-.navbar-subtitle {font-size: 1em; color:black;}
+.navbar-title {font-size:2.125em; color:white; font-weight:600; font-style:italic; letter-spacing: 1px;}
+.navbar-subtitle {font-size: 1em; color:white;}
 .header-secondary {background-color: #f9f6ee; !important; }
 .homePageCenter {font-size:large; margin:2em; text-align:center;}
 
