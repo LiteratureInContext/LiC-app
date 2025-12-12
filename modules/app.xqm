@@ -1858,13 +1858,13 @@ declare function app:wiki-data($nodes as node()*) {
 :)
 declare function app:wiki-menu($node, $model, $wiki-uri){
     let $wiki-data := app:wiki-rest-request($wiki-uri)
-    let $menu := app:wiki-links($wiki-data//html:div[@class='wiki-rightbar']/descendant::html:ul/html, $wiki-uri)
     return 
         <ul>
             {
-                for $links in $wiki-data//html:div[@class='wiki-rightbar']/descendant::html:ul/html:li/descendant::html:a[not(@aria-label="Please reload this page")]
+                for $links in $wiki-data//html:div[@class='wiki-rightbar']/descendant::html:ul/html:li[descendant::html:a[not(@aria-label="Please reload this page")]]
+                let $text := $links/descendant::*[@class='Truncate-text']/descendant::text()
                 return 
-                    if($links/descendant-or-self::text() = 'Home') then () 
+                    if(contains($text,'Home')) then () 
                     else 
                         <li>
                             {app:wiki-links($links, $wiki-uri)}
@@ -1880,13 +1880,13 @@ declare function app:wiki-menu($node, $model, $wiki-uri){
 :)
 declare function app:wiki-menu-new($node, $model, $wiki-menu){
     let $wiki-data := app:wiki-rest-request($wiki-menu)
-    let $menu := app:wiki-links($wiki-data//html:div[@class='wiki-rightbar']/descendant::html:ul/html, $wiki-menu)
     return 
         <ul>
             {
-                for $links in $wiki-data//html:div[@class='wiki-rightbar']/descendant::html:ul/html:li/descendant::html:a[not(@aria-label="Please reload this page")]
+                for $links in $wiki-data//html:div[@class='wiki-rightbar']/descendant::html:ul/html:li[descendant::html:a[not(@aria-label="Please reload this page")]]
+                let $text := $links/descendant::*[@class='Truncate-text']/descendant::text()
                 return 
-                    if($links/descendant-or-self::text() = 'Home') then () 
+                    if(contains($text,'Home')) then () 
                     else 
                         <li>
                             {app:wiki-links($links, $wiki-menu)}
@@ -1904,14 +1904,15 @@ declare function app:wiki-links($nodes as node()*, $wiki) {
     let $page := tokenize(request:get-url(),'/')[last()]
     return 
         typeswitch($node)
-            case element(html:a) return
+            case element(html:li) return
                 let $wiki-path := substring-after($wiki,'https://github.com')
-                let $pagePath := (:concat('/',$page,'?wiki-page='):)'/wiki.html?wiki-page='
-                let $href := concat($config:nav-base, replace($node/@href, $wiki-path, $pagePath),'&amp;wiki-uri=', $wiki)
-                return
-                        <a href="{$href}">
-                            {$node/@* except $node/@href, $node/node()}
-                        </a>
+                let $pagePath := '/wiki.html?wiki-page='
+                let $href := concat($config:nav-base, replace($node/descendant::html:a[1]/@href, $wiki-path, $pagePath),'&amp;wiki-uri=', $wiki)
+                let $text := $node/descendant::*[@class='Truncate-text']
+                return 
+                    <a href="{$href}">
+                        <span>{$text}</span>
+                    </a>
             case element() return
                 element { node-name($node) } {
                     $node/@*, app:wiki-links($node/node(), $wiki)
