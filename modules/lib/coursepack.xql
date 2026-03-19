@@ -366,7 +366,9 @@ declare function local:editCoursepack($data){
                    update value $title with $newTitle
               else (),
               if($newDesc != '') then
-                update value $desc with $newDesc
+                if($desc) then 
+                    update value $desc with $newDesc 
+                else update insert $newDesc following $title
               else (),
                 <response status="success">
                     <message>Updated.</message>
