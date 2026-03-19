@@ -3,6 +3,7 @@ xquery version "3.0";
 module namespace timeline="http://LiC.org/apps/timeline";
 
 (:~
+ :
  : Module to build timeline json passed to http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js widget
  : @author Winona Salesky <wsalesky@gmail.com> 
  : @authored 2014-08-05
