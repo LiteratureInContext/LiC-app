@@ -248,9 +248,7 @@ if($nodes//tei:note[@target]) then
             return
                 <fo:table-row>
                     <fo:table-cell>
-                        {(if($node/@xml:id) then 
-                            attribute id { tei2fo:get-id($node, $p) }
-                        else (), 
+                        {( 
                         <fo:block margin-bottom="1.5em">{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>)}
                     </fo:table-cell>
                     <fo:table-cell>
@@ -281,9 +279,7 @@ if($nodes//tei:note[@target]) then
             return
                 <fo:table-row>
                     <fo:table-cell>
-                        {(if($node/@xml:id) then 
-                            attribute id { $node/@xml:id }
-                        else (), 
+                        {(
                         <fo:block margin-bottom="1.5em">{$tei2fo:basic-inline-element-attributes} {string($node/@xml:id)} </fo:block>)}
                     </fo:table-cell>
                     <fo:table-cell>
