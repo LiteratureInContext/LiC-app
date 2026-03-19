@@ -175,29 +175,37 @@ declare function tei2fo:tei2fo($nodes as node()*, $p) {
                    else tei2fo:tei2fo($node/node(),$p)            
             (: S :)
             case element(tei:sp) return 
-                <fo:block>
-                    {(
-                    $tei2fo:basic-block-element-attributes,
-                    <fo:table>
-                        {$tei2fo:basic-block-element-attributes}
-                        <fo:table-column column-width="20%"/>
-                        <fo:table-column column-width="80%"/>
-                        <fo:table-body>{
-                            for $node in $node/tei:castItem
-                            return
-                                   <fo:table-row>
-                                       <fo:table-cell>
-                                           <fo:block margin-bottom="1.5em">{tei2fo:tei2fo($node/tei:speaker,$p)} </fo:block>
-                                       </fo:table-cell>
-                                       <fo:table-cell>
-                                           <fo:block>{tei2fo:tei2fo($node/tei:l,$p)}</fo:block>
-                                       </fo:table-cell>
-                                   </fo:table-row>  
-                               }
-                            </fo:table-body>
-                    </fo:table>
-                    )}
-                </fo:block>
+                if($node/tei:castItem) then 
+                    <fo:block>
+                        {(
+                        $tei2fo:basic-block-element-attributes,
+                        <fo:table>
+                            {$tei2fo:basic-block-element-attributes}
+                            <fo:table-column column-width="20%"/>
+                            <fo:table-column column-width="80%"/>
+                            <fo:table-body>{
+                                for $node in $node/tei:castItem
+                                return
+                                       <fo:table-row>
+                                           <fo:table-cell>
+                                               <fo:block margin-bottom="1.5em">{tei2fo:tei2fo($node/tei:speaker,$p)} </fo:block>
+                                           </fo:table-cell>
+                                           <fo:table-cell>
+                                               <fo:block>{tei2fo:tei2fo($node/tei:l,$p)}</fo:block>
+                                           </fo:table-cell>
+                                       </fo:table-row>  
+                                   }
+                                </fo:table-body>
+                        </fo:table>
+                        )}
+                    </fo:block>
+                else 
+                    <fo:block>
+                        {(
+                            $tei2fo:basic-block-element-attributes,
+                            tei2fo:tei2fo($node/node(),$p)
+                         )}
+                    </fo:block>
             case element(tei:speaker) return
                 <fo:block font-style="italic" space-after=".25em">
                 {tei2fo:tei2fo($node/node(),$p)}
@@ -262,6 +270,7 @@ else ()
 
 (: Coursepacks section :)
 declare function tei2fo:coursepacks($nodes) {
+if($nodes//tei:note[@target]) then 
 <fo:block>
     <fo:block>{$tei2fo:h2}Footnotes</fo:block> 
         <fo:table>{$tei2fo:basic-block-element-attributes}
@@ -286,6 +295,10 @@ declare function tei2fo:coursepacks($nodes) {
          </fo:table-body>
      </fo:table>
 </fo:block>
+else
+    <fo:block>
+        {tei2fo:tei2fo($node/node(),$p)}
+    </fo:block>
 };
 
 
