@@ -777,7 +777,8 @@ return
                                        <div class="selected-text">{$selection}</div> )
                                     else ())
                                 else if(request:get-parameter('view', '') = 'expanded') then
-                                    <div class="expandAll" data-url="data.xql?workid={$recID}"></div>
+                                    <!--<div class="expandAll" data-url="data.xql?workid={$recID}"></div>-->
+                                    <div class="expandAll"></div>
                                 else ()
                                 <div class="expandedText"></div>
                               </div>
