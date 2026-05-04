@@ -609,6 +609,7 @@ declare function app:display-coursepack-title($node as node(), $model as map(*))
 :)
 declare function app:display-coursepacks($node as node(), $model as map(*)){
 let $coursepacks := $model("coursepack")
+let $id := $model("coursepack")/@id
 let $title := $model("coursepack")/@title
 let $desc := $coursepacks/*:desc
 let $hits := $model("hits")
@@ -769,11 +770,21 @@ return
                               </div>
                               <div class="col">
                                 {tei2html:summary-view($tei, (), $recID[1])}
+                                {(
+                                if($selection != '') then
+                                    (
+                                    if(request:get-parameter('view', '') = 'expanded') then 
+                                       <div class="selected-text">
+                                            {$selection}
+                                       </div> 
+                                    else ())
+                                else if(request:get-parameter('view', '') = 'expanded') then 
+                                    <div class="expandAll" data-url="{$config:nav-base}/modules/data.xql?id={string($coursepacks/@id)}&amp;view=expand&amp;workid={$recID}"></div>
+                                else ())}
                                 <div class="expandedText"></div>
                               </div>
                             </div>
                           </div>
-
                  }      
         </div>
             </div>
