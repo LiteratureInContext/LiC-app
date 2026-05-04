@@ -167,8 +167,32 @@
                          $expandedText.toggle();
                          $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
                        } 
-                     
                 });
+                
+                //expand all works
+                $('.expandAll').each(function() {
+                     var url = $(this).data('url')
+                     var current = $(this) 
+                     var $expandedText = $(current).closest('.row').find('.expandedText');
+                     // 2. Run the GET request
+                      if($expandedText.is(':empty')){
+                         $.get(url, function(data) {
+                               $(current).closest('.row').find('.expandedText').html(data);
+                           }, "html"); 
+                           $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
+                           console.log('TEST1');
+                       } else {
+                         $expandedText.toggle();
+                         $(this).find('.bi').toggleClass('bi-plus-circle').toggleClass('bi-dash-circle');
+                         console.log('TEST2');
+                       }
+                     /* 
+                     $.get('/your-api-endpoint', { id: productId }, function(data) {
+                         // 3. Update the specific div with the returned data
+                         $currentDiv.html(data);
+                     });
+                      */ 
+                 });
                 
                 //rangy-select
                 $('.rangy-select').on('click', function(e){ // on change of state
