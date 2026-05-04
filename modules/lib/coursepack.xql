@@ -359,6 +359,7 @@ declare function local:editCoursepack($data){
     let $newDesc := request:get-parameter('desc', '')
     let $coursepack := collection($config:app-root || '/coursepacks')/coursepack[@id = $coursepackID]
     let $title := $coursepack/@title
+    let $instructor := $coursepack/*:instructor[1]
     let $desc := $coursepack/*:desc[@id="coursepackNotes"]
     return 
         try { 
@@ -368,7 +369,7 @@ declare function local:editCoursepack($data){
               if($newDesc != '') then
                 if($desc) then 
                     update value $desc with $newDesc 
-                else update insert $newDesc following $title
+                else update insert <desc id="coursepackNotes">{$newDesc}</desc> following $instructor
               else (),
                 <response status="success">
                     <message>Updated.</message>
