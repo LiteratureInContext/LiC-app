@@ -769,33 +769,6 @@ return
                               </div>
                               <div class="col">
                                 {tei2html:summary-view($tei, (), $recID[1])}
-                                {(''
-                                (:
-                                if($selection != '') then
-                                    (<h4 class="selections-from">Selections from: </h4>, 
-                                    tei2html:summary-view($tei, (), $recID[1]),
-                                    if(request:get-parameter('view', '') = 'expanded') then 
-                                       <div class="selected-text">
-                                       <div>TEST3</div>{$selection}
-                                       </div> 
-                                    else ())
-                                else if(request:get-parameter('view', '') = 'expanded') then
-                                    (tei2html:header($tei/descendant::tei:teiHeader),
-                                    tei2html:tei2html($tei/descendant::tei:text),
-                                    let $notes := $tei/descendant::tei:note[@target]
-                                    return
-                                        if($notes != '') then 
-                                            <div class="footnote show-print">
-                                            <div>TEST4</div>
-                                                <h3>Footnotes</h3>
-                                                {for $n in $notes
-                                                 return <div class="tei-footnote"><span class="tei-footnote-id">{string($n/@target)}</span>{tei2html:tei2html($n/node())}</div>
-                                                 }
-                                            </div>
-                                        else ()
-                                    )
-                                else tei2html:summary-view($tei, (), $recID[1])
-                                :))}
                                 <div class="expandedText"></div>
                               </div>
                             </div>
